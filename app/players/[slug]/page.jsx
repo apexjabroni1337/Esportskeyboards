@@ -140,7 +140,7 @@ export default function PlayerProfilePage({ params }) {
         {!bio && (
           <p>
             {player.name} ({player.fullName || player.name}) is a professional <a href={`/games/${player.game.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{player.game}</a> player
-            for <a href={`/teams/${player.team.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{player.team}</a>. They play the {player.role} role and are {player.age} years old.
+            for <a href={`/teams/${player.team?.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{player.team}</a>. They play the {player.role} role and are {player.age} years old.
             {player.name} uses the {keyboardSlugVal ? <a href={`/keyboards/${keyboardSlugVal}`}>{player.keyboard}</a> : player.keyboard} at {player.dpi} DPI with {player.sens} in-game
             sensitivity for an effective DPI of {player.edpi}.
           </p>
@@ -166,7 +166,7 @@ export default function PlayerProfilePage({ params }) {
             <tr><th>In-Game Name</th><td>{player.name}</td></tr>
             <tr><th>Full Name</th><td>{player.fullName || player.name}</td></tr>
             <tr><th>Game</th><td><a href={`/games/${player.game.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{player.game}</a></td></tr>
-            <tr><th>Team</th><td><a href={`/teams/${player.team.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{player.team}</a></td></tr>
+            <tr><th>Team</th><td><a href={`/teams/${player.team?.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{player.team}</a></td></tr>
             <tr><th>Role</th><td>{player.role}</td></tr>
             <tr><th>Age</th><td>{player.age}</td></tr>
             <tr><th>Country</th><td>{countryName(player.country)}</td></tr>
@@ -196,19 +196,19 @@ export default function PlayerProfilePage({ params }) {
           <>
             <h2>{player.name}&apos;s Keyboard — {keyboardData.name} Details</h2>
             <p>
-              {player.name} currently uses the <a href={`/keyboards/${keyboardSlugVal}`}>{keyboardData.name}</a> by <a href={`/brands/${keyboardData.brand.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{keyboardData.brand}</a>.
+              {player.name} currently uses the <a href={`/keyboards/${keyboardSlugVal}`}>{keyboardData.name}</a> by <a href={`/brands/${keyboardData.brand?.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{keyboardData.brand}</a>.
               {mouseDesc ? ` ${mouseDesc.text.slice(0, 300)}...` : ` It weighs ${keyboardData.weight}g, uses the ${keyboardData.switchType} switch, and costs $${keyboardData.price}.`}
             </p>
             <table>
               <caption>{keyboardData.name} specifications — {player.name}&apos;s current keyboard</caption>
               <tbody>
                 <tr><th>Keyboard</th><td><a href={`/keyboards/${keyboardSlugVal}`}>{keyboardData.name}</a></td></tr>
-                <tr><th>Brand</th><td><a href={`/brands/${keyboardData.brand.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{keyboardData.brand}</a></td></tr>
+                <tr><th>Brand</th><td><a href={`/brands/${keyboardData.brand?.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{keyboardData.brand}</a></td></tr>
                 <tr><th>Weight</th><td>{keyboardData.weight}g</td></tr>
-                <tr><th>Switch</th><td><a href={`/sensors/${keyboardData.switch.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{keyboardData.switchType}</a></td></tr>
-                <tr><th>Max DPI</th><td>{keyboardData.dpi.toLocaleString()}</td></tr>
+                <tr><th>Switch</th><td><a href={`/sensors/${keyboardData.switchType?.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{keyboardData.switchType}</a></td></tr>
+                <tr><th>Actuation</th><td>{keyboardData.actuationPoint}mm</td></tr>
                 <tr><th>Polling Rate</th><td>{keyboardData.pollingRate.toLocaleString()} Hz</td></tr>
-                <tr><th>Layout</th><td><a href={`/shapes/${keyboardData.shape.toLowerCase()}`}>{keyboardData.shape}</a></td></tr>
+                <tr><th>Layout</th><td><a href={`/shapes/${keyboardData.layout?.toLowerCase()}`}>{keyboardData.layout}</a></td></tr>
                 <tr><th>Connectivity</th><td>{keyboardData.connectivity}</td></tr>
                 <tr><th>Price</th><td>${keyboardData.price}</td></tr>
                 <tr><th>Switches</th><td>{keyboardData.switches}</td></tr>
