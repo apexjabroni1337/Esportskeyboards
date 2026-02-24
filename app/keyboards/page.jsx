@@ -20,15 +20,15 @@ export const metadata = {
 };
 
 export default function KeyboardsPage() {
-  const sorted = [...keyboards].sort((a, b) => b.proUsage - a.proUsage);
+  const sorted = [...keyboards].sort((a, b) => b?.proUsage - a?.proUsage);
   const brands = [...new Set(keyboards.map((m) => m.brand))];
   const switches = [...new Set(keyboards.map((m) => m.switchType))];
-  const avgWeight = Math.round(keyboards.reduce((a, m) => a + m.weight, 0) / keyboards.length);
-  const avgPrice = Math.round(keyboards.reduce((a, m) => a + m.price, 0) / keyboards.length);
-  const lightest = [...keyboards].sort((a, b) => a.weight - b.weight)[0];
-  const heaviest = [...keyboards].sort((a, b) => b.weight - a.weight)[0];
-  const cheapest = [...keyboards].sort((a, b) => a.price - b.price)[0];
-  const mostExpensive = [...keyboards].sort((a, b) => b.price - a.price)[0];
+  const avgWeight = Math.round(keyboards.reduce((a, m) => a + m?.weight, 0) / keyboards.length);
+  const avgPrice = Math.round(keyboards.reduce((a, m) => a + m?.price, 0) / keyboards.length);
+  const lightest = [...keyboards].sort((a, b) => a?.weight - b?.weight)[0];
+  const heaviest = [...keyboards].sort((a, b) => b?.weight - a?.weight)[0];
+  const cheapest = [...keyboards].sort((a, b) => a?.price - b?.price)[0];
+  const mostExpensive = [...keyboards].sort((a, b) => b?.price - a?.price)[0];
   const highestRated = [...keyboards].sort((a, b) => b.rating - a.rating)[0];
   const wirelessCount = keyboards.filter((m) => m.connectivity === "Wireless").length;
 
@@ -44,7 +44,7 @@ export default function KeyboardsPage() {
           "@type": "ListItem", position: i + 1,
           url: `https://esportskeyboards.com/keyboards/${slug(m.name)}`,
           name: m.name,
-          item: { "@type": "Product", name: m.name, brand: { "@type": "Brand", name: m.brand }, description: `${m.name} by ${m.brand}. ${m.weight}g ${m.layout.toLowerCase()} keyboard with ${m.switchType} switch. ${m.proUsage}% pro usage.` },
+          item: { "@type": "Product", name: m.name, brand: { "@type": "Brand", name: m.brand }, description: `${m.name} by ${m.brand}. ${m?.weight}g ${m.layout.toLowerCase()} keyboard with ${m.switchType} switch. ${m.proUsage}% pro usage.` },
         })),
       }) }} />
       {/* FAQ schema for keyboards page */}
@@ -52,9 +52,9 @@ export default function KeyboardsPage() {
         "@context": "https://schema.org", "@type": "FAQPage",
         mainEntity: [
           { "@type": "Question", name: "What is the best esports keyboard in 2025?", acceptedAnswer: { "@type": "Answer", text: `The ${sorted[0].name} is currently the most used keyboard among professional esports players with ${sorted[0].proUsage}% pro usage, followed by the ${sorted[1].name} (${sorted[1].proUsage}%) and ${sorted[2].name} (${sorted[2].proUsage}%). The best choice depends on your hand size, grip style, and game.` }},
-          { "@type": "Question", name: "What is the lightest gaming keyboard for esports?", acceptedAnswer: { "@type": "Answer", text: `The ${lightest.name} is the lightest esports keyboard in our database at just ${lightest.weight}g. Ultralight keyboards (under 50g) include ${keyboards.filter(m => m.weight < 50).map(m => m.name).join(", ")}. Most pros prefer keyboards between 45-65g.` }},
+          { "@type": "Question", name: "What is the lightest gaming keyboard for esports?", acceptedAnswer: { "@type": "Answer", text: `The ${lightest.name} is the lightest esports keyboard in our database at just ${lightest?.weight}g. Ultralight keyboards (under 50g) include ${keyboards.filter(m => m?.weight < 50).map(m => m.name).join(", ")}. Most pros prefer keyboards between 45-65g.` }},
           { "@type": "Question", name: "Are wireless keyboards good for esports?", acceptedAnswer: { "@type": "Answer", text: `Yes — ${wirelessCount} of ${keyboards.length} (${Math.round(wirelessCount/keyboards.length*100)}%) keyboards in our pro database are wireless. Modern wireless keyboards at 4KHz polling have eliminated the latency gap. The vast majority of top esports pros now use wireless keyboards.` }},
-          { "@type": "Question", name: "How much does a pro esports keyboard cost?", acceptedAnswer: { "@type": "Answer", text: `The average price of a pro esports keyboard is $${avgPrice}. Prices range from $${cheapest.price} (${cheapest.name}) to $${mostExpensive.price} (${mostExpensive.name}). Most competitive keyboards fall between $100-$170.` }},
+          { "@type": "Question", name: "How much does a pro esports keyboard cost?", acceptedAnswer: { "@type": "Answer", text: `The average price of a pro esports keyboard is $${avgPrice}. Prices range from $${cheapest?.price} (${cheapest.name}) to $${mostExpensive?.price} (${mostExpensive.name}). Most competitive keyboards fall between $100-$170.` }},
         ],
       }) }} />
       <article
@@ -73,10 +73,10 @@ export default function KeyboardsPage() {
           <li>Total keyboards in database: {keyboards.length}</li>
           <li>Average weight: {avgWeight}g</li>
           <li>Average price: ${avgPrice}</li>
-          <li>Lightest: <a href={`/keyboards/${slug(lightest.name)}`}>{lightest.name}</a> ({lightest.weight}g)</li>
-          <li>Heaviest: <a href={`/keyboards/${slug(heaviest.name)}`}>{heaviest.name}</a> ({heaviest.weight}g)</li>
-          <li>Cheapest: <a href={`/keyboards/${slug(cheapest.name)}`}>{cheapest.name}</a> (${cheapest.price})</li>
-          <li>Most expensive: <a href={`/keyboards/${slug(mostExpensive.name)}`}>{mostExpensive.name}</a> (${mostExpensive.price})</li>
+          <li>Lightest: <a href={`/keyboards/${slug(lightest.name)}`}>{lightest.name}</a> ({lightest?.weight}g)</li>
+          <li>Heaviest: <a href={`/keyboards/${slug(heaviest.name)}`}>{heaviest.name}</a> ({heaviest?.weight}g)</li>
+          <li>Cheapest: <a href={`/keyboards/${slug(cheapest.name)}`}>{cheapest.name}</a> (${cheapest?.price})</li>
+          <li>Most expensive: <a href={`/keyboards/${slug(mostExpensive.name)}`}>{mostExpensive.name}</a> (${mostExpensive?.price})</li>
           <li>Highest rated: <a href={`/keyboards/${slug(highestRated.name)}`}>{highestRated.name}</a> ({highestRated.rating}/10)</li>
           <li>Wireless: {wirelessCount} of {keyboards.length} ({Math.round(wirelessCount / keyboards.length * 100)}%)</li>
           <li>Brands represented: {brands.length}</li>
@@ -95,11 +95,11 @@ export default function KeyboardsPage() {
                 <td>{i + 1}</td>
                 <td><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a></td>
                 <td><a href="/brands">{m.brand}</a></td>
-                <td>{m.weight}g</td>
+                <td>{m?.weight}g</td>
                 <td><a href="/switches">{m.switchType}</a></td>
                 <td>{m.pollingRate.toLocaleString()} Hz</td>
                 <td>{m.layout}</td>
-                <td>${m.price}</td>
+                <td>${m?.price}</td>
                 <td>{m.proUsage}%</td>
                 <td>{m.rating}/10</td>
               </tr>
@@ -110,38 +110,38 @@ export default function KeyboardsPage() {
         <h2>Keyboards by Weight Category</h2>
         <h3>Ultralight (Under 50g)</h3>
         <ul>
-          {keyboards.filter((m) => m.weight < 50).sort((a, b) => a.weight - b.weight).map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m.weight}g ({m.brand}), ${m.price}</li>
+          {keyboards.filter((m) => m?.weight < 50).sort((a, b) => a?.weight - b?.weight).map((m) => (
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m?.weight}g ({m.brand}), ${m?.price}</li>
           ))}
         </ul>
         <h3>Lightweight (50-60g)</h3>
         <ul>
-          {keyboards.filter((m) => m.weight >= 50 && m.weight <= 60).sort((a, b) => a.weight - b.weight).map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m.weight}g ({m.brand}), ${m.price}</li>
+          {keyboards.filter((m) => m?.weight >= 50 && m?.weight <= 60).sort((a, b) => a?.weight - b?.weight).map((m) => (
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m?.weight}g ({m.brand}), ${m?.price}</li>
           ))}
         </ul>
         <h3>Medium (61-70g)</h3>
         <ul>
-          {keyboards.filter((m) => m.weight > 60 && m.weight <= 70).sort((a, b) => a.weight - b.weight).map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m.weight}g ({m.brand}), ${m.price}</li>
+          {keyboards.filter((m) => m?.weight > 60 && m?.weight <= 70).sort((a, b) => a?.weight - b?.weight).map((m) => (
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m?.weight}g ({m.brand}), ${m?.price}</li>
           ))}
         </ul>
         <h3>Standard (Over 70g)</h3>
         <ul>
-          {keyboards.filter((m) => m.weight > 70).sort((a, b) => a.weight - b.weight).map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m.weight}g ({m.brand}), ${m.price}</li>
+          {keyboards.filter((m) => m?.weight > 70).sort((a, b) => a?.weight - b?.weight).map((m) => (
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m?.weight}g ({m.brand}), ${m?.price}</li>
           ))}
         </ul>
 
         <h2>Keyboards by Brand</h2>
         {brands.sort().map((brand) => {
-          const brandKeyboards = keyboards.filter((m) => m.brand === brand).sort((a, b) => b.proUsage - a.proUsage);
+          const brandKeyboards = keyboards.filter((m) => m.brand === brand).sort((a, b) => b?.proUsage - a?.proUsage);
           return (
             <section key={brand}>
               <h3><a href="/brands">{brand}</a> ({brandKeyboards.length} keyboards)</h3>
               <ul>
                 {brandKeyboards.map((m) => (
-                  <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m.weight}g, {m.switchType}, ${m.price}, {m.proUsage}% pro usage</li>
+                  <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m?.weight}g, {m.switchType}, ${m?.price}, {m.proUsage}% pro usage</li>
                 ))}
               </ul>
             </section>
@@ -171,7 +171,7 @@ export default function KeyboardsPage() {
               <h3>{shape} Shape ({shapeMice.length} keyboards)</h3>
               <ul>
                 {shapeMice.map((m) => (
-                  <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> ({m.brand}, {m.weight}g)</li>
+                  <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> ({m.brand}, {m?.weight}g)</li>
                 ))}
               </ul>
             </section>
@@ -181,20 +181,20 @@ export default function KeyboardsPage() {
         <h2>Keyboards by Price Range</h2>
         <h3>Budget (Under $80)</h3>
         <ul>
-          {keyboards.filter((m) => m.price < 80).sort((a, b) => a.price - b.price).map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — ${m.price} ({m.brand})</li>
+          {keyboards.filter((m) => m?.price < 80).sort((a, b) => a?.price - b?.price).map((m) => (
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — ${m?.price} ({m.brand})</li>
           ))}
         </ul>
         <h3>Mid-Range ($80-$150)</h3>
         <ul>
-          {keyboards.filter((m) => m.price >= 80 && m.price <= 150).sort((a, b) => a.price - b.price).map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — ${m.price} ({m.brand})</li>
+          {keyboards.filter((m) => m?.price >= 80 && m?.price <= 150).sort((a, b) => a?.price - b?.price).map((m) => (
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — ${m?.price} ({m.brand})</li>
           ))}
         </ul>
         <h3>Premium (Over $150)</h3>
         <ul>
-          {keyboards.filter((m) => m.price > 150).sort((a, b) => a.price - b.price).map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — ${m.price} ({m.brand})</li>
+          {keyboards.filter((m) => m?.price > 150).sort((a, b) => a?.price - b?.price).map((m) => (
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — ${m?.price} ({m.brand})</li>
           ))}
         </ul>
 

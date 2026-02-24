@@ -74,16 +74,16 @@ export default function BrandDetailPage({ params }) {
   if (!brand) return <EsportsKeyboards initialTab="brands" />;
 
   const brandKeyboards = keyboards.filter((m) => m.brand === brand);
-  const avgWeight = Math.round(brandKeyboards.reduce((a, m) => a + m.weight, 0) / brandKeyboards.length);
-  const avgPrice = Math.round(brandKeyboards.reduce((a, m) => a + m.price, 0) / brandKeyboards.length);
+  const avgWeight = Math.round(brandKeyboards.reduce((a, m) => a + m?.weight, 0) / brandKeyboards.length);
+  const avgPrice = Math.round(brandKeyboards.reduce((a, m) => a + m?.price, 0) / brandKeyboards.length);
   const avgRating = (brandKeyboards.reduce((a, m) => a + m.rating, 0) / brandKeyboards.length).toFixed(1);
   const totalProUsage = brandKeyboards.reduce((a, m) => a + m.proUsage, 0);
-  const lightest = [...brandKeyboards].sort((a, b) => a.weight - b.weight)[0];
-  const mostPopular = [...brandKeyboards].sort((a, b) => b.proUsage - a.proUsage)[0];
+  const lightest = [...brandKeyboards].sort((a, b) => a?.weight - b?.weight)[0];
+  const mostPopular = [...brandKeyboards].sort((a, b) => b?.proUsage - a?.proUsage)[0];
   const switches = [...new Set(brandKeyboards.map((m) => m.switchType))];
   const shapes = [...new Set(brandKeyboards.map((m) => m.layout))];
-  const priceRange = `$${Math.min(...brandKeyboards.map((m) => m.price))}-$${Math.max(...brandKeyboards.map((m) => m.price))}`;
-  const weightRange = `${Math.min(...brandKeyboards.map((m) => m.weight))}g-${Math.max(...brandKeyboards.map((m) => m.weight))}g`;
+  const priceRange = `$${Math.min(...brandKeyboards.map((m) => m?.price))}-$${Math.max(...brandKeyboards.map((m) => m?.price))}`;
+  const weightRange = `${Math.min(...brandKeyboards.map((m) => m?.weight))}g-${Math.max(...brandKeyboards.map((m) => m?.weight))}g`;
 
   const brandPros = proPlayers.filter((p) => {
     const pm = p.keyboard.toLowerCase();
@@ -124,7 +124,7 @@ export default function BrandDetailPage({ params }) {
           <li>Average price: ${avgPrice}</li>
           <li>Price range: {priceRange}</li>
           <li>Average rating: {avgRating}/10</li>
-          <li>Lightest keyboard: {lightest.name} ({lightest.weight}g)</li>
+          <li>Lightest keyboard: {lightest.name} ({lightest?.weight}g)</li>
           <li>Most popular: {mostPopular.name} ({mostPopular.proUsage}% pro usage)</li>
           <li>Sensors used: {switches.join(", ")}</li>
           <li>Shape types: {shapes.join(", ")}</li>
@@ -137,14 +137,14 @@ export default function BrandDetailPage({ params }) {
             <tr><th>Keyboard</th><th>Weight</th><th>Switch</th><th>Layout</th><th>Connectivity</th><th>Price</th><th>Pro Usage</th><th>Rating</th></tr>
           </thead>
           <tbody>
-            {[...brandKeyboards].sort((a, b) => b.proUsage - a.proUsage).map((m) => (
+            {[...brandKeyboards].sort((a, b) => b?.proUsage - a?.proUsage).map((m) => (
               <tr key={m.id}>
                 <td><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a></td>
-                <td>{m.weight}g</td>
+                <td>{m?.weight}g</td>
                 <td><a href={`/sensors/${m.switchType.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{m.switchType}</a></td>
                 <td><a href={`/shapes/${m.layout.toLowerCase()}`}>{m.layout}</a></td>
                 <td>{m.connectivity}</td>
-                <td>${m.price}</td>
+                <td>${m?.price}</td>
                 <td>{m.proUsage}%</td>
                 <td>{m.rating}/10</td>
               </tr>
@@ -181,8 +181,8 @@ export default function BrandDetailPage({ params }) {
         <p>
           The {brand} esports keyboard lineup ranges from {weightRange} in weight and {priceRange} in price.
           {lightest.name !== mostPopular.name
-            ? ` The lightest option is the ${lightest.name} at ${lightest.weight}g, while the most popular among pros is the ${mostPopular.name} at ${mostPopular.proUsage}% usage.`
-            : ` The ${mostPopular.name} is both the lightest at ${lightest.weight}g and the most popular at ${mostPopular.proUsage}% pro usage.`
+            ? ` The lightest option is the ${lightest.name} at ${lightest?.weight}g, while the most popular among pros is the ${mostPopular.name} at ${mostPopular.proUsage}% usage.`
+            : ` The ${mostPopular.name} is both the lightest at ${lightest?.weight}g and the most popular at ${mostPopular.proUsage}% pro usage.`
           }
           {" "}All {brand} keyboards use {switches.length === 1 ? `the ${switches[0]} switch` : `switches including ${switches.join(", ")}`}.
         </p>

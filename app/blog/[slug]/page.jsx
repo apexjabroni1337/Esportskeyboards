@@ -174,7 +174,7 @@ export default function BlogArticlePage({ params }) {
                       {m.keyboard && KEYBOARD_IMAGE_URLS[m.keyboard.name] && <img src={KEYBOARD_IMAGE_URLS[m.keyboard.name]} alt={m.name} className="h-10 w-16 object-contain" />}
                       <div className="flex-1">
                         <div className="font-bold text-sm" style={{ color: m.keyboard ? (BRAND_COLORS[m.keyboard.brand] || "#fff") : "#fff" }}>{m.name}</div>
-                        <div className="text-xs opacity-40" style={{ color: "#1a1614" }}>{m.pct}% of pros · {m.count} players{m.keyboard ? ` · ${m.keyboard.weight}g · $${m.keyboard.price}` : ""}</div>
+                        <div className="text-xs opacity-40" style={{ color: "#1a1614" }}>{m.pct}% of pros · {m.count} players{m.keyboard ? ` · ${m.keyboard?.weight}g · $${m.keyboard?.price}` : ""}</div>
                       </div>
                       {m.keyboard && <a href={amazonLink(m.name)} target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg text-xs font-bold no-underline transition-all hover:scale-105" style={{ background: "#b8956a", color: "#1a1614", textDecoration: "none" }}>Buy</a>}
                     </a>

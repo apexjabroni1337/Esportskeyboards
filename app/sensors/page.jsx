@@ -23,8 +23,8 @@ export default function SensorsPage() {
   const switchData = [...new Set(keyboards.map((m) => m.switchType))].map((switchName) => {
     const switchKbds = keyboards.filter((m) => m.switchType === switchName);
     const totalProUsage = switchKbds.reduce((a, m) => a + m.proUsage, 0);
-    const avgWeight = Math.round(switchKbds.reduce((a, m) => a + m.weight, 0) / switchKbds.length);
-    const avgPrice = Math.round(switchKbds.reduce((a, m) => a + m.price, 0) / switchKbds.length);
+    const avgWeight = Math.round(switchKbds.reduce((a, m) => a + m?.weight, 0) / switchKbds.length);
+    const avgPrice = Math.round(switchKbds.reduce((a, m) => a + m?.price, 0) / switchKbds.length);
     const brands = [...new Set(switchKbds.map((m) => m.brand))];
     const maxDpi = Math.max(...switchKbds.map((m) => m.actuationPoint));
     const maxPolling = Math.max(...switchKbds.map((m) => m.pollingRate));
@@ -89,12 +89,12 @@ export default function SensorsPage() {
             <table>
               <thead><tr><th>Keyboard</th><th>Brand</th><th>Weight</th><th>Price</th><th>Pro Usage</th><th>Rating</th></tr></thead>
               <tbody>
-                {s.keyboards.sort((a, b) => b.proUsage - a.proUsage).map((m) => (
+                {s.keyboards.sort((a, b) => b?.proUsage - a?.proUsage).map((m) => (
                   <tr key={m.id}>
                     <td><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a></td>
                     <td><a href="/brands">{m.brand}</a></td>
-                    <td>{m.weight}g</td>
-                    <td>${m.price}</td>
+                    <td>{m?.weight}g</td>
+                    <td>${m?.price}</td>
                     <td>{m.proUsage}%</td>
                     <td>{m.rating}/10</td>
                   </tr>

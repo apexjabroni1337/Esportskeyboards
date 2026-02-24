@@ -20,11 +20,11 @@ export const metadata = {
 };
 
 export default function TrendsPage() {
-  const under50 = keyboards.filter((m) => m.weight < 50);
+  const under50 = keyboards.filter((m) => m?.weight < 50);
   const over4k = keyboards.filter((m) => m.pollingRate >= 4000);
   const over8k = keyboards.filter((m) => m.pollingRate >= 8000);
   const wireless = keyboards.filter((m) => m.connectivity === "Wireless");
-  const under100 = keyboards.filter((m) => m.price < 100);
+  const under100 = keyboards.filter((m) => m?.price < 100);
 
   const byYear = {};
   keyboards.forEach((m) => { if (m.releaseYear) { if (!byYear[m.releaseYear]) byYear[m.releaseYear] = []; byYear[m.releaseYear].push(m); } });
@@ -44,7 +44,7 @@ export default function TrendsPage() {
 
         <h2>Current State of Pro Esports Keyboards</h2>
         <ul>
-          <li>Keyboards under 500g: {under50.length} — {under50.map((m) => <span key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> ({m.weight}g), </span>)}</li>
+          <li>Keyboards under 500g: {under50.length} — {under50.map((m) => <span key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> ({m?.weight}g), </span>)}</li>
           <li>4KHz+ polling rate: {over4k.length} keyboards ({Math.round(over4k.length/keyboards.length*100)}% of database)</li>
           <li>8KHz polling rate: {over8k.length} keyboards</li>
           <li>Wireless: {wireless.length} of {keyboards.length} ({Math.round(wireless.length/keyboards.length*100)}%)</li>
@@ -57,7 +57,7 @@ export default function TrendsPage() {
           <caption>Average esports keyboard weight by year</caption>
           <thead><tr><th>Year</th><th>Avg Weight</th><th>Change</th></tr></thead>
           <tbody>{weightTrend.map((d, i) => (
-            <tr key={d.year}><td>{d.year}</td><td>{d.avgWeight || d.weight}g</td><td>{i > 0 ? `${((d.avgWeight || d.weight) - (weightTrend[i-1].avgWeight || weightTrend[i-1].weight)).toFixed(1)}g` : "—"}</td></tr>
+            <tr key={d.year}><td>{d.year}</td><td>{d.avgWeight || d?.weight}g</td><td>{i > 0 ? `${((d.avgWeight || d?.weight) - (weightTrend[i-1].avgWeight || weightTrend[i-1].weight)).toFixed(1)}g` : "—"}</td></tr>
           ))}</tbody>
         </table>
 
@@ -83,7 +83,7 @@ export default function TrendsPage() {
         <table>
           <caption>Average esports keyboard price by year</caption>
           <thead><tr><th>Year</th><th>Avg Price</th></tr></thead>
-          <tbody>{priceTrend.map((d) => <tr key={d.year}><td>{d.year}</td><td>${d.price}</td></tr>)}</tbody>
+          <tbody>{priceTrend.map((d) => <tr key={d.year}><td>{d.year}</td><td>${d?.price}</td></tr>)}</tbody>
         </table>
 
         <h2>Keyboards Released by Year</h2>
@@ -92,7 +92,7 @@ export default function TrendsPage() {
             <h3>{year} Releases ({yearMice.length} keyboards)</h3>
             <ul>
               {yearMice.map((m) => (
-                <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> ({m.brand}) — {m.weight}g, ${m.price}</li>
+                <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> ({m.brand}) — {m?.weight}g, ${m?.price}</li>
               ))}
             </ul>
           </section>

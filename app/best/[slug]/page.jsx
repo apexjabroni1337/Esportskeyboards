@@ -77,19 +77,20 @@ export default function BestForPage({ params }) {
       .slice(0, 10)
       .map(([name, count]) => {
         const m = keyboards.find(mm => mm.name === name);
+        if (!m) return null;
         return { ...m, gameUsage: count, gamePercent: ((count / players.length) * 100).toFixed(1) };
-      });
+      }).filter(Boolean);
   } else if (params.slug === "wireless") {
-    topKeyboardsForPage = [...keyboards].filter(m => m.wireless !== false).sort((a, b) => b.proUsage - a.proUsage).slice(0, 10).map(m => ({ ...m, gamePercent: m.proUsage }));
+    topKeyboardsForPage = [...keyboards].filter(m => m.wireless !== false).sort((a, b) => b?.proUsage - a?.proUsage).slice(0, 10).map(m => ({ ...m, gamePercent: m.proUsage }));
     players = allPlayers;
   } else if (params.slug === "lightweight") {
-    topKeyboardsForPage = [...keyboards].filter(m => m.weight < 60).sort((a, b) => a.weight - b.weight).slice(0, 10).map(m => ({ ...m, gamePercent: m.proUsage }));
+    topKeyboardsForPage = [...keyboards].filter(m => m?.weight < 60).sort((a, b) => a?.weight - b?.weight).slice(0, 10).map(m => ({ ...m, gamePercent: m.proUsage }));
     players = allPlayers;
   } else if (params.slug === "budget") {
-    topKeyboardsForPage = [...keyboards].filter(m => m.price < 80).sort((a, b) => b.proUsage - a.proUsage).slice(0, 10).map(m => ({ ...m, gamePercent: m.proUsage }));
+    topKeyboardsForPage = [...keyboards].filter(m => m?.price < 80).sort((a, b) => b?.proUsage - a?.proUsage).slice(0, 10).map(m => ({ ...m, gamePercent: m.proUsage }));
     players = allPlayers;
   } else {
-    topKeyboardsForPage = [...keyboards].sort((a, b) => b.proUsage - a.proUsage).slice(0, 10).map(m => ({ ...m, gamePercent: m.proUsage }));
+    topKeyboardsForPage = [...keyboards].sort((a, b) => b?.proUsage - a?.proUsage).slice(0, 10).map(m => ({ ...m, gamePercent: m.proUsage }));
     players = allPlayers;
   }
 
@@ -156,9 +157,9 @@ export default function BestForPage({ params }) {
                 <td>{i + 1}</td>
                 <td><a href={`/keyboards/${sl(m.name)}`}>{m.name}</a></td>
                 <td>{m.brand}</td>
-                <td>{m.weight}g</td>
+                <td>{m?.weight}g</td>
                 <td>{m.switchType}</td>
-                <td>${m.price}</td>
+                <td>${m?.price}</td>
                 <td>{m.gamePercent}%</td>
               </tr>
             ))}
@@ -177,7 +178,7 @@ export default function BestForPage({ params }) {
 
         <h2>Buy the Top Pick</h2>
         {topKeyboardsForPage.slice(0, 3).map(m => (
-          <p key={m.name}><a href={amazonLink(m.name)}>Buy {m.name} on Amazon</a> — ${m.price}, {m.weight}g, {m.switchType}</p>
+          <p key={m.name}><a href={amazonLink(m.name)}>Buy {m.name} on Amazon</a> — ${m?.price}, {m?.weight}g, {m.switchType}</p>
         ))}
 
         <h2>FAQ</h2>

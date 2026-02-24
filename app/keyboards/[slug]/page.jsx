@@ -18,7 +18,7 @@ export function generateMetadata({ params }) {
   const desc = KEYBOARD_DESCRIPTIONS[kb.name];
   const description = desc
     ? desc.text.slice(0, 155) + "..."
-    : `${kb.name} by ${kb.brand} — ${kb.weight}g, ${kb.switchType} switch, ${kb.pollingRate}Hz polling, $${kb.price}. Used by ${kb.proUsage}% of tracked pro esports players.`;
+    : `${kb.name} by ${kb.brand} — ${kb?.weight}g, ${kb.switchType} switch, ${kb.pollingRate}Hz polling, $${kb?.price}. Used by ${kb?.proUsage}% of tracked pro esports players.`;
 
   return {
     title: `${kb.name} — Pro Esports Keyboard Review & Stats`,
@@ -29,7 +29,7 @@ export function generateMetadata({ params }) {
       description,
       url: `https://esportskeyboards.com/keyboards/${params.slug}`,
       images: [{
-        url: `https://esportskeyboards.com/og?title=${encodeURIComponent(kb.name)}&subtitle=${encodeURIComponent(`${kb.brand} · ${kb.switchType}`)}&badge=${encodeURIComponent(kb.brand)}&accent=${encodeURIComponent(BRAND_COLORS[kb.brand] || '#b8956a')}&stat1=${encodeURIComponent(kb.weight + 'g')}&s1Label=Weight&stat2=${encodeURIComponent(kb.proUsage + '%')}&s2Label=Pro+Usage&stat3=${encodeURIComponent('$' + kb.price)}&s3Label=Price`,
+        url: `https://esportskeyboards.com/og?title=${encodeURIComponent(kb.name)}&subtitle=${encodeURIComponent(`${kb.brand} · ${kb.switchType}`)}&badge=${encodeURIComponent(kb.brand)}&accent=${encodeURIComponent(BRAND_COLORS[kb.brand] || '#b8956a')}&stat1=${encodeURIComponent(kb?.weight + 'g')}&s1Label=Weight&stat2=${encodeURIComponent(kb?.proUsage + '%')}&s2Label=Pro+Usage&stat3=${encodeURIComponent('$' + kb?.price)}&s3Label=Price`,
         width: 1200, height: 630,
         alt: `${kb.name} by ${kb.brand} - esports gaming keyboard`,
       }],
@@ -38,7 +38,7 @@ export function generateMetadata({ params }) {
       card: "summary_large_image",
       title: `${kb.name} — Pro Esports Keyboard Review & Stats`,
       description,
-      images: [`https://esportskeyboards.com/og?title=${encodeURIComponent(kb.name)}&subtitle=${encodeURIComponent(`${kb.brand} · ${kb.switchType}`)}&badge=${encodeURIComponent(kb.brand)}&accent=${encodeURIComponent(BRAND_COLORS[kb.brand] || '#b8956a')}&stat1=${encodeURIComponent(kb.weight + 'g')}&s1Label=Weight&stat2=${encodeURIComponent(kb.proUsage + '%')}&s2Label=Pro+Usage&stat3=${encodeURIComponent('$' + kb.price)}&s3Label=Price`],
+      images: [`https://esportskeyboards.com/og?title=${encodeURIComponent(kb.name)}&subtitle=${encodeURIComponent(`${kb.brand} · ${kb.switchType}`)}&badge=${encodeURIComponent(kb.brand)}&accent=${encodeURIComponent(BRAND_COLORS[kb.brand] || '#b8956a')}&stat1=${encodeURIComponent(kb?.weight + 'g')}&s1Label=Weight&stat2=${encodeURIComponent(kb?.proUsage + '%')}&s2Label=Pro+Usage&stat3=${encodeURIComponent('$' + kb?.price)}&s3Label=Price`],
     },
   };
 }
@@ -65,11 +65,11 @@ export default function MouseDetailPage({ params }) {
         "@type": "Product",
         name: kb.name,
         brand: { "@type": "Brand", name: kb.brand },
-        description: desc ? desc.text.slice(0, 300) : `${kb.name} by ${kb.brand}. ${kb.weight}g ${kb.layout.toLowerCase()} gaming keyboard with ${kb.switchType} switch, ${kb.pollingRate >= 1000 ? `${kb.pollingRate / 1000}K` : kb.pollingRate}Hz polling. Used by ${kb.proUsage}% of pro esports players.`,
+        description: desc ? desc.text.slice(0, 300) : `${kb.name} by ${kb.brand}. ${kb?.weight}g ${kb.layout.toLowerCase()} gaming keyboard with ${kb.switchType} switch, ${kb.pollingRate >= 1000 ? `${kb.pollingRate / 1000}K` : kb.pollingRate}Hz polling. Used by ${kb?.proUsage}% of pro esports players.`,
         ...(imgUrl ? { image: `https://esportskeyboards.com${imgUrl}` } : {}),
         offers: {
           "@type": "Offer",
-          price: String(kb.price),
+          price: String(kb?.price),
           priceCurrency: "USD",
           availability: "https://schema.org/InStock",
           url: amazonLink(kb.name),
@@ -81,12 +81,12 @@ export default function MouseDetailPage({ params }) {
           ratingCount: String(Math.max(usedBy.length, 1)),
         },
         additionalProperty: [
-          { "@type": "PropertyValue", name: "Weight", value: `${kb.weight}g` },
+          { "@type": "PropertyValue", name: "Weight", value: `${kb?.weight}g` },
           { "@type": "PropertyValue", name: "Switch Type", value: kb.switchType },
           { "@type": "PropertyValue", name: "Polling Rate", value: `${kb.pollingRate}Hz` },
           { "@type": "PropertyValue", name: "Shape", value: kb.layout },
           { "@type": "PropertyValue", name: "Connectivity", value: kb.connectivity },
-          { "@type": "PropertyValue", name: "Pro Usage", value: `${kb.proUsage}%` },
+          { "@type": "PropertyValue", name: "Pro Usage", value: `${kb?.proUsage}%` },
         ],
       }) }} />
       {/* Breadcrumb JSON-LD */}
@@ -110,9 +110,9 @@ export default function MouseDetailPage({ params }) {
           <meta itemProp="name" content={kb.brand} />
         </div>
         {imgUrl && <meta itemProp="image" content={`https://esportskeyboards.com${imgUrl}`} />}
-        <meta itemProp="description" content={desc ? desc.text : `${kb.name} by ${kb.brand}. ${kb.weight}g, ${kb.switchType} switch, ${kb.pollingRate}Hz polling rate.`} />
+        <meta itemProp="description" content={desc ? desc.text : `${kb.name} by ${kb.brand}. ${kb?.weight}g, ${kb.switchType} switch, ${kb.pollingRate}Hz polling rate.`} />
         <div itemProp="offers" itemScope itemType="https://schema.org/Offer">
-          <meta itemProp="price" content={String(kb.price)} />
+          <meta itemProp="price" content={String(kb?.price)} />
           <meta itemProp="priceCurrency" content="USD" />
           <meta itemProp="availability" content="https://schema.org/InStock" />
           <meta itemProp="url" content={amazonLink(kb.name)} />
@@ -127,9 +127,9 @@ export default function MouseDetailPage({ params }) {
         {desc ? <p>{desc.text}</p> : (
           <p>
             The {kb.name} is a {kb.connectivity.toLowerCase()} {kb.layout.toLowerCase()} gaming keyboard
-            made by {kb.brand}. It weighs {kb.weight} grams and uses the {kb.switchType} switch
+            made by {kb.brand}. It weighs {kb?.weight} grams and uses the {kb.switchType} switch
             with a maximum DPI of {kb.actuationPoint.toLocaleString()} and {kb.pollingRate >= 1000 ? `${kb.pollingRate / 1000}K` : kb.pollingRate}Hz
-            polling rate. It is priced at ${kb.price} USD and rated {kb.rating}/10.
+            polling rate. It is priced at ${kb?.price} USD and rated {kb.rating}/10.
           </p>
         )}
 
@@ -138,17 +138,17 @@ export default function MouseDetailPage({ params }) {
           <caption>Complete specifications for the {kb.name} by {kb.brand}</caption>
           <tbody>
             <tr><th>Brand</th><td><a href={`/brands/${kb.brand.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{kb.brand}</a></td></tr>
-            <tr><th>Weight</th><td>{kb.weight} grams</td></tr>
+            <tr><th>Weight</th><td>{kb?.weight} grams</td></tr>
             <tr><th>Switch</th><td><a href={`/sensors/${kb.switchType.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{kb.switchType}</a></td></tr>
             <tr><th>Max DPI</th><td>{kb.actuationPoint.toLocaleString()}</td></tr>
             <tr><th>Polling Rate</th><td>{kb.pollingRate.toLocaleString()} Hz</td></tr>
             <tr><th>Layout</th><td><a href={`/shapes/${kb.layout.toLowerCase()}`}>{kb.layout}</a></td></tr>
             <tr><th>Connectivity</th><td>{kb.connectivity}</td></tr>
-            <tr><th>Price</th><td>${kb.price} USD</td></tr>
+            <tr><th>Price</th><td>${kb?.price} USD</td></tr>
             <tr><th>Switches</th><td>{kb.switchType}</td></tr>
             <tr><th>Battery Life</th><td>{kb.batteryLife} hours</td></tr>
             <tr><th>Release Year</th><td>{kb.releaseYear}</td></tr>
-            <tr><th>Pro Usage</th><td>{kb.proUsage}% of tracked professional players</td></tr>
+            <tr><th>Pro Usage</th><td>{kb?.proUsage}% of tracked professional players</td></tr>
             <tr><th>Rating</th><td>{kb.rating} out of 10</td></tr>
           </tbody>
         </table>
@@ -174,7 +174,7 @@ export default function MouseDetailPage({ params }) {
           <><h2>Key Highlights</h2><ul>{desc.highlights.map((h, i) => <li key={i}>{h}</li>)}</ul></>
         )}
 
-        <p><a href={amazonLink(kb.name)}>Buy the {kb.name} on Amazon for ${kb.price}</a></p>
+        <p><a href={amazonLink(kb.name)}>Buy the {kb.name} on Amazon for ${kb?.price}</a></p>
 
         {/* Other keyboards by the same brand */}
         {(() => {
@@ -187,7 +187,7 @@ export default function MouseDetailPage({ params }) {
                 {sameBrand.map((m) => (
                   <li key={m.id}>
                     <a href={`/keyboards/${m.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{m.name}</a>
-                    {" "}— {m.weight}g, {m.proUsage}% pro usage, ${m.price}
+                    {" "}— {m?.weight}g, {m.proUsage}% pro usage, ${m?.price}
                   </li>
                 ))}
               </ul>
@@ -206,7 +206,7 @@ export default function MouseDetailPage({ params }) {
                 {sameSensor.map((m) => (
                   <li key={m.id}>
                     <a href={`/keyboards/${m.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{m.name}</a>
-                    {" "}({m.brand}) — {m.weight}g, ${m.price}
+                    {" "}({m.brand}) — {m?.weight}g, ${m?.price}
                   </li>
                 ))}
               </ul>
@@ -217,18 +217,18 @@ export default function MouseDetailPage({ params }) {
         {/* Similar keyboards by weight */}
         {(() => {
           const similar = keyboards
-            .filter((m) => m.id !== kb.id && Math.abs(m.weight - kb.weight) <= 10)
-            .sort((a, b) => Math.abs(a.weight - kb.weight) - Math.abs(b.weight - kb.weight))
+            .filter((m) => m.id !== kb.id && Math.abs(m?.weight - kb?.weight) <= 10)
+            .sort((a, b) => Math.abs(a?.weight - kb?.weight) - Math.abs(b?.weight - kb?.weight))
             .slice(0, 8);
           if (!similar.length) return null;
           return (
             <>
-              <h2>Similar Weight Esports Keyboards (±10g of {kb.weight}g)</h2>
+              <h2>Similar Weight Esports Keyboards (±10g of {kb?.weight}g)</h2>
               <ul>
                 {similar.map((m) => (
                   <li key={m.id}>
                     <a href={`/keyboards/${m.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{m.name}</a>
-                    {" "}({m.brand}) — {m.weight}g, {m.proUsage}% pro usage
+                    {" "}({m.brand}) — {m?.weight}g, {m.proUsage}% pro usage
                   </li>
                 ))}
               </ul>
@@ -247,7 +247,7 @@ export default function MouseDetailPage({ params }) {
                 {sameShape.map((m) => (
                   <li key={m.id}>
                     <a href={`/keyboards/${m.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{m.name}</a>
-                    {" "}({m.brand}) — {m.weight}g, ${m.price}
+                    {" "}({m.brand}) — {m?.weight}g, ${m?.price}
                   </li>
                 ))}
               </ul>
@@ -279,15 +279,15 @@ export default function MouseDetailPage({ params }) {
         <SSRSub>
           {desc
             ? desc.text.slice(0, 280) + "..."
-            : `The ${kb.name} is a ${kb.weight}g ${kb.connectivity.toLowerCase()} ${kb.layout.toLowerCase()} gaming keyboard by ${kb.brand}, featuring the ${kb.switchType} switch with ${kb.pollingRate >= 1000 ? `${kb.pollingRate / 1000}K` : kb.pollingRate}Hz polling. Used by ${kb.proUsage}% of tracked professional esports players.`
+            : `The ${kb.name} is a ${kb?.weight}g ${kb.connectivity.toLowerCase()} ${kb.layout.toLowerCase()} gaming keyboard by ${kb.brand}, featuring the ${kb.switchType} switch with ${kb.pollingRate >= 1000 ? `${kb.pollingRate / 1000}K` : kb.pollingRate}Hz polling. Used by ${kb?.proUsage}% of tracked professional esports players.`
           }
         </SSRSub>
         <SSRGrid>
-          <SSRStat label="Weight" value={`${kb.weight}g`} color={BRAND_COLORS[kb.brand]} />
+          <SSRStat label="Weight" value={`${kb?.weight}g`} color={BRAND_COLORS[kb.brand]} />
           <SSRStat label="Switch Type" value={kb.switchType} color={BRAND_COLORS[kb.brand]} />
           <SSRStat label="Polling" value={`${kb.pollingRate >= 1000 ? `${kb.pollingRate / 1000}K` : kb.pollingRate}Hz`} color={BRAND_COLORS[kb.brand]} />
-          <SSRStat label="Pro Usage" value={`${kb.proUsage}%`} color={BRAND_COLORS[kb.brand]} />
-          <SSRStat label="Price" value={`$${kb.price}`} color={BRAND_COLORS[kb.brand]} />
+          <SSRStat label="Pro Usage" value={`${kb?.proUsage}%`} color={BRAND_COLORS[kb.brand]} />
+          <SSRStat label="Price" value={`$${kb?.price}`} color={BRAND_COLORS[kb.brand]} />
           <SSRStat label="Shape" value={kb.layout} color={BRAND_COLORS[kb.brand]} />
           <SSRStat label="Rating" value={`${kb.rating}/10`} color={BRAND_COLORS[kb.brand]} />
           <SSRStat label="Switches" value={kb.switchType} color={BRAND_COLORS[kb.brand]} />

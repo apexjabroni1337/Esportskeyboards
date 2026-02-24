@@ -74,7 +74,7 @@ export default function ShapesPage() {
                 <td>{d.width}mm</td>
                 <td>{d.height}mm</td>
                 <td>{d.keyboard ? <a href="/brands">{d.keyboard.brand}</a> : "—"}</td>
-                <td>{d.keyboard ? `${d.keyboard.weight}g` : "—"}</td>
+                <td>{d.keyboard ? `${d.keyboard?.weight}g` : "—"}</td>
                 <td>{d.kbd?.layout || "—"}</td>
               </tr>
             ))}
@@ -85,19 +85,19 @@ export default function ShapesPage() {
         <h3>Small Keyboards (Under 120mm length)</h3>
         <ul>
           {dimData.filter((d) => d.length < 120).sort((a, b) => a.length - b.length).map((d) => (
-            <li key={d.name}><a href={`/keyboards/${slug(d.name)}`}>{d.name}</a> — {d.length}×{d.width}×{d.height}mm{d.keyboard ? `, ${d.keyboard.weight}g` : ""}</li>
+            <li key={d.name}><a href={`/keyboards/${slug(d.name)}`}>{d.name}</a> — {d.length}×{d.width}×{d.height}mm{d.keyboard ? `, ${d.keyboard?.weight}g` : ""}</li>
           ))}
         </ul>
         <h3>Medium Keyboards (120-126mm)</h3>
         <ul>
           {dimData.filter((d) => d.length >= 120 && d.length <= 126).sort((a, b) => a.length - b.length).map((d) => (
-            <li key={d.name}><a href={`/keyboards/${slug(d.name)}`}>{d.name}</a> — {d.length}×{d.width}×{d.height}mm{d.keyboard ? `, ${d.keyboard.weight}g` : ""}</li>
+            <li key={d.name}><a href={`/keyboards/${slug(d.name)}`}>{d.name}</a> — {d.length}×{d.width}×{d.height}mm{d.keyboard ? `, ${d.keyboard?.weight}g` : ""}</li>
           ))}
         </ul>
         <h3>Large Keyboards (Over 126mm)</h3>
         <ul>
           {dimData.filter((d) => d.length > 126).sort((a, b) => a.length - b.length).map((d) => (
-            <li key={d.name}><a href={`/keyboards/${slug(d.name)}`}>{d.name}</a> — {d.length}×{d.width}×{d.height}mm{d.keyboard ? `, ${d.keyboard.weight}g` : ""}</li>
+            <li key={d.name}><a href={`/keyboards/${slug(d.name)}`}>{d.name}</a> — {d.length}×{d.width}×{d.height}mm{d.keyboard ? `, ${d.keyboard?.weight}g` : ""}</li>
           ))}
         </ul>
 

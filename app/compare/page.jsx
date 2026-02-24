@@ -20,7 +20,7 @@ export const metadata = {
 };
 
 export default function ComparePage() {
-  const top10 = [...keyboards].sort((a, b) => b.proUsage - a.proUsage).slice(0, 10);
+  const top10 = [...keyboards].sort((a, b) => b?.proUsage - a?.proUsage).slice(0, 10);
   // Generate popular comparison pairs from top keyboards
   const pairs = [];
   for (let i = 0; i < top10.length; i++) {
@@ -55,7 +55,7 @@ export default function ComparePage() {
           {pairs.map(([a, b], i) => (
             <li key={i}>
               <a href={`/keyboards/${slug(a.name)}`}>{a.name}</a> vs <a href={`/keyboards/${slug(b.name)}`}>{b.name}</a>
-              {" "}— {a.weight}g vs {b.weight}g, ${a.price} vs ${b.price}, {a.proUsage}% vs {b.proUsage}% pro usage
+              {" "}— {a?.weight}g vs {b?.weight}g, ${a?.price} vs ${b?.price}, {a?.proUsage}% vs {b?.proUsage}% pro usage
             </li>
           ))}
         </ul>
@@ -65,15 +65,15 @@ export default function ComparePage() {
           <caption>Full specification table for all {keyboards.length} esports keyboards</caption>
           <thead><tr><th>Keyboard</th><th>Brand</th><th>Weight</th><th>Switch</th><th>Hz</th><th>Layout</th><th>Price</th><th>Pro %</th><th>Rating</th></tr></thead>
           <tbody>
-            {[...keyboards].sort((a, b) => b.proUsage - a.proUsage).map((m) => (
+            {[...keyboards].sort((a, b) => b?.proUsage - a?.proUsage).map((m) => (
               <tr key={m.id}>
                 <td><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a></td>
                 <td><a href="/brands">{m.brand}</a></td>
-                <td>{m.weight}g</td>
+                <td>{m?.weight}g</td>
                 <td><a href="/switches">{m.switchType}</a></td>
                 <td>{m.pollingRate.toLocaleString()}</td>
                 <td>{m.layout}</td>
-                <td>${m.price}</td>
+                <td>${m?.price}</td>
                 <td>{m.proUsage}%</td>
                 <td>{m.rating}/10</td>
               </tr>
@@ -84,20 +84,20 @@ export default function ComparePage() {
         <h2>Comparison Categories</h2>
         <h3>Lightest vs Heaviest</h3>
         {(() => {
-          const lightest = [...keyboards].sort((a, b) => a.weight - b.weight)[0];
-          const heaviest = [...keyboards].sort((a, b) => b.weight - a.weight)[0];
-          return <p><a href={`/keyboards/${slug(lightest.name)}`}>{lightest.name}</a> ({lightest.weight}g) vs <a href={`/keyboards/${slug(heaviest.name)}`}>{heaviest.name}</a> ({heaviest.weight}g) — a {heaviest.weight - lightest.weight}g difference.</p>;
+          const lightest = [...keyboards].sort((a, b) => a?.weight - b?.weight)[0];
+          const heaviest = [...keyboards].sort((a, b) => b?.weight - a?.weight)[0];
+          return <p><a href={`/keyboards/${slug(lightest.name)}`}>{lightest.name}</a> ({lightest?.weight}g) vs <a href={`/keyboards/${slug(heaviest.name)}`}>{heaviest.name}</a> ({heaviest?.weight}g) — a {heaviest?.weight - lightest?.weight}g difference.</p>;
         })()}
         <h3>Cheapest vs Most Expensive</h3>
         {(() => {
-          const cheapest = [...keyboards].sort((a, b) => a.price - b.price)[0];
-          const priciest = [...keyboards].sort((a, b) => b.price - a.price)[0];
-          return <p><a href={`/keyboards/${slug(cheapest.name)}`}>{cheapest.name}</a> (${cheapest.price}) vs <a href={`/keyboards/${slug(priciest.name)}`}>{priciest.name}</a> (${priciest.price})</p>;
+          const cheapest = [...keyboards].sort((a, b) => a?.price - b?.price)[0];
+          const priciest = [...keyboards].sort((a, b) => b?.price - a?.price)[0];
+          return <p><a href={`/keyboards/${slug(cheapest.name)}`}>{cheapest.name}</a> (${cheapest?.price}) vs <a href={`/keyboards/${slug(priciest.name)}`}>{priciest.name}</a> (${priciest?.price})</p>;
         })()}
         <h3>Most Used vs Least Used by Pros</h3>
         {(() => {
-          const most = [...keyboards].sort((a, b) => b.proUsage - a.proUsage)[0];
-          const least = [...keyboards].sort((a, b) => a.proUsage - b.proUsage)[0];
+          const most = [...keyboards].sort((a, b) => b?.proUsage - a?.proUsage)[0];
+          const least = [...keyboards].sort((a, b) => a?.proUsage - b?.proUsage)[0];
           return <p><a href={`/keyboards/${slug(most.name)}`}>{most.name}</a> ({most.proUsage}%) vs <a href={`/keyboards/${slug(least.name)}`}>{least.name}</a> ({least.proUsage}%)</p>;
         })()}
 

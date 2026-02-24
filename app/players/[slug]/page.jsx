@@ -4,7 +4,7 @@ import { proPlayers, keyboards, allPlayers, KEYBOARD_DESCRIPTIONS, BRAND_COLORS,
 import { PLAYER_BIOS } from "@/data/bios";
 
 const slug = (n) => n.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
-const findKeyboard = (name) => keyboards.find((m) => name.includes(m.name) || m.name.includes(name));
+const findKeyboard = (name) => name ? keyboards.find((m) => name.includes(m.name) || m.name.includes(name)) : undefined;
 const mSlug = (name) => { const m = findKeyboard(name); return m ? slug(m.name) : null; };
 
 // Only pre-build pages for proPlayers (have bios/profiles ~263 players).
@@ -197,26 +197,26 @@ export default function PlayerProfilePage({ params }) {
             <h2>{player.name}&apos;s Keyboard — {keyboardData.name} Details</h2>
             <p>
               {player.name} currently uses the <a href={`/keyboards/${keyboardSlugVal}`}>{keyboardData.name}</a> by <a href={`/brands/${keyboardData.brand?.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{keyboardData.brand}</a>.
-              {mouseDesc ? ` ${mouseDesc.text.slice(0, 300)}...` : ` It weighs ${keyboardData.weight}g, uses the ${keyboardData.switchType} switch, and costs $${keyboardData.price}.`}
+              {mouseDesc ? ` ${mouseDesc.text.slice(0, 300)}...` : ` It weighs ${keyboardData?.weight}g, uses the ${keyboardData.switchType} switch, and costs $${keyboardData?.price}.`}
             </p>
             <table>
               <caption>{keyboardData.name} specifications — {player.name}&apos;s current keyboard</caption>
               <tbody>
                 <tr><th>Keyboard</th><td><a href={`/keyboards/${keyboardSlugVal}`}>{keyboardData.name}</a></td></tr>
                 <tr><th>Brand</th><td><a href={`/brands/${keyboardData.brand?.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{keyboardData.brand}</a></td></tr>
-                <tr><th>Weight</th><td>{keyboardData.weight}g</td></tr>
+                <tr><th>Weight</th><td>{keyboardData?.weight}g</td></tr>
                 <tr><th>Switch</th><td><a href={`/sensors/${keyboardData.switchType?.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{keyboardData.switchType}</a></td></tr>
                 <tr><th>Actuation</th><td>{keyboardData.actuationPoint}mm</td></tr>
                 <tr><th>Polling Rate</th><td>{keyboardData.pollingRate.toLocaleString()} Hz</td></tr>
                 <tr><th>Layout</th><td><a href={`/shapes/${keyboardData.layout?.toLowerCase()}`}>{keyboardData.layout}</a></td></tr>
                 <tr><th>Connectivity</th><td>{keyboardData.connectivity}</td></tr>
-                <tr><th>Price</th><td>${keyboardData.price}</td></tr>
+                <tr><th>Price</th><td>${keyboardData?.price}</td></tr>
                 <tr><th>Switches</th><td>{keyboardData.switches}</td></tr>
-                <tr><th>Pro Usage</th><td>{keyboardData.proUsage}% of all tracked pros</td></tr>
+                <tr><th>Pro Usage</th><td>{keyboardData?.proUsage}% of all tracked pros</td></tr>
                 <tr><th>Rating</th><td>{keyboardData.rating}/10</td></tr>
               </tbody>
             </table>
-            <p><a href={amazonLink(keyboardData.name)}>Buy the {keyboardData.name} on Amazon for ${keyboardData.price}</a></p>
+            <p><a href={amazonLink(keyboardData.name)}>Buy the {keyboardData.name} on Amazon for ${keyboardData?.price}</a></p>
           </>
         )}
 
@@ -412,7 +412,7 @@ export default function PlayerProfilePage({ params }) {
         <h2>Frequently Asked Questions About {player.name}</h2>
         <dl>
           <dt>What keyboard does {player.name} use?</dt>
-          <dd>{player.name} uses the {keyboardSlugVal ? <a href={`/keyboards/${keyboardSlugVal}`}>{player.keyboard}</a> : player.keyboard}. {keyboardData ? `It weighs ${keyboardData.weight}g, costs $${keyboardData.price}, and uses the ${keyboardData.switchType} switch.` : ""}</dd>
+          <dd>{player.name} uses the {keyboardSlugVal ? <a href={`/keyboards/${keyboardSlugVal}`}>{player.keyboard}</a> : player.keyboard}. {keyboardData ? `It weighs ${keyboardData?.weight}g, costs $${keyboardData?.price}, and uses the ${keyboardData.switchType} switch.` : ""}</dd>
 
           <dt>What DPI does {player.name} use?</dt>
           <dd>{player.name} plays at {player.dpi} DPI with an in-game sensitivity of {player.sens}, giving an effective DPI (eDPI) of {player.edpi}.</dd>

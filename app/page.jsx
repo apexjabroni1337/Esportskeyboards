@@ -23,7 +23,7 @@ export default function HomePage() {
   const totalPlayers = allPlayers.length;
   const totalKeyboards = keyboards.length;
   const totalGames = new Set(allPlayers.map((p) => p.game)).size;
-  const topKeyboards = [...keyboards].sort((a, b) => b.proUsage - a.proUsage).slice(0, 10);
+  const topKeyboards = [...keyboards].sort((a, b) => b?.proUsage - a?.proUsage).slice(0, 10);
   const topBrands = Object.entries(
     keyboards.reduce((acc, m) => { acc[m.brand] = (acc[m.brand] || 0) + m.proUsage; return acc; }, {})
   ).sort((a, b) => b[1] - a[1]).slice(0, 7);
@@ -52,7 +52,7 @@ export default function HomePage() {
           {topKeyboards.map((m) => (
             <li key={m.id}>
               <a href={`/keyboards/${m.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}>{m.name}</a>
-              {" "}— {m.brand}, {m.weight}g, {m.proUsage}% pro usage, ${m.price}
+              {" "}— {m.brand}, {m?.weight}g, {m.proUsage}% pro usage, ${m?.price}
             </li>
           ))}
         </ol>

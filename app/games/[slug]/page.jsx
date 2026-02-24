@@ -4,7 +4,7 @@ import { allPlayers, proPlayers, keyboards, GAME_DESCRIPTIONS, GAME_IMAGE_URLS, 
 
 const slug = (n) => n.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
 const GREEN = "#b8956a";
-const findKeyboard = (name) => keyboards.find((m) => name.includes(m.name) || m.name.includes(name));
+const findKeyboard = (name) => name ? keyboards.find((m) => name.includes(m.name) || m.name.includes(name)) : undefined;
 const mSlug = (name) => { const m = findKeyboard(name); return m ? slug(m.name) : null; };
 
 const ALL_GAMES = [...new Set(allPlayers.map((p) => p.game))].sort((a, b) =>
@@ -19,7 +19,7 @@ export function generateMetadata({ params }) {
   const game = ALL_GAMES.find((g) => slug(g) === params.slug);
   if (!game) return { title: "Game Not Found" };
   const players = allPlayers.filter((p) => p.game === game);
-  const avgDpi = Math.round(players.reduce((a, p) => a + p.dpi, 0) / players.length);
+  const avgDpi = Math.round(players.reduce((a, p) => a + (p.dpi || 0), 0) / players.length);
   const counts = {};
   players.forEach((p) => { counts[p.keyboard] = (counts[p.keyboard] || 0) + 1; });
   const topMouse = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || "";
@@ -56,21 +56,21 @@ export default function GameDetailPage({ params }) {
   const desc = GAME_DESCRIPTIONS[game];
 
   // Stats
-  const avgDpi = Math.round(players.reduce((a, p) => a + p.dpi, 0) / players.length);
-  const avgEdpi = Math.round(players.reduce((a, p) => a + p.edpi, 0) / players.length);
-  const edpis = players.map((p) => p.edpi).sort((a, b) => a - b);
+  const avgDpi = Math.round(players.reduce((a, p) => a + (p.dpi || 0), 0) / players.length);
+  const avgEdpi = Math.round(players.reduce((a, p) => a + (p.edpi || 0), 0) / players.length);
+  const edpis = players.map((p) => (p.edpi || 0)).sort((a, b) => a - b);
   const medianEdpi = edpis[Math.floor(edpis.length / 2)];
   const minEdpi = edpis[0];
   const maxEdpi = edpis[edpis.length - 1];
 
   // DPI distribution
-  const dpi400 = players.filter((p) => p.dpi === 400).length;
-  const dpi800 = players.filter((p) => p.dpi === 800).length;
-  const dpi1600 = players.filter((p) => p.dpi === 1600).length;
+  const dpi400 = players.filter((p) => (p.dpi || 0) === 400).length;
+  const dpi800 = players.filter((p) => (p.dpi || 0) === 800).length;
+  const dpi1600 = players.filter((p) => (p.dpi || 0) === 1600).length;
 
   // Keyboard popularity
   const keyboardCounts = {};
-  players.forEach((p) => { keyboardCounts[p.keyboard] = (keyboardCounts[p.keyboard] || 0) + 1; });
+  players.forEach((p) => { if (p.keyboard) { keyboardCounts[p.keyboard] = (keyboardCounts[p.keyboard] || 0) + 1; } });
   const topKeyboards = Object.entries(keyboardCounts).sort((a, b) => b[1] - a[1]);
 
   // Brand market share
@@ -82,9 +82,9 @@ export default function GameDetailPage({ params }) {
   const topBrands = Object.entries(brandCounts).sort((a, b) => b[1] - a[1]);
 
   // Sensitivity categories
-  const lowSens = gamePros.filter((p) => p.edpi < avgEdpi * 0.7).sort((a, b) => a.edpi - b.edpi);
-  const highSens = gamePros.filter((p) => p.edpi > avgEdpi * 1.3).sort((a, b) => b.edpi - a.edpi);
-  const medSens = gamePros.filter((p) => p.edpi >= avgEdpi * 0.7 && p.edpi <= avgEdpi * 1.3);
+  const lowSens = gamePros.filter((p) => (p.edpi || 0) < avgEdpi * 0.7).sort((a, b) => (a.edpi||0) - (b.edpi||0));
+  const highSens = gamePros.filter((p) => (p.edpi || 0) > avgEdpi * 1.3).sort((a, b) => (b.edpi||0) - (a.edpi||0));
+  const medSens = gamePros.filter((p) => (p.edpi || 0) >= avgEdpi * 0.7 && (p.edpi || 0) <= avgEdpi * 1.3);
 
   // Teams
   const teamCounts = {};
@@ -97,7 +97,7 @@ export default function GameDetailPage({ params }) {
 
   // Weight preference
   const miceUsed = topKeyboards.slice(0, 15).map(([name]) => findKeyboard(name)).filter(Boolean);
-  const avgWeight = miceUsed.length > 0 ? Math.round(miceUsed.reduce((a, m) => a + m.weight, 0) / miceUsed.length) : 0;
+  const avgWeight = miceUsed.length > 0 ? Math.round(miceUsed.reduce((a, m) => a + m?.weight, 0) / miceUsed.length) : 0;
 
   const otherGames = ALL_GAMES.filter((g) => g !== game);
 
@@ -155,9 +155,9 @@ export default function GameDetailPage({ params }) {
                   <td>{ms ? <a href={`/keyboards/${ms}`}>{kbdName}</a> : kbdName}</td>
                   <td>{count}</td>
                   <td>{Math.round(count / players.length * 100)}%</td>
-                  <td>{md ? <a href={`/brands/${md.brand.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{md.brand}</a> : "—"}</td>
-                  <td>{md ? `${md.weight}g` : "—"}</td>
-                  <td>{md ? `$${md.price}` : "—"}</td>
+                  <td>{md ? <a href={`/brands/${md?.brand?.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{md?.brand}</a> : "—"}</td>
+                  <td>{md ? `${md?.weight || "?"}g` : "—"}</td>
+                  <td>{md ? `$${md?.price || "?"}` : "—"}</td>
                 </tr>
               );
             })}

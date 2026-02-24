@@ -3,7 +3,7 @@ import { SSRSection, SSRTitle, SSRSub, SSRGrid, SSRStat, SSRLink, SSRDivider } f
 import { allPlayers, proPlayers, keyboards } from "@/data";
 
 const slug = (n) => n.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
-const findKeyboard = (name) => keyboards.find((m) => name.includes(m.name) || m.name.includes(name));
+const findKeyboard = (name) => name ? keyboards.find((m) => name.includes(m.name) || m.name.includes(name)) : undefined;
 const mSlug = (name) => { const m = findKeyboard(name); return m ? slug(m.name) : null; };
 
 export const metadata = {

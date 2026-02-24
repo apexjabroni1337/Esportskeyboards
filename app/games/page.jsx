@@ -3,7 +3,7 @@ import { SSRSection, SSRTitle, SSRSub, SSRGrid, SSRStat, SSRLink, SSRDivider } f
 import { allPlayers, keyboards, proPlayers, GAME_DESCRIPTIONS } from "@/data";
 
 const slug = (n) => n.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
-const findKeyboard = (name) => keyboards.find((m) => name.includes(m.name) || m.name.includes(name));
+const findKeyboard = (name) => name ? keyboards.find((m) => name.includes(m.name) || m.name.includes(name)) : undefined;
 const mSlug = (name) => { const m = findKeyboard(name); return m ? slug(m.name) : null; };
 
 export const metadata = {
@@ -26,8 +26,8 @@ export default function GamesPage() {
     allPlayers.filter((p) => p.game === b).length - allPlayers.filter((p) => p.game === a).length
   );
   const totalPlayers = allPlayers.length;
-  const globalAvgDpi = Math.round(allPlayers.reduce((a, p) => a + p.dpi, 0) / totalPlayers);
-  const globalAvgEdpi = Math.round(allPlayers.reduce((a, p) => a + p.edpi, 0) / totalPlayers);
+  const globalAvgDpi = Math.round(allPlayers.reduce((a, p) => a + (p.dpi || 0), 0) / totalPlayers);
+  const globalAvgEdpi = Math.round(allPlayers.reduce((a, p) => a + (p.edpi || 0), 0) / totalPlayers);
 
   return (
     <>
@@ -60,8 +60,8 @@ export default function GamesPage() {
           <tbody>
             {games.map((game) => {
               const players = allPlayers.filter((p) => p.game === game);
-              const avgDpi = Math.round(players.reduce((a, p) => a + p.dpi, 0) / players.length);
-              const avgEdpi = Math.round(players.reduce((a, p) => a + p.edpi, 0) / players.length);
+              const avgDpi = Math.round(players.reduce((a, p) => a + (p.dpi || 0), 0) / players.length);
+              const avgEdpi = Math.round(players.reduce((a, p) => a + (p.edpi || 0), 0) / players.length);
               const counts = {};
               players.forEach((p) => { counts[p.keyboard] = (counts[p.keyboard] || 0) + 1; });
               const topMouse = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
@@ -80,15 +80,15 @@ export default function GamesPage() {
 
         {games.map((game) => {
           const players = allPlayers.filter((p) => p.game === game);
-          const avgDpi = Math.round(players.reduce((a, p) => a + p.dpi, 0) / players.length);
-          const avgEdpi = Math.round(players.reduce((a, p) => a + p.edpi, 0) / players.length);
-          const medianEdpi = [...players].sort((a, b) => a.edpi - b.edpi)[Math.floor(players.length / 2)]?.edpi;
-          const dpi400 = players.filter((p) => p.dpi === 400).length;
-          const dpi800 = players.filter((p) => p.dpi === 800).length;
-          const dpi1600 = players.filter((p) => p.dpi === 1600).length;
+          const avgDpi = Math.round(players.reduce((a, p) => a + (p.dpi || 0), 0) / players.length);
+          const avgEdpi = Math.round(players.reduce((a, p) => a + (p.edpi || 0), 0) / players.length);
+          const medianEdpi = [...players].sort((a, b) => (a.edpi||0) - (b.edpi||0))[Math.floor(players.length / 2)]?.edpi;
+          const dpi400 = players.filter((p) => (p.dpi || 0) === 400).length;
+          const dpi800 = players.filter((p) => (p.dpi || 0) === 800).length;
+          const dpi1600 = players.filter((p) => (p.dpi || 0) === 1600).length;
 
           const keyboardCounts = {};
-          players.forEach((p) => { keyboardCounts[p.keyboard] = (keyboardCounts[p.keyboard] || 0) + 1; });
+          players.forEach((p) => { if (p.keyboard) { keyboardCounts[p.keyboard] = (keyboardCounts[p.keyboard] || 0) + 1; } });
           const topKeyboards = Object.entries(keyboardCounts).sort((a, b) => b[1] - a[1]).slice(0, 8);
 
           const brandCounts = {};

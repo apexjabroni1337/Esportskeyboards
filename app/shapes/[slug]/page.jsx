@@ -56,14 +56,14 @@ export default function ShapePage({ params }) {
     );
   }
 
-  const shapeMice = keyboards.filter(m => m.layout === shape.title).sort((a, b) => b.proUsage - a.proUsage);
+  const shapeMice = keyboards.filter(m => m.layout === shape.title).sort((a, b) => b?.proUsage - a?.proUsage);
   const totalProUsage = shapeMice.reduce((a, m) => a + m.proUsage, 0);
-  const avgWeight = Math.round(shapeMice.reduce((a, m) => a + m.weight, 0) / shapeMice.length);
-  const avgPrice = Math.round(shapeMice.reduce((a, m) => a + m.price, 0) / shapeMice.length);
+  const avgWeight = Math.round(shapeMice.reduce((a, m) => a + m?.weight, 0) / shapeMice.length);
+  const avgPrice = Math.round(shapeMice.reduce((a, m) => a + m?.price, 0) / shapeMice.length);
   const brands = [...new Set(shapeMice.map(m => m.brand))].sort();
-  const lightestMouse = [...shapeMice].sort((a, b) => a.weight - b.weight)[0];
+  const lightestMouse = [...shapeMice].sort((a, b) => a?.weight - b?.weight)[0];
   const mostUsedKeyboard = shapeMice[0];
-  const budgetPick = [...shapeMice].filter(m => m.proUsage > 0.5).sort((a, b) => a.price - b.price)[0];
+  const budgetPick = [...shapeMice].filter(m => m.proUsage > 0.5).sort((a, b) => a?.price - b?.price)[0];
   const wirelessCount = shapeMice.filter(m => m.wireless).length;
 
   // Count pro players using this shape
@@ -129,8 +129,8 @@ export default function ShapePage({ params }) {
             <tr><th>Wireless Options</th><td>{wirelessCount} of {shapeMice.length}</td></tr>
             <tr><th>Brands</th><td>{brands.join(", ")}</td></tr>
             {mostUsedKeyboard && <tr><th>Most Used by Pros</th><td><a href={`/keyboards/${sl(mostUsedKeyboard.name)}`}>{mostUsedKeyboard.name}</a> ({mostUsedKeyboard.proUsage}%)</td></tr>}
-            {lightestMouse && <tr><th>Lightest</th><td><a href={`/keyboards/${sl(lightestMouse.name)}`}>{lightestMouse.name}</a> ({lightestMouse.weight}g)</td></tr>}
-            {budgetPick && <tr><th>Best Budget Pick</th><td><a href={`/keyboards/${sl(budgetPick.name)}`}>{budgetPick.name}</a> (${budgetPick.price})</td></tr>}
+            {lightestMouse && <tr><th>Lightest</th><td><a href={`/keyboards/${sl(lightestMouse.name)}`}>{lightestMouse.name}</a> ({lightestMouse?.weight}g)</td></tr>}
+            {budgetPick && <tr><th>Best Budget Pick</th><td><a href={`/keyboards/${sl(budgetPick.name)}`}>{budgetPick.name}</a> (${budgetPick?.price})</td></tr>}
           </tbody>
         </table>
 
@@ -144,8 +144,8 @@ export default function ShapePage({ params }) {
                 <td>{i + 1}</td>
                 <td><a href={`/keyboards/${sl(m.name)}`}>{m.name}</a></td>
                 <td><a href={`/brands/${sl(m.brand)}`}>{m.brand}</a></td>
-                <td>{m.weight}g</td>
-                <td>${m.price}</td>
+                <td>{m?.weight}g</td>
+                <td>${m?.price}</td>
                 <td>{m.proUsage}%</td>
                 <td><a href={`/sensors/${sl(m.switchType)}`}>{m.switchType}</a></td>
                 <td>{m.connectivity}</td>

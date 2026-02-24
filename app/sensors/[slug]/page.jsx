@@ -41,8 +41,8 @@ const SENSOR_DESCS = {
 function getSensorData(sensorName) {
   const switchKbds = keyboards.filter(m => m.switchType === sensorName);
   const totalProUsage = switchKbds.reduce((a, m) => a + m.proUsage, 0);
-  const avgWeight = switchKbds.length ? Math.round(switchKbds.reduce((a, m) => a + m.weight, 0) / switchKbds.length) : 0;
-  const avgPrice = switchKbds.length ? Math.round(switchKbds.reduce((a, m) => a + m.price, 0) / switchKbds.length) : 0;
+  const avgWeight = switchKbds.length ? Math.round(switchKbds.reduce((a, m) => a + m?.weight, 0) / switchKbds.length) : 0;
+  const avgPrice = switchKbds.length ? Math.round(switchKbds.reduce((a, m) => a + m?.price, 0) / switchKbds.length) : 0;
   const brands = [...new Set(switchKbds.map(m => m.brand))];
   const maxDpi = switchKbds.length ? Math.max(...switchKbds.map(m => m.actuationPoint)) : 0;
   const maxPolling = switchKbds.length ? Math.max(...switchKbds.map(m => m.pollingRate)) : 0;
@@ -194,12 +194,12 @@ export default function SensorPage({ params }) {
           <caption>All gaming keyboards powered by the {sensorName} switch</caption>
           <thead><tr><th>Keyboard</th><th>Brand</th><th>Weight</th><th>Price</th><th>Pro Usage</th><th>Layout</th></tr></thead>
           <tbody>
-            {switchKbds.sort((a, b) => b.proUsage - a.proUsage).map(m => (
+            {switchKbds.sort((a, b) => b?.proUsage - a?.proUsage).map(m => (
               <tr key={m.id}>
                 <td><a href={`/keyboards/${sl(m.name)}`}>{m.name}</a></td>
                 <td><a href={`/brands/${sl(m.brand)}`}>{m.brand}</a></td>
-                <td>{m.weight}g</td>
-                <td>${m.price}</td>
+                <td>{m?.weight}g</td>
+                <td>${m?.price}</td>
                 <td>{m.proUsage}%</td>
                 <td>{m.layout}</td>
               </tr>

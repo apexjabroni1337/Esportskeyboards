@@ -22,9 +22,9 @@ export const metadata = {
 export default function LabPage() {
   const symm = keyboards.filter((m) => m.layout === "Symmetrical");
   const ergo = keyboards.filter((m) => m.layout === "Ergonomic");
-  const light = keyboards.filter((m) => m.weight < 55).sort((a, b) => a.weight - b.weight);
-  const medium = keyboards.filter((m) => m.weight >= 55 && m.weight <= 70);
-  const budget = keyboards.filter((m) => m.price < 90).sort((a, b) => a.price - b.price);
+  const light = keyboards.filter((m) => m?.weight < 55).sort((a, b) => a?.weight - b?.weight);
+  const medium = keyboards.filter((m) => m?.weight >= 55 && m?.weight <= 70);
+  const budget = keyboards.filter((m) => m?.price < 90).sort((a, b) => a?.price - b?.price);
 
   return (
     <>
@@ -48,8 +48,8 @@ export default function LabPage() {
         </p>
         <p>Recommended palm grip keyboards:</p>
         <ul>
-          {ergo.sort((a, b) => b.proUsage - a.proUsage).slice(0, 5).map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m.weight}g, {m.brand}, ${m.price}</li>
+          {ergo.sort((a, b) => b?.proUsage - a?.proUsage).slice(0, 5).map((m) => (
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m?.weight}g, {m.brand}, ${m?.price}</li>
           ))}
         </ul>
 
@@ -61,8 +61,8 @@ export default function LabPage() {
         </p>
         <p>Recommended claw grip keyboards:</p>
         <ul>
-          {symm.sort((a, b) => b.proUsage - a.proUsage).slice(0, 5).map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m.weight}g, {m.brand}, ${m.price}</li>
+          {symm.sort((a, b) => b?.proUsage - a?.proUsage).slice(0, 5).map((m) => (
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m?.weight}g, {m.brand}, ${m?.price}</li>
           ))}
         </ul>
 
@@ -74,7 +74,7 @@ export default function LabPage() {
         <p>Recommended fingertip grip keyboards:</p>
         <ul>
           {light.slice(0, 5).map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m.weight}g, {m.brand}, ${m.price}</li>
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m?.weight}g, {m.brand}, ${m?.price}</li>
           ))}
         </ul>
 
@@ -94,27 +94,27 @@ export default function LabPage() {
         <h3>Ultralight (Under 55g) — Best for speed and agility</h3>
         <ul>
           {light.map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m.weight}g ({m.brand}), ${m.price}</li>
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m?.weight}g ({m.brand}), ${m?.price}</li>
           ))}
         </ul>
         <h3>Medium Weight (55-70g) — Balanced control and comfort</h3>
         <ul>
-          {medium.sort((a, b) => a.weight - b.weight).slice(0, 10).map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m.weight}g ({m.brand}), ${m.price}</li>
+          {medium.sort((a, b) => a?.weight - b?.weight).slice(0, 10).map((m) => (
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — {m?.weight}g ({m.brand}), ${m?.price}</li>
           ))}
         </ul>
 
         <h2>Best Budget Esports Keyboards (Under $90)</h2>
         <ul>
           {budget.map((m) => (
-            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — ${m.price} ({m.brand}, {m.weight}g, {m.switchType})</li>
+            <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> — ${m?.price} ({m.brand}, {m?.weight}g, {m.switchType})</li>
           ))}
         </ul>
 
         <h2>FAQ</h2>
         <dl>
           <dt>What is the best keyboard for FPS games?</dt>
-          <dd>The most used FPS keyboards among pros are the <a href={`/keyboards/${slug(keyboards.sort((a, b) => b.proUsage - a.proUsage)[0].name)}`}>{keyboards.sort((a, b) => b.proUsage - a.proUsage)[0].name}</a> and <a href={`/keyboards/${slug(keyboards.sort((a, b) => b.proUsage - a.proUsage)[1].name)}`}>{keyboards.sort((a, b) => b.proUsage - a.proUsage)[1].name}</a>. Light weight and accurate sensors are most important for FPS.</dd>
+          <dd>The most used FPS keyboards among pros are the <a href={`/keyboards/${slug(keyboards.sort((a, b) => b?.proUsage - a?.proUsage)[0].name)}`}>{keyboards.sort((a, b) => b?.proUsage - a?.proUsage)[0].name}</a> and <a href={`/keyboards/${slug(keyboards.sort((a, b) => b?.proUsage - a?.proUsage)[1].name)}`}>{keyboards.sort((a, b) => b?.proUsage - a?.proUsage)[1].name}</a>. Light weight and accurate sensors are most important for FPS.</dd>
           <dt>Does keyboard weight matter?</dt>
           <dd>Yes. Lighter keyboards allow faster movements and reduce fatigue. Most pros now use keyboards under 60g. However, some players prefer slightly heavier keyboards for stability.</dd>
           <dt>Wireless or wired?</dt>

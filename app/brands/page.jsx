@@ -22,16 +22,16 @@ export const metadata = {
 export default function BrandsPage() {
   const brandData = [...new Set(keyboards.map((m) => m.brand))].map((brand) => {
     const brandKeyboards = keyboards.filter((m) => m.brand === brand);
-    const avgWeight = Math.round(brandKeyboards.reduce((a, m) => a + m.weight, 0) / brandKeyboards.length);
-    const avgPrice = Math.round(brandKeyboards.reduce((a, m) => a + m.price, 0) / brandKeyboards.length);
+    const avgWeight = Math.round(brandKeyboards.reduce((a, m) => a + m?.weight, 0) / brandKeyboards.length);
+    const avgPrice = Math.round(brandKeyboards.reduce((a, m) => a + m?.price, 0) / brandKeyboards.length);
     const avgRating = (brandKeyboards.reduce((a, m) => a + m.rating, 0) / brandKeyboards.length).toFixed(1);
     const totalProUsage = brandKeyboards.reduce((a, m) => a + m.proUsage, 0);
-    const lightest = [...brandKeyboards].sort((a, b) => a.weight - b.weight)[0];
-    const mostPopular = [...brandKeyboards].sort((a, b) => b.proUsage - a.proUsage)[0];
+    const lightest = [...brandKeyboards].sort((a, b) => a?.weight - b?.weight)[0];
+    const mostPopular = [...brandKeyboards].sort((a, b) => b?.proUsage - a?.proUsage)[0];
     const switches = [...new Set(brandKeyboards.map((m) => m.switchType))];
     const shapes = [...new Set(brandKeyboards.map((m) => m.layout))];
-    const priceRange = `$${Math.min(...brandKeyboards.map((m) => m.price))}-$${Math.max(...brandKeyboards.map((m) => m.price))}`;
-    const weightRange = `${Math.min(...brandKeyboards.map((m) => m.weight))}g-${Math.max(...brandKeyboards.map((m) => m.weight))}g`;
+    const priceRange = `$${Math.min(...brandKeyboards.map((m) => m?.price))}-$${Math.max(...brandKeyboards.map((m) => m?.price))}`;
+    const weightRange = `${Math.min(...brandKeyboards.map((m) => m?.weight))}g-${Math.max(...brandKeyboards.map((m) => m?.weight))}g`;
     const brandPros = proPlayers.filter((p) => {
       const pm = p.keyboard.toLowerCase();
       return brandKeyboards.some((m) => pm.includes(m.name.toLowerCase()) || m.name.toLowerCase().includes(pm));
@@ -74,7 +74,7 @@ export default function BrandsPage() {
                 <td>{b.keyboards.length}</td>
                 <td>{b.totalProUsage}%</td>
                 <td>{b.avgWeight}g</td>
-                <td>{b.priceRange}</td>
+                <td>{b?.priceRange}</td>
                 <td>{b.avgRating}/10</td>
                 <td><a href={`/keyboards/${slug(b.mostPopular.name)}`}>{b.mostPopular.name}</a></td>
               </tr>
@@ -87,7 +87,7 @@ export default function BrandsPage() {
             <h2><a href={`/brands/${slug(b.brand)}`}>{b.brand} — Complete Esports Keyboard Lineup</a></h2>
             <p>
               {b.brand} has {b.keyboards.length} esports keyboards with a combined {b.totalProUsage}% pro usage.
-              Weight range: {b.weightRange}. Price range: {b.priceRange}. Average rating: {b.avgRating}/10.
+              Weight range: {b?.weightRange}. Price range: {b?.priceRange}. Average rating: {b.avgRating}/10.
               Switches used: {b.switches.join(", ")}. Shapes offered: {b.shapes.join(", ")}.
               <a href={`/brands/${slug(b.brand)}`}> View full {b.brand} page →</a>
             </p>
@@ -96,13 +96,13 @@ export default function BrandsPage() {
             <table>
               <thead><tr><th>Keyboard</th><th>Weight</th><th>Switch</th><th>Layout</th><th>Price</th><th>Pro Usage</th><th>Rating</th></tr></thead>
               <tbody>
-                {b.keyboards.sort((a, c) => c.proUsage - a.proUsage).map((m) => (
+                {b.keyboards.sort((a, c) => c.proUsage - a?.proUsage).map((m) => (
                   <tr key={m.id}>
                     <td><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a></td>
-                    <td>{m.weight}g</td>
+                    <td>{m?.weight}g</td>
                     <td><a href="/switches">{m.switchType}</a></td>
                     <td>{m.layout}</td>
-                    <td><a href={amazonLink(m.name)}>${m.price}</a></td>
+                    <td><a href={amazonLink(m.name)}>${m?.price}</a></td>
                     <td>{m.proUsage}%</td>
                     <td>{m.rating}/10</td>
                   </tr>

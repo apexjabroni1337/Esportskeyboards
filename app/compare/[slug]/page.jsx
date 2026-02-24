@@ -6,7 +6,7 @@ const slug = (n) => n.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/
 
 // Generate top 15 keyboards pairs = 105 comparison pages
 const TOP_N = 15;
-const topKeyboards = [...keyboards].sort((a, b) => b.proUsage - a.proUsage).slice(0, TOP_N);
+const topKeyboards = [...keyboards].sort((a, b) => b?.proUsage - a?.proUsage).slice(0, TOP_N);
 
 function getPair(pairSlug) {
   // Try all combinations to find the matching pair
@@ -38,7 +38,7 @@ export function generateMetadata({ params }) {
   const [a, b] = pair;
 
   const title = `${a.name} vs ${b.name} — Side-by-Side Comparison`;
-  const description = `Compare the ${a.name} (${a.weight}g, $${a.price}, ${a.proUsage}% pro usage) vs ${b.name} (${b.weight}g, $${b.price}, ${b.proUsage}% pro usage). Full specs, switch, shape, polling rate, and pro player data head-to-head.`;
+  const description = `Compare the ${a.name} (${a?.weight}g, $${a?.price}, ${a?.proUsage}% pro usage) vs ${b.name} (${b?.weight}g, $${b?.price}, ${b?.proUsage}% pro usage). Full specs, switch, shape, polling rate, and pro player data head-to-head.`;
 
   return {
     title,
@@ -49,7 +49,7 @@ export function generateMetadata({ params }) {
       description,
       url: `https://esportskeyboards.com/compare/${params.slug}`,
       images: [{
-        url: `https://esportskeyboards.com/og?title=${encodeURIComponent(a.name + " vs " + b.name)}&subtitle=${encodeURIComponent("Head-to-Head Comparison")}&stat1=${encodeURIComponent(a.weight + "g vs " + b.weight + "g")}&s1Label=Weight&stat2=${encodeURIComponent(a.proUsage + "% vs " + b.proUsage + "%")}&s2Label=Pro+Usage&stat3=${encodeURIComponent("$" + a.price + " vs $" + b.price)}&s3Label=Price`,
+        url: `https://esportskeyboards.com/og?title=${encodeURIComponent(a.name + " vs " + b.name)}&subtitle=${encodeURIComponent("Head-to-Head Comparison")}&stat1=${encodeURIComponent(a?.weight + "g vs " + b?.weight + "g")}&s1Label=Weight&stat2=${encodeURIComponent(a?.proUsage + "% vs " + b?.proUsage + "%")}&s2Label=Pro+Usage&stat3=${encodeURIComponent("$" + a?.price + " vs $" + b?.price)}&s3Label=Price`,
         width: 1200, height: 630,
       }],
     },
@@ -84,13 +84,13 @@ export default function ComparisonPage({ params }) {
   }).slice(0, 10);
 
   const specs = [
-    { label: "Weight", aVal: `${a.weight}g`, bVal: `${b.weight}g`, winner: winner(a, b, "weight", true), detail: "Lighter keyboards allow faster flicks with less fatigue" },
+    { label: "Weight", aVal: `${a?.weight}g`, bVal: `${b?.weight}g`, winner: winner(a, b, "weight", true), detail: "Lighter keyboards allow faster flicks with less fatigue" },
     { label: "Switch Type", aVal: a.switchType, bVal: b.switchType, winner: "tie", detail: "Both switches are top-tier for competitive play" },
     { label: "Polling Rate", aVal: `${a.pollingRate >= 1000 ? a.pollingRate/1000 + "K" : a.pollingRate}Hz`, bVal: `${b.pollingRate >= 1000 ? b.pollingRate/1000 + "K" : b.pollingRate}Hz`, winner: winner(a, b, "pollingRate"), detail: "Higher polling = less input delay" },
-    { label: "Shape", aVal: a.layout, bVal: b.layout, winner: "tie", detail: "Shape preference is subjective" },
+    { label: "Shape", aVal: a.layout || "—", bVal: b.layout || "—", winner: "tie", detail: "Shape preference is subjective" },
     { label: "Connectivity", aVal: a.connectivity, bVal: b.connectivity, winner: "tie" },
-    { label: "Price", aVal: `$${a.price}`, bVal: `$${b.price}`, winner: winner(a, b, "price", true), detail: "Lower price = better value" },
-    { label: "Pro Usage", aVal: `${a.proUsage}%`, bVal: `${b.proUsage}%`, winner: winner(a, b, "proUsage"), detail: "Higher adoption among professional players" },
+    { label: "Price", aVal: `$${a?.price}`, bVal: `$${b?.price}`, winner: winner(a, b, "price", true), detail: "Lower price = better value" },
+    { label: "Pro Usage", aVal: `${a?.proUsage}%`, bVal: `${b?.proUsage}%`, winner: winner(a, b, "proUsage"), detail: "Higher adoption among professional players" },
     { label: "Rating", aVal: `${a.rating}/10`, bVal: `${b.rating}/10`, winner: winner(a, b, "rating"), detail: "Expert review score" },
   ];
 
@@ -114,9 +114,9 @@ export default function ComparisonPage({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "FAQPage",
         mainEntity: [
-          { "@type": "Question", name: `Is the ${a.name} or ${b.name} better for esports?`, acceptedAnswer: { "@type": "Answer", text: `The ${a.name} has ${a.proUsage}% pro usage vs ${b.proUsage}% for the ${b.name}. The ${a.name} weighs ${a.weight}g and costs $${a.price}, while the ${b.name} weighs ${b.weight}g at $${b.price}. ${aWins > bWins ? `The ${a.name} wins in ${aWins} categories` : bWins > aWins ? `The ${b.name} wins in ${bWins} categories` : "They tie overall"} in our head-to-head comparison. The best choice depends on hand size, grip style, and personal preference.` }},
-          { "@type": "Question", name: `${a.name} vs ${b.name} — which is lighter?`, acceptedAnswer: { "@type": "Answer", text: `The ${a.weight < b.weight ? a.name + " is lighter at " + a.weight + "g vs " + b.weight + "g" : b.weight < a.weight ? b.name + " is lighter at " + b.weight + "g vs " + a.weight + "g" : "both weigh the same at " + a.weight + "g"}. ${a.weight < b.weight ? "That's " + (b.weight - a.weight) + "g lighter" : b.weight < a.weight ? "That's " + (a.weight - b.weight) + "g lighter" : ""}.` }},
-          { "@type": "Question", name: `Which keyboard do more pros use — ${a.name} or ${b.name}?`, acceptedAnswer: { "@type": "Answer", text: `The ${a.proUsage > b.proUsage ? a.name + " is more popular among pros with " + a.proUsage + "% usage vs " + b.proUsage + "%" : b.name + " is more popular among pros with " + b.proUsage + "% usage vs " + a.proUsage + "%"}. Pro usage is tracked across ${allPlayers.length}+ players in our database.` }},
+          { "@type": "Question", name: `Is the ${a.name} or ${b.name} better for esports?`, acceptedAnswer: { "@type": "Answer", text: `The ${a.name} has ${a?.proUsage}% pro usage vs ${b?.proUsage}% for the ${b.name}. The ${a.name} weighs ${a?.weight}g and costs $${a?.price}, while the ${b.name} weighs ${b?.weight}g at $${b?.price}. ${aWins > bWins ? `The ${a.name} wins in ${aWins} categories` : bWins > aWins ? `The ${b.name} wins in ${bWins} categories` : "They tie overall"} in our head-to-head comparison. The best choice depends on hand size, grip style, and personal preference.` }},
+          { "@type": "Question", name: `${a.name} vs ${b.name} — which is lighter?`, acceptedAnswer: { "@type": "Answer", text: `The ${a?.weight < b?.weight ? a.name + " is lighter at " + a?.weight + "g vs " + b?.weight + "g" : b?.weight < a?.weight ? b.name + " is lighter at " + b?.weight + "g vs " + a?.weight + "g" : "both weigh the same at " + a?.weight + "g"}. ${a?.weight < b?.weight ? "That's " + (b?.weight - a?.weight) + "g lighter" : b?.weight < a?.weight ? "That's " + (a?.weight - b?.weight) + "g lighter" : ""}.` }},
+          { "@type": "Question", name: `Which keyboard do more pros use — ${a.name} or ${b.name}?`, acceptedAnswer: { "@type": "Answer", text: `The ${a?.proUsage > b?.proUsage ? a.name + " is more popular among pros with " + a?.proUsage + "% usage vs " + b?.proUsage + "%" : b.name + " is more popular among pros with " + b?.proUsage + "% usage vs " + a?.proUsage + "%"}. Pro usage is tracked across ${allPlayers.length}+ players in our database.` }},
         ],
       }) }} />
       {/* Breadcrumb */}
@@ -177,8 +177,8 @@ export default function ComparisonPage({ params }) {
 
         <h2>Buy</h2>
         <ul>
-          <li><a href={amazonLink(a.name)}>Buy {a.name} on Amazon</a> — ${a.price}</li>
-          <li><a href={amazonLink(b.name)}>Buy {b.name} on Amazon</a> — ${b.price}</li>
+          <li><a href={amazonLink(a.name)}>Buy {a.name} on Amazon</a> — ${a?.price}</li>
+          <li><a href={amazonLink(b.name)}>Buy {b.name} on Amazon</a> — ${b?.price}</li>
         </ul>
 
         <h2>More Comparisons</h2>
@@ -201,9 +201,9 @@ export default function ComparisonPage({ params }) {
         <SSRTitle accent={a.name}>{`vs ${b.name}`}</SSRTitle>
         <SSRSub>Head-to-head comparison of two popular esports keyboards. {aWins > bWins ? `${a.name} wins ${aWins}/${specs.length} categories.` : bWins > aWins ? `${b.name} wins ${bWins}/${specs.length} categories.` : "Evenly matched."}</SSRSub>
         <SSRGrid>
-          <SSRStat label={a.name} value={`${a.weight}g · $${a.price}`} color={BRAND_COLORS[a.brand] || "#b8956a"} />
-          <SSRStat label={b.name} value={`${b.weight}g · $${b.price}`} color={BRAND_COLORS[b.brand] || "#6b8cad"} />
-          <SSRStat label="Pro Usage" value={`${a.proUsage}% vs ${b.proUsage}%`} color="#b8956a" />
+          <SSRStat label={a.name} value={`${a?.weight}g · $${a?.price}`} color={BRAND_COLORS[a.brand] || "#b8956a"} />
+          <SSRStat label={b.name} value={`${b?.weight}g · $${b?.price}`} color={BRAND_COLORS[b.brand] || "#6b8cad"} />
+          <SSRStat label="Pro Usage" value={`${a?.proUsage}% vs ${b?.proUsage}%`} color="#b8956a" />
           <SSRStat label="Verdict" value={aWins > bWins ? `${a.name.split(" ")[0]} wins` : bWins > aWins ? `${b.name.split(" ")[0]} wins` : "Tied"} color="#b8956a" />
         </SSRGrid>
         <div className="flex flex-wrap gap-2">
