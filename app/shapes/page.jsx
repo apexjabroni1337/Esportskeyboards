@@ -75,7 +75,7 @@ export default function ShapesPage() {
                 <td>{d.height}mm</td>
                 <td>{d.keyboard ? <a href="/brands">{d.keyboard.brand}</a> : "—"}</td>
                 <td>{d.keyboard ? `${d.keyboard.weight}g` : "—"}</td>
-                <td>{d.keyboard?.shape || "—"}</td>
+                <td>{d.kbd?.layout || "—"}</td>
               </tr>
             ))}
           </tbody>
@@ -105,14 +105,14 @@ export default function ShapesPage() {
         <h3>Symmetrical Keyboards</h3>
         <p>Symmetrical (ambidextrous) shapes work for both hands and are generally preferred for claw and fingertip grips.</p>
         <ul>
-          {dimData.filter((d) => d.keyboard?.shape === "Symmetrical").map((d) => (
+          {dimData.filter((d) => d.kbd?.layout === "Symmetrical").map((d) => (
             <li key={d.name}><a href={`/keyboards/${slug(d.name)}`}>{d.name}</a> — {d.length}×{d.width}×{d.height}mm ({d.keyboard.brand})</li>
           ))}
         </ul>
         <h3>Ergonomic Keyboards</h3>
         <p>Ergonomic (right-handed) shapes are contoured for palm grip and offer better comfort for extended sessions.</p>
         <ul>
-          {dimData.filter((d) => d.keyboard?.shape === "Ergonomic").map((d) => (
+          {dimData.filter((d) => d.kbd?.layout === "Ergonomic").map((d) => (
             <li key={d.name}><a href={`/keyboards/${slug(d.name)}`}>{d.name}</a> — {d.length}×{d.width}×{d.height}mm ({d.keyboard.brand})</li>
           ))}
         </ul>

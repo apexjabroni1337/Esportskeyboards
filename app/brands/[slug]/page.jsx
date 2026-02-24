@@ -126,7 +126,7 @@ export default function BrandDetailPage({ params }) {
           <li>Average rating: {avgRating}/10</li>
           <li>Lightest keyboard: {lightest.name} ({lightest.weight}g)</li>
           <li>Most popular: {mostPopular.name} ({mostPopular.proUsage}% pro usage)</li>
-          <li>Sensors used: {sensors.join(", ")}</li>
+          <li>Sensors used: {switches.join(", ")}</li>
           <li>Shape types: {shapes.join(", ")}</li>
         </ul>
 
@@ -184,7 +184,7 @@ export default function BrandDetailPage({ params }) {
             ? ` The lightest option is the ${lightest.name} at ${lightest.weight}g, while the most popular among pros is the ${mostPopular.name} at ${mostPopular.proUsage}% usage.`
             : ` The ${mostPopular.name} is both the lightest at ${lightest.weight}g and the most popular at ${mostPopular.proUsage}% pro usage.`
           }
-          {" "}All {brand} keyboards use {sensors.length === 1 ? `the ${sensors[0]} switch` : `switches including ${sensors.join(", ")}`}.
+          {" "}All {brand} keyboards use {switches.length === 1 ? `the ${switches[0]} switch` : `switches including ${switches.join(", ")}`}.
         </p>
 
         <nav>

@@ -80,7 +80,7 @@ export default function KeyboardsPage() {
           <li>Highest rated: <a href={`/keyboards/${slug(highestRated.name)}`}>{highestRated.name}</a> ({highestRated.rating}/10)</li>
           <li>Wireless: {wirelessCount} of {keyboards.length} ({Math.round(wirelessCount / keyboards.length * 100)}%)</li>
           <li>Brands represented: {brands.length}</li>
-          <li>Sensors represented: {sensors.length}</li>
+          <li>Switches represented: {switches.length}</li>
         </ul>
 
         <h2>Esports Keyboards Ranked by Pro Usage</h2>
@@ -150,10 +150,10 @@ export default function KeyboardsPage() {
 
         <h2>Keyboards by Switch</h2>
         {switches.map((sw) => {
-          const switchKbds = keyboards.filter((m) => m.switchType === switchName);
+          const switchKbds = keyboards.filter((m) => m.switchType === sw);
           return (
             <section key={sw}>
-              <h3><a href="/switches">{switchType}</a> ({switchKbds.length} keyboards)</h3>
+              <h3><a href="/switches">{sw}</a> ({switchKbds.length} keyboards)</h3>
               <ul>
                 {switchKbds.map((m) => (
                   <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> ({m.brand})</li>

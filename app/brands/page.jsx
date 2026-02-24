@@ -36,7 +36,7 @@ export default function BrandsPage() {
       const pm = p.keyboard.toLowerCase();
       return brandKeyboards.some((m) => pm.includes(m.name.toLowerCase()) || m.name.toLowerCase().includes(pm));
     });
-    return { brand, keyboards: brandKeyboards, avgWeight, avgPrice, avgRating, totalProUsage, lightest, mostPopular, sensors, shapes, priceRange, weightRange, pros: brandPros };
+    return { brand, keyboards: brandKeyboards, avgWeight, avgPrice, avgRating, totalProUsage, lightest, mostPopular, switches, shapes, priceRange, weightRange, pros: brandPros };
   }).sort((a, b) => b.totalProUsage - a.totalProUsage);
 
   return (
@@ -88,7 +88,7 @@ export default function BrandsPage() {
             <p>
               {b.brand} has {b.keyboards.length} esports keyboards with a combined {b.totalProUsage}% pro usage.
               Weight range: {b.weightRange}. Price range: {b.priceRange}. Average rating: {b.avgRating}/10.
-              Sensors used: {b.sensors.join(", ")}. Shapes offered: {b.shapes.join(", ")}.
+              Switches used: {b.switches.join(", ")}. Shapes offered: {b.shapes.join(", ")}.
               <a href={`/brands/${slug(b.brand)}`}> View full {b.brand} page →</a>
             </p>
 

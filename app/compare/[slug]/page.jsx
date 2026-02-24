@@ -85,9 +85,9 @@ export default function ComparisonPage({ params }) {
 
   const specs = [
     { label: "Weight", aVal: `${a.weight}g`, bVal: `${b.weight}g`, winner: winner(a, b, "weight", true), detail: "Lighter keyboards allow faster flicks with less fatigue" },
-    { label: "Switch Type", aVal: a.switch, bVal: b.switch, winner: "tie", detail: "Both sensors are top-tier for competitive play" },
+    { label: "Switch Type", aVal: a.switchType, bVal: b.switchType, winner: "tie", detail: "Both switches are top-tier for competitive play" },
     { label: "Polling Rate", aVal: `${a.pollingRate >= 1000 ? a.pollingRate/1000 + "K" : a.pollingRate}Hz`, bVal: `${b.pollingRate >= 1000 ? b.pollingRate/1000 + "K" : b.pollingRate}Hz`, winner: winner(a, b, "pollingRate"), detail: "Higher polling = less input delay" },
-    { label: "Shape", aVal: a.shape, bVal: b.shape, winner: "tie", detail: "Shape preference is subjective" },
+    { label: "Shape", aVal: a.layout, bVal: b.layout, winner: "tie", detail: "Shape preference is subjective" },
     { label: "Connectivity", aVal: a.connectivity, bVal: b.connectivity, winner: "tie" },
     { label: "Price", aVal: `$${a.price}`, bVal: `$${b.price}`, winner: winner(a, b, "price", true), detail: "Lower price = better value" },
     { label: "Pro Usage", aVal: `${a.proUsage}%`, bVal: `${b.proUsage}%`, winner: winner(a, b, "proUsage"), detail: "Higher adoption among professional players" },
