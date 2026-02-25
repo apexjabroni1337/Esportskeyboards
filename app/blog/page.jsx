@@ -57,12 +57,12 @@ const ARTICLES = [
 
 export default function BlogPage() {
   return (
-    <div style={{ background: "#fafaf8", minHeight: "100vh" }}>
+    <div style={{ background: "#f5f0e8", minHeight: "100vh" }}>
       <div className="max-w-4xl mx-auto px-4 py-16">
         <Link href="/" className="text-sm opacity-40 hover:opacity-60 transition-all no-underline" style={{ color: "#1a1614", textDecoration: "none" }}>
           ← Back to EsportsKeyboards
         </Link>
-        <h1 className="text-3xl sm:text-5xl font-black mt-6 mb-2" style={{ color: "#b8956a", fontFamily: "'Playfair Display', sans-serif" }}>Blog</h1>
+        <h1 className="text-3xl sm:text-5xl font-black mt-6 mb-2" style={{ color: "#b8956a", fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Blog</h1>
         <p className="text-base opacity-40 mb-10">Esports keyboard guides, pro gear analysis, and data-driven insights.</p>
 
         <div className="space-y-6">

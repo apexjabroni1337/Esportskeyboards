@@ -100,8 +100,8 @@ export default function TrendsPage() {
 
         <h2>Key Technology Milestones</h2>
         <ul>
-          <li>2020 — Logitech G Pro X Superlight popularizes sub-63g wireless keyboards</li>
-          <li>2021 — Finalmouse Starlight-12 achieves 42g with magnesium alloy</li>
+          <li>2020 — Logitech G Pro X Mechanical popularizes premium mechanical keyboards for esports</li>
+          <li>2021 — Wooting 60HE introduces rapid trigger to mainstream competitive gaming</li>
           <li>2022 — Razer introduces 4KHz wireless polling with HyperPolling dongle</li>
           <li>2023 — Multiple brands offer 4KHz polling as standard</li>
           <li>2024 — 8KHz polling becomes available; sub-45g wireless keyboards proliferate</li>

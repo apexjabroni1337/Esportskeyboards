@@ -67,7 +67,7 @@ export function generateMetadata({ params }) {
     : `${player.name} (${player.fullName || player.name}) — ${player.game} pro for ${player.team}. Uses ${player.keyboard} at ${player.dpi} DPI, ${player.sens} sensitivity (${player.edpi} eDPI).`;
   const GAME_OG_COLORS = { CS2: "%23ff8c00", Valorant: "%23ff4655", Fortnite: "%234c7bd9", LoL: "%23c89b3c", "Dota 2": "%23e74c3c", "R6 Siege": "%234a86c8", "Overwatch 2": "%23f99e1a", Apex: "%23dc2626", "Call of Duty": "%235cb85c", PUBG: "%23f2a900", Deadlock: "%238b5cf6", "Quake Champions": "%23ce4a00", "Marvel Rivals": "%23ed1d24", "Rocket League": "%231a9fff" };
   const ogAccent = GAME_OG_COLORS[player.game] || "%2300ff6a";
-  const ogUrl = `https://esportskeyboards.com/og?title=${encodeURIComponent(player.name)}&subtitle=${encodeURIComponent(`${player.game} · ${player.team}`)}&badge=${encodeURIComponent(player.game + ' Pro')}&accent=${ogAccent}&stat1=${encodeURIComponent(player.dpi + ' DPI')}&s1Label=DPI&stat2=${encodeURIComponent(String(player.edpi))}&s2Label=eDPI&stat3=${encodeURIComponent(player.keyboard.replace(/(Logitech |Razer |Finalmouse )/, ''))}&s3Label=Keyboard`;
+  const ogUrl = `https://esportskeyboards.com/og?title=${encodeURIComponent(player.name)}&subtitle=${encodeURIComponent(`${player.game} · ${player.team}`)}&badge=${encodeURIComponent(player.game + ' Pro')}&accent=${ogAccent}&stat1=${encodeURIComponent(player.dpi + ' DPI')}&s1Label=DPI&stat2=${encodeURIComponent(String(player.edpi))}&s2Label=eDPI&stat3=${encodeURIComponent(player.keyboard.replace(/(Logitech |Razer |)/, ''))}&s3Label=Keyboard`;
   return {
     title: `${player.name} — ${player.game} Pro Player Settings & Gear`,
     description,
@@ -423,7 +423,7 @@ export default function PlayerProfilePage({ params }) {
           {cm360 && (
             <>
               <dt>What is {player.name}&apos;s cm/360?</dt>
-              <dd>{player.name}&apos;s sensitivity requires approximately {cm360} cm of mouse movement to complete a full 360-degree turn.</dd>
+              <dd>{player.name}&apos;s sensitivity requires approximately {cm360} cm of movement to complete a full 360-degree turn.</dd>
             </>
           )}
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 const I = {
-  mouse: (s = 20) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="6" y="3" width="12" height="18" rx="6"/><line x1="12" y1="3" x2="12" y2="9"/></svg>,
+  keyboard: (s = 20) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="10" x2="6" y2="10"/><line x1="10" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="14" y2="10"/><line x1="18" y1="10" x2="18" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/></svg>,
   mail: (s = 20) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
   bug: (s = 20) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="m8 2 1.88 1.88M14.12 3.88 16 2M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6Z"/><path d="M12 20v-9M6.53 9C4.6 8.8 3 7.1 3 5M6 13H2M6 17H2.5M17.47 9c1.93-.2 3.53-1.9 3.53-4M18 13h4M17.5 17H22"/></svg>,
   sparkle: (s = 20) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>,
@@ -61,12 +61,12 @@ export default function ContactClient() {
   ];
 
   return (
-    <div style={{ background: "#fafaf8", minHeight: "100vh", color: "#1a1614", fontFamily: "'Outfit', system-ui, sans-serif" }}>
+    <div style={{ background: "#f5f0e8", minHeight: "100vh", color: "#1a1614", fontFamily: "'Outfit', system-ui, sans-serif" }}>
       {/* Nav bar */}
       <nav className="flex items-center justify-between px-4 sm:px-6 py-3" style={{ background: "#f5f2ee", borderBottom: "1px solid #e8e4df" }}>
         <Link href="/" className="flex items-center gap-2 no-underline">
-          {I.mouse(20)}
-          <span style={{ fontFamily: "'Playfair Display', monospace", fontSize: 12, letterSpacing: 4, color: "#b8956a" }}>ESPORTSKB</span>
+          {I.keyboard(20)}
+          <span style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 12, letterSpacing: 4, color: "#b8956a" }}>ESPORTSKB</span>
         </Link>
         <Link href="/" className="text-xs opacity-30 hover:opacity-60 transition-all no-underline" style={{ color: "#1a1614" }}>← Back to home</Link>
       </nav>
@@ -74,7 +74,7 @@ export default function ContactClient() {
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
         {/* Header */}
         <div className="text-center mb-10">
-          <h1 className="text-3xl sm:text-4xl font-black mb-2" style={{ fontFamily: "'Playfair Display', monospace" }}>
+          <h1 className="text-3xl sm:text-4xl font-black mb-2" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
             Get in <span style={{ color: "#b8956a" }}>Touch</span>
           </h1>
           <p className="text-sm opacity-40 max-w-md mx-auto">

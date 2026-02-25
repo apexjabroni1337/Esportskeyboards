@@ -4,7 +4,7 @@ import { allPlayers, proPlayers, keyboards } from "@/data";
 
 const slug = (n) => n.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
 const findKeyboard = (name) => name ? keyboards.find((m) => name.includes(m.name) || m.name.includes(name)) : undefined;
-const mSlug = (name) => { const m = findKeyboard(name); return m ? slug(m.name) : null; };
+const kbSlug = (name) => { const m = findKeyboard(name); return m ? slug(m.name) : null; };
 
 export const metadata = {
   title: "Sensitivity Converter — Convert Sensitivity Between Games",
@@ -34,7 +34,7 @@ export default function SensitivityPage() {
         description: "Convert your sensitivity settings between CS2, Valorant, Fortnite, Apex Legends, and other esports titles using eDPI.",
         step: [
           { "@type": "HowToStep", name: "Find your current eDPI", text: "Multiply your DPI by your in-game sensitivity. For example, 800 DPI × 1.0 sens = 800 eDPI." },
-          { "@type": "HowToStep", name: "Calculate cm/360", text: "Use the formula: cm/360 = (360 × 2.54) / (DPI × sensitivity × game multiplier). This gives you your physical mouse distance for a full 360-degree turn." },
+          { "@type": "HowToStep", name: "Calculate cm/360", text: "Use the formula: cm/360 = (360 × 2.54) / (DPI × sensitivity × game multiplier). This gives you your physical distance for a full 360-degree turn." },
           { "@type": "HowToStep", name: "Convert to target game", text: "Enter your cm/360 into the target game's formula to find the equivalent sensitivity. Our converter does this automatically for all 14 supported games." },
           { "@type": "HowToStep", name: "Fine-tune", text: "Test the converted sensitivity in-game and adjust slightly based on feel. Compare your eDPI with pro players in that game to see where you fall." },
         ],
@@ -66,8 +66,8 @@ export default function SensitivityPage() {
           800 eDPI. This number can be compared directly across all games.
         </p>
         <p>
-          Another useful metric is cm/360 — how many centimeters of mouse movement are needed for a full
-          360-degree in-game turn. Lower cm/360 means higher sensitivity (less mouse movement needed).
+          Another useful metric is cm/360 — how many centimeters of movement are needed for a full
+          360-degree in-game turn. Lower cm/360 means higher sensitivity (less movement needed).
         </p>
 
         <h2>Sensitivity Statistics by Game</h2>
@@ -104,7 +104,7 @@ export default function SensitivityPage() {
               <h3>Lowest Sensitivity {game} Pros</h3>
               <ul>
                 {lowest.map((p) => {
-                  const ms = mSlug(p.keyboard);
+                  const ms = kbSlug(p.keyboard);
                   return (
                     <li key={p.name}>
                       <a href={`/players/${slug(p.name)}`}>{p.name}</a> ({p.team}) — {p.edpi} eDPI ({p.dpi} DPI × {p.sens}),
@@ -116,7 +116,7 @@ export default function SensitivityPage() {
               <h3>Highest Sensitivity {game} Pros</h3>
               <ul>
                 {highest.map((p) => {
-                  const ms = mSlug(p.keyboard);
+                  const ms = kbSlug(p.keyboard);
                   return (
                     <li key={p.name}>
                       <a href={`/players/${slug(p.name)}`}>{p.name}</a> ({p.team}) — {p.edpi} eDPI ({p.dpi} DPI × {p.sens}),
@@ -147,7 +147,7 @@ export default function SensitivityPage() {
           <dt>What eDPI do most pros use?</dt>
           <dd>It varies by game. FPS pros typically use 200-1200 eDPI. MOBA and RTS pros use 800-4000+ eDPI. Use the converter above to see where you fall relative to pros in your game.</dd>
           <dt>How big should my mousepad be?</dt>
-          <dd>Low sensitivity: 45cm+ wide. Medium sensitivity: 40cm. High sensitivity: 30cm minimum. Your cm/360 determines the minimum space needed for a full turn.</dd>
+          <dd>Low sensitivity: 45cm+ wide pad. Medium sensitivity: 40cm. High sensitivity: 30cm minimum. Your cm/360 determines the minimum desk space needed for a full turn.</dd>
         </dl>
 
         <nav aria-label="Related"><ul>

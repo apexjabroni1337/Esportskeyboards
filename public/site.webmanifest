@@ -1,7 +1,7 @@
 {
-  "name": "EsportsMice — Pro Esports Mouse Database",
-  "short_name": "EsportsMice",
-  "description": "The #1 database of professional esports mice. Compare mice, pro settings, and gear across CS2, Valorant, and more.",
+  "name": "EsportsKeyboards — Pro Esports Keyboard Database",
+  "short_name": "EsportsKeyboards",
+  "description": "The #1 database of professional esports keyboards. Compare keyboards, pro settings, and gear across CS2, Valorant, and more.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#050505",

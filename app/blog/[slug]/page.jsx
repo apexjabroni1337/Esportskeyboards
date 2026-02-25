@@ -12,7 +12,7 @@ const ARTICLES = {
     content: (topKeyboards) => [
       { type: "p", text: "Choosing a gaming keyboard can feel overwhelming with hundreds of options on the market. But professional esports players have already done the testing for you — and the data tells a clear story about what actually matters." },
       { type: "h2", text: "1. Shape Is Everything" },
-      { type: "p", text: "The most important factor in choosing a keyboard is its switch type. No amount of switch technology or weight savings will compensate for a shape that doesn't fit your hand. There are three main categories: ergonomic (right-hand contoured), symmetrical (ambidextrous), and egg-shaped. Symmetrical shapes dominate the FPS scene in 2026, with the Razer Viper V3 Pro and Logitech G Pro X Superlight 2 leading the way." },
+      { type: "p", text: "The most important factor in choosing a keyboard is its switch type. No amount of switch technology or weight savings will compensate for a shape that doesn't fit your hand. There are three main categories: ergonomic (right-hand contoured), symmetrical (ambidextrous), and egg-shaped. Symmetrical shapes dominate the FPS scene in 2026, with the Razer Huntsman V3 Pro and Wooting 60HE leading the way." },
       { type: "h2", text: "2. Weight Matters — But Don't Obsess" },
       { type: "p", text: "The average weight of a professional keyboard in 2026 is around 55g, down from 80g just three years ago. Lighter keyboards allow faster flick shots and reduce fatigue during long sessions. However, some players — especially those in tactical shooters — still prefer keyboards in the 60-70g range for more control. The sweet spot for most players is 45-65g." },
       { type: "h2", text: "3. Wireless Is Now the Standard" },
@@ -33,9 +33,9 @@ const ARTICLES = {
     content: () => [
       { type: "p", text: "Every FPS player has different priorities, but your choice of switch type and layout has a massive impact on which keyboard will feel best in your hand. Understanding your grip is the first step to finding the right keyboard." },
       { type: "h2", text: "Palm Grip" },
-      { type: "p", text: "Your entire hand rests on the keyboard, with your palm making full contact. This is the most relaxed grip and provides the most stability for smooth tracking. Palm grippers benefit from larger, ergonomic keyboards like the Razer DeathAdder V4 Pro or Zowie EC2-CW. Many CS2 AWPers prefer palm grip for its smooth, controlled aim." },
+      { type: "p", text: "Your entire hand rests on the keyboard, with your palm making full contact. This is the most relaxed grip and provides the most stability for smooth tracking. Palm grippers benefit from larger, ergonomic keyboards like the larger keyboards like the Logitech G Pro X TKL or Corsair K70 Max. Many CS2 AWPers prefer palm grip for its smooth, controlled aim." },
       { type: "h2", text: "Claw Grip" },
-      { type: "p", text: "Your palm touches the back of the keyboard while your fingers are arched. This hybrid approach offers both stability and quick flick potential. Claw grip is the most common style among Valorant professionals. Medium-sized symmetrical keyboards like the Razer Viper V3 Pro work well here." },
+      { type: "p", text: "Your palm touches the back of the keyboard while your fingers are arched. This hybrid approach offers both stability and quick flick potential. Claw grip is the most common style among Valorant professionals. Medium-sized symmetrical keyboards like the Razer Huntsman V3 Pro Mini work well here." },
       { type: "h2", text: "Fingertip Grip" },
       { type: "p", text: "Only your fingertips touch the keyboard — your palm doesn't make contact at all. This gives maximum agility for micro-adjustments but requires more finger strength. Small, lightweight keyboards under 50g are ideal. Many Korean FPS players prefer this style." },
       { type: "h2", text: "What the Data Shows" },
@@ -49,16 +49,16 @@ const ARTICLES = {
     tag: "Data",
     color: "#b8956a",
     content: () => [
-      { type: "p", text: "In 2018, a 'light' gaming keyboard weighed 80g. By 2026, anything over 60g feels heavy. This is the story of how the entire industry shifted in just a few years." },
-      { type: "h2", text: "The Finalmouse Effect" },
-      { type: "p", text: "It started with Finalmouse. The Ultralight Pro in 2018 introduced the honeycomb shell design at 67g — a concept the entire industry initially mocked, then copied within 18 months. By 2019, every major manufacturer was releasing 'ultralight' versions of their keyboards." },
-      { type: "h2", text: "The Race to Sub-50g" },
-      { type: "p", text: "Once the barrier was broken, weight became a marketing arms race. Razer brought the Viper line down from 69g to 54g. Logitech trimmed the Superlight from 63g to 60g. Newcomers like Lamzu and WLMouse pushed below 50g. The Finalmouse UltralightX hit 42g." },
+      { type: "p", text: "In 2018, rapid trigger keyboards didn't exist. By 2026, every major manufacturer offers some version of instant actuation. This is the story of how a single innovation changed the entire competitive landscape." },
+      { type: "h2", text: "The Wooting Effect" },
+      { type: "p", text: "It started with Wooting. The 60HE in 2021 introduced rapid trigger to mainstream competitive gaming — a concept that let players actuate keys faster than any traditional mechanical switch could manage. By 2023, every major manufacturer was developing hall effect or rapid trigger keyboards." },
+      { type: "h2", text: "The Race to Near-Zero Actuation" },
+      { type: "p", text: "Once the barrier was broken, rapid trigger became the new standard. Razer released the Huntsman V3 Pro with optical analog switches. SteelSeries updated the Apex Pro line with adjustable actuation. Newcomers like DrunkDeer and Meletrix made rapid trigger accessible at budget prices." },
       { type: "h2", text: "Where Are We Now?" },
-      { type: "p", text: "The average keyboard used by a professional player in February 2026 weighs approximately 55g. But the race has slowed — most manufacturers now agree that there's a point where reducing weight further hurts structural rigidity and feel. The current sweet spot is 45-58g for competitive keyboards." },
-      { type: "h2", text: "Does Weight Actually Affect Performance?" },
-      { type: "p", text: "Yes, but with diminishing returns. Moving from 100g to 60g makes a noticeable difference in flick speed and fatigue. Moving from 60g to 45g is much more subtle. Most pros say shape matters more than shaving off the last 10 grams." },
-      { type: "cta", text: "View weight trends →", href: "/trends" },
+      { type: "p", text: "The average keyboard used by a professional player in February 2026 has some form of adjustable actuation or rapid trigger technology. The race has shifted from 'do you have it' to 'how many activation points can it support.' The current standard is 1.0-1.5mm adjustable actuation for competitive keyboards." },
+      { type: "h2", text: "Does Rapid Trigger Actually Affect Performance?" },
+      { type: "p", text: "Yes, significantly. Players using rapid trigger in games that support it (Valorant, Counter-Strike, Quake) report measurably faster reaction times. In games without rapid trigger support, having the technology doesn't help, but it doesn't hurt either. Most pros agree that having rapid trigger capability is now table stakes for competitive play." },
+      { type: "cta", text: "View switch technology trends →", href: "/trends" },
     ],
   },
   "wireless-vs-wired-2026": {
@@ -69,9 +69,9 @@ const ARTICLES = {
     content: () => [
       { type: "p", text: "For years, 'wireless has lag' was gospel in competitive gaming. In 2026, the opposite is true: wireless keyboards now outsell and outperform wired in professional play." },
       { type: "h2", text: "The Numbers Don't Lie" },
-      { type: "p", text: "Over 80% of professional FPS players now use wireless keyboards, up from roughly 30% in 2020. In CS2 specifically, wireless adoption exceeds 85%. The Logitech G Pro Wireless in 2018 started the shift, and the Razer Viper V3 Pro in 2024 cemented it." },
+      { type: "p", text: "Over 80% of professional FPS players now use wireless keyboards, up from roughly 30% in 2020. In CS2 specifically, wireless adoption exceeds 85%. The Logitech G Pro Wireless in 2018 started the shift, and the Razer Huntsman V3 Pro in 2024 cemented it." },
       { type: "h2", text: "Latency: A Non-Issue" },
-      { type: "p", text: "Modern wireless protocols like Razer HyperPolling Wireless (4KHz), Logitech Lightspeed, and Finalmouse's wireless tech all deliver sub-1ms latency — faster than most USB wired connections. At 4KHz wireless polling, the keyboard reports its position every 0.25ms. Human reaction time is around 150ms. The difference is unmeasurable in practice." },
+      { type: "p", text: "Modern wireless protocols like Razer HyperPolling Wireless (4KHz), Logitech Lightspeed, and Wooting's wireless tech all deliver sub-1ms latency — faster than most USB wired connections. At 4KHz wireless polling, the keyboard reports its input every 0.25ms. Human reaction time is around 150ms. The difference is unmeasurable in practice." },
       { type: "h2", text: "Why Pros Switched" },
       { type: "p", text: "No cable drag. That's it. Cable drag creates inconsistent friction that affects micro-adjustments. Bungees helped, but eliminating the cable entirely is objectively better for consistent aim. The weight penalty for wireless (usually 3-8g extra for the battery) is negligible with modern battery technology." },
       { type: "cta", text: "Browse wireless keyboards →", href: "/best/wireless" },
@@ -123,7 +123,7 @@ export default function BlogArticlePage({ params }) {
   const article = ARTICLES[params.slug];
   if (!article) {
     return (
-      <div style={{ background: "#fafaf8", minHeight: "100vh" }} className="text-stone-900 text-center py-20">
+      <div style={{ background: "#f5f0e8", minHeight: "100vh" }} className="text-stone-900 text-center py-20">
         <h1 className="text-2xl font-bold mb-4">Article not found</h1>
         <Link href="/blog" className="text-sm underline" style={{ color: "#b8956a" }}>← Back to blog</Link>
       </div>
@@ -144,7 +144,7 @@ export default function BlogArticlePage({ params }) {
   const blocks = article.content(topKeyboards);
 
   return (
-    <div style={{ background: "#fafaf8", minHeight: "100vh" }}>
+    <div style={{ background: "#f5f0e8", minHeight: "100vh" }}>
       <div className="max-w-3xl mx-auto px-4 py-16">
         <Link href="/blog" className="text-sm opacity-40 hover:opacity-60 transition-all no-underline" style={{ color: "#1a1614", textDecoration: "none" }}>
           ← Back to blog

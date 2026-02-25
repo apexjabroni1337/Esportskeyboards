@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, LineChart, Line, CartesianGrid, Legend, AreaChart, Area } from "recharts";
-import { Home, Mouse, Keyboard, Trophy, Cpu, Users, Gamepad2, Building2, TrendingUp, GitCompare, Search, X, FlaskConical, Crosshair, Layers, Shield, ChevronDown } from "lucide-react";
+import { Home, Keyboard, Trophy, Cpu, Users, Gamepad2, Building2, TrendingUp, GitCompare, Search, X, FlaskConical, Crosshair, Layers, Shield, ChevronDown } from "lucide-react";
 import { AMAZON_TAG, amazonLink, BRAND_COLORS, KEYBOARD_DIMS, KEYBOARD_IMAGE_URLS, KEYBOARD_DESCRIPTIONS, BRAND_IMAGE_URLS, GAME_IMAGE_URLS, GAME_DESCRIPTIONS, TEAM_DESCRIPTIONS, TEAM_LOGOS, I, icon, keyboards, proPlayers, extendedPlayers, allPlayers, brandMarketShare, gameBreakdown, weightTrend, pollingTrend, wirelessTrend, priceTrend, countryName } from "@/data";
 import { GlowText, StatBox, SectionTitle, KeyboardCard, CustomTooltip, Flag } from "@/components/ui";
 
@@ -372,7 +372,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
     .filter(m => filterBrand === "All" || m.brand === filterBrand)
     .filter(m => {
       if (filterWeight === "All") return true;
-      if (filterWeight === "Ultralight") return m.weight < 50;
+      if (filterWeight === "Wooting") return m.weight < 50;
       if (filterWeight === "Light") return m.weight >= 50 && m.weight < 65;
       if (filterWeight === "Medium") return m.weight >= 65 && m.weight < 85;
       if (filterWeight === "Heavy") return m.weight >= 85;
@@ -449,10 +449,9 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
         let fill = m ? (BRAND_COLORS[m.brand] || "#8a8078") : "#a09890";
         if (!m) {
           const n = name.toLowerCase();
-          if (n.includes("zowie") || n.startsWith("ec") || n.startsWith("fk") || n.startsWith("za") || n.startsWith("s2") || n.startsWith("u2")) fill = BRAND_COLORS["Zowie"];
-          else if (n.includes("razer") || n.includes("viper") || n.includes("deathadder") || n.includes("basilisk")) fill = BRAND_COLORS["Razer"];
+          if (n.includes("razer") || n.includes("huntsman") || n.includes("blackwidow")) fill = BRAND_COLORS["Razer"];
           else if (n.includes("logitech") || n.includes("g pro")) fill = BRAND_COLORS["Logitech"];
-          else if (n.includes("finalmouse") || n.includes("ultralight") || n.includes("starlight")) fill = BRAND_COLORS["Finalmouse"];
+          else if (n.includes("wooting") || n.includes("60he") || n.includes("80he")) fill = BRAND_COLORS["Wooting"];
           else if (n.includes("vaxee") || n.includes("zygen") || n.includes("np-01") || n.includes("outset")) fill = BRAND_COLORS["Vaxee"];
           else if (n.includes("lamzu") || n.includes("maya") || n.includes("atlantis")) fill = BRAND_COLORS["Lamzu"];
           else if (n.includes("pulsar") || n.includes("xlite")) fill = BRAND_COLORS["Pulsar"];
@@ -487,7 +486,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
   const allBrands = ["All", ...new Set(keyboards.map(m => m.brand))];
 
   return (
-    <div className="min-h-screen text-stone-800" style={{ background: "#fafaf8", fontFamily: "'Outfit', system-ui, -apple-system, sans-serif" }}>
+    <div className="min-h-screen text-stone-800" style={{ background: "#f5f0e8", fontFamily: "'Outfit', system-ui, -apple-system, sans-serif" }}>
       <style>{`
         * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
         @media (max-width: 640px) {
@@ -502,8 +501,12 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
         }
         * { -webkit-tap-highlight-color: transparent; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-thumb { background: #00000012; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #06b6d440, #8b5cf640); border-radius: 3px; }
         ::-webkit-scrollbar-track { background: transparent; }
+        .ek-sidebar { width: 64px; transition: width 0.3s cubic-bezier(0.4,0,0.2,1); }
+        .ek-sidebar:hover, .ek-sidebar.expanded { width: 220px; }
+        .ek-sidebar .tab-label { opacity: 0; transition: opacity 0.2s ease; white-space: nowrap; }
+        .ek-sidebar:hover .tab-label, .ek-sidebar.expanded .tab-label { opacity: 1; }
       `}</style>
 
       {/* Skip to content for accessibility */}
@@ -512,10 +515,10 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
       {/* ─── GLOBAL SEARCH OVERLAY ─── */}
       {globalSearchOpen && (
         <div role="dialog" aria-label="Search" aria-modal="true" onClick={handleSearchBackdropClick} className="fixed inset-0 z-[100] flex items-start justify-center pt-[10vh] sm:pt-[15vh] px-4" style={{ background: "rgba(30,26,22,0.25)", backdropFilter: "blur(8px)" }}>
-          <div ref={globalSearchRef} role="search" className="w-full max-w-lg rounded-2xl overflow-hidden" style={{ background: "#f8f6f3", border: "1px solid #d4cfc8", boxShadow: "0 25px 80px rgba(0,0,0,0.06), 0 0 40px rgba(184,149,106,0.06)" }}>
+          <div ref={globalSearchRef} role="search" className="w-full max-w-2xl rounded-2xl overflow-hidden glass-card" style={{ background: "rgba(255,255,255,0.88)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", border: "1px solid rgba(6,182,212,0.15)", boxShadow: "0 25px 80px rgba(0,0,0,0.08), 0 0 40px rgba(6,182,212,0.06)" }}>
             {/* Search Input */}
-            <div className="flex items-center gap-3 px-5 py-4 border-b" style={{ borderColor: "#0000000a" }}>
-              <Search size={18} style={{ color: "#b8956a", flexShrink: 0 }} />
+            <div className="flex items-center gap-3 px-5 py-4 border-b" style={{ borderColor: "#06b6d410" }}>
+              <Search size={18} style={{ color: "#06b6d4", flexShrink: 0 }} />
               <input
                 ref={globalSearchInputRef}
                 type="text"
@@ -526,7 +529,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 placeholder="Search keyboards, players, teams, games, brands..."
                 autoFocus
                 className="flex-1 bg-transparent outline-none text-stone-900 text-sm placeholder-stone-400"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ fontFamily: "'Fira Code', 'JetBrains Mono', monospace", fontSize: 15 }}
               />
               {globalSearch && (
                 <button onClick={() => setGlobalSearch("")} className="p-1 rounded hover:bg-stone-100 transition-all">
@@ -731,205 +734,243 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
         </div>
       )}
 
-      {/* ─── MOBILE NAV (above hero, only on mobile) ─── */}
       {/* ═══════════════════════════════════════════════════════
-           NAVIGATION — Luxury Horizontal Header
+           NAVIGATION — Gradient Top Bar + Vertical Sidebar
            ═══════════════════════════════════════════════════════ */}
 
-      {/* ─── UNIFIED STICKY HEADER (mobile + desktop) ─── */}
-      <header className="sticky top-0 z-50 border-b" style={{ background: "#fafaf8f0", borderColor: "#e8e4df", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-
-          {/* ── Top Row: Logo + Search + Subscribe ── */}
-          <div className="flex items-center justify-between py-3">
-            {/* Logo */}
-            <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => { setActiveTab("overview"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
-              <span className="inline-flex transition-transform duration-300 group-hover:scale-110">{I.mouse(28)}</span>
-              <div className="flex flex-col">
-                <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 15, fontWeight: 700, letterSpacing: 3, color: "#1a1614", lineHeight: 1 }}>ESPORTSKB</span>
-                <span style={{ fontSize: 9, letterSpacing: 2.5, color: "#a09890", fontWeight: 600, textTransform: "uppercase" }}>Pro Keyboard Data</span>
-              </div>
-            </div>
-
-            {/* Right actions */}
-            <div className="flex items-center gap-3">
-              {/* Stats (desktop only) */}
-              <div className="hidden lg:flex items-center gap-3 text-xs mr-2" style={{ color: "#a09890" }}>
-                <span>{allPlayers.length}+ Pros</span>
-                <span style={{ color: "#d4cfc8" }}>·</span>
-                <span>{keyboards.length} Keyboards</span>
-                <span style={{ color: "#d4cfc8" }}>·</span>
-                <span>{new Set(allPlayers.map(p=>p.game)).size} Games</span>
-              </div>
-              {/* Search */}
-              <button onClick={() => { setGlobalSearchOpen(true); setTimeout(() => globalSearchInputRef.current?.focus(), 50); }}
-                aria-label="Search (Ctrl+K)" className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs transition-all duration-200 hover:shadow-sm"
-                style={{ background: "#ffffff", border: "1px solid #e8e4df", color: "#a09890" }}>
-                <Search size={13} style={{ color: "#b8956a" }} />
-                <span className="hidden sm:inline">Search</span>
-                <kbd className="hidden sm:inline ml-1 px-1 py-0.5 rounded text-[10px]" style={{ background: "#f5f2ee", color: "#a09890", fontSize: 9 }}>⌘K</kbd>
-              </button>
-              {/* Subscribe */}
-              {newsletterStatus === "success" ? (
-                <span style={{ fontSize: 11, color: "#b8956a" }} className="font-bold hidden sm:inline">✓ Subscribed</span>
-              ) : (
-                <button onClick={() => setNewsletterPopup(true)}
-                  className="hidden sm:inline-flex px-3 py-1.5 rounded-lg font-bold text-xs transition-all hover:shadow-sm"
-                  style={{ background: "#b8956a", color: "#fafaf8", letterSpacing: 1 }}>
-                  Subscribe
-                </button>
-              )}
-              {/* Mobile hamburger */}
-              <button onClick={() => setMobileMenu(!mobileMenu)} aria-label={mobileMenu ? "Close menu" : "Open menu"} aria-expanded={mobileMenu}
-                className="md:hidden p-2 rounded-lg transition-all" style={{ background: "#0000000a" }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b635b" strokeWidth="2" strokeLinecap="round">
-                  {mobileMenu ? <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></> : <><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></>}
-                </svg>
-              </button>
+      {/* ─── SLIM GRADIENT TOP BAR ─── */}
+      <header className="sticky top-0 z-50" style={{ height: 64 }}>
+        <div className="absolute inset-0" style={{
+          background: "linear-gradient(90deg, #06b6d4, #8b5cf6, #06b6d4)",
+          backgroundSize: "200% 100%",
+          animation: "gradient-shift 6s ease infinite",
+        }} />
+        <div className="relative h-full max-w-full mx-auto px-4 sm:px-6 flex items-center justify-between md:ml-16">
+          {/* Logo */}
+          <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => { setActiveTab("overview"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
+            <span className="inline-flex transition-transform duration-300 group-hover:scale-110" style={{ filter: "brightness(0) invert(1)" }}>{I.keyboard(26)}</span>
+            <div className="flex flex-col">
+              <span style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 15, fontWeight: 700, letterSpacing: 3, color: "#fff", lineHeight: 1 }}>ESPORTSKB</span>
+              <span style={{ fontSize: 9, letterSpacing: 2.5, color: "rgba(255,255,255,0.7)", fontWeight: 600, textTransform: "uppercase" }}>Pro Keyboard Data</span>
             </div>
           </div>
 
-          {/* ── Desktop Nav Links ── */}
-          <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1 pb-2 -mb-px">
-            {(() => {
-              const primaryTabs = tabs.filter(t => ["overview","keyboards","rankings","players","games","brands","sensors"].includes(t.id));
-              const moreTabs = tabs.filter(t => ["lab","sensitivity","compare","shapes","trends","teams"].includes(t.id));
-              const isActiveInMore = moreTabs.some(t => t.id === activeTab);
-              const activeMoreTab = moreTabs.find(t => t.id === activeTab);
-              return (<>
-                {primaryTabs.map(t => {
-                  const isActive = activeTab === t.id;
-                  return (
-                    <button key={t.id} onClick={() => { setActiveTab(t.id); if (t.id === "players") setSelectedPlayer(null); if (t.id === "lab") { setQuizStep(0); setQuizDone(false); } window.scrollTo({ top: 0, behavior: "smooth" }); }}
-                      role="tab" aria-selected={isActive} aria-controls="main-content"
-                      className="px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-200"
-                      style={{
-                        background: isActive ? `${t.color}0a` : "transparent",
-                        borderBottom: isActive ? `2px solid ${t.color}` : "2px solid transparent",
-                        color: isActive ? t.color : "#6b635b",
-                      }}>
-                      {t.label}
-                    </button>
-                  );
-                })}
-                {/* More dropdown */}
-                <div className="relative group ml-1">
-                  <button className="px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-200 flex items-center gap-1"
-                    style={{
-                      background: isActiveInMore ? `${activeMoreTab.color}0a` : "transparent",
-                      borderBottom: isActiveInMore ? `2px solid ${activeMoreTab.color}` : "2px solid transparent",
-                      color: isActiveInMore ? activeMoreTab.color : "#6b635b",
-                    }}>
-                    {isActiveInMore ? activeMoreTab.label : "More"}
-                    <ChevronDown size={12} className="group-hover:rotate-180 transition-transform duration-200" />
-                  </button>
-                  <div className="absolute top-full left-0 mt-1 rounded-xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
-                    style={{ background: "#ffffff", border: "1px solid #e8e4df", boxShadow: "0 12px 40px #00000010", minWidth: 200 }}>
-                    {moreTabs.map(t => {
-                      const isActive = activeTab === t.id;
-                      const Icon = t.icon;
-                      return (
-                        <button key={t.id} onClick={() => { setActiveTab(t.id); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-                          className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold transition-all"
-                          style={{ background: isActive ? `${t.color}08` : "transparent", color: isActive ? t.color : "#6b635b" }}
-                          onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = "#f5f2ee"; }}
-                          onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = "transparent"; }}>
-                          <Icon size={14} strokeWidth={2} style={{ color: t.color, opacity: 0.7 }} />
-                          <span>{t.label}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              </>);
-            })()}
-          </nav>
+          {/* Center: Search command bar */}
+          <button onClick={() => { setGlobalSearchOpen(true); setTimeout(() => globalSearchInputRef.current?.focus(), 50); }}
+            aria-label="Search (Ctrl+K)" className="hidden sm:flex items-center gap-3 px-5 py-2 rounded-xl text-sm transition-all duration-200 hover:shadow-lg"
+            style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.8)", minWidth: 280 }}>
+            <Search size={14} />
+            <span>Search keyboards, players, games...</span>
+            <kbd className="ml-auto px-1.5 py-0.5 rounded text-[10px] font-mono" style={{ background: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.7)" }}>⌘K</kbd>
+          </button>
 
-          {/* ── Mobile Menu Dropdown ── */}
-          {mobileMenu && (
-            <nav aria-label="Mobile navigation" className="md:hidden pb-4 pt-2 border-t" style={{ borderColor: "#e8e4df" }}>
-              <div className="grid grid-cols-3 gap-2">
-                {tabs.map(t => {
-                  const isActive = activeTab === t.id;
-                  const Icon = t.icon;
-                  return (
-                    <button key={t.id} onClick={() => {
-                      setMobileMenu(false);
-                      if (t.id === "players") setSelectedPlayer(null);
-                      if (t.id === "lab") { setQuizStep(0); setQuizDone(false); }
-                      const route = TAB_ROUTES[t.id] || "/";
-                      router.push(route, { scroll: false });
-                      setActiveTabRaw(t.id);
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    }}
-                      className="px-2 py-2.5 rounded-xl text-xs font-semibold transition-all"
-                      style={{
-                        background: isActive ? `${t.color}0a` : "#f5f2ee",
-                        border: isActive ? `1px solid ${t.color}25` : "1px solid transparent",
-                      }}>
-                      <span className="flex flex-col items-center gap-1">
-                        <Icon size={16} strokeWidth={2} style={{ color: isActive ? t.color : "#a09890" }} />
-                        <span style={{ color: isActive ? t.color : "#6b635b", fontSize: 10 }}>{t.label}</span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </nav>
-          )}
+          {/* Right actions */}
+          <div className="flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-3 text-xs mr-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+              <span>{allPlayers.length}+ Pros</span>
+              <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+              <span>{keyboards.length} Keyboards</span>
+            </div>
+            {/* Mobile search */}
+            <button onClick={() => { setGlobalSearchOpen(true); setTimeout(() => globalSearchInputRef.current?.focus(), 50); }}
+              aria-label="Search" className="sm:hidden p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.15)" }}>
+              <Search size={16} style={{ color: "#fff" }} />
+            </button>
+            {/* Subscribe */}
+            {newsletterStatus === "success" ? (
+              <span style={{ fontSize: 11, color: "#fff" }} className="font-bold hidden sm:inline">✓ Subscribed</span>
+            ) : (
+              <button onClick={() => setNewsletterPopup(true)}
+                className="hidden sm:inline-flex px-4 py-1.5 rounded-xl font-bold text-xs transition-all hover:shadow-lg"
+                style={{ background: "rgba(255,255,255,0.2)", color: "#fff", border: "1px solid rgba(255,255,255,0.25)", letterSpacing: 1, backdropFilter: "blur(8px)" }}>
+                Subscribe
+              </button>
+            )}
+          </div>
         </div>
       </header>
 
+      {/* ─── DESKTOP SIDEBAR ─── */}
+      <nav aria-label="Main navigation" className="ek-sidebar hidden md:flex flex-col fixed left-0 top-16 bottom-0 z-40 overflow-y-auto overflow-x-hidden"
+        style={{ background: "rgba(255,255,255,0.7)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderRight: "1px solid rgba(0,0,0,0.06)" }}>
+        <div className="flex flex-col gap-1 py-4 px-2 flex-1">
+          {tabs.map(t => {
+            const isActive = activeTab === t.id;
+            const Icon = t.icon;
+            return (
+              <button key={t.id} onClick={() => { setActiveTab(t.id); if (t.id === "players") setSelectedPlayer(null); if (t.id === "lab") { setQuizStep(0); setQuizDone(false); } window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                role="tab" aria-selected={isActive} aria-controls="main-content"
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 relative"
+                style={{
+                  background: isActive ? `${t.color}10` : "transparent",
+                  color: isActive ? t.color : "#6b635b",
+                  borderLeft: isActive ? `3px solid ${t.color}` : "3px solid transparent",
+                  minHeight: 40,
+                }}>
+                <Icon size={18} strokeWidth={2} style={{ color: isActive ? t.color : "#a09890", flexShrink: 0 }} />
+                <span className="tab-label" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>{t.label}</span>
+                {isActive && <div className="absolute right-2 w-1.5 h-1.5 rounded-full tab-label" style={{ background: t.color }} />}
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* ─── MOBILE BOTTOM TAB BAR ─── */}
+      <nav aria-label="Mobile navigation" className="md:hidden fixed bottom-0 left-0 right-0 z-50"
+        style={{ background: "rgba(255,255,255,0.85)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderTop: "1px solid rgba(0,0,0,0.06)", height: 64 }}>
+        <div className="flex items-center justify-around h-full px-2">
+          {[
+            tabs.find(t => t.id === "overview"),
+            tabs.find(t => t.id === "keyboards"),
+            tabs.find(t => t.id === "players"),
+            tabs.find(t => t.id === "lab"),
+            tabs.find(t => t.id === "games"),
+          ].filter(Boolean).map(t => {
+            const isActive = activeTab === t.id;
+            const Icon = t.icon;
+            return (
+              <button key={t.id} onClick={() => {
+                if (t.id === "players") setSelectedPlayer(null);
+                if (t.id === "lab") { setQuizStep(0); setQuizDone(false); }
+                const route = TAB_ROUTES[t.id] || "/";
+                router.push(route, { scroll: false });
+                setActiveTabRaw(t.id);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+                className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all"
+                style={{ color: isActive ? t.color : "#a09890" }}>
+                <Icon size={20} strokeWidth={2} />
+                <span style={{ fontSize: 9, fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>{t.label === "All Keyboards" ? "Keyboards" : t.label}</span>
+                {isActive && <div className="w-1 h-1 rounded-full mt-0.5" style={{ background: t.color }} />}
+              </button>
+            );
+          })}
+          {/* More button for remaining tabs */}
+          <button onClick={() => setMobileMenu(!mobileMenu)}
+            className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all"
+            style={{ color: mobileMenu ? "#8b5cf6" : "#a09890" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/>
+            </svg>
+            <span style={{ fontSize: 9, fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>More</span>
+          </button>
+        </div>
+      </nav>
+
+      {/* ── Mobile "More" Menu Overlay ── */}
+      {mobileMenu && (
+        <div className="md:hidden fixed inset-0 z-40" style={{ background: "rgba(0,0,0,0.3)" }} onClick={() => setMobileMenu(false)}>
+          <div className="absolute bottom-16 left-2 right-2 rounded-2xl p-4 glass-card" onClick={e => e.stopPropagation()}
+            style={{ background: "rgba(255,255,255,0.92)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 -8px 40px rgba(0,0,0,0.1)" }}>
+            <div className="grid grid-cols-4 gap-2">
+              {tabs.filter(t => !["overview","keyboards","players","lab","games"].includes(t.id)).map(t => {
+                const isActive = activeTab === t.id;
+                const Icon = t.icon;
+                return (
+                  <button key={t.id} onClick={() => {
+                    setMobileMenu(false);
+                    const route = TAB_ROUTES[t.id] || "/";
+                    router.push(route, { scroll: false });
+                    setActiveTabRaw(t.id);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                    className="flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all"
+                    style={{ background: isActive ? `${t.color}10` : "rgba(0,0,0,0.03)", border: isActive ? `1px solid ${t.color}25` : "1px solid transparent" }}>
+                    <Icon size={18} strokeWidth={2} style={{ color: isActive ? t.color : "#a09890" }} />
+                    <span style={{ fontSize: 10, fontWeight: 600, color: isActive ? t.color : "#6b635b" }}>{t.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Content wrapper with sidebar offset ─── */}
+      <div className="md:ml-16 pb-20 md:pb-0 transition-all duration-300">
+
       {/* ═══════════════════════════════════════════════════════
-           HERO SECTION — Editorial Magazine Style (overview only)
+           HERO SECTION — Split Layout with Keycap Decorations
            ═══════════════════════════════════════════════════════ */}
       {activeTab === "overview" && (
-      <header className="relative overflow-hidden" style={{ background: "linear-gradient(180deg, #ffffff 0%, #fafaf8 100%)" }}>
-        {/* Subtle decorative elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full" style={{ background: "radial-gradient(circle, #b8956a08 0%, transparent 70%)" }} />
-          <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full" style={{ background: "radial-gradient(circle, #6b8cad06 0%, transparent 70%)" }} />
+      <header className="relative overflow-hidden" style={{ background: "linear-gradient(180deg, #f5f0e8 0%, #ece6db 100%)" }}>
+        {/* Decorative keycap grid pattern */}
+        <div className="absolute inset-0 overflow-hidden" style={{ opacity: 0.04 }}>
+          <div className="absolute top-8 left-8 grid grid-cols-5 gap-2" style={{ transform: "rotate(-8deg)" }}>
+            {Array.from({ length: 15 }).map((_, i) => (
+              <div key={i} className="w-10 h-10 rounded-lg" style={{ background: "#06b6d4", boxShadow: "0 0 8px #06b6d420" }} />
+            ))}
+          </div>
+          <div className="absolute bottom-8 right-8 grid grid-cols-4 gap-2" style={{ transform: "rotate(5deg)" }}>
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} className="w-8 h-8 rounded-md" style={{ background: "#8b5cf6", boxShadow: "0 0 8px #8b5cf620" }} />
+            ))}
+          </div>
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
-          <div className="text-center" style={{ transition: "all 1s ease", opacity: heroAnim ? 1 : 0, transform: heroAnim ? "translateY(0)" : "translateY(20px)" }}>
-            {/* Eyebrow */}
-            <div className="mb-4 sm:mb-6">
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase" style={{ background: "#b8956a0a", color: "#b8956a", border: "1px solid #b8956a18" }}>
-                The Definitive Resource
-              </span>
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+            {/* Left: Decorative keycap visual */}
+            <div className="hidden md:flex justify-center" style={{ transition: "all 1s ease 0.2s", opacity: heroAnim ? 1 : 0, transform: heroAnim ? "translateX(0)" : "translateX(-20px)" }}>
+              <div className="grid grid-cols-5 gap-2.5" style={{ perspective: "600px" }}>
+                {["ESC","1","2","3","4","Q","W","E","R","T","A","S","D","F","G","Z","X","C","V","B"].map((key, i) => (
+                  <div key={key} className="w-12 h-12 rounded-lg flex items-center justify-center text-xs font-bold transition-all duration-500"
+                    style={{
+                      background: i % 7 === 0 ? "linear-gradient(135deg, #06b6d420, #06b6d408)" : i % 5 === 0 ? "linear-gradient(135deg, #8b5cf620, #8b5cf608)" : "rgba(255,255,255,0.6)",
+                      border: "1px solid rgba(0,0,0,0.06)",
+                      boxShadow: i % 7 === 0 ? "0 0 12px #06b6d415, 0 2px 4px #00000008" : i % 5 === 0 ? "0 0 12px #8b5cf615, 0 2px 4px #00000008" : "0 2px 4px #00000006",
+                      color: i % 7 === 0 ? "#06b6d4" : i % 5 === 0 ? "#8b5cf6" : "#a09890",
+                      fontFamily: "'Fira Code', 'JetBrains Mono', monospace",
+                      animationDelay: `${i * 50}ms`,
+                    }}>
+                    {key}
+                  </div>
+                ))}
+              </div>
             </div>
-            {/* Main heading */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl mb-5 sm:mb-7" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, lineHeight: 1.08, letterSpacing: -1, color: "#1a1614" }}>
-              Pro Esports<br />
-              <span style={{ color: "#b8956a" }}>Keyboards</span>
-            </h1>
-            {/* Subtitle */}
-            <p className="max-w-xl mx-auto text-sm sm:text-base leading-relaxed px-4" style={{ color: "#6b635b" }}>
-              Comprehensive keyboard data for {allPlayers.length.toLocaleString()}+ professional players across {new Set(allPlayers.map(p=>p.game)).size} major esports titles. Rankings, specifications, comparisons, and pro settings.
-            </p>
+
+            {/* Right: Headline + stats */}
+            <div style={{ transition: "all 1s ease", opacity: heroAnim ? 1 : 0, transform: heroAnim ? "translateY(0)" : "translateY(20px)" }}>
+              {/* Eyebrow */}
+              <div className="mb-4 sm:mb-6">
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
+                  style={{ background: "linear-gradient(135deg, #06b6d410, #8b5cf610)", color: "#06b6d4", border: "1px solid #06b6d418" }}>
+                  The Definitive Resource
+                </span>
+              </div>
+              {/* Main heading */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl mb-5 sm:mb-7" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontWeight: 700, lineHeight: 1.08, letterSpacing: -1, color: "#1a1614" }}>
+                Pro Esports<br />
+                <span style={{ background: "linear-gradient(135deg, #06b6d4, #8b5cf6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Keyboards</span>
+              </h1>
+              {/* Subtitle */}
+              <p className="max-w-xl text-sm sm:text-base leading-relaxed" style={{ color: "#6b635b" }}>
+                Comprehensive keyboard data for {allPlayers.length.toLocaleString()}+ professional players across {new Set(allPlayers.map(p=>p.game)).size} major esports titles. Rankings, specifications, comparisons, and pro settings.
+              </p>
+            </div>
           </div>
 
-          {/* Stats strip */}
-          <div className="flex justify-center gap-8 sm:gap-14 mt-10 sm:mt-14" style={{ transition: "all 0.8s ease 0.3s", opacity: heroAnim ? 1 : 0 }}>
+          {/* Stats strip - glassmorphism */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 mt-10 sm:mt-14" style={{ transition: "all 0.8s ease 0.3s", opacity: heroAnim ? 1 : 0 }}>
             {[
-              { val: allPlayers.length, label: "Pro Players", suffix: "", prefix: "" },
-              { val: keyboards.length, label: "Keyboards", suffix: "", prefix: "" },
-              { val: new Set(allPlayers.map(p=>p.game)).size, label: "Games", suffix: "", prefix: "" },
-              { val: Math.max(...keyboards.map(m => m.proUsage)), label: "Top Share", suffix: "%", prefix: "" },
+              { val: allPlayers.length, label: "Pro Players", suffix: "", prefix: "", color: "#06b6d4" },
+              { val: keyboards.length, label: "Keyboards", suffix: "", prefix: "", color: "#8b5cf6" },
+              { val: new Set(allPlayers.map(p=>p.game)).size, label: "Games", suffix: "", prefix: "", color: "#06b6d4" },
+              { val: Math.max(...keyboards.map(m => m.proUsage)), label: "Top Share", suffix: "%", prefix: "", color: "#8b5cf6" },
             ].map((s, i) => (
-              <div key={i} className="text-center">
-                <div className="text-xl sm:text-3xl font-bold" style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "#1a1614" }}>
-                  <AnimatedCounter value={s.val} suffix={s.suffix} prefix={s.prefix} color={i === 0 || i === 2 ? "#b8956a" : "#6b8cad"} duration={1600 + i * 200} />
+              <div key={i} className="glass-card text-center p-4" style={{ boxShadow: `0 0 12px ${s.color}08` }}>
+                <div className="text-xl sm:text-3xl font-bold" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: "#1a1614" }}>
+                  <AnimatedCounter value={s.val} suffix={s.suffix} prefix={s.prefix} color={s.color} duration={1600 + i * 200} />
                 </div>
-                <div className="text-xs sm:text-sm mt-1" style={{ color: "#a09890", letterSpacing: 0.5 }}>{s.label}</div>
+                <div className="text-xs sm:text-sm mt-1 font-medium" style={{ color: "#a09890", letterSpacing: 0.5 }}>{s.label}</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Bottom decorative line */}
-        <div className="h-px" style={{ background: "linear-gradient(to right, transparent, #b8956a30, transparent)" }} />
+        {/* Bottom decorative line - cyan to violet gradient */}
+        <div className="h-px" style={{ background: "linear-gradient(to right, transparent, #06b6d430, #8b5cf630, transparent)" }} />
       </header>
       )}
 
@@ -1345,7 +1386,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             {/* ── EDITORIAL COLLECTIONS ── */}
             <div className="mt-10 sm:mt-16 mb-8">
               <div className="text-center mb-8">
-                <h2 className="text-2xl sm:text-3xl mb-2" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, color: "#1a1614" }}>Curated Collections</h2>
+                <h2 className="text-2xl sm:text-3xl mb-2" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontWeight: 700, color: "#1a1614" }}>Curated Collections</h2>
                 <p className="text-sm" style={{ color: "#a09890" }}>Hand-picked guides for competitive players</p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
@@ -1365,7 +1406,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full" style={{ background: `${c.accent}0a`, color: c.accent, border: `1px solid ${c.accent}18` }}>{c.tag}</span>
                       <span className="text-xs opacity-0 group-hover:opacity-60 transition-opacity" style={{ color: c.accent }}>→</span>
                     </div>
-                    <h3 className="text-base sm:text-lg font-bold mb-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "#1a1614" }}>{c.title}</h3>
+                    <h3 className="text-base sm:text-lg font-bold mb-1" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: "#1a1614" }}>{c.title}</h3>
                     <p className="text-xs" style={{ color: "#a09890" }}>{c.sub}</p>
                   </a>
                 ))}
@@ -1373,21 +1414,21 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             </div>
 
             {/* Newsletter CTA */}
-            <div className="rounded-2xl p-5 sm:p-8 mt-8 mb-2 text-center relative overflow-hidden" style={{ background: "linear-gradient(135deg, #b8956a0a, #6b8cad08)", border: "1px solid #b8956a14" }}>
+            <div className="glass-card rounded-2xl p-5 sm:p-8 mt-8 mb-2 text-center relative overflow-hidden" style={{ background: "linear-gradient(135deg, rgba(6,182,212,0.04), rgba(139,92,246,0.04))", border: "1px solid #06b6d415" }}>
               <div className="relative z-10">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  {I.mouse(20)}
-                  <span className="text-sm font-black uppercase tracking-widest" style={{ color: "#b8956a" }}>Newsletter</span>
+                  {I.keyboard(20)}
+                  <span className="text-sm font-black uppercase tracking-widest" style={{ color: "#06b6d4", fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Newsletter</span>
                 </div>
-                <div className="text-base sm:text-lg font-black text-stone-900 mb-1">Stay ahead of the meta</div>
+                <div className="text-base sm:text-lg font-black text-stone-900 mb-1" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Stay ahead of the meta</div>
                 <div className="text-sm opacity-30 mb-4 max-w-md mx-auto">Pro gear changes, new keyboard releases, and data-driven insights delivered to your inbox. No spam.</div>
                 {newsletterStatus === "success" ? (
-                  <div className="text-sm font-black" style={{ color: "#b8956a" }}>✓ You're subscribed!</div>
+                  <div className="text-sm font-black" style={{ color: "#06b6d4" }}>✓ You're subscribed!</div>
                 ) : (
                   <form className="flex gap-2 max-w-sm mx-auto" onSubmit={async e => { e.preventDefault(); setNewsletterStatus("sending"); try { const res = await fetch("https://formspree.io/f/xvzbwrzv", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: newsletterEmail }) }); setNewsletterStatus(res.ok ? "success" : "error"); } catch { setNewsletterStatus("error"); } }}>
                     <input type="email" required placeholder="your@email.com" value={newsletterEmail} onChange={e => setNewsletterEmail(e.target.value)}
-                      className="flex-1 px-4 py-2.5 rounded-lg text-sm outline-none" style={{ background: "#ffffff", border: "1px solid #d4cfc8", color: "#1a1614" }} />
-                    <button type="submit" disabled={newsletterStatus === "sending"} className="px-5 py-2.5 rounded-lg text-sm font-black transition-all hover:scale-105 disabled:opacity-50" style={{ background: "#b8956a", color: "#1a1614" }}>
+                      className="flex-1 px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.7)", border: "1px solid #06b6d420", color: "#1a1614" }} />
+                    <button type="submit" disabled={newsletterStatus === "sending"} className="px-5 py-2.5 rounded-xl text-sm font-black transition-all hover:scale-105 disabled:opacity-50" style={{ background: "linear-gradient(135deg, #06b6d4, #8b5cf6)", color: "#fff" }}>
                       {newsletterStatus === "sending" ? "..." : "Subscribe"}
                     </button>
                   </form>
@@ -1972,7 +2013,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-6">
                 {GAME_IMAGE_URLS[gameName] && <img loading="lazy" src={GAME_IMAGE_URLS[gameName]} alt={gameName} className="h-16 w-16 sm:h-20 sm:w-20 object-contain" />}
                 <div className="flex-1">
-                  <h1 className="text-2xl sm:text-4xl tracking-tight mb-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, color: col }}>{gameName}</h1>
+                  <h1 className="text-2xl sm:text-4xl tracking-tight mb-1" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontWeight: 700, color: col }}>{gameName}</h1>
                   <div className="text-sm opacity-50">{totalPlayers} professional players tracked · Keyboard & settings database</div>
                   <span className="inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-lg text-xs font-bold" style={{ background: `${col}08`, border: `1px solid ${col}15`, color: `${col}60`, cursor: "default" }}>📖 Best Keyboard Guide — Coming Soon</span>
                 </div>
@@ -2013,7 +2054,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             )}
 
             {/* ── KEYBOARD USAGE RANKINGS ── */}
-            <SectionTitle color={col} sub={`Which keyboards ${gameName} professionals trust to compete at the highest level`} style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Keyboard Usage Rankings</SectionTitle>
+            <SectionTitle color={col} sub={`Which keyboards ${gameName} professionals trust to compete at the highest level`} style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Keyboard Usage Rankings</SectionTitle>
             {/* #1 Keyboard highlight CTA */}
             {keyboardRanking[0] && (() => {
               const topName = keyboardRanking[0][0];
@@ -2308,7 +2349,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 <div className="text-xs mb-3" style={{ color: "#a09890" }}>average keyboard weight</div>
                 <div className="space-y-1.5">
                   {[
-                    { label: "Ultralight (<60g)", pct: lightPct, color: "#b8956a" },
+                    { label: "Wooting (<60g)", pct: lightPct, color: "#b8956a" },
                     { label: "Medium (60–75g)", pct: midPct, color: col },
                     { label: "Heavy (75g+)", pct: heavyPct, color: "#c44040" },
                   ].map((w, i) => (
@@ -2605,7 +2646,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               const activeFilterCountR = [filterBrand, filterWeight, filterPrice, filterConn, filterLayout].filter(f => f !== "All").length;
               const activeFiltersR = [];
               if (filterBrand !== "All") activeFiltersR.push({ label: filterBrand, clear: () => setFilterBrand("All") });
-              if (filterWeight !== "All") activeFiltersR.push({ label: filterWeight === "Ultralight" ? "<50g" : filterWeight === "Light" ? "50-64g" : filterWeight === "Medium" ? "65-84g" : "85g+", clear: () => setFilterWeight("All") });
+              if (filterWeight !== "All") activeFiltersR.push({ label: filterWeight === "Wooting" ? "<50g" : filterWeight === "Light" ? "50-64g" : filterWeight === "Medium" ? "65-84g" : "85g+", clear: () => setFilterWeight("All") });
               if (filterPrice !== "All") activeFiltersR.push({ label: filterPrice === "Budget" ? "Under $60" : filterPrice === "Mid" ? "$60-$119" : "$120+", clear: () => setFilterPrice("All") });
               if (filterConn !== "All") activeFiltersR.push({ label: filterConn, clear: () => setFilterConn("All") });
               if (filterLayout !== "All") activeFiltersR.push({ label: filterLayout, clear: () => setFilterLayout("All") });
@@ -2678,7 +2719,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       <div>
                         <div style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, color: "#8a8078", marginBottom: 5, paddingLeft: 2 }}>Weight</div>
                         <div className="flex flex-wrap gap-1">
-                          {[["All","All"],["Ultralight","<50g"],["Light","50-64g"],["Medium","65-84g"],["Heavy","85g+"]].map(([v,l]) => (
+                          {[["All","All"],["Wooting","<50g"],["Light","50-64g"],["Medium","65-84g"],["Heavy","85g+"]].map(([v,l]) => (
                             <span key={v} style={chipStyleR(filterWeight === v)} onClick={() => setFilterWeight(filterWeight === v && v !== "All" ? "All" : v)}>{l}</span>
                           ))}
                         </div>
@@ -2758,7 +2799,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       .filter(m => filterBrand === "All" || m.brand === filterBrand)
                       .filter(m => {
                         if (filterWeight === "All") return true;
-                        if (filterWeight === "Ultralight") return m.weight < 50;
+                        if (filterWeight === "Wooting") return m.weight < 50;
                         if (filterWeight === "Light") return m.weight >= 50 && m.weight < 65;
                         if (filterWeight === "Medium") return m.weight >= 65 && m.weight < 85;
                         if (filterWeight === "Heavy") return m.weight >= 85;
@@ -2786,7 +2827,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       const col = BRAND_COLORS[m.brand] || "#8a8078";
                       return (
                         <tr key={`rank-${m.id}`} className="cursor-pointer transition-colors hover:bg-stone-50" onClick={() => { navigateToKeyboard(m); }}
-                          style={{ borderBottom: "1px solid #00000008", background: i % 2 === 0 ? "#fafaf8" : "#f5f2ee" }}>
+                          style={{ borderBottom: "1px solid #00000008", background: i % 2 === 0 ? "#f5f0e8" : "#f5f2ee" }}>
                           <td className="px-4 py-3 font-black opacity-20">{i + 1}</td>
                           <td className="px-4 py-3 font-bold" style={{ color: col }}>{KEYBOARD_IMAGE_URLS[m.name] && <img loading="lazy" src={KEYBOARD_IMAGE_URLS[m.name]} alt={`${m.name}`} className="inline h-5 mr-2 object-contain" />}{m.name}</td>
                           <td className="px-4 py-3 opacity-50">{m.brand}</td>
@@ -2859,7 +2900,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               const activeFilterCount = [filterBrand, filterWeight, filterPrice, filterConn, filterLayout].filter(f => f !== "All").length;
               const activeFilters = [];
               if (filterBrand !== "All") activeFilters.push({ label: filterBrand, clear: () => setFilterBrand("All") });
-              if (filterWeight !== "All") activeFilters.push({ label: filterWeight === "Ultralight" ? "<50g" : filterWeight === "Light" ? "50-64g" : filterWeight === "Medium" ? "65-84g" : "85g+", clear: () => setFilterWeight("All") });
+              if (filterWeight !== "All") activeFilters.push({ label: filterWeight === "Wooting" ? "<50g" : filterWeight === "Light" ? "50-64g" : filterWeight === "Medium" ? "65-84g" : "85g+", clear: () => setFilterWeight("All") });
               if (filterPrice !== "All") activeFilters.push({ label: filterPrice === "Budget" ? "Under $60" : filterPrice === "Mid" ? "$60-$119" : "$120+", clear: () => setFilterPrice("All") });
               if (filterConn !== "All") activeFilters.push({ label: filterConn, clear: () => setFilterConn("All") });
               if (filterLayout !== "All") activeFilters.push({ label: filterLayout, clear: () => setFilterLayout("All") });
@@ -2939,7 +2980,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       <div>
                         <div style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, color: "#8a8078", marginBottom: 5, paddingLeft: 2 }}>Weight</div>
                         <div className="flex flex-wrap gap-1">
-                          {[["All","All"],["Ultralight","<50g"],["Light","50-64g"],["Medium","65-84g"],["Heavy","85g+"]].map(([v,l]) => (
+                          {[["All","All"],["Wooting","<50g"],["Light","50-64g"],["Medium","65-84g"],["Heavy","85g+"]].map(([v,l]) => (
                             <span key={v} style={chipStyle(filterWeight === v)} onClick={() => setFilterWeight(filterWeight === v && v !== "All" ? "All" : v)}>{l}</span>
                           ))}
                         </div>
@@ -3038,7 +3079,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   <div className="flex items-center justify-center"><Flag country={p.country} size={56} /></div>
                   <div className="flex-1 w-full">
                     <div className="text-sm uppercase tracking-widest opacity-30 mb-1">{p.role} · {p.team}</div>
-                    <h2 className="text-2xl sm:text-4xl font-black mb-1" style={{ fontFamily: "'Playfair Display'", color: gc }}>{p.name}</h2>
+                    <h2 className="text-2xl sm:text-4xl font-black mb-1" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: gc }}>{p.name}</h2>
                     <div className="text-sm sm:text-sm opacity-50 mb-2 sm:mb-3">{p.fullName} · Age {p.age}</div>
                     <p className="text-sm sm:text-sm opacity-50 leading-relaxed max-w-2xl">{(() => {
                       const keyboardName = p.keyboard;
@@ -3066,7 +3107,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                     style={{ background: `linear-gradient(135deg, ${brandCol}12, ${brandCol}06)`, border: `1px solid ${brandCol}30` }}
                     onMouseEnter={e => { e.currentTarget.style.background = `linear-gradient(135deg, ${brandCol}25, ${brandCol}15)`; e.currentTarget.style.borderColor = `${brandCol}60`; }}
                     onMouseLeave={e => { e.currentTarget.style.background = `linear-gradient(135deg, ${brandCol}12, ${brandCol}06)`; e.currentTarget.style.borderColor = `${brandCol}30`; }}>
-                    {KEYBOARD_IMAGE_URLS[p.keyboard] ? <img loading="lazy" src={KEYBOARD_IMAGE_URLS[p.keyboard]} alt={`${p.keyboard} gaming keyboard`} className="h-8 w-8 object-contain flex-shrink-0" style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.06))" }} /> : <span>{I.mouse(20)}</span>}
+                    {KEYBOARD_IMAGE_URLS[p.keyboard] ? <img loading="lazy" src={KEYBOARD_IMAGE_URLS[p.keyboard]} alt={`${p.keyboard} gaming keyboard`} className="h-8 w-8 object-contain flex-shrink-0" style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.06))" }} /> : <span>{I.keyboard(20)}</span>}
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-bold" style={{ color: brandCol }}>Play like {p.name}</div>
                       <div className="text-sm opacity-85 truncate">Get the {p.keyboard} on Amazon</div>
@@ -3096,7 +3137,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 <div className="space-y-6">
                   {/* Current Keyboard */}
                   <div className="rounded-2xl p-6" style={{ background: `${brandCol}08`, border: `1px solid ${brandCol}20` }}>
-                    <div className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#a09890" }}><span className="inline-flex mr-1.5 align-middle">{I.mouse(14)}</span>Current Keyboard</div>
+                    <div className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#a09890" }}><span className="inline-flex mr-1.5 align-middle">{I.keyboard(14)}</span>Current Keyboard</div>
                     <div className="flex items-center gap-4 mb-4">
                       {KEYBOARD_IMAGE_URLS[p.keyboard] && <img loading="lazy" src={KEYBOARD_IMAGE_URLS[p.keyboard]} alt={`${p.keyboard} - keyboard used by ${p.name} in ${p.game}`} className="h-14 w-14 object-contain object-center" style={{ filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.06))" }} />}
                       <div>
@@ -3267,7 +3308,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               })()}
             </div>
 
-            {/* ── MOST USED PRO MICE — BUY STRIP ── */}
+            {/* ── MOST USED PRO KEYBOARDS — BUY STRIP ── */}
             {(() => {
               const fp = gameFilter === "All" ? allPlayers : allPlayers.filter(p => p.game === gameFilter);
               const mc = {}; fp.forEach(p => { mc[p.keyboard] = (mc[p.keyboard] || 0) + 1; });
@@ -3405,9 +3446,9 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       <tr key={`${p.name}-${p.game}-${actualIndex}`}
                         className={`transition-all duration-200 ${p.hasProfile ? "cursor-pointer" : ""}`}
                         onClick={() => { if (profilePlayer) { navigateToPlayer(profilePlayer); } }}
-                        style={{ borderBottom: "1px solid #e8e4df", background: actualIndex % 2 === 0 ? "#fafaf8" : "#f5f2ee", borderLeft: `3px solid ${gc}` }}
+                        style={{ borderBottom: "1px solid #e8e4df", background: actualIndex % 2 === 0 ? "#f5f0e8" : "#f5f2ee", borderLeft: `3px solid ${gc}` }}
                         onMouseEnter={e => { e.currentTarget.style.background = `${gc}0c`; e.currentTarget.style.boxShadow = `inset 4px 0 12px ${gc}10`; }}
-                        onMouseLeave={e => { e.currentTarget.style.background = actualIndex % 2 === 0 ? "#fafaf8" : "#f5f2ee"; e.currentTarget.style.boxShadow = "none"; }}>
+                        onMouseLeave={e => { e.currentTarget.style.background = actualIndex % 2 === 0 ? "#f5f0e8" : "#f5f2ee"; e.currentTarget.style.boxShadow = "none"; }}>
                         <td className="pl-3 pr-1 py-2.5 text-center">{p.hasProfile ? <span title="Full profile available" className="inline-flex" style={{ filter: `drop-shadow(0 0 4px ${gc}60)` }}>{I.star(14)}</span> : <span className="opacity-10">·</span>}</td>
                         <td className="px-2 py-2.5 whitespace-nowrap">
                           <div className="flex items-center gap-2">
@@ -3712,13 +3753,13 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       <div className="relative flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <h3 className="text-xl sm:text-2xl" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, color: "#1a1614" }}>{brand.name}</h3>
+                            <h3 className="text-xl sm:text-2xl" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontWeight: 700, color: "#1a1614" }}>{brand.name}</h3>
                             <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full" style={{ background: `${col}0a`, color: col, border: `1px solid ${col}18` }}>{brandKbds.length} models</span>
                           </div>
                           <div className="text-xs font-semibold tracking-wide" style={{ color: col }}>{brand.tagline}</div>
                         </div>
                         <div className="text-right flex-shrink-0">
-                          <div className="text-lg font-bold" style={{ fontFamily: "'Playfair Display', Georgia, serif", color: col }}>{proCount}</div>
+                          <div className="text-lg font-bold" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: col }}>{proCount}</div>
                           <div className="text-[10px] uppercase tracking-widest" style={{ color: "#a09890" }}>Pro Users</div>
                         </div>
                       </div>
@@ -3951,13 +3992,12 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   const brandKeyboards = keyboards.filter(m => m.brand === brand);
                   const guessBrand = (kbName) => {
                     const n = kbName.toLowerCase();
-                    if (n.includes("razer") || n.includes("viper") || n.includes("deathadder") || n.includes("basilisk")) return "Razer";
-                    if (n.includes("logitech") || n.includes("g pro") || n.includes("g502") || n.includes("g303") || n.includes("g203") || n.includes("gpro") || n.includes("g703")) return "Logitech";
-                    if (n.includes("zowie") || n.startsWith("ec") || n.startsWith("fk") || n.startsWith("za") || n.startsWith("s2") || n.startsWith("u2")) return "Zowie";
-                    if (n.includes("vaxee") || n.includes("zygen") || n.includes("np-01") || n.includes("outset")) return "Vaxee";
-                    if (n.includes("finalmouse") || n.includes("ultralight") || n.includes("starlight")) return "Finalmouse";
-                    if (n.includes("pulsar") || n.includes("xlite") || n.includes("x2")) return "Pulsar";
-                    if (n.includes("lamzu") || n.includes("atlantis") || n.includes("maya")) return "Lamzu";
+                    if (n.includes("razer") || n.includes("huntsman") || n.includes("blackwidow")) return "Razer";
+                    if (n.includes("logitech") || n.includes("g pro") || n.includes("gpro") || n.includes("g915") || n.includes("g715")) return "Logitech";
+                    if (n.includes("wooting") || n.includes("60he") || n.includes("80he")) return "Wooting";
+                    if (n.includes("steelseries") || n.includes("apex pro") || n.includes("apex 9")) return "SteelSeries";
+                    if (n.includes("corsair") || n.includes("k65") || n.includes("k70") || n.includes("k100")) return "Corsair";
+                    if (n.includes("ducky") || n.includes("one 3")) return "Ducky";
                     return null;
                   };
                   const brandPlayers = allPlayers.filter(p => {
@@ -4005,7 +4045,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                     </thead>
                     <tbody>
                       {sorted.map((b, i) => (
-                        <tr key={b.brand} style={{ background: i % 2 === 0 ? "#fafaf8" : "#f5f2ee", borderBottom: "1px solid #00000008" }}>
+                        <tr key={b.brand} style={{ background: i % 2 === 0 ? "#f5f0e8" : "#f5f2ee", borderBottom: "1px solid #00000008" }}>
                           <td className="px-4 py-3 font-black" style={{ color: BRAND_COLORS[b.brand] }}>{b.brand}</td>
                           <td className="px-4 py-3 opacity-60">{b.keyboardCount}</td>
                           <td className="px-4 py-3 font-bold" style={{ color: b.proShare >= 30 ? "#b8956a" : b.proShare >= 10 ? "#d4af37" : "#8a8078" }}>{b.proShare}%</td>
@@ -4061,7 +4101,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   const sensorCounts = {};
                   keyboards.forEach(m => { sensorCounts[m.switchType] = (sensorCounts[m.switchType] || 0) + 1; });
                   const top5 = Object.entries(sensorCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
-                  const colors = ["#b8956a", "#6b8cad", "#f472b6", "#d4af37", "#8b5cf6"];
+                  const colors = ["#06b6d4", "#8b5cf6", "#10b981", "#f59e0b", "#ec4899"];
                   return (
                     <div className="space-y-3">
                       {top5.map(([sensor, count], i) => (
@@ -4084,7 +4124,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 <div className="text-xs font-bold uppercase tracking-wider mb-4" style={{ color: "#a09890" }}>Weight Class Distribution</div>
                 {(() => {
                   const classes = [
-                    { label: "Ultralight (< 45g)", min: 0, max: 45, color: "#b8956a" },
+                    { label: "Wooting (< 45g)", min: 0, max: 45, color: "#b8956a" },
                     { label: "Featherweight (45-55g)", min: 45, max: 55, color: "#0890a8" },
                     { label: "Lightweight (55-65g)", min: 55, max: 65, color: "#6b8cad" },
                     { label: "Midweight (65-80g)", min: 65, max: 80, color: "#b8956a" },
@@ -4221,7 +4261,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 </div>
                 <div>
                   <div className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: "#a09890" }}>Most Popular Switch in Esports</div>
-                  <div className="text-lg font-bold" style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "#2a8a62" }}>{topSensor?.switchType}</div>
+                  <div className="text-lg font-bold" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: "#2a8a62" }}>{topSensor?.switchType}</div>
                   <div className="text-xs" style={{ color: "#6b635b" }}>Used in {topSensor?.keyboardCount} keyboards · {topSensor?.playerCount} pro players · {topSensor?.totalUsage}% combined pro usage</div>
                 </div>
               </div>
@@ -4422,9 +4462,9 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 </thead>
                 <tbody>
                   {sortedSensors.map((s, i) => (
-                    <tr key={s.switchType} style={{ borderBottom: "1px solid #00000008", background: i % 2 === 0 ? "#fafaf8" : "#f5f2ee" }}
+                    <tr key={s.switchType} style={{ borderBottom: "1px solid #00000008", background: i % 2 === 0 ? "#f5f0e8" : "#f5f2ee" }}
                       onMouseEnter={e => e.currentTarget.style.background = "#10b98108"}
-                      onMouseLeave={e => e.currentTarget.style.background = i % 2 === 0 ? "#fafaf8" : "#f5f2ee"}>
+                      onMouseLeave={e => e.currentTarget.style.background = i % 2 === 0 ? "#f5f0e8" : "#f5f2ee"}>
                       <td className="px-4 py-3 font-black cursor-pointer hover:underline" style={{ color: "#2a8a62" }}
                         onClick={() => document.getElementById(`sensor-group-${s.switchType.replace(/\s+/g, "-").toLowerCase()}`)?.scrollIntoView({ behavior: "smooth", block: "start" })}>{s.switchType}</td>
                       <td className="px-4 py-3 font-bold">{s.keyboardCount}</td>
@@ -4614,7 +4654,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   {compareRows.map((row, ri) => {
                     const winner = row.higher === "none" ? "none" : row.higher === "more" ? (row.n1 > row.n2 ? "s1" : row.n2 > row.n1 ? "s2" : "tie") : (row.n1 < row.n2 ? "s1" : row.n2 < row.n1 ? "s2" : "tie");
                     return (
-                      <div key={ri} className="grid grid-cols-3" style={{ background: ri % 2 === 0 ? "#fafaf8" : "#f5f2ee", borderTop: "1px solid #00000008" }}>
+                      <div key={ri} className="grid grid-cols-3" style={{ background: ri % 2 === 0 ? "#f5f0e8" : "#f5f2ee", borderTop: "1px solid #00000008" }}>
                         <div className="p-3 text-center">
                           <span className="text-sm font-bold" style={{ color: winner === "s1" ? c1 : "#8a8078" }}>{row.v1}</span>
                           {winner === "s1" && <span className="ml-1 text-sm" style={{ color: c1 }}><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/></svg></span>}
@@ -4767,7 +4807,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                     const isNum = typeof v0 === "number";
                     const winner = !isNum ? null : spec.lower ? (v0 < v1 ? 0 : v0 > v1 ? 1 : null) : (v0 > v1 ? 0 : v0 < v1 ? 1 : null);
                     return (
-                      <div key={i} className="grid grid-cols-3 items-center" style={{ background: i % 2 === 0 ? "#fafaf8" : "#f5f2ee", borderBottom: "1px solid #00000008" }}>
+                      <div key={i} className="grid grid-cols-3 items-center" style={{ background: i % 2 === 0 ? "#f5f0e8" : "#f5f2ee", borderBottom: "1px solid #00000008" }}>
                         <div className="px-4 py-3 text-right font-bold text-sm" style={{ color: winner === 0 ? c0 : "#6b635b" }}>
                           {spec.prefix}{v0}{typeof v0 === "number" ? spec.unit : ""} {winner === 0 && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" style={{display:"inline"}}><path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                         </div>
@@ -5024,7 +5064,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="rounded-2xl p-8 sm:p-10 text-center flex flex-col" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
                       <FlaskConical size={48} style={{ color: accent, margin: "0 auto 20px" }} />
-                      <div className="text-xl sm:text-2xl font-black mb-4" style={{ fontFamily: "'Playfair Display'", color: accent }}>Find Your Perfect Keyboard</div>
+                      <div className="text-xl sm:text-2xl font-black mb-4" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: accent }}>Find Your Perfect Keyboard</div>
                       <p className="text-sm opacity-85 max-w-lg mx-auto leading-relaxed mb-2">
                         This quiz analyzes your hand measurements, grip style, gaming preferences, and priorities to recommend keyboards from our database of {keyboards.length} models — cross-referenced with data from {allPlayers.length}+ pro players.
                       </p>
@@ -5038,7 +5078,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                     </div>
                     <div className="rounded-2xl p-8 sm:p-10 text-center relative overflow-hidden flex flex-col" style={{ background: "#ffffff", border: "1px solid #8b5cf615" }}>
                       <div className="flex justify-center mb-5">{I.gear(48)}</div>
-                      <div className="text-xl sm:text-2xl font-black mb-4" style={{ fontFamily: "'Playfair Display'", color: "#7048c4" }}>Compare Keyboards</div>
+                      <div className="text-xl sm:text-2xl font-black mb-4" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: "#7048c4" }}>Compare Keyboards</div>
                       <p className="text-sm opacity-85 max-w-lg mx-auto leading-relaxed mb-2">
                         Put any two keyboards head-to-head with detailed spec breakdowns, radar charts, pro usage stats, and side-by-side shape analysis.
                       </p>
@@ -5052,7 +5092,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                     </div>
                     <div className="rounded-2xl p-8 sm:p-10 text-center flex flex-col" style={{ background: "#ffffff", border: "1px solid #06b6d415" }}>
                       <Layers size={48} style={{ color: "#0890a8", margin: "0 auto 20px" }} />
-                      <div className="text-xl sm:text-2xl font-black mb-2" style={{ fontFamily: "'Playfair Display'", color: "#0890a8" }}>Shape Overlay</div>
+                      <div className="text-xl sm:text-2xl font-black mb-2" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: "#0890a8" }}>Shape Overlay</div>
                       <div className="mb-4 flex flex-wrap gap-1.5 justify-center">
                         <span className="text-sm font-bold px-2 py-0.5 rounded-full" style={{ background: "#06b6d415", color: "#0890a8", border: "1px solid #06b6d430", fontSize: 12 }}>BETA</span>
                         <span className="text-sm font-bold px-2 py-0.5 rounded-full" style={{ background: "#b8956a18", color: "#b8956a", border: "1px solid #b8956a30", fontSize: 12 }}>🚧 UNDER CONSTRUCTION</span>
@@ -5225,10 +5265,10 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                     <p className="text-sm mb-6" style={{ color: "#a09890" }}>What weight range do you prefer?</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {[
-                        { id: "ultralight", label: "Ultralight", range: "Under 50g", desc: "Like holding almost nothing. Maximum flick speed.", example: "Wooting 60HE+, DrunkDeer A75, Razer Huntsman Mini" },
+                        { id: "ultralight", label: "Wooting", range: "Under 50g", desc: "Like holding almost nothing. Maximum flick speed.", example: "Wooting 60HE+, DrunkDeer A75, Razer Huntsman Mini" },
                         { id: "light", label: "Light", range: "50-65g", desc: "The competitive sweet spot. Fast but controlled.", example: "Wooting 60HE, Razer Huntsman V3 Pro TKL, Corsair K65 Plus" },
-                        { id: "medium", label: "Medium", range: "65-85g", desc: "Stable and comfortable. Some prefer the control.", example: "Zowie EC2, SteelSeries Aerox 5" },
-                        { id: "heavy", label: "Heavy / Don't Care", range: "85g+", desc: "Maximum stability, or weight just isn't a factor.", example: "G502 X Plus, Basilisk V3 Pro" },
+                        { id: "medium", label: "Medium", range: "65-85g", desc: "Stable and comfortable. Some prefer the control.", example: "Cherry MX Board, SteelSeries Apex Pro" },
+                        { id: "heavy", label: "Heavy / Don't Care", range: "85g+", desc: "Maximum stability, or weight just isn't a factor.", example: "G502 X Plus, BlackWidow V3 Pro" },
                       ].map(w => (
                         <OptionButton key={w.id} selected={quizAnswers.weightPref === w.id} onClick={() => setAnswer("weightPref", w.id)} large>
                           <div className="text-sm font-black mb-1" style={{ color: quizAnswers.weightPref === w.id ? accent : "#6b635b" }}>{w.label}</div>
@@ -5378,7 +5418,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                             </div>
                           </div>
 
-                          {/* Mouse image */}
+                          {/* Keyboard image */}
                           <div className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-xl flex items-center justify-center" style={{ background: `${brandCol}08`, border: `1px solid ${brandCol}12` }}>
                             {KEYBOARD_IMAGE_URLS[m.name] ? (
                               <img loading="lazy" src={KEYBOARD_IMAGE_URLS[m.name]} alt={m.name} className="w-full h-full object-contain p-1.5"
@@ -5388,7 +5428,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                             
                           </div>
 
-                          {/* Mouse info */}
+                          {/* Keyboard info */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between gap-3 mb-2">
                               <div>
@@ -5504,7 +5544,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
 
                 return (
                   <div>
-                    {/* Mouse selectors */}
+                    {/* Keyboard selectors */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                       {[
                         { kbd: mA, set: setShapeKbdA, col: colA, label: "Keyboard A" },
@@ -5560,7 +5600,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                           {/* Center crosshair */}
                           <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 1, background: "#00000008" }} />
                           <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: 1, background: "#00000008" }} />
-                          {/* Mouse B (behind) */}
+                          {/* Keyboard B (behind) */}
                           <img loading="lazy" src={KEYBOARD_IMAGE_URLS[mB.name]} alt={mB.name} width={Math.round(imgWB)} height={Math.round(imgHB)}
                             style={{
                               position: "absolute",
@@ -5571,7 +5611,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                               opacity: 0.45,
                               filter: `drop-shadow(0 0 12px ${colB}40)`,
                             }} />
-                          {/* Mouse A (front) */}
+                          {/* Keyboard A (front) */}
                           <img loading="lazy" src={KEYBOARD_IMAGE_URLS[mA.name]} alt={mA.name} width={Math.round(imgWA)} height={Math.round(imgHA)}
                             style={{
                               position: "absolute",
@@ -5833,7 +5873,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
 
               {/* Converted Sensitivities */}
               {cm360 > 0 && cm360 < 10000 && (
-                <div className="p-4 sm:p-6" style={{ background: "#fafaf8" }}>
+                <div className="p-4 sm:p-6" style={{ background: "#f5f0e8" }}>
                   <div className="text-sm uppercase tracking-widest opacity-60 mb-4">Equivalent Sensitivity in Every Game</div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                     {SENS_GAMES.filter(g => g.id !== sensFromGame).map(g => {
@@ -5937,7 +5977,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
 
               {/* Quick Reference */}
               {cm360 > 0 && cm360 < 10000 && (
-                <div className="p-4 sm:p-6" style={{ background: "#fafaf8", borderTop: `1px solid ${accentC}10` }}>
+                <div className="p-4 sm:p-6" style={{ background: "#f5f0e8", borderTop: `1px solid ${accentC}10` }}>
                   <div className="text-sm uppercase tracking-widest opacity-30 mb-3">Sensitivity Ranges by Game Type</div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div className="rounded-lg p-3" style={{ background: "#00000008" }}>
@@ -6191,7 +6231,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   <Shield size={36} className="team-fallback" style={{ color: tc, display: TEAM_LOGOS[selectedTeam] ? "none" : "block" }} />
                 </div>
                 <div>
-                  <div className="text-2xl sm:text-3xl font-black" style={{ fontFamily: "'Playfair Display'", color: tc }}>{selectedTeam}</div>
+                  <div className="text-2xl sm:text-3xl font-black" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: tc }}>{selectedTeam}</div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {gameEntries.map(([game]) => (
                       <span key={game} className="px-2.5 py-1 rounded-lg text-xs font-bold cursor-pointer transition-all hover:scale-105 hover:bg-stone-50"
@@ -6374,20 +6414,32 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
       {/* ─── SCROLL TO TOP ─── */}
       {showScrollTop && (
         <button aria-label="Scroll to top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 z-50 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
-          style={{ background: "#b8956a", color: "#1a1614", boxShadow: "0 4px 20px #b8956a30" }}>
+          className="fixed bottom-20 md:bottom-6 right-6 z-40 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
+          style={{ background: "linear-gradient(135deg, #06b6d4, #8b5cf6)", color: "#fff", boxShadow: "0 4px 20px #06b6d430" }}>
           ▲
         </button>
       )}
 
       {/* ─── FOOTER ─── */}
-      <footer role="contentinfo" aria-label="Site footer" className="border-t py-12 px-6" style={{ borderColor: "#00000008", background: "#f0ede8" }}>
+      <footer role="contentinfo" aria-label="Site footer" className="relative py-12 px-6 overflow-hidden" style={{ background: "#ece6db" }}>
+        {/* Gradient top border */}
+        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(to right, transparent, #06b6d4, #8b5cf6, transparent)" }} />
+        {/* Decorative keyboard outline */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ opacity: 0.03 }}>
+          <svg width="800" height="280" viewBox="0 0 800 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="780" height="260" rx="16" stroke="#1a1614" strokeWidth="2"/>
+            {Array.from({ length: 14 }).map((_, i) => <rect key={`r1-${i}`} x={24 + i * 55} y="28" width="44" height="44" rx="6" stroke="#1a1614" strokeWidth="1.5"/>)}
+            {Array.from({ length: 13 }).map((_, i) => <rect key={`r2-${i}`} x={38 + i * 55} y="82" width="44" height="44" rx="6" stroke="#1a1614" strokeWidth="1.5"/>)}
+            {Array.from({ length: 12 }).map((_, i) => <rect key={`r3-${i}`} x={52 + i * 55} y="136" width="44" height="44" rx="6" stroke="#1a1614" strokeWidth="1.5"/>)}
+            <rect x="180" y="190" width="440" height="44" rx="6" stroke="#1a1614" strokeWidth="1.5"/>
+          </svg>
+        </div>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <span className="inline-block">{I.mouse(24)}</span>
-                <span style={{ fontFamily: "'Playfair Display'", fontSize: 15, letterSpacing: 4, color: "#b8956a" }}>ESPORTSKB</span>
+                <span className="inline-block">{I.keyboard(24)}</span>
+                <span style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 15, letterSpacing: 4, color: "#b8956a" }}>ESPORTSKB</span>
               </div>
               <p className="text-sm opacity-30 leading-relaxed">{`The definitive resource for professional esports keyboards. Data from ${allPlayers.length}+ pro players across ${new Set(allPlayers.map(p=>p.game)).size} major competitive titles.`}</p>
               <p className="text-xs opacity-20 mt-2">Data last updated: February 2026</p>
@@ -6501,6 +6553,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
           </div>
         </div>
       </footer>
+      </div>{/* end sidebar-offset wrapper */}
     </div>
   );
 }

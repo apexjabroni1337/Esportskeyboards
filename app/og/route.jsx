@@ -18,7 +18,7 @@ export async function GET(request) {
 
   return new ImageResponse(
     (
-      <div style={{ background: "#fafaf8", width: "100%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontFamily: "system-ui, sans-serif", position: "relative", overflow: "hidden" }}>
+      <div style={{ background: "#f5f0e8", width: "100%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontFamily: "system-ui, sans-serif", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "-120px", right: "-80px", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, " + accent + "20, transparent 70%)", display: "flex" }} />
         <div style={{ position: "absolute", bottom: "-120px", left: "-80px", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, " + accent + "12, transparent 70%)", display: "flex" }} />
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "4px", background: "linear-gradient(to right, transparent, " + accent + ", transparent)", display: "flex" }} />

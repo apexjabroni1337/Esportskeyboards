@@ -165,12 +165,12 @@ export default function KeyboardsPage() {
 
         <h2>Keyboards by Layout</h2>
         {[...new Set(keyboards.map((m) => m.layout))].map((shape) => {
-          const shapeMice = keyboards.filter((m) => m.layout === shape);
+          const shapeKeyboards = keyboards.filter((m) => m.layout === shape);
           return (
             <section key={shape}>
-              <h3>{shape} Shape ({shapeMice.length} keyboards)</h3>
+              <h3>{shape} Shape ({shapeKeyboards.length} keyboards)</h3>
               <ul>
-                {shapeMice.map((m) => (
+                {shapeKeyboards.map((m) => (
                   <li key={m.id}><a href={`/keyboards/${slug(m.name)}`}>{m.name}</a> ({m.brand}, {m?.weight}g)</li>
                 ))}
               </ul>

@@ -103,7 +103,7 @@ export default function BestForPage({ params }) {
 
   // FAQ schema
   const faq = isGame ? [
-    { q: `What is the best keyboard for ${page.full}?`, a: `The most popular keyboard among ${page.game} pros is the ${topKeyboardsForPage[0]?.name || "Razer Viper V3 Pro"}, used by ${topKeyboardsForPage[0]?.gamePercent || "N/A"}% of tracked players. The top 3 are: ${topKeyboardsForPage.slice(0, 3).map(m => m.name).join(", ")}.` },
+    { q: `What is the best keyboard for ${page.full}?`, a: `The most popular keyboard among ${page.game} pros is the ${topKeyboardsForPage[0]?.name || "Wooting 60HE"}, used by ${topKeyboardsForPage[0]?.gamePercent || "N/A"}% of tracked players. The top 3 are: ${topKeyboardsForPage.slice(0, 3).map(m => m.name).join(", ")}.` },
     { q: `What DPI do ${page.game} pros use?`, a: `The average DPI among pro ${page.game} players is ${avgDpi}. Most pros use between 400-800 DPI with adjusted in-game sensitivity to achieve their preferred eDPI of around ${avgEdpi}.` },
     { q: `Do ${page.game} pros use wireless keyboards?`, a: `Yes — the vast majority of ${page.game} pros now use wireless keyboards. Modern wireless keyboards from Razer, Logitech, and others have sub-1ms latency, making them equal to or better than wired alternatives.` },
   ] : [

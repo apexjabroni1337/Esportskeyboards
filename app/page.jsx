@@ -104,7 +104,7 @@ export default function HomePage() {
             <li><a href="/keyboards">All Esports Keyboards — Complete database with specs and rankings</a></li>
             <li><a href="/players">Pro Player Settings — DPI, sensitivity, and gear for {totalPlayers.toLocaleString()}+ players</a></li>
             <li><a href="/games">Games — Keyboard DNA by esports title</a></li>
-            <li><a href="/brands">Brands — Compare Razer, Logitech, Zowie, and more</a></li>
+            <li><a href="/brands">Brands — Compare Wooting, Razer, Logitech, and more</a></li>
             <li><a href="/switches">Switches — Hall Effect, Cherry MX, Razer Optical comparison</a></li>
             <li><a href="/trends">Trends — Weight, polling rate, wireless adoption data</a></li>
             <li><a href="/compare">Compare — Side-by-side keyboard comparison tool</a></li>

@@ -12,7 +12,7 @@ export const metadata = {
     title: "Brands — Esports Keyboard Manufacturers Compared",
     description: "Compare the top gaming keyboard brands used by professional esports players.",
     url: "https://esportskeyboards.com/brands",
-    images: [{ url: "https://esportskeyboards.com/og?title=Brands&subtitle=Razer+%C2%B7+Logitech+%C2%B7+Zowie+%C2%B7+Finalmouse+%C2%B7+Pulsar+%C2%B7+Lamzu", width: 1200, height: 630 }],
+    images: [{ url: "https://esportskeyboards.com/og?title=Brands&subtitle=Wooting+%C2%B7+Razer+%C2%B7+Logitech+%C2%B7+SteelSeries+%C2%B7+Cherry+%C2%B7+Keychron", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",

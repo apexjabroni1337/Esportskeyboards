@@ -62,14 +62,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <meta name="theme-color" content="#fafaf8" />
+        <meta name="theme-color" content="#f5f0e8" />
         <link rel="apple-touch-icon" href="/icon.png" />
         <link rel="preconnect" href="https://flagcdn.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://flagcdn.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=JetBrains+Mono:wght@400;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
           rel="stylesheet"
         />
         <link rel="icon" href="/favicon.ico" />
