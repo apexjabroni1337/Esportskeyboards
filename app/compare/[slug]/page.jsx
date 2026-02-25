@@ -164,14 +164,14 @@ export default function ComparisonPage({ params }) {
         <h2>Pro Players Using {a.name}</h2>
         <ul>
           {aPlayers.map(p => (
-            <li key={p.name}><a href={`/players/${slug(p.name)}`}>{p.name}</a> ({p.game}, {p.team}) — {p.dpi} DPI, {p.edpi} eDPI</li>
+            <li key={p.name}><a href={`/players/${slug(p.name)}`}>{p.name}</a> ({p.game}, {p.team})</li>
           ))}
         </ul>
 
         <h2>Pro Players Using {b.name}</h2>
         <ul>
           {bPlayers.map(p => (
-            <li key={p.name}><a href={`/players/${slug(p.name)}`}>{p.name}</a> ({p.game}, {p.team}) — {p.dpi} DPI, {p.edpi} eDPI</li>
+            <li key={p.name}><a href={`/players/${slug(p.name)}`}>{p.name}</a> ({p.game}, {p.team})</li>
           ))}
         </ul>
 

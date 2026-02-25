@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deep Dive Panel — 10 Redesign Mockups</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f5f0e8; color: #1a1614; font-family: 'Outfit', sans-serif; padding: 30px; }
+  h1 { font-family: 'Space Grotesk', sans-serif; text-align: center; font-size: 28px; margin-bottom: 10px; }
+  .subtitle { text-align: center; opacity: 0.4; margin-bottom: 40px; font-size: 14px; }
+  .mockup-label { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; margin: 40px 0 16px; color: #06b6d4; display: flex; align-items: center; gap: 10px; }
+  .mockup-label span { background: linear-gradient(135deg, #06b6d4, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 32px; }
+  .mockup-desc { font-size: 13px; opacity: 0.5; margin-bottom: 16px; max-width: 600px; }
+  .max-w { max-width: 820px; margin: 0 auto; }
+
+  /* Shared mock data styling */
+  .brand-col { color: #c02870; }
+  .brand-bg { background: #c0287010; }
+  .brand-border { border-color: #c0287020; }
+</style>
+</head>
+<body>
+<div class="max-w">
+<h1>Deep Dive Panel — 10 Redesign Options</h1>
+<p class="subtitle">Same data, completely different layouts. Pick your favorite!</p>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- OPTION 1: Bento Grid -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="mockup-label"><span>1</span> Bento Grid</div>
+<p class="mockup-desc">Asymmetric card grid inspired by modern dashboards. Each data group gets its own "bento box" with varying sizes. Stats feel like a control panel.</p>
+<div style="background: #fff; border-radius: 20px; padding: 24px; border: 1px solid #e8e4df; overflow: hidden;">
+  <!-- Title bar -->
+  <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+    <div style="width: 42px; height: 42px; border-radius: 12px; background: linear-gradient(135deg, #c02870, #e040a0); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-family: 'Fira Code', monospace; font-size: 16px;">#2</div>
+    <div>
+      <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 18px;">Wooting 60HE</div>
+      <div style="font-size: 12px; opacity: 0.4;">908 pro users · 42.3% market share · 13 games</div>
+    </div>
+  </div>
+  <!-- Bento grid -->
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: auto auto auto; gap: 10px;">
+    <!-- Big stat cards (top row) -->
+    <div style="background: #c0287008; border-radius: 14px; padding: 16px; text-align: center;">
+      <div style="font-size: 28px; font-weight: 800; color: #c02870; font-family: 'Fira Code', monospace;">908</div>
+      <div style="font-size: 11px; opacity: 0.4; margin-top: 2px;">Pro Users</div>
+    </div>
+    <div style="background: #c0287008; border-radius: 14px; padding: 16px; text-align: center;">
+      <div style="font-size: 28px; font-weight: 800; color: #c02870; font-family: 'Fira Code', monospace;">42.3%</div>
+      <div style="font-size: 11px; opacity: 0.4; margin-top: 2px;">Market Share</div>
+    </div>
+    <div style="background: #c0287008; border-radius: 14px; padding: 16px; text-align: center;">
+      <div style="font-size: 28px; font-weight: 800; color: #c02870; font-family: 'Fira Code', monospace;">836</div>
+      <div style="font-size: 11px; opacity: 0.4; margin-top: 2px;">Avg eDPI</div>
+    </div>
+    <div style="background: #c0287008; border-radius: 14px; padding: 16px; text-align: center;">
+      <div style="font-size: 28px; font-weight: 800; color: #c02870; font-family: 'Fira Code', monospace;">13</div>
+      <div style="font-size: 11px; opacity: 0.4; margin-top: 2px;">Games</div>
+    </div>
+    <!-- Game breakdown (wide) + DPI (narrow) -->
+    <div style="grid-column: span 2; background: #f8f6f2; border-radius: 14px; padding: 16px;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.3; margin-bottom: 10px;">Game Breakdown</div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 60px; font-size: 13px; font-weight: 700; color: #c47000;">CS2</span><div style="flex: 1; height: 8px; border-radius: 4px; background: #c4700015;"><div style="height: 100%; width: 100%; border-radius: 4px; background: #c47000; opacity: 0.6;"></div></div><span style="font-size: 12px; opacity: 0.5; font-family: 'Fira Code', monospace;">48%</span></div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 60px; font-size: 13px; font-weight: 700; color: #c43848;">Valorant</span><div style="flex: 1; height: 8px; border-radius: 4px; background: #c4384815;"><div style="height: 100%; width: 40%; border-radius: 4px; background: #c43848; opacity: 0.6;"></div></div><span style="font-size: 12px; opacity: 0.5; font-family: 'Fira Code', monospace;">19%</span></div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 60px; font-size: 13px; font-weight: 700; color: #3a60b0;">Fortnite</span><div style="flex: 1; height: 8px; border-radius: 4px; background: #3a60b015;"><div style="height: 100%; width: 25%; border-radius: 4px; background: #3a60b0; opacity: 0.6;"></div></div><span style="font-size: 12px; opacity: 0.5; font-family: 'Fira Code', monospace;">12%</span></div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 60px; font-size: 13px; font-weight: 700; color: #3a6ca0;">R6 Siege</span><div style="flex: 1; height: 8px; border-radius: 4px; background: #3a6ca015;"><div style="height: 100%; width: 10%; border-radius: 4px; background: #3a6ca0; opacity: 0.6;"></div></div><span style="font-size: 12px; opacity: 0.5; font-family: 'Fira Code', monospace;">5%</span></div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 60px; font-size: 13px; font-weight: 700; color: #a82020;">Apex</span><div style="flex: 1; height: 8px; border-radius: 4px; background: #a8202015;"><div style="height: 100%; width: 8%; border-radius: 4px; background: #a82020; opacity: 0.6;"></div></div><span style="font-size: 12px; opacity: 0.5; font-family: 'Fira Code', monospace;">4%</span></div>
+      </div>
+    </div>
+    <div style="grid-column: span 2; background: #f8f6f2; border-radius: 14px; padding: 16px;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.3; margin-bottom: 10px;">Settings Profile</div>
+      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px;">
+        <div style="text-align: center; flex: 1;"><div style="font-size: 24px; font-weight: 800; color: #c02870; font-family: 'Fira Code', monospace;">800</div><div style="font-size: 10px; opacity: 0.3;">Most Common DPI</div></div>
+        <div style="width: 1px; height: 30px; background: #0000000a;"></div>
+        <div style="text-align: center; flex: 1;"><div style="font-size: 24px; font-weight: 800; color: #c02870; font-family: 'Fira Code', monospace;">836</div><div style="font-size: 10px; opacity: 0.3;">Avg eDPI</div></div>
+      </div>
+      <div style="font-size: 11px; opacity: 0.3; margin-bottom: 4px;">eDPI distribution</div>
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <span style="font-size: 11px; opacity: 0.4; font-family: 'Fira Code', monospace;">8</span>
+        <div style="flex: 1; height: 6px; border-radius: 3px; background: linear-gradient(to right, #c0287010, #c0287040, #c0287010); position: relative;">
+          <div style="position: absolute; left: 11%; top: -3px; width: 12px; height: 12px; border-radius: 50%; background: #c02870; border: 2px solid white;"></div>
+        </div>
+        <span style="font-size: 11px; opacity: 0.4; font-family: 'Fira Code', monospace;">7838</span>
+      </div>
+    </div>
+    <!-- Bottom: Regions + Teams + Similar -->
+    <div style="grid-column: span 2; background: #f8f6f2; border-radius: 14px; padding: 16px;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.3; margin-bottom: 10px;">Top Regions</div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+        <span style="padding: 4px 10px; border-radius: 8px; background: #c0287012; font-size: 13px; font-weight: 700; color: #c02870;">🇺🇸 139</span>
+        <span style="padding: 4px 10px; border-radius: 8px; background: #c0287012; font-size: 13px; font-weight: 700; color: #c02870;">🇵🇱 81</span>
+        <span style="padding: 4px 10px; border-radius: 8px; background: #c0287012; font-size: 13px; font-weight: 700; color: #c02870;">🇧🇷 76</span>
+        <span style="padding: 4px 10px; border-radius: 8px; background: #c0287012; font-size: 13px; font-weight: 700; color: #c02870;">🇹🇭 48</span>
+        <span style="padding: 4px 10px; border-radius: 8px; background: #c0287012; font-size: 13px; font-weight: 700; color: #c02870;">🇩🇰 46</span>
+      </div>
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.3; margin-bottom: 8px;">Top Teams</div>
+      <div style="display: flex; gap: 6px;">
+        <span style="padding: 4px 10px; border-radius: 6px; background: #0000000a; font-size: 12px;">Free Agent <b>231</b></span>
+        <span style="padding: 4px 10px; border-radius: 6px; background: #0000000a; font-size: 12px;">Content Creator <b>51</b></span>
+        <span style="padding: 4px 10px; border-radius: 6px; background: #0000000a; font-size: 12px;">Falcons <b>14</b></span>
+      </div>
+    </div>
+    <div style="grid-column: span 2; background: #f8f6f2; border-radius: 14px; padding: 16px;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.3; margin-bottom: 10px;">Similar Keyboards</div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px; background: white; border: 1px solid #e8e4df;"><div><div style="font-weight: 700; font-size: 14px; color: #c02870;">60HE+</div><div style="font-size: 11px; opacity: 0.4;">620g · Lekker V2 · $195</div></div></div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px; background: white; border: 1px solid #e8e4df;"><div><div style="font-weight: 700; font-size: 14px; color: #2a8a40;">Huntsman V3 Pro Mini</div><div style="font-size: 11px; opacity: 0.4;">590g · Razer Optical · $230</div></div></div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px; background: white; border: 1px solid #e8e4df;"><div><div style="font-weight: 700; font-size: 14px; color: #c02870;">UwU</div><div style="font-size: 11px; opacity: 0.4;">780g · Lekker V2 · $250</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- OPTION 2: Full-Width Horizontal Ticker -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="mockup-label"><span>2</span> Horizontal Ticker + Accordion</div>
+<p class="mockup-desc">Stats scroll horizontally like a stock ticker. Sections below expand on tap. Compact, data-dense, and unique.</p>
+<div style="background: #1a1614; border-radius: 20px; overflow: hidden;">
+  <!-- Ticker header -->
+  <div style="padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #ffffff10;">
+    <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 16px; color: #06b6d4;">Wooting 60HE</span>
+    <span style="color: #ffffff20;">|</span>
+    <span style="font-family: 'Fira Code', monospace; font-size: 13px; color: #06b6d4;">RANK #2</span>
+  </div>
+  <!-- Scrolling stats bar -->
+  <div style="display: flex; gap: 0; border-bottom: 1px solid #ffffff08; overflow-x: auto;">
+    <div style="padding: 14px 24px; border-right: 1px solid #ffffff08; text-align: center; min-width: 130px;"><div style="font-family: 'Fira Code', monospace; font-size: 22px; font-weight: 700; color: #10b981;">908</div><div style="font-size: 10px; color: #ffffff30; text-transform: uppercase; letter-spacing: 1px;">Pro Users</div></div>
+    <div style="padding: 14px 24px; border-right: 1px solid #ffffff08; text-align: center; min-width: 130px;"><div style="font-family: 'Fira Code', monospace; font-size: 22px; font-weight: 700; color: #10b981;">42.3%</div><div style="font-size: 10px; color: #ffffff30; text-transform: uppercase; letter-spacing: 1px;">Market Share</div></div>
+    <div style="padding: 14px 24px; border-right: 1px solid #ffffff08; text-align: center; min-width: 130px;"><div style="font-family: 'Fira Code', monospace; font-size: 22px; font-weight: 700; color: #f59e0b;">836</div><div style="font-size: 10px; color: #ffffff30; text-transform: uppercase; letter-spacing: 1px;">Avg eDPI</div></div>
+    <div style="padding: 14px 24px; border-right: 1px solid #ffffff08; text-align: center; min-width: 130px;"><div style="font-family: 'Fira Code', monospace; font-size: 22px; font-weight: 700; color: #8b5cf6;">800</div><div style="font-size: 10px; color: #ffffff30; text-transform: uppercase; letter-spacing: 1px;">Top DPI</div></div>
+    <div style="padding: 14px 24px; text-align: center; min-width: 130px;"><div style="font-family: 'Fira Code', monospace; font-size: 22px; font-weight: 700; color: #ec4899;">13</div><div style="font-size: 10px; color: #ffffff30; text-transform: uppercase; letter-spacing: 1px;">Games</div></div>
+  </div>
+  <!-- Accordion sections -->
+  <div style="padding: 12px;">
+    <div style="padding: 14px 16px; border-radius: 10px; background: #ffffff08; margin-bottom: 6px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 13px; font-weight: 700; color: #06b6d4; text-transform: uppercase; letter-spacing: 1px;">Game Breakdown</span>
+        <div style="display: flex; gap: 12px;">
+          <span style="font-size: 12px; color: #c47000;">CS2 <b>48%</b></span>
+          <span style="font-size: 12px; color: #c43848;">VAL <b>19%</b></span>
+          <span style="font-size: 12px; color: #3a60b0;">FN <b>12%</b></span>
+          <span style="font-size: 12px; color: #3a6ca0;">R6 <b>5%</b></span>
+          <span style="font-size: 12px; color: #a82020;">APX <b>4%</b></span>
+        </div>
+      </div>
+    </div>
+    <div style="padding: 14px 16px; border-radius: 10px; background: #ffffff08; margin-bottom: 6px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 13px; font-weight: 700; color: #8b5cf6; text-transform: uppercase; letter-spacing: 1px;">Regions</span>
+        <div style="display: flex; gap: 8px; font-size: 13px; color: #ffffff60;">🇺🇸 139 · 🇵🇱 81 · 🇧🇷 76 · 🇹🇭 48 · 🇩🇰 46</div>
+      </div>
+    </div>
+    <div style="padding: 14px 16px; border-radius: 10px; background: #ffffff08; margin-bottom: 6px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 13px; font-weight: 700; color: #ec4899; text-transform: uppercase; letter-spacing: 1px;">Similar</span>
+        <div style="display: flex; gap: 12px; font-size: 12px; color: #ffffff50;">60HE+ · Huntsman V3 Pro Mini · UwU</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- OPTION 3: Radial / Circular Dashboard -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="mockup-label"><span>3</span> Radial Dashboard</div>
+<p class="mockup-desc">Central "hero" stat surrounded by satellite data points in a circular layout. Feels like a radar screen or mission control.</p>
+<div style="background: linear-gradient(180deg, #0f172a, #1e293b); border-radius: 20px; padding: 30px; text-align: center; position: relative; overflow: hidden;">
+  <!-- Decorative rings -->
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; border-radius: 50%; border: 1px solid #06b6d410;"></div>
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; height: 450px; border-radius: 50%; border: 1px solid #06b6d408;"></div>
+  <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; color: #06b6d4; font-size: 14px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 24px;">Wooting 60HE · Intelligence Report</div>
+  <!-- Center hero stat -->
+  <div style="display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, #06b6d420, #8b5cf620); border: 2px solid #06b6d440; margin-bottom: 20px;">
+    <div style="font-family: 'Fira Code', monospace; font-size: 36px; font-weight: 800; color: #06b6d4;">908</div>
+    <div style="font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">Pro Users</div>
+  </div>
+  <!-- Orbiting stats -->
+  <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 24px;">
+    <div style="background: #ffffff08; padding: 12px 20px; border-radius: 12px; border: 1px solid #06b6d420;"><div style="font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 700; color: #10b981;">42.3%</div><div style="font-size: 10px; color: #64748b;">SHARE</div></div>
+    <div style="background: #ffffff08; padding: 12px 20px; border-radius: 12px; border: 1px solid #8b5cf620;"><div style="font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 700; color: #8b5cf6;">#2</div><div style="font-size: 10px; color: #64748b;">RANK</div></div>
+    <div style="background: #ffffff08; padding: 12px 20px; border-radius: 12px; border: 1px solid #f59e0b20;"><div style="font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 700; color: #f59e0b;">836</div><div style="font-size: 10px; color: #64748b;">eDPI</div></div>
+    <div style="background: #ffffff08; padding: 12px 20px; border-radius: 12px; border: 1px solid #ec489920;"><div style="font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 700; color: #ec4899;">13</div><div style="font-size: 10px; color: #64748b;">GAMES</div></div>
+  </div>
+  <!-- Game bars (horizontal, glowing) -->
+  <div style="text-align: left; max-width: 500px; margin: 0 auto 20px;">
+    <div style="font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;">Game Distribution</div>
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="width: 55px; font-size: 12px; color: #c47000; font-weight: 700;">CS2</span><div style="flex: 1; height: 6px; border-radius: 3px; background: #ffffff10;"><div style="height: 100%; width: 100%; border-radius: 3px; background: #c47000; box-shadow: 0 0 8px #c4700040;"></div></div><span style="font-family: 'Fira Code', monospace; font-size: 11px; color: #c47000;">437</span></div>
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="width: 55px; font-size: 12px; color: #c43848; font-weight: 700;">VAL</span><div style="flex: 1; height: 6px; border-radius: 3px; background: #ffffff10;"><div style="height: 100%; width: 40%; border-radius: 3px; background: #c43848; box-shadow: 0 0 8px #c4384840;"></div></div><span style="font-family: 'Fira Code', monospace; font-size: 11px; color: #c43848;">177</span></div>
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="width: 55px; font-size: 12px; color: #3a60b0; font-weight: 700;">FN</span><div style="flex: 1; height: 6px; border-radius: 3px; background: #ffffff10;"><div style="height: 100%; width: 25%; border-radius: 3px; background: #3a60b0; box-shadow: 0 0 8px #3a60b040;"></div></div><span style="font-family: 'Fira Code', monospace; font-size: 11px; color: #3a60b0;">107</span></div>
+  </div>
+  <!-- Regions & teams inline -->
+  <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+    <div style="font-size: 12px; color: #94a3b8;">🇺🇸 <span style="color: #06b6d4; font-weight: 700;">139</span></div>
+    <div style="font-size: 12px; color: #94a3b8;">🇵🇱 <span style="color: #06b6d4; font-weight: 700;">81</span></div>
+    <div style="font-size: 12px; color: #94a3b8;">🇧🇷 <span style="color: #06b6d4; font-weight: 700;">76</span></div>
+    <div style="font-size: 12px; color: #94a3b8;">🇹🇭 <span style="color: #06b6d4; font-weight: 700;">48</span></div>
+    <div style="font-size: 12px; color: #94a3b8;">🇩🇰 <span style="color: #06b6d4; font-weight: 700;">46</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- OPTION 4: Terminal / Code Style -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="mockup-label"><span>4</span> Terminal / Hacker</div>
+<p class="mockup-desc">Looks like a terminal readout. Monospace font, green-on-dark, scan-line effect. Appeals to the technical esports crowd.</p>
+<div style="background: #0a0a0a; border-radius: 16px; overflow: hidden; border: 1px solid #1a3a1a; font-family: 'Fira Code', monospace;">
+  <!-- Title bar with dots -->
+  <div style="padding: 10px 16px; background: #111; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #1a3a1a;">
+    <div style="width: 10px; height: 10px; border-radius: 50%; background: #f5655b;"></div>
+    <div style="width: 10px; height: 10px; border-radius: 50%; background: #f9bc2e;"></div>
+    <div style="width: 10px; height: 10px; border-radius: 50%; background: #2aca44;"></div>
+    <span style="margin-left: 8px; font-size: 12px; color: #4ade80;">keyboard_intel --model "Wooting 60HE"</span>
+  </div>
+  <div style="padding: 16px 20px; font-size: 13px; line-height: 1.8; color: #4ade80;">
+    <div style="color: #4ade8060;">━━━ KEYBOARD INTELLIGENCE REPORT ━━━</div>
+    <div><span style="color: #4ade8060;">MODEL:</span> Wooting 60HE</div>
+    <div><span style="color: #4ade8060;">RANK:</span>  <span style="color: #fbbf24;">#2</span> of 59 keyboards tracked</div>
+    <div style="height: 8px;"></div>
+    <div style="color: #4ade8060;">── ADOPTION ──</div>
+    <div>  pro_users    = <span style="color: #f472b6;">908</span></div>
+    <div>  market_share = <span style="color: #f472b6;">42.3%</span></div>
+    <div>  games        = <span style="color: #f472b6;">13</span></div>
+    <div style="height: 8px;"></div>
+    <div style="color: #4ade8060;">── SETTINGS ──</div>
+    <div>  avg_edpi     = <span style="color: #60a5fa;">836</span></div>
+    <div>  top_dpi      = <span style="color: #60a5fa;">800</span> (51%) | <span style="color: #60a5fa;">400</span> (34%) | <span style="color: #60a5fa;">1600</span> (10%)</div>
+    <div>  edpi_range   = <span style="color: #60a5fa;">8</span> — <span style="color: #60a5fa;">7838</span></div>
+    <div style="height: 8px;"></div>
+    <div style="color: #4ade8060;">── GAMES ──</div>
+    <div>  CS2      <span style="color: #c47000;">████████████████████████</span> 437 (48%)</div>
+    <div>  Valorant <span style="color: #c43848;">██████████</span>               177 (19%)</div>
+    <div>  Fortnite <span style="color: #3a60b0;">██████</span>                   107 (12%)</div>
+    <div>  R6 Siege <span style="color: #3a6ca0;">██</span>                        43  (5%)</div>
+    <div>  Apex     <span style="color: #a82020;">██</span>                        36  (4%)</div>
+    <div style="height: 8px;"></div>
+    <div style="color: #4ade8060;">── REGIONS ──</div>
+    <div>  🇺🇸 139  🇵🇱 81  🇧🇷 76  🇹🇭 48  🇩🇰 46</div>
+    <div style="height: 8px;"></div>
+    <div style="color: #4ade8060;">── ALTERNATIVES ──</div>
+    <div>  1. 60HE+ (620g / $195)</div>
+    <div>  2. Huntsman V3 Pro Mini (590g / $230)</div>
+    <div>  3. UwU (780g / $250)</div>
+    <div style="height: 4px;"></div>
+    <div style="color: #4ade8030;">━━━ END REPORT ━━━</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- OPTION 5: Magazine Spread -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="mockup-label"><span>5</span> Magazine Spread</div>
+<p class="mockup-desc">Editorial layout with a big hero number, pull quotes, and a two-column magazine feel. Clean typography focus.</p>
+<div style="background: white; border-radius: 20px; padding: 32px; border: 1px solid #e8e4df; position: relative;">
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+    <!-- Left column: hero stats -->
+    <div>
+      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 4px; color: #c02870; margin-bottom: 20px;">Keyboard Dossier</div>
+      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 48px; font-weight: 800; line-height: 1; color: #1a1614;">Wooting<br><span style="color: #c02870;">60HE</span></div>
+      <div style="margin-top: 16px; padding-top: 16px; border-top: 2px solid #c02870; display: flex; gap: 24px;">
+        <div><div style="font-family: 'Fira Code', monospace; font-size: 32px; font-weight: 800; color: #c02870;">908</div><div style="font-size: 11px; opacity: 0.4;">pros use it</div></div>
+        <div><div style="font-family: 'Fira Code', monospace; font-size: 32px; font-weight: 800; color: #c02870;">42%</div><div style="font-size: 11px; opacity: 0.4;">market share</div></div>
+        <div><div style="font-family: 'Fira Code', monospace; font-size: 32px; font-weight: 800; color: #c02870;">#2</div><div style="font-size: 11px; opacity: 0.4;">ranked</div></div>
+      </div>
+      <div style="margin-top: 20px; padding: 16px; background: #f8f6f2; border-radius: 12px; border-left: 3px solid #c02870;">
+        <div style="font-size: 14px; font-style: italic; color: #555;">The dominant 60% layout in competitive gaming, chosen by nearly half of all CS2 professionals.</div>
+      </div>
+    </div>
+    <!-- Right column: data -->
+    <div>
+      <div style="margin-bottom: 20px;">
+        <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.3; margin-bottom: 10px;">Where It's Used</div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <span style="padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #c4700015; color: #c47000;">CS2 · 48%</span>
+          <span style="padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #c4384815; color: #c43848;">Valorant · 19%</span>
+          <span style="padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #3a60b015; color: #3a60b0;">Fortnite · 12%</span>
+          <span style="padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #3a6ca015; color: #3a6ca0;">R6 · 5%</span>
+          <span style="padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #a8202015; color: #a82020;">Apex · 4%</span>
+        </div>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.3; margin-bottom: 8px;">Settings DNA</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div style="background: #f8f6f2; padding: 10px; border-radius: 8px; text-align: center;"><div style="font-family: 'Fira Code', monospace; font-size: 18px; font-weight: 700; color: #c02870;">800</div><div style="font-size: 10px; opacity: 0.3;">Top DPI (51%)</div></div>
+          <div style="background: #f8f6f2; padding: 10px; border-radius: 8px; text-align: center;"><div style="font-family: 'Fira Code', monospace; font-size: 18px; font-weight: 700; color: #c02870;">836</div><div style="font-size: 10px; opacity: 0.3;">Avg eDPI</div></div>
+        </div>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.3; margin-bottom: 8px;">Global Reach</div>
+        <div style="font-size: 14px;">🇺🇸 <b>139</b> &nbsp; 🇵🇱 <b>81</b> &nbsp; 🇧🇷 <b>76</b> &nbsp; 🇹🇭 <b>48</b> &nbsp; 🇩🇰 <b>46</b></div>
+      </div>
+      <div>
+        <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.3; margin-bottom: 8px;">Rivals</div>
+        <div style="font-size: 13px; line-height: 2;">60HE+ (620g, $195) · Huntsman V3 Pro Mini (590g, $230) · UwU (780g, $250)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- OPTION 6: Compact Pill Row -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="mockup-label"><span>6</span> Pill Row + Inline Detail</div>
+<p class="mockup-desc">Everything on one or two rows using colorful pills/chips. Ultra-compact, no wasted space. Details inline.</p>
+<div style="background: white; border-radius: 16px; padding: 20px; border: 1px solid #e8e4df;">
+  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+    <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 15px;">Wooting 60HE</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; background: linear-gradient(135deg, #c02870, #e040a0); color: white;">RANK #2</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #c0287015; color: #c02870;">908 pros</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #c0287015; color: #c02870;">42.3% share</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #8b5cf615; color: #8b5cf6;">eDPI: 836</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #06b6d415; color: #06b6d4;">DPI: 800 (51%)</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #10b98115; color: #10b981;">13 games</span>
+  </div>
+  <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px;">
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #c4700012; color: #c47000;">CS2 48%</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #c4384812; color: #c43848;">VAL 19%</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #3a60b012; color: #3a60b0;">FN 12%</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #3a6ca012; color: #3a6ca0;">R6 5%</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #a8202012; color: #a82020;">Apex 4%</span>
+    <span style="opacity: 0.2; margin: 0 4px;">|</span>
+    <span style="font-size: 12px; padding-top: 3px;">🇺🇸 139 · 🇵🇱 81 · 🇧🇷 76 · 🇹🇭 48 · 🇩🇰 46</span>
+  </div>
+  <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+    <span style="font-size: 11px; opacity: 0.3; padding-top: 2px;">Similar →</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; background: #0000000a; color: #555;">60HE+ · 620g · $195</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; background: #0000000a; color: #555;">V3 Pro Mini · 590g · $230</span>
+    <span style="padding: 3px 10px; border-radius: 20px; font-size: 12px; background: #0000000a; color: #555;">UwU · 780g · $250</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- OPTION 7: Split Card (Left stats / Right visual) -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="mockup-label"><span>7</span> Split Card + Donut</div>
+<p class="mockup-desc">Left side has a stacked vertical list of stats. Right side features a visual donut chart of game distribution. Clean 50/50 split.</p>
+<div style="background: white; border-radius: 20px; overflow: hidden; border: 1px solid #e8e4df; display: grid; grid-template-columns: 1fr 1fr;">
+  <!-- Left: stats list -->
+  <div style="padding: 24px; border-right: 1px solid #e8e4df;">
+    <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 18px; margin-bottom: 4px;">Wooting 60HE</div>
+    <div style="font-size: 12px; opacity: 0.4; margin-bottom: 20px;">Ranked #2 across 2,148 tracked pros</div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; justify-content: space-between; padding: 8px 12px; border-radius: 8px; background: #f8f6f2;"><span style="font-size: 13px; opacity: 0.5;">Pro Users</span><span style="font-family: 'Fira Code', monospace; font-weight: 700; color: #c02870;">908</span></div>
+      <div style="display: flex; justify-content: space-between; padding: 8px 12px; border-radius: 8px; background: #f8f6f2;"><span style="font-size: 13px; opacity: 0.5;">Market Share</span><span style="font-family: 'Fira Code', monospace; font-weight: 700; color: #c02870;">42.3%</span></div>
+      <div style="display: flex; justify-content: space-between; padding: 8px 12px; border-radius: 8px; background: #f8f6f2;"><span style="font-size: 13px; opacity: 0.5;">Avg eDPI</span><span style="font-family: 'Fira Code', monospace; font-weight: 700; color: #c02870;">836</span></div>
+      <div style="display: flex; justify-content: space-between; padding: 8px 12px; border-radius: 8px; background: #f8f6f2;"><span style="font-size: 13px; opacity: 0.5;">Most Used DPI</span><span style="font-family: 'Fira Code', monospace; font-weight: 700; color: #c02870;">800 (51%)</span></div>
+      <div style="display: flex; justify-content: space-between; padding: 8px 12px; border-radius: 8px; background: #f8f6f2;"><span style="font-size: 13px; opacity: 0.5;">eDPI Range</span><span style="font-family: 'Fira Code', monospace; font-weight: 700; color: #c02870;">8 — 7838</span></div>
+      <div style="display: flex; justify-content: space-between; padding: 8px 12px; border-radius: 8px; background: #f8f6f2;"><span style="font-size: 13px; opacity: 0.5;">Top Region</span><span style="font-weight: 700;">🇺🇸 <span style="color: #c02870;">139</span></span></div>
+    </div>
+    <div style="margin-top: 14px; font-size: 11px; opacity: 0.3;">Similar: 60HE+ · Huntsman V3 Pro Mini · UwU</div>
+  </div>
+  <!-- Right: game donut -->
+  <div style="padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.3; margin-bottom: 16px;">Game Distribution</div>
+    <!-- CSS donut chart -->
+    <div style="width: 180px; height: 180px; border-radius: 50%; background: conic-gradient(#c47000 0% 48%, #c43848 48% 67%, #3a60b0 67% 79%, #3a6ca0 79% 84%, #a82020 84% 88%, #ddd 88% 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+      <div style="width: 110px; height: 110px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+        <div style="font-family: 'Fira Code', monospace; font-size: 24px; font-weight: 800; color: #c02870;">13</div>
+        <div style="font-size: 10px; opacity: 0.3;">games</div>
+      </div>
+    </div>
+    <!-- Legend -->
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
+      <span style="font-size: 11px; display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #c47000;"></span>CS2 48%</span>
+      <span style="font-size: 11px; display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #c43848;"></span>VAL 19%</span>
+      <span style="font-size: 11px; display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #3a60b0;"></span>FN 12%</span>
+      <span style="font-size: 11px; display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #3a6ca0;"></span>R6 5%</span>
+      <span style="font-size: 11px; display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #a82020;"></span>Apex 4%</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- OPTION 8: Glassmorphism Floating Cards -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="mockup-label"><span>8</span> Glass Floating Cards</div>
+<p class="mockup-desc">Layered glassmorphism cards that float over a gradient background. Modern, premium feel with frosted glass effect.</p>
+<div style="background: linear-gradient(135deg, #c02870, #8b5cf6, #06b6d4); border-radius: 20px; padding: 24px; position: relative;">
+  <!-- Title -->
+  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+    <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 20px; color: white;">Wooting 60HE</span>
+    <span style="padding: 3px 12px; border-radius: 20px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); font-size: 12px; font-weight: 700; color: white;">RANK #2</span>
+  </div>
+  <!-- Floating stat cards -->
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px;">
+    <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); border-radius: 14px; padding: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.2);"><div style="font-family: 'Fira Code', monospace; font-size: 24px; font-weight: 800; color: white;">908</div><div style="font-size: 10px; color: rgba(255,255,255,0.6);">PRO USERS</div></div>
+    <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); border-radius: 14px; padding: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.2);"><div style="font-family: 'Fira Code', monospace; font-size: 24px; font-weight: 800; color: white;">42.3%</div><div style="font-size: 10px; color: rgba(255,255,255,0.6);">SHARE</div></div>
+    <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); border-radius: 14px; padding: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.2);"><div style="font-family: 'Fira Code', monospace; font-size: 24px; font-weight: 800; color: white;">836</div><div style="font-size: 10px; color: rgba(255,255,255,0.6);">AVG eDPI</div></div>
+    <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); border-radius: 14px; padding: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.2);"><div style="font-family: 'Fira Code', monospace; font-size: 24px; font-weight: 800; color: white;">13</div><div style="font-size: 10px; color: rgba(255,255,255,0.6);">GAMES</div></div>
+  </div>
+  <!-- Detail row -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+    <div style="background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-radius: 14px; padding: 16px; border: 1px solid rgba(255,255,255,0.15);">
+      <div style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;">Games</div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 50px; font-size: 12px; color: white; font-weight: 700;">CS2</span><div style="flex: 1; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.1);"><div style="height: 100%; width: 100%; border-radius: 3px; background: rgba(255,255,255,0.5);"></div></div><span style="font-size: 11px; color: rgba(255,255,255,0.7); font-family: 'Fira Code', monospace;">48%</span></div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 50px; font-size: 12px; color: white; font-weight: 700;">VAL</span><div style="flex: 1; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.1);"><div style="height: 100%; width: 40%; border-radius: 3px; background: rgba(255,255,255,0.5);"></div></div><span style="font-size: 11px; color: rgba(255,255,255,0.7); font-family: 'Fira Code', monospace;">19%</span></div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 50px; font-size: 12px; color: white; font-weight: 700;">FN</span><div style="flex: 1; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.1);"><div style="height: 100%; width: 25%; border-radius: 3px; background: rgba(255,255,255,0.5);"></div></div><span style="font-size: 11px; color: rgba(255,255,255,0.7); font-family: 'Fira Code', monospace;">12%</span></div>
+      </div>
+    </div>
+    <div style="background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-radius: 14px; padding: 16px; border: 1px solid rgba(255,255,255,0.15);">
+      <div style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;">Regions & Teams</div>
+      <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px;">
+        <span style="padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.15); font-size: 12px; color: white;">🇺🇸 139</span>
+        <span style="padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.15); font-size: 12px; color: white;">🇵🇱 81</span>
+        <span style="padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.15); font-size: 12px; color: white;">🇧🇷 76</span>
+        <span style="padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.15); font-size: 12px; color: white;">🇹🇭 48</span>
+      </div>
+      <div style="font-size: 12px; color: rgba(255,255,255,0.5);">Top: Free Agent (231) · Content Creator (51)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- OPTION 9: Tabbed Notebook -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="mockup-label"><span>9</span> Tabbed Notebook</div>
+<p class="mockup-desc">Compact header with tab buttons to switch between data views: Overview, Games, Settings, Demographics. Only one visible at a time.</p>
+<div style="background: white; border-radius: 20px; overflow: hidden; border: 1px solid #e8e4df;">
+  <!-- Header -->
+  <div style="padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e8e4df;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 16px;">Wooting 60HE</div>
+      <span style="font-family: 'Fira Code', monospace; font-size: 12px; padding: 2px 8px; border-radius: 6px; background: #c0287015; color: #c02870; font-weight: 700;">#2</span>
+    </div>
+    <div style="display: flex; gap: 4px;">
+      <span style="font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 800; color: #c02870;">908</span>
+      <span style="font-size: 11px; opacity: 0.3; padding-top: 6px;">pros</span>
+    </div>
+  </div>
+  <!-- Tab bar -->
+  <div style="display: flex; gap: 0; border-bottom: 1px solid #e8e4df;">
+    <div style="padding: 10px 20px; font-size: 12px; font-weight: 700; color: #c02870; border-bottom: 2px solid #c02870; cursor: pointer;">Overview</div>
+    <div style="padding: 10px 20px; font-size: 12px; font-weight: 600; opacity: 0.3; cursor: pointer;">Games</div>
+    <div style="padding: 10px 20px; font-size: 12px; font-weight: 600; opacity: 0.3; cursor: pointer;">Settings</div>
+    <div style="padding: 10px 20px; font-size: 12px; font-weight: 600; opacity: 0.3; cursor: pointer;">Similar</div>
+  </div>
+  <!-- Active tab content (Overview) -->
+  <div style="padding: 20px;">
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px;">
+      <div style="text-align: center; padding: 12px; border-radius: 10px; background: #f8f6f2;"><div style="font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 700; color: #c02870;">42.3%</div><div style="font-size: 10px; opacity: 0.3;">Share</div></div>
+      <div style="text-align: center; padding: 12px; border-radius: 10px; background: #f8f6f2;"><div style="font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 700; color: #c02870;">836</div><div style="font-size: 10px; opacity: 0.3;">Avg eDPI</div></div>
+      <div style="text-align: center; padding: 12px; border-radius: 10px; background: #f8f6f2;"><div style="font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 700; color: #c02870;">800</div><div style="font-size: 10px; opacity: 0.3;">Top DPI</div></div>
+      <div style="text-align: center; padding: 12px; border-radius: 10px; background: #f8f6f2;"><div style="font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 700; color: #c02870;">13</div><div style="font-size: 10px; opacity: 0.3;">Games</div></div>
+    </div>
+    <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px;">
+      <span style="padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #c4700012; color: #c47000;">CS2 48%</span>
+      <span style="padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #c4384812; color: #c43848;">Valorant 19%</span>
+      <span style="padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #3a60b012; color: #3a60b0;">Fortnite 12%</span>
+    </div>
+    <div style="font-size: 13px;">🇺🇸 <b style="color: #c02870;">139</b> &nbsp; 🇵🇱 <b style="color: #c02870;">81</b> &nbsp; 🇧🇷 <b style="color: #c02870;">76</b> &nbsp; 🇹🇭 <b style="color: #c02870;">48</b> &nbsp; 🇩🇰 <b style="color: #c02870;">46</b></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- OPTION 10: Vertical Timeline / Scroll -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="mockup-label"><span>10</span> Vertical Scroll Story</div>
+<p class="mockup-desc">Data presented as a vertical narrative "story" — each section flows into the next with a timeline/connector. Feels like scrolling through a feed.</p>
+<div style="background: white; border-radius: 20px; padding: 24px; border: 1px solid #e8e4df; position: relative;">
+  <!-- Timeline line -->
+  <div style="position: absolute; left: 38px; top: 80px; bottom: 30px; width: 2px; background: linear-gradient(to bottom, #c02870, #8b5cf6, #06b6d4, #10b981);"></div>
+
+  <!-- Header -->
+  <div style="text-align: center; margin-bottom: 24px;">
+    <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 22px;">Wooting 60HE</div>
+    <div style="font-size: 12px; opacity: 0.4;">The #2 keyboard among 2,148 tracked professionals</div>
+  </div>
+
+  <!-- Node 1: Adoption -->
+  <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start;">
+    <div style="width: 28px; height: 28px; border-radius: 50%; background: #c02870; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 800; z-index: 1;">1</div>
+    <div style="flex: 1; background: #f8f6f2; border-radius: 12px; padding: 14px;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #c02870; margin-bottom: 8px;">Adoption</div>
+      <div style="display: flex; gap: 20px;">
+        <div><span style="font-family: 'Fira Code', monospace; font-size: 24px; font-weight: 800; color: #c02870;">908</span><div style="font-size: 10px; opacity: 0.3;">pro users</div></div>
+        <div><span style="font-family: 'Fira Code', monospace; font-size: 24px; font-weight: 800; color: #c02870;">42.3%</span><div style="font-size: 10px; opacity: 0.3;">market share</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Node 2: Games -->
+  <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start;">
+    <div style="width: 28px; height: 28px; border-radius: 50%; background: #8b5cf6; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 800; z-index: 1;">2</div>
+    <div style="flex: 1; background: #f8f6f2; border-radius: 12px; padding: 14px;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #8b5cf6; margin-bottom: 8px;">Game Breakdown</div>
+      <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+        <span style="padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; background: #c4700015; color: #c47000;">CS2 · 437 · 48%</span>
+        <span style="padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; background: #c4384815; color: #c43848;">Valorant · 177 · 19%</span>
+        <span style="padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; background: #3a60b015; color: #3a60b0;">Fortnite · 107 · 12%</span>
+        <span style="padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; background: #3a6ca015; color: #3a6ca0;">R6 · 43 · 5%</span>
+        <span style="padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; background: #a8202015; color: #a82020;">Apex · 36 · 4%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Node 3: Settings -->
+  <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start;">
+    <div style="width: 28px; height: 28px; border-radius: 50%; background: #06b6d4; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 800; z-index: 1;">3</div>
+    <div style="flex: 1; background: #f8f6f2; border-radius: 12px; padding: 14px;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #06b6d4; margin-bottom: 8px;">Settings Profile</div>
+      <div style="display: flex; gap: 16px;">
+        <div><span style="font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 700; color: #06b6d4;">800</span><div style="font-size: 10px; opacity: 0.3;">top DPI (51%)</div></div>
+        <div><span style="font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 700; color: #06b6d4;">836</span><div style="font-size: 10px; opacity: 0.3;">avg eDPI</div></div>
+        <div><span style="font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 700; color: #06b6d4;">8–7838</span><div style="font-size: 10px; opacity: 0.3;">eDPI range</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Node 4: Demographics -->
+  <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start;">
+    <div style="width: 28px; height: 28px; border-radius: 50%; background: #10b981; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 800; z-index: 1;">4</div>
+    <div style="flex: 1; background: #f8f6f2; border-radius: 12px; padding: 14px;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #10b981; margin-bottom: 8px;">Demographics</div>
+      <div style="font-size: 13px; margin-bottom: 6px;">🇺🇸 <b>139</b> &nbsp; 🇵🇱 <b>81</b> &nbsp; 🇧🇷 <b>76</b> &nbsp; 🇹🇭 <b>48</b> &nbsp; 🇩🇰 <b>46</b></div>
+      <div style="font-size: 12px; opacity: 0.4;">Top teams: Free Agent (231) · Content Creator (51) · Falcons (14)</div>
+    </div>
+  </div>
+
+  <!-- Node 5: Similar -->
+  <div style="display: flex; gap: 16px; align-items: flex-start;">
+    <div style="width: 28px; height: 28px; border-radius: 50%; background: #f59e0b; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 800; z-index: 1;">5</div>
+    <div style="flex: 1; background: #f8f6f2; border-radius: 12px; padding: 14px;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #f59e0b; margin-bottom: 8px;">Similar Keyboards</div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <span style="padding: 6px 14px; border-radius: 10px; background: white; border: 1px solid #e8e4df; font-size: 12px;"><b style="color: #c02870;">60HE+</b> · 620g · $195</span>
+        <span style="padding: 6px 14px; border-radius: 10px; background: white; border: 1px solid #e8e4df; font-size: 12px;"><b style="color: #2a8a40;">V3 Pro Mini</b> · 590g · $230</span>
+        <span style="padding: 6px 14px; border-radius: 10px; background: white; border: 1px solid #e8e4df; font-size: 12px;"><b style="color: #c02870;">UwU</b> · 780g · $250</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="height: 60px;"></div>
+</div>
+</body>
+</html>

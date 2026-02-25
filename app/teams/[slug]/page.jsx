@@ -26,15 +26,10 @@ function getTeamData(teamName) {
   uniquePlayers.forEach(p => { if (p.keyboard && p.keyboard !== "Unknown") keyboardCounts[p.keyboard] = (keyboardCounts[p.keyboard] || 0) + 1; });
   const topKeyboards = Object.entries(keyboardCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
 
-  const edpis = uniquePlayers.map(p => p.edpi).filter(e => e && e > 0);
-  const avgEdpi = edpis.length ? Math.round(edpis.reduce((a, b) => a + b, 0) / edpis.length) : null;
-  const dpis = uniquePlayers.map(p => p.dpi).filter(d => d && d > 0);
-  const avgDpi = dpis.length ? Math.round(dpis.reduce((a, b) => a + b, 0) / dpis.length) : null;
-
   const countries = [...new Set(uniquePlayers.map(p => p.country).filter(Boolean))];
   const desc = TEAM_DESCRIPTIONS[teamName];
 
-  return { uniquePlayers, gameEntries, topKeyboards, avgEdpi, avgDpi, countries, desc };
+  return { uniquePlayers, gameEntries, topKeyboards, countries, desc };
 }
 
 function getAllTeams() {
@@ -60,7 +55,7 @@ export function generateMetadata({ params }) {
   const games = gameEntries.map(([g]) => g).join(", ");
   const description = desc?.bio
     ? desc.bio.slice(0, 155) + "..."
-    : `${teamName} esports team — ${uniquePlayers.length} tracked pro players across ${games}. Keyboard preferences, DPI settings, sensitivity configs and complete gear setups.`;
+    : `${teamName} esports team — ${uniquePlayers.length} tracked pro players across ${games}. Keyboard preferences, switch types, and complete gear setups.`;
 
   return {
     title: `${teamName} — Pro Player Settings, Keyboards & Gear`,
@@ -92,7 +87,7 @@ export default function TeamPage({ params }) {
     );
   }
 
-  const { uniquePlayers, gameEntries, topKeyboards, avgEdpi, avgDpi, countries, desc } = getTeamData(teamName);
+  const { uniquePlayers, gameEntries, topKeyboards, countries, desc } = getTeamData(teamName);
   const games = gameEntries.map(([g]) => g);
   const logoUrl = TEAM_LOGOS[teamName];
 
@@ -139,7 +134,7 @@ export default function TeamPage({ params }) {
         ) : (
           <p itemProp="description">
             {teamName} is a professional esports organization with {uniquePlayers.length} tracked players
-            competing across {games.join(", ")}. {avgDpi ? `Their average DPI is ${avgDpi} and average eDPI is ${avgEdpi}.` : ""}
+            competing across {games.join(", ")}.
           </p>
         )}
 
@@ -158,8 +153,6 @@ export default function TeamPage({ params }) {
           <tbody>
             <tr><th>Total Players Tracked</th><td>{uniquePlayers.length}</td></tr>
             <tr><th>Games</th><td>{games.join(", ")}</td></tr>
-            {avgDpi && <tr><th>Average DPI</th><td>{avgDpi}</td></tr>}
-            {avgEdpi && <tr><th>Average eDPI</th><td>{avgEdpi}</td></tr>}
             {countries.length > 0 && <tr><th>Nationalities</th><td>{countries.map(c => countryName(c)).join(", ")}</td></tr>}
           </tbody>
         </table>
@@ -188,16 +181,13 @@ export default function TeamPage({ params }) {
             <h3>{teamName} {game} Roster</h3>
             <table>
               <caption>{teamName} {game} player settings and keyboards</caption>
-              <thead><tr><th>Player</th><th>Role</th><th>Keyboard</th><th>DPI</th><th>Sensitivity</th><th>eDPI</th></tr></thead>
+              <thead><tr><th>Player</th><th>Role</th><th>Keyboard</th></tr></thead>
               <tbody>
                 {players.map(p => (
                   <tr key={p.name + p.game}>
                     <td><a href={`/players/${slug(p.name)}`}>{p.name}</a></td>
                     <td>{p.role}</td>
                     <td><a href={`/keyboards/${slug(p.keyboard)}`}>{p.keyboard}</a></td>
-                    <td>{p.dpi}</td>
-                    <td>{p.sens}</td>
-                    <td>{p.edpi}</td>
                   </tr>
                 ))}
               </tbody>

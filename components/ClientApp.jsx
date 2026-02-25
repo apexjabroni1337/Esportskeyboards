@@ -175,7 +175,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
   const [keyboardFilter, setKeyboardFilter] = useState("");
   const [teamFilter, setTeamFilter] = useState("");
   const [countryFilter, setCountryFilter] = useState("All");
-  const [dpiRange, setDpiRange] = useState([0, 10000]);
   const [showFilters, setShowFilters] = useState(false);
   const [showSortDrop, setShowSortDrop] = useState(false);
   const [profileOnly, setProfileOnly] = useState(false);
@@ -1011,8 +1010,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               const keyboardCounts = {};
               allPlayers.forEach(p => { keyboardCounts[p.keyboard] = (keyboardCounts[p.keyboard] || 0) + 1; });
               const topKeyboardEntry = Object.entries(keyboardCounts).sort((a,b) => b[1]-a[1])[0];
-              const allEdpis = allPlayers.filter(p => p.edpi > 0 && p.edpi < 50000).map(p => p.edpi);
-              const avgEdpi = allEdpis.length ? Math.round(allEdpis.reduce((a,b) => a+b, 0) / allEdpis.length) : 0;
               const lightest = [...keyboards].sort((a,b) => a.weight - b.weight)[0];
               const uniqueBrands = new Set(allPlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name))); return m?.brand; }).filter(Boolean));
               const playerWeights = allPlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name))); return m?.weight; }).filter(Boolean);
@@ -1021,7 +1018,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-3 my-4 sm:my-6 text-center">
                 {[
                   { label: "Most Used Keyboard", value: topKeyboardEntry[0].replace(/(Wooting |Razer )/, ""), sub: `${Math.round(topKeyboardEntry[1]/allPlayers.length*100)}% of pros`, color: "#b8956a", icon: "crown", numeric: false },
-                  { label: "Avg Pro eDPI", value: avgEdpi, sub: allEdpis.length + " players tracked", color: "#c4444f", icon: "crosshair", numeric: true, numVal: avgEdpi, numSuffix: "" },
                   { label: "Brands in Pro Use", value: uniqueBrands.size, sub: "competing for pros", color: "#6b8cad", icon: "signal", numeric: true, numVal: uniqueBrands.size, numSuffix: "" },
                   { label: "Lightest Keyboard", value: `${lightest.weight}g`, sub: lightest.name.replace(/(Wooting |DrunkDeer )/, ""), color: "#c4508a", icon: "wind", numeric: true, numVal: lightest.weight, numSuffix: "g" },
                   { label: "Avg Keyboard Weight", value: `${avgProWeight}g`, sub: "across all pros", color: "#b8956a", icon: "gear", numeric: true, numVal: avgProWeight, numSuffix: "g" },
@@ -1124,8 +1120,8 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                                   <div className="text-sm" style={{ color: "#6b635b" }}>{p.team} · <span style={{ color: gc }}>{p.game}</span> · {p.role}</div>
                                 </div>
                                 <div className="text-right flex-shrink-0">
-                                  <div className="text-sm font-bold">{p.dpi} DPI</div>
-                                  <div className="text-xs" style={{ color: "#a09890" }}>{p.edpi ? `${p.edpi} eDPI` : ""}</div>
+                                  <div className="text-sm font-bold" style={{ color: gc }}>{p.game}</div>
+                                  <div className="text-xs opacity-60">{p.role}</div>
                                 </div>
                               </button>
                             );
@@ -1175,25 +1171,16 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                     );
                   })()}
 
-                  {/* ── Deep Dive Stats Panel ── */}
+                  {/* ── Magazine Spread Editorial Design ── */}
                   {(() => {
                     const keyboardPlayers = allPlayers.filter(p => p.keyboard && (p.keyboard === selectedKeyboard.name || p.keyboard.includes(selectedKeyboard.name.split(" ").slice(-2).join(" "))));
                     const totalTracked = allPlayers.length;
                     const marketShare = totalTracked > 0 ? ((keyboardPlayers.length / totalTracked) * 100).toFixed(1) : 0;
-                    
+
                     const gameDistro = {};
                     keyboardPlayers.forEach(p => { gameDistro[p.game] = (gameDistro[p.game] || 0) + 1; });
                     const topGames = Object.entries(gameDistro).sort((a, b) => b[1] - a[1]);
                     const gcols = { CS2: "#c47000", Valorant: "#c43848", LoL: "#c89b3c", Fortnite: "#3a60b0", "Overwatch 2": "#c48018", Apex: "#a82020", "Dota 2": "#b83c30", "R6 Siege": "#3a6ca0", "Rocket League": "#1478c4", "Call of Duty": "#3a8a3a", "Marvel Rivals": "#b81820", PUBG: "#c48a00", Deadlock: "#6d40c4", "Quake Champions": "#a83c00" };
-
-                    const dpiCounts = {};
-                    keyboardPlayers.forEach(p => { if (p.dpi) dpiCounts[p.dpi] = (dpiCounts[p.dpi] || 0) + 1; });
-                    const topDpi = Object.entries(dpiCounts).sort((a, b) => b[1] - a[1]);
-
-                    const edpis = keyboardPlayers.filter(p => p.edpi && p.edpi > 0).map(p => p.edpi);
-                    const avgEdpi = edpis.length > 0 ? Math.round(edpis.reduce((a, b) => a + b, 0) / edpis.length) : null;
-                    const minEdpi = edpis.length > 0 ? Math.min(...edpis) : null;
-                    const maxEdpi = edpis.length > 0 ? Math.max(...edpis) : null;
 
                     const countryCounts = {};
                     keyboardPlayers.forEach(p => { if (p.country) countryCounts[p.country] = (countryCounts[p.country] || 0) + 1; });
@@ -1215,138 +1202,123 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
 
                     return (
                       <div className="mt-5 rounded-xl overflow-hidden" style={{ border: `1px solid ${brandCol}12` }}>
-                        <div className="px-4 py-3 flex items-center gap-2" style={{ background: `${brandCol}08`, borderBottom: `1px solid ${brandCol}10` }}>
-                          <span>{I.chart(16)}</span>
-                          <span className="text-sm font-black uppercase tracking-widest" style={{ color: brandCol }}>Deep Dive</span>
-                          <span className="text-sm opacity-30">·</span>
-                          <span className="text-sm opacity-85">{selectedKeyboard.name} across {totalTracked.toLocaleString()} tracked pros</span>
-                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-0" style={{ background: "#ffffff" }}>
+                          {/* LEFT COLUMN: Keyboard Dossier */}
+                          <div className="p-6 border-b md:border-b-0 md:border-r" style={{ borderColor: `${brandCol}12` }}>
+                            <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#a09890" }}>Keyboard Dossier</div>
+                            <h2 className="text-4xl font-black mb-6" style={{ color: brandCol }}>
+                              {selectedKeyboard.name.replace(selectedKeyboard.brand + " ", "")}
+                            </h2>
 
-                        <div className="p-4" style={{ background: "#ffffff" }}>
-                          {/* Key metrics row */}
-                          <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 sm:gap-2 mb-4">
-                            {[
-                              { label: "Pro Users", value: keyboardPlayers.length, icon: "user" },
-                              { label: "Market Share", value: `${marketShare}%`, icon: "trending" },
-                              { label: "Popularity Rank", value: rank > 0 ? `#${rank}` : " - ", icon: "trophy" },
-                              { label: "Avg eDPI", value: avgEdpi || " - ", icon: "crosshair" },
-                              { label: "Games Present", value: topGames.length, icon: "gamepad" },
-                            ].map((stat, idx) => (
-                              <div key={idx} className="rounded-lg p-2 sm:p-3 text-center" style={{ background: "#0000000a" }}>
-                                <div className="mb-0.5 flex items-center justify-center">{icon(stat.icon, 22)}</div>
-                                <div className="text-sm sm:text-lg font-black" style={{ color: brandCol }}>{stat.value}</div>
-                                <div style={{ fontSize: 14 }} className="opacity-30">{stat.label}</div>
+                            {/* Hero stats row */}
+                            <div className="grid grid-cols-3 gap-3 mb-6">
+                              <div>
+                                <div className="text-2xl font-black" style={{ color: brandCol }}>{keyboardPlayers.length}</div>
+                                <div className="text-xs opacity-60">Pro Users</div>
                               </div>
-                            ))}
-                          </div>
-
-                          {/* 3-column detail grid */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
-                            {/* Game Popularity */}
-                            <div className="rounded-lg p-3" style={{ background: "#00000008" }}>
-                              <div className="text-xs font-bold uppercase tracking-wider mb-2.5" style={{ color: "#a09890" }}><span className="inline-flex mr-1 align-middle">{I.gamepad(12)}</span>Game Breakdown</div>
-                              <div className="space-y-2">
-                                {topGames.slice(0, 5).map(([game, count]) => (
-                                  <div key={game}>
-                                    <div className="flex justify-between text-sm mb-0.5">
-                                      <span className="font-bold" style={{ color: gcols[game] || "#8a8078" }}>{game}</span>
-                                      <span className="opacity-50">{count} players · {((count / keyboardPlayers.length) * 100).toFixed(0)}%</span>
-                                    </div>
-                                    <div className="h-2 rounded-full overflow-hidden" style={{ background: "#00000008" }}>
-                                      <div className="h-full rounded-full transition-all" style={{ width: `${(count / topGames[0][1]) * 100}%`, background: gcols[game] || "#8a8078", opacity: 0.7 }} />
-                                    </div>
-                                  </div>
-                                ))}
+                              <div>
+                                <div className="text-2xl font-black" style={{ color: brandCol }}>{marketShare}%</div>
+                                <div className="text-xs opacity-60">Market Share</div>
+                              </div>
+                              <div>
+                                <div className="text-2xl font-black" style={{ color: brandCol }}>#{rank}</div>
+                                <div className="text-xs opacity-60">Popularity</div>
                               </div>
                             </div>
 
-                            {/* DPI + eDPI */}
-                            <div className="rounded-lg p-3" style={{ background: "#00000008" }}>
-                              <div className="text-xs font-bold uppercase tracking-wider mb-2.5" style={{ color: "#a09890" }}><span className="inline-flex mr-1 align-middle">{I.gear(12)}</span>Settings Profile</div>
-                              <div className="text-xs mb-1.5" style={{ color: "#a09890" }}>Most Common DPI</div>
-                              <div className="space-y-1.5 mb-3">
-                                {topDpi.slice(0, 3).map(([dpi, count]) => (
-                                  <div key={dpi} className="flex items-center gap-2">
-                                    <span className="text-sm font-black w-12" style={{ color: brandCol }}>{dpi}</span>
-                                    <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: "#00000008" }}>
-                                      <div className="h-full rounded-full" style={{ width: `${(count / topDpi[0][1]) * 100}%`, background: brandCol, opacity: 0.6 }} />
-                                    </div>
-                                    <span className="text-sm opacity-85 w-14 text-right">{((count / keyboardPlayers.length) * 100).toFixed(0)}%</span>
-                                  </div>
-                                ))}
-                              </div>
-                              {avgEdpi && (
-                                <div>
-                                  <div className="text-xs mb-1.5" style={{ color: "#a09890" }}>eDPI Range</div>
-                                  <div className="flex items-center gap-1 text-sm">
-                                    <span className="opacity-50">{minEdpi}</span>
-                                    <div className="flex-1 h-2 rounded-full relative overflow-hidden" style={{ background: "#00000008" }}>
-                                      <div className="absolute h-full rounded-full" style={{ left: `${Math.max(0, ((avgEdpi - minEdpi) / (maxEdpi - minEdpi || 1)) * 100 - 5)}%`, width: "10%", background: brandCol, opacity: 0.8 }} />
-                                    </div>
-                                    <span className="opacity-50">{maxEdpi}</span>
-                                  </div>
-                                  <div className="text-center text-sm mt-1"><span className="font-black" style={{ color: brandCol }}>{avgEdpi}</span> <span className="opacity-30">avg</span></div>
-                                </div>
-                              )}
-                            </div>
-
-                            {/* Regions + Teams */}
-                            <div className="rounded-lg p-3" style={{ background: "#00000008" }}>
-                              <div className="text-sm opacity-30 mb-2.5 font-bold uppercase tracking-wider"><span className="inline-flex mr-1 align-middle">{I.globe(12)}</span>Demographics</div>
-                              <div className="text-sm opacity-30 mb-1.5">Top Regions</div>
-                              <div className="flex flex-wrap gap-1.5 mb-3">
-                                {topCountries.map(([flag, count]) => (
-                                  <span key={flag} className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-sm" style={{ background: `${brandCol}10` }}>
-                                    <Flag country={flag} size={16} />
-                                    <span className="font-bold" style={{ color: brandCol }}>{count}</span>
-                                  </span>
-                                ))}
-                              </div>
-                              {topTeams.length > 0 && (
-                                <div>
-                                  <div className="text-xs font-bold mb-1.5" style={{ color: "#a09890" }}>Top Teams Using This Keyboard</div>
-                                  <div className="space-y-1.5">
-                                    {topTeams.map(([team, count]) => (
-                                      <div key={team} className="flex justify-between items-center text-sm">
-                                        <span className="opacity-60 truncate">{team}</span>
-                                        <span className="font-black px-2 py-0.5 rounded" style={{ color: brandCol, background: `${brandCol}10` }}>{count}</span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              )}
+                            {/* Pull quote */}
+                            <div className="pl-4 py-4 mb-6" style={{ borderLeft: `3px solid ${brandCol}` }}>
+                              <p className="text-sm font-bold opacity-85">
+                                A {selectedKeyboard.connectivity === "Wireless" ? "wireless" : "wired"} {selectedKeyboard.layout} with {selectedKeyboard.switchType} switches at {selectedKeyboard.pollingRate}Hz polling rate. {selectedKeyboard.rapidTrigger ? "Rapid Trigger enabled." : ""} Chosen by {keyboardPlayers.length} tracked esports professionals across {topGames.length} competitive titles.
+                              </p>
                             </div>
                           </div>
 
-                          {/* Competitors row */}
-                          {competitors.length > 0 && (
-                            <div className="mt-3 rounded-lg p-3" style={{ background: "#00000008" }}>
-                              <div className="text-sm opacity-30 mb-2 font-bold uppercase tracking-wider"><span className="inline-flex mr-1 align-middle">{I.refresh(12)}</span>Similar Keyboards ({selectedKeyboard.layout} · {selectedKeyboard.connectivity})</div>
-                              <div className="flex flex-wrap gap-2">
-                                {competitors.map(c => {
-                                  const cc = BRAND_COLORS[c.brand] || "#8a8078";
-                                  return (
-                                    <button key={c.id} onClick={() => { navigateToKeyboard(c); }}
-                                      className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all hover:scale-105"
-                                      style={{ background: `${cc}08`, border: `1px solid ${cc}15` }}>
-                                      {KEYBOARD_IMAGE_URLS[c.name] && <img loading="lazy" src={KEYBOARD_IMAGE_URLS[c.name]} alt={`${c.name} esports gaming keyboard`} className="h-6 object-contain" />}
-                                      <div>
-                                        <div className="font-bold" style={{ color: cc }}>{c.name.replace(c.brand + " ", "")}</div>
-                                        <div className="opacity-85">{c.weight}g · {c.switchType} · {"$"}{c.price}</div>
-                                      </div>
-                                    </button>
-                                  );
-                                })}
+                          {/* RIGHT COLUMN: Details */}
+                          <div className="p-6 space-y-5">
+                            {/* Where It's Used - Game Pills */}
+                            {topGames.length > 0 && (
+                              <div>
+                                <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#a09890" }}>Where It's Used</div>
+                                <div className="flex flex-wrap gap-2">
+                                  {topGames.slice(0, 4).map(([game, count]) => (
+                                    <div key={game} className="px-3 py-1.5 rounded-full text-xs font-bold" style={{ background: `${gcols[game] || "#8a8078"}20`, color: gcols[game] || "#8a8078" }}>
+                                      {game} ({((count / keyboardPlayers.length) * 100).toFixed(0)}%)
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Specs DNA */}
+                            <div>
+                              <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#a09890" }}>Specs DNA</div>
+                              <div className="space-y-2 text-sm">
+                                <div className="flex justify-between">
+                                  <span className="opacity-60">Polling Rate</span>
+                                  <span className="font-bold" style={{ color: brandCol }}>{selectedKeyboard.pollingRate}Hz</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="opacity-60">Actuation</span>
+                                  <span className="font-bold" style={{ color: brandCol }}>{selectedKeyboard.actuationPoint}mm</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="opacity-60">Switch Type</span>
+                                  <span className="font-bold" style={{ color: brandCol }}>{selectedKeyboard.switchType}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="opacity-60">Rapid Trigger</span>
+                                  <span className="font-bold" style={{ color: brandCol }}>{selectedKeyboard.rapidTrigger ? "Yes" : "No"}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="opacity-60">Layout</span>
+                                  <span className="font-bold" style={{ color: brandCol }}>{selectedKeyboard.layout}</span>
+                                </div>
                               </div>
                             </div>
-                          )}
+
+                            {/* Global Reach */}
+                            {topCountries.length > 0 && (
+                              <div>
+                                <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#a09890" }}>Global Reach</div>
+                                <div className="flex flex-wrap gap-2">
+                                  {topCountries.map(([flag, count]) => (
+                                    <span key={flag} className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs" style={{ background: `${brandCol}10` }}>
+                                      <Flag country={flag} size={14} />
+                                      <span className="font-bold" style={{ color: brandCol }}>{count}</span>
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Rivals */}
+                            {competitors.length > 0 && (
+                              <div>
+                                <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#a09890" }}>Rivals</div>
+                                <div className="space-y-2">
+                                  {competitors.map(c => {
+                                    const cc = BRAND_COLORS[c.brand] || "#8a8078";
+                                    return (
+                                      <button key={c.id} onClick={() => { navigateToKeyboard(c); }}
+                                        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs transition-all hover:scale-105 justify-between"
+                                        style={{ background: `${cc}08`, border: `1px solid ${cc}15` }}>
+                                        <div className="flex items-center gap-2">
+                                          {KEYBOARD_IMAGE_URLS[c.name] && <img loading="lazy" src={KEYBOARD_IMAGE_URLS[c.name]} alt={c.name} className="h-5 object-contain" />}
+                                          <span className="font-bold" style={{ color: cc }}>{c.name.replace(c.brand + " ", "")}</span>
+                                        </div>
+                                        <span className="opacity-60">{c.switchType}</span>
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     );
                   })()}
-                  </>
-                  );
-                })()}
               </div>
 
 
@@ -1531,8 +1503,8 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                               <div className="text-sm opacity-85">{p.team} · <span style={{ color: gc }}>{p.game}</span> · {p.role}</div>
                             </div>
                             <div className="text-right flex-shrink-0">
-                              <div className="text-sm font-bold">{p.dpi} DPI</div>
-                              <div className="text-xs" style={{ color: "#a09890" }}>{p.edpi ? `${p.edpi} eDPI` : ""}</div>
+                              <div className="text-sm font-bold" style={{ color: gc }}>{p.game}</div>
+                              <div className="text-xs opacity-60">{p.role}</div>
                             </div>
                           </button>
                         );
@@ -1602,7 +1574,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               </div>
             </div>
 
-            {/* ── Deep Dive Stats Panel ── */}
+            {/* ── Magazine Spread Editorial Design ── */}
             {(() => {
               const keyboardPlayers = allPlayers.filter(p => p.keyboard && (p.keyboard === selectedKeyboard.name || p.keyboard.includes(selectedKeyboard.name.split(" ").slice(-2).join(" "))));
               const totalTracked = allPlayers.length;
@@ -1611,13 +1583,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               keyboardPlayers.forEach(p => { gameDistro[p.game] = (gameDistro[p.game] || 0) + 1; });
               const topGames = Object.entries(gameDistro).sort((a, b) => b[1] - a[1]);
               const gcols = { CS2: "#c47000", Valorant: "#c43848", LoL: "#c89b3c", Fortnite: "#3a60b0", "Overwatch 2": "#c48018", Apex: "#a82020", "Dota 2": "#b83c30", "R6 Siege": "#3a6ca0", "Rocket League": "#1478c4", "Call of Duty": "#3a8a3a", "Marvel Rivals": "#b81820", PUBG: "#c48a00", Deadlock: "#6d40c4", "Quake Champions": "#a83c00" };
-              const dpiCounts = {};
-              keyboardPlayers.forEach(p => { if (p.dpi) dpiCounts[p.dpi] = (dpiCounts[p.dpi] || 0) + 1; });
-              const topDpi = Object.entries(dpiCounts).sort((a, b) => b[1] - a[1]);
-              const edpis = keyboardPlayers.filter(p => p.edpi && p.edpi > 0).map(p => p.edpi);
-              const avgEdpi = edpis.length > 0 ? Math.round(edpis.reduce((a, b) => a + b, 0) / edpis.length) : null;
-              const minEdpi = edpis.length > 0 ? Math.min(...edpis) : null;
-              const maxEdpi = edpis.length > 0 ? Math.max(...edpis) : null;
               const countryCounts = {};
               keyboardPlayers.forEach(p => { if (p.country) countryCounts[p.country] = (countryCounts[p.country] || 0) + 1; });
               const topCountries = Object.entries(countryCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
@@ -1635,136 +1600,119 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
 
               return (
                 <div className="rounded-2xl overflow-hidden mb-6" style={{ border: `1px solid ${brandCol}12` }}>
-                  <div className="px-5 py-4 flex items-center gap-2" style={{ background: `${brandCol}08`, borderBottom: `1px solid ${brandCol}10` }}>
-                    <span>{I.chart(16)}</span>
-                    <span className="text-sm font-black uppercase tracking-widest" style={{ color: brandCol }}>Deep Dive</span>
-                    <span className="text-sm opacity-30">·</span>
-                    <span className="text-sm opacity-85">{selectedKeyboard.name} across {totalTracked.toLocaleString()} tracked pros</span>
-                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-0" style={{ background: "#ffffff" }}>
+                    {/* LEFT COLUMN: Keyboard Dossier */}
+                    <div className="p-6 border-b md:border-b-0 md:border-r" style={{ borderColor: `${brandCol}12` }}>
+                      <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#a09890" }}>Keyboard Dossier</div>
+                      <h2 className="text-4xl font-black mb-6" style={{ color: brandCol }}>
+                        {selectedKeyboard.name.replace(selectedKeyboard.brand + " ", "")}
+                      </h2>
 
-                  <div className="p-5" style={{ background: "#ffffff" }}>
-                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-5">
-                      {[
-                        { label: "Pro Users", value: keyboardPlayers.length, icon: "user" },
-                        { label: "Market Share", value: `${marketShare}%`, icon: "trending" },
-                        { label: "Popularity Rank", value: rank > 0 ? `#${rank}` : " - ", icon: "trophy" },
-                        { label: "Avg eDPI", value: avgEdpi || " - ", icon: "crosshair" },
-                        { label: "Games Present", value: topGames.length, icon: "gamepad" },
-                      ].map((stat, idx) => (
-                        <div key={idx} className="rounded-lg p-3 text-center" style={{ background: "#0000000a" }}>
-                          <div className="mb-0.5 flex items-center justify-center">{icon(stat.icon, 22)}</div>
-                          <div className="text-lg font-black" style={{ color: brandCol }}>{stat.value}</div>
-                          <div style={{ fontSize: 14 }} className="opacity-30">{stat.label}</div>
+                      {/* Hero stats row */}
+                      <div className="grid grid-cols-3 gap-3 mb-6">
+                        <div>
+                          <div className="text-2xl font-black" style={{ color: brandCol }}>{keyboardPlayers.length}</div>
+                          <div className="text-xs opacity-60">Pro Users</div>
                         </div>
-                      ))}
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                      <div className="rounded-lg p-3" style={{ background: "#00000008" }}>
-                        <div className="text-xs font-bold uppercase tracking-wider mb-2.5" style={{ color: "#a09890" }}><span className="inline-flex mr-1 align-middle">{I.gamepad(12)}</span>Game Breakdown</div>
-                        <div className="space-y-2">
-                          {topGames.slice(0, 5).map(([game, count]) => (
-                            <div key={game}>
-                              <div className="flex justify-between text-sm mb-0.5">
-                                <span className="font-bold" style={{ color: gcols[game] || "#8a8078" }}>{game}</span>
-                                <span className="opacity-50">{count} players · {((count / keyboardPlayers.length) * 100).toFixed(0)}%</span>
-                              </div>
-                              <div className="h-2 rounded-full overflow-hidden" style={{ background: "#00000008" }}>
-                                <div className="h-full rounded-full transition-all" style={{ width: `${(count / topGames[0][1]) * 100}%`, background: gcols[game] || "#8a8078", opacity: 0.7 }} />
-                              </div>
-                            </div>
-                          ))}
+                        <div>
+                          <div className="text-2xl font-black" style={{ color: brandCol }}>{marketShare}%</div>
+                          <div className="text-xs opacity-60">Market Share</div>
+                        </div>
+                        <div>
+                          <div className="text-2xl font-black" style={{ color: brandCol }}>#{rank}</div>
+                          <div className="text-xs opacity-60">Popularity</div>
                         </div>
                       </div>
 
-                      <div className="rounded-lg p-3" style={{ background: "#00000008" }}>
-                        <div className="text-xs font-bold uppercase tracking-wider mb-2.5" style={{ color: "#a09890" }}><span className="inline-flex mr-1 align-middle">{I.gear(12)}</span>Settings Profile</div>
-                        <div className="text-xs mb-1.5" style={{ color: "#a09890" }}>Most Common DPI</div>
-                        <div className="space-y-1.5 mb-3">
-                          {topDpi.slice(0, 3).map(([dpi, count]) => (
-                            <div key={dpi} className="flex items-center gap-2">
-                              <span className="text-sm font-black w-12" style={{ color: brandCol }}>{dpi}</span>
-                              <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: "#00000008" }}>
-                                <div className="h-full rounded-full" style={{ width: `${(count / topDpi[0][1]) * 100}%`, background: brandCol, opacity: 0.6 }} />
-                              </div>
-                              <span className="text-sm opacity-85 w-14 text-right">{((count / keyboardPlayers.length) * 100).toFixed(0)}%</span>
-                            </div>
-                          ))}
-                        </div>
-                        {avgEdpi && (
-                          <div>
-                            <div className="text-xs mb-1.5" style={{ color: "#a09890" }}>eDPI Range</div>
-                            <div className="flex items-center gap-1 text-sm">
-                              <span className="opacity-50">{minEdpi}</span>
-                              <div className="flex-1 h-2 rounded-full relative overflow-hidden" style={{ background: "#00000008" }}>
-                                <div className="absolute h-full rounded-full" style={{ left: `${Math.max(0, ((avgEdpi - minEdpi) / (maxEdpi - minEdpi || 1)) * 100 - 5)}%`, width: "10%", background: brandCol, opacity: 0.8 }} />
-                              </div>
-                              <span className="opacity-50">{maxEdpi}</span>
-                            </div>
-                            <div className="text-center text-sm mt-1"><span className="font-black" style={{ color: brandCol }}>{avgEdpi}</span> <span className="opacity-30">avg</span></div>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="rounded-lg p-3" style={{ background: "#00000008" }}>
-                        <div className="text-sm opacity-30 mb-2.5 font-bold uppercase tracking-wider"><span className="inline-flex mr-1 align-middle">{I.globe(12)}</span>Demographics</div>
-                        <div className="text-sm opacity-30 mb-1.5">Top Regions</div>
-                        <div className="flex flex-wrap gap-1.5 mb-3">
-                          {topCountries.map(([flag, count]) => (
-                            <span key={flag} className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-sm" style={{ background: `${brandCol}10` }}>
-                              <Flag country={flag} size={16} />
-                              <span className="font-bold" style={{ color: brandCol }}>{count}</span>
-                            </span>
-                          ))}
-                        </div>
-                        {topTeams.length > 0 && (
-                          <div>
-                            <div className="text-xs font-bold mb-1.5" style={{ color: "#a09890" }}>Top Teams Using This Keyboard</div>
-                            <div className="space-y-1.5">
-                              {topTeams.map(([team, count]) => (
-                                <div key={team} className="flex justify-between items-center text-sm">
-                                  <span className="opacity-60 truncate">{team}</span>
-                                  <span className="font-black px-2 py-0.5 rounded" style={{ color: brandCol, background: `${brandCol}10` }}>{count}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                      {/* Pull quote */}
+                      <div className="pl-4 py-4 mb-6" style={{ borderLeft: `3px solid ${brandCol}` }}>
+                        <p className="text-sm font-bold opacity-85">
+                          A {selectedKeyboard.connectivity === "Wireless" ? "wireless" : "wired"} {selectedKeyboard.layout} with {selectedKeyboard.switchType} switches at {selectedKeyboard.pollingRate}Hz polling rate. {selectedKeyboard.rapidTrigger ? "Rapid Trigger enabled." : ""} Chosen by {keyboardPlayers.length} tracked esports professionals across {topGames.length} competitive titles.
+                        </p>
                       </div>
                     </div>
 
-                    {/* Similar Keyboards */}
-                    {competitors.length > 0 && (
-                      <div className="mt-4 rounded-lg p-3" style={{ background: "#00000008" }}>
-                        <div className="text-sm opacity-30 mb-2 font-bold uppercase tracking-wider"><span className="inline-flex mr-1 align-middle">{I.refresh(12)}</span>Similar Keyboards ({selectedKeyboard.layout} · {selectedKeyboard.connectivity})</div>
-                        <div className="flex flex-wrap gap-2">
-                          {competitors.map(c => {
-                            const cc = BRAND_COLORS[c.brand] || "#8a8078";
-                            return (
-                              <button key={c.id} onClick={() => { setSelectedKeyboard(c); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-                                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all hover:scale-105"
-                                style={{ background: `${cc}08`, border: `1px solid ${cc}15` }}>
-                                {KEYBOARD_IMAGE_URLS[c.name] && <img loading="lazy" src={KEYBOARD_IMAGE_URLS[c.name]} alt={`${c.name} esports gaming keyboard`} className="h-6 object-contain" />}
-                                <div>
-                                  <div className="font-bold" style={{ color: cc }}>{c.name.replace(c.brand + " ", "")}</div>
-                                  <div className="opacity-85">{c.weight}g · {c.switchType} · {"$"}{c.price}</div>
-                                </div>
-                              </button>
-                            );
-                          })}
+                    {/* RIGHT COLUMN: Details */}
+                    <div className="p-6 space-y-5">
+                      {/* Where It's Used - Game Pills */}
+                      {topGames.length > 0 && (
+                        <div>
+                          <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#a09890" }}>Where It's Used</div>
+                          <div className="flex flex-wrap gap-2">
+                            {topGames.slice(0, 4).map(([game, count]) => (
+                              <div key={game} className="px-3 py-1.5 rounded-full text-xs font-bold" style={{ background: `${gcols[game] || "#8a8078"}20`, color: gcols[game] || "#8a8078" }}>
+                                {game} ({((count / keyboardPlayers.length) * 100).toFixed(0)}%)
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                        {/* Comparison page links */}
-                        <div className="flex flex-wrap gap-1.5 mt-3 pt-3" style={{ borderTop: "1px solid #e8e4df" }}>
-                          <span className="text-xs opacity-20 mr-1 self-center">Compare:</span>
-                          {competitors.slice(0, 4).map(c => {
-                            const sA = selectedKeyboard.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
-                            const sB = c.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
-                            const slug = sA < sB ? `${sA}-vs-${sB}` : `${sB}-vs-${sA}`;
-                            return <a key={c.id} href={`/compare/${slug}`} className="text-xs px-2 py-1 rounded-full no-underline transition-all hover:scale-105" style={{ background: "#0000000a", border: "1px solid #e8e4df", color: "#8a8078", textDecoration: "none" }}>{selectedKeyboard.name.replace(selectedKeyboard.brand + " ", "")} vs {c.name.replace(c.brand + " ", "")}</a>;
-                          })}
+                      )}
+
+                      {/* Specs DNA */}
+                      <div>
+                        <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#a09890" }}>Specs DNA</div>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="opacity-60">Polling Rate</span>
+                            <span className="font-bold" style={{ color: brandCol }}>{selectedKeyboard.pollingRate}Hz</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="opacity-60">Actuation</span>
+                            <span className="font-bold" style={{ color: brandCol }}>{selectedKeyboard.actuationPoint}mm</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="opacity-60">Switch Type</span>
+                            <span className="font-bold" style={{ color: brandCol }}>{selectedKeyboard.switchType}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="opacity-60">Rapid Trigger</span>
+                            <span className="font-bold" style={{ color: brandCol }}>{selectedKeyboard.rapidTrigger ? "Yes" : "No"}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="opacity-60">Layout</span>
+                            <span className="font-bold" style={{ color: brandCol }}>{selectedKeyboard.layout}</span>
+                          </div>
                         </div>
                       </div>
-                    )}
+
+                      {/* Global Reach */}
+                      {topCountries.length > 0 && (
+                        <div>
+                          <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#a09890" }}>Global Reach</div>
+                          <div className="flex flex-wrap gap-2">
+                            {topCountries.map(([flag, count]) => (
+                              <span key={flag} className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs" style={{ background: `${brandCol}10` }}>
+                                <Flag country={flag} size={14} />
+                                <span className="font-bold" style={{ color: brandCol }}>{count}</span>
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Rivals */}
+                      {competitors.length > 0 && (
+                        <div>
+                          <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#a09890" }}>Rivals</div>
+                          <div className="space-y-2">
+                            {competitors.map(c => {
+                              const cc = BRAND_COLORS[c.brand] || "#8a8078";
+                              return (
+                                <button key={c.id} onClick={() => { setSelectedKeyboard(c); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs transition-all hover:scale-105 justify-between"
+                                  style={{ background: `${cc}08`, border: `1px solid ${cc}15` }}>
+                                  <div className="flex items-center gap-2">
+                                    {KEYBOARD_IMAGE_URLS[c.name] && <img loading="lazy" src={KEYBOARD_IMAGE_URLS[c.name]} alt={c.name} className="h-5 object-contain" />}
+                                    <span className="font-bold" style={{ color: cc }}>{c.name.replace(c.brand + " ", "")}</span>
+                                  </div>
+                                  <span className="opacity-60">{c.switchType}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
@@ -1786,7 +1734,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                         <span className="font-bold">{p.name}</span>
                         <span className="opacity-30">·</span>
                         <span style={{ color: gc }}>{p.game}</span>
-                        <span className="opacity-30 ml-auto">{p.dpi} DPI</span>
                       </button>
                     );
                   })}
@@ -1879,10 +1826,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                         <div style={{ fontSize: 12, color: "#2d2824", fontWeight: 800 }}>{g.topKeyboards[0]?.name.replace(/(Wooting |Razer |Logitech |SteelSeries |Corsair |Cherry |Ducky |DrunkDeer |Endgame Gear |ASUS |Keychron |Glorious )/, "")}</div>
                       </div>
                       <div className="rounded-lg px-2 py-1.5" style={{ background: `${col}10` }}>
-                        <div style={{ fontSize: 11, color: "#a09890", fontWeight: 700 }}>Avg DPI</div>
-                        <div style={{ fontSize: 12, color: "#2d2824", fontWeight: 800 }}>{g.avgActuation}</div>
-                      </div>
-                      <div className="rounded-lg px-2 py-1.5" style={{ background: `${col}10` }}>
                         <div style={{ fontSize: 11, color: "#a09890", fontWeight: 700 }}>Avg Weight</div>
                         <div style={{ fontSize: 12, color: "#2d2824", fontWeight: 800 }}>{g.avgWeight}g</div>
                       </div>
@@ -1933,21 +1876,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
           const brandRanking = Object.entries(brandCounts).sort((a, b) => b[1] - a[1]);
           const totalBranded = brandRanking.reduce((a, b) => a + b[1], 0);
 
-          // DPI distribution
-          const dpiGroups = { "400": 0, "800": 0, "1600": 0, "Other": 0 };
-          gamePlayers.forEach(p => {
-            if (p.dpi === 400) dpiGroups["400"]++;
-            else if (p.dpi === 800) dpiGroups["800"]++;
-            else if (p.dpi >= 1200 && p.dpi <= 1600) dpiGroups["1600"]++;
-            else dpiGroups["Other"]++;
-          });
-
-          // eDPI stats
-          const edpis = gamePlayers.filter(p => p.edpi > 0 && p.edpi < 50000).map(p => p.edpi);
-          const avgEdpi = edpis.length ? Math.round(edpis.reduce((a, b) => a + b, 0) / edpis.length) : null;
-          const medianEdpi = edpis.length ? edpis.sort((a, b) => a - b)[Math.floor(edpis.length / 2)] : null;
-          const minEdpi = edpis.length ? Math.min(...edpis) : null;
-          const maxEdpi = edpis.length ? Math.max(...edpis) : null;
 
           // Weight stats
           const weights = gamePlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name))); return m?.weight; }).filter(Boolean);
@@ -1979,9 +1907,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
           gamePlayers.forEach(p => { if (p.team && p.team !== "—") teamCounts[p.team] = (teamCounts[p.team] || 0) + 1; });
           const topTeams = Object.entries(teamCounts).sort((a, b) => b[1] - a[1]).slice(0, 12);
 
-          // Sensitivity categories
-          const lowSens = edpis.length && avgEdpi ? gamePlayers.filter(p => p.edpi > 0 && p.edpi < avgEdpi * 0.7).sort((a, b) => a.edpi - b.edpi).slice(0, 8) : [];
-          const highSens = edpis.length && avgEdpi ? gamePlayers.filter(p => p.edpi > avgEdpi * 1.3 && p.edpi < 50000).sort((a, b) => b.edpi - a.edpi).slice(0, 8) : [];
 
           // Keyboard usage chart data
           const keyboardChartData = keyboardRanking.slice(0, 10).map(([name, count]) => ({
@@ -2036,11 +1961,9 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   </a>
                 ); })()}
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3">
                 {[
                   { label: "Players", value: totalPlayers, icon: "player" },
-                  { label: "Avg DPI", value: Math.round(gamePlayers.reduce((a, p) => a + p.dpi, 0) / totalPlayers), icon: "crosshair" },
-                  { label: "Avg eDPI", value: avgEdpi || "N/A", icon: "crosshair" },
                   { label: "Avg Weight", value: `${avgWeight}g`, icon: "wind" },
                   { label: "Wireless", value: `${wirelessPct}%`, icon: "signal" },
                   { label: "Avg Poll Rate", value: gb ? `${gb.avgPollRate >= 1000 ? `${(gb.avgPollRate/1000).toFixed(1)}K` : gb.avgPollRate}Hz` : "—", icon: "gear" },
@@ -2192,160 +2115,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               })}
             </div>
 
-            {/* ── SENSITIVITY DEEP DIVE ── */}
-            {edpis.length > 0 && (
-              <>
-                <SectionTitle color={col} sub={`DPI, eDPI, and sensitivity preferences across ${gameName} pros`}>Sensitivity Deep Dive</SectionTitle>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-                  {[
-                    { label: "Average eDPI", value: avgEdpi, sub: "mean across all pros" },
-                    { label: "Median eDPI", value: medianEdpi, sub: "50th percentile" },
-                    { label: "Lowest eDPI", value: minEdpi, sub: "most precise player" },
-                    { label: "Highest eDPI", value: maxEdpi, sub: "fastest player" },
-                  ].map((s, i) => (
-                    <div key={i} className="rounded-xl px-4 py-3 text-center" style={{ background: `${col}06`, border: `1px solid ${col}10` }}>
-                      <div className="text-xl font-black" style={{ color: col }}>{s.value}</div>
-                      <div className="text-xs font-bold opacity-70">{s.label}</div>
-                      <div style={{ fontSize: 10, color: "#b8b0a8" }}>{s.sub}</div>
-                    </div>
-                  ))}
-                </div>
 
-                {/* DPI Distribution */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                  <div className="rounded-2xl p-4 sm:p-6" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
-                    <div className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: "#a09890" }}>DPI Distribution</div>
-                    <div className="space-y-3">
-                      {Object.entries(dpiGroups).filter(([, c]) => c > 0).sort((a, b) => b[1] - a[1]).map(([dpi, count], i) => {
-                        const pct = Math.round(count / totalPlayers * 100);
-                        return (
-                          <div key={i}>
-                            <div className="flex justify-between text-xs mb-1">
-                              <span className="font-bold" style={{ color: "#2d2824" }}>{dpi} DPI</span>
-                              <span style={{ color: col }}>{pct}% ({count})</span>
-                            </div>
-                            <div className="h-3 rounded-full overflow-hidden" style={{ background: "#0000000a" }}>
-                              <div className="h-full rounded-full" style={{ width: `${pct}%`, background: col, opacity: 0.5 + i * 0.1 }} />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* eDPI scatter visualization */}
-                  <div className="rounded-2xl p-4 sm:p-6" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
-                    <div className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: "#a09890" }}>eDPI Spectrum</div>
-                    <div className="mb-3">
-                      <div className="flex justify-between text-xs mb-1"><span style={{ color: "#4a74c4" }}>Low (precise)</span><span style={{ color: "#b8956a" }}>High (fast)</span></div>
-                      <div className="h-12 rounded-full relative overflow-hidden" style={{ background: "linear-gradient(to right, #3b82f608, #b8956a08)" }}>
-                        {edpis.slice(0, 40).map((e, i) => {
-                          const maxE = gameName === "LoL" || gameName === "Dota 2" ? 25000 : Math.max(3000, maxEdpi * 1.1);
-                          const pos = Math.min(95, Math.max(2, (e / maxE) * 100));
-                          return (
-                            <div key={i} className="absolute top-1/2 w-3 h-3 rounded-full" title={`${e} eDPI`}
-                              style={{ left: `${pos}%`, transform: "translateX(-50%) translateY(-50%)", background: col, opacity: 0.6, boxShadow: `0 0 6px ${col}60` }} />
-                          );
-                        })}
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-3 gap-2 text-center mt-4">
-                      <div className="rounded-lg px-2 py-2" style={{ background: "#3b82f608", border: "1px solid #6b8cad15" }}>
-                        <div className="text-sm font-black" style={{ color: "#4a74c4" }}>{edpis.filter(e => e < avgEdpi * 0.7).length}</div>
-                        <div style={{ fontSize: 10, color: "#a09890" }}>Low sens</div>
-                      </div>
-                      <div className="rounded-lg px-2 py-2" style={{ background: `${col}08`, border: `1px solid ${col}10` }}>
-                        <div className="text-sm font-black" style={{ color: col }}>{edpis.filter(e => e >= avgEdpi * 0.7 && e <= avgEdpi * 1.3).length}</div>
-                        <div style={{ fontSize: 10, color: "#a09890" }}>Medium sens</div>
-                      </div>
-                      <div className="rounded-lg px-2 py-2" style={{ background: "#b8956a0a", border: "1px solid #b8956a20" }}>
-                        <div className="text-sm font-black" style={{ color: "#b8956a" }}>{edpis.filter(e => e > avgEdpi * 1.3).length}</div>
-                        <div style={{ fontSize: 10, color: "#a09890" }}>High sens</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Low/High sens pros */}
-                {(lowSens.length > 0 || highSens.length > 0) && (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    {lowSens.length > 0 && (
-                      <div className="rounded-2xl p-4 sm:p-6" style={{ background: "#ffffff", border: "1px solid #6b8cad20" }}>
-                        <div className="text-xs uppercase tracking-widest font-bold mb-3" style={{ color: "#4a74c4" }}>🎯 Low Sensitivity Pros</div>
-                        <div className="text-xs mb-3" style={{ color: "#a09890" }}>Below 70% of average eDPI — maximum precision players</div>
-                        <div className="space-y-1.5">
-                          {lowSens.map((p, i) => (
-                            <div key={i} className="flex items-center gap-2 text-xs px-2 py-1.5 rounded-lg cursor-pointer hover:bg-stone-100" onClick={() => navigateToPlayer(p)}>
-                              <Flag country={p.country} size={16} />
-                              <span className="font-bold truncate" style={{ color: "#4a74c4", maxWidth: 100 }}>{p.name}</span>
-                              <span className="opacity-30 truncate flex-1">{p.team}</span>
-                              <span className="font-black" style={{ color: "#4a74c4" }}>{p.edpi}</span>
-                              <span className="opacity-20">eDPI</span>
-                              <a href={amazonLink(p.keyboard)} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} className="px-1.5 py-0.5 rounded no-underline hover:scale-110 transition-all flex-shrink-0" style={{ background: "#b8956a12", color: "#b8956a", textDecoration: "none", fontSize: 9 }}>{I.cart(8)}</a>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    {highSens.length > 0 && (
-                      <div className="rounded-2xl p-4 sm:p-6" style={{ background: "#ffffff", border: "1px solid #b8956a25" }}>
-                        <div className="text-xs uppercase tracking-widest font-bold mb-3" style={{ color: "#b8956a" }}>⚡ High Sensitivity Pros</div>
-                        <div className="text-xs mb-3" style={{ color: "#a09890" }}>Above 130% of average eDPI — fastest reaction players</div>
-                        <div className="space-y-1.5">
-                          {highSens.map((p, i) => (
-                            <div key={i} className="flex items-center gap-2 text-xs px-2 py-1.5 rounded-lg cursor-pointer hover:bg-stone-100" onClick={() => navigateToPlayer(p)}>
-                              <Flag country={p.country} size={16} />
-                              <span className="font-bold truncate" style={{ color: "#b8956a", maxWidth: 100 }}>{p.name}</span>
-                              <span className="opacity-30 truncate flex-1">{p.team}</span>
-                              <span className="font-black" style={{ color: "#b8956a" }}>{p.edpi}</span>
-                              <span className="opacity-20">eDPI</span>
-                              <a href={amazonLink(p.keyboard)} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} className="px-1.5 py-0.5 rounded no-underline hover:scale-110 transition-all flex-shrink-0" style={{ background: "#b8956a12", color: "#b8956a", textDecoration: "none", fontSize: 9 }}>{I.cart(8)}</a>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </>
-            )}
-
-            {/* Sensitivity-matched recommendations */}
-            {edpis.length > 5 && (() => {
-              const lowPlayers = gamePlayers.filter(p => p.edpi > 0 && p.edpi < avgEdpi * 0.7);
-              const midPlayers = gamePlayers.filter(p => p.edpi >= avgEdpi * 0.7 && p.edpi <= avgEdpi * 1.3);
-              const hiPlayers = gamePlayers.filter(p => p.edpi > avgEdpi * 1.3 && p.edpi < 50000);
-              const topKbdForGroup = (players) => {
-                const mc = {};
-                players.forEach(p => { mc[p.keyboard] = (mc[p.keyboard] || 0) + 1; });
-                const top = Object.entries(mc).sort((a, b) => b[1] - a[1])[0];
-                return top ? { name: top[0], count: top[1], kbd: keyboards.find(mm => mm.name === top[0] || top[0].includes(mm.name)) } : null;
-              };
-              const tiers = [
-                { label: "🎯 Low Sensitivity", desc: "Precision aimers", players: lowPlayers, color: "#4a74c4" },
-                { label: "⚖️ Medium Sensitivity", desc: "Balanced play", players: midPlayers, color: col },
-                { label: "⚡ High Sensitivity", desc: "Fast reactions", players: hiPlayers, color: "#b8956a" },
-              ].map(t => ({ ...t, top: topKbdForGroup(t.players) })).filter(t => t.top);
-              if (tiers.length < 2) return null;
-              return (
-                <div className="rounded-xl p-4 mb-8 flex flex-col sm:flex-row gap-3" style={{ background: `${col}04`, border: `1px solid ${col}10` }}>
-                  <div className="text-[10px] uppercase tracking-widest font-bold self-center sm:w-32 flex-shrink-0" style={{ color: col, letterSpacing: 1.5 }}>Best Keyboard by<br/>Sensitivity</div>
-                  <div className="flex-1 flex flex-wrap gap-3">
-                    {tiers.map((t, ti) => t.top?.kbd && (
-                      <a key={ti} href={amazonLink(t.top.name)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-2 rounded-lg transition-all hover:scale-105 no-underline flex-1 min-w-[200px]" style={{ background: `${t.color}08`, border: `1px solid ${t.color}15`, textDecoration: "none" }}>
-                        {KEYBOARD_IMAGE_URLS[t.top.name] && <img loading="lazy" src={KEYBOARD_IMAGE_URLS[t.top.name]} alt="" className="h-6 object-contain flex-shrink-0" />}
-                        <div className="min-w-0">
-                          <div className="text-xs font-bold" style={{ color: t.color }}>{t.label}</div>
-                          <div className="text-xs font-black truncate" style={{ color: "#1a1614" }}>{t.top.name.replace(/(Wooting |Razer )/, "")}</div>
-                          <div style={{ fontSize: 10, color: "#a09890" }}>{t.top.count} {t.desc} pros</div>
-                        </div>
-                        <span className="text-xs font-bold flex-shrink-0" style={{ color: "#b8956a" }}>${t.top.keyboard.price}</span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              );
-            })()}
 
             {/* ── GEAR DEEP DIVE ── */}
             <SectionTitle color={col} sub={`Weight, layout, connectivity, and polling rate breakdown`}>Gear Deep Dive</SectionTitle>
@@ -2477,9 +2247,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                         </div>
                         <div className="space-y-1">
                           <div className="flex justify-between text-xs"><span className="opacity-50">Keyboard</span><span className="font-bold truncate ml-2" style={{ color: "#2d2824", maxWidth: 160 }}>{p.keyboard}</span></div>
-                          <div className="flex justify-between text-xs"><span className="opacity-50">DPI</span><span className="font-bold" style={{ color: "#2d2824" }}>{p.dpi}</span></div>
-                          {p.sens > 0 && <div className="flex justify-between text-xs"><span className="opacity-50">Sensitivity</span><span className="font-bold" style={{ color: "#2d2824" }}>{p.sens}</span></div>}
-                          {p.edpi > 0 && <div className="flex justify-between text-xs"><span className="opacity-50">eDPI</span><span className="font-black" style={{ color: col }}>{p.edpi}</span></div>}
                           <div className="flex justify-between text-xs"><span className="opacity-50">Polling</span><span className="font-bold" style={{ color: "#2d2824" }}>{p.hz >= 1000 ? `${(p.hz/1000).toFixed(p.hz % 1000 === 0 ? 0 : 1)}KHz` : `${p.hz}Hz`}</span></div>
                           {m && <div className="flex justify-between text-xs"><span className="opacity-50">Weight</span><span className="font-bold" style={{ color: "#2d2824" }}>{m.weight}g</span></div>}
                         </div>
@@ -2526,9 +2293,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
                   {roleRanking.map(([role, count], i) => {
                     const rolePlayers = gamePlayers.filter(p => { let r = p.role; if (gameName === "CS2") { if (r === "Sniper") r = "AWPer"; else if (r === "AWPer/IGL" || r === "Rifler/IGL") r = "IGL"; else if (r === "Entry" || r === "Lurker" || r === "Support") r = "Rifler"; } return r === role; });
-                    const roleEdpis = rolePlayers.filter(p => p.edpi > 0 && p.edpi < 50000).map(p => p.edpi);
-                    const roleAvgEdpi = roleEdpis.length ? Math.round(roleEdpis.reduce((a, b) => a + b, 0) / roleEdpis.length) : null;
-                    const roleAvgDpi = Math.round(rolePlayers.reduce((a, p) => a + p.dpi, 0) / rolePlayers.length);
                     const roleKeyboardCounts = {};
                     rolePlayers.forEach(p => { roleKeyboardCounts[p.keyboard] = (roleKeyboardCounts[p.keyboard] || 0) + 1; });
                     const roleTopKeyboard = Object.entries(roleKeyboardCounts).sort((a, b) => b[1] - a[1])[0];
@@ -2536,8 +2300,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       <div key={i} className="rounded-lg px-3 py-2 text-center" style={{ background: `${col}08` }}>
                         <div className="text-xs font-black mb-1" style={{ color: col }}>{role}</div>
                         <div className="text-sm font-bold" style={{ color: "#1a1614" }}>{count} pros</div>
-                        <div style={{ fontSize: 10, color: "#a09890" }}>{roleAvgDpi} DPI avg</div>
-                        {roleAvgEdpi && <div style={{ fontSize: 10, color: "#a09890" }}>{roleAvgEdpi} eDPI avg</div>}
                         {roleTopKeyboard && <div className="mt-1 truncate" style={{ fontSize: 9, color: "#b8b0a8" }}>#1: {roleTopKeyboard[0].replace(/(Wooting |Razer )/, "")}</div>}
                         {roleTopKeyboard && <a href={amazonLink(roleTopKeyboard[0])} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-0.5 mt-1 px-1 py-0.5 rounded no-underline hover:scale-110 transition-all" style={{ background: "#b8956a12", color: "#b8956a", textDecoration: "none", fontSize: 8 }}>{I.cart(7)} Buy</a>}
                       </div>
@@ -2558,15 +2320,12 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       <th className="text-left px-3 py-2 font-black" style={{ color: col }}>Player</th>
                       <th className="text-left px-3 py-2 font-black" style={{ color: col }}>Team</th>
                       <th className="text-left px-3 py-2 font-black" style={{ color: col }}>Keyboard</th>
-                      <th className="text-right px-3 py-2 font-black" style={{ color: col }}>DPI</th>
-                      <th className="text-right px-3 py-2 font-black" style={{ color: col }}>Sens</th>
-                      <th className="text-right px-3 py-2 font-black" style={{ color: col }}>eDPI</th>
                       <th className="text-right px-3 py-2 font-black" style={{ color: col }}>Hz</th>
                       <th className="text-center px-3 py-2 font-black" style={{ color: "#b8956a" }}>Buy</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {gamePlayers.sort((a, b) => (a.edpi || 99999) - (b.edpi || 99999)).map((p, i) => (
+                    {gamePlayers.sort((a, b) => a.name.localeCompare(b.name)).map((p, i) => (
                       <tr key={i} className="transition-all hover:bg-stone-100 cursor-pointer" onClick={() => navigateToPlayer(p)}
                         style={{ borderBottom: "1px solid #00000008" }}>
                         <td className="px-3 py-1.5" style={{ color: "#00000015" }}>{i + 1}</td>
@@ -2579,9 +2338,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                         </td>
                         <td className="px-3 py-1.5" style={{ color: "#8a8078" }}>{p.team}</td>
                         <td className="px-3 py-1.5 font-bold truncate" style={{ maxWidth: 180 }}><a href={amazonLink(p.keyboard)} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} className="no-underline hover:underline" style={{ color: "#b8956a", textDecoration: "none" }}>{p.keyboard}</a></td>
-                        <td className="px-3 py-1.5 text-right font-bold" style={{ color: "#3d3530" }}>{p.dpi}</td>
-                        <td className="px-3 py-1.5 text-right" style={{ color: "#8a8078" }}>{p.sens || "—"}</td>
-                        <td className="px-3 py-1.5 text-right font-black" style={{ color: p.edpi > 0 ? col : "#a09890" }}>{p.edpi > 0 ? p.edpi : "—"}</td>
                         <td className="px-3 py-1.5 text-right" style={{ color: "#8a8078" }}>{p.hz >= 1000 ? `${(p.hz/1000).toFixed(p.hz % 1000 === 0 ? 0 : 1)}K` : p.hz}</td>
                         <td className="px-3 py-1.5 text-center"><a href={amazonLink(p.keyboard)} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} className="px-1.5 py-0.5 rounded no-underline hover:scale-110 transition-all inline-flex" style={{ background: "#b8956a12", color: "#b8956a", textDecoration: "none", fontSize: 9 }}>{I.cart(8)}</a></td>
                       </tr>
@@ -3077,7 +2833,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               <div className="flex items-center gap-2 mb-4">
                 <span className="text-[10px] uppercase tracking-widest font-bold" style={{ color: "#a09890" }}>Share</span>
                 <button onClick={() => { navigator.clipboard.writeText(`https://esportskeyboards.com/players/${p.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`); }} className="px-2.5 py-1 rounded-lg text-xs font-bold transition-all hover:scale-105" style={{ background: "#00000008", border: "1px solid #d4cfc8", color: "#1a1614" }}>📋 Copy Link</button>
-                <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(p.name + " uses " + p.keyboard + " — " + p.dpi + " DPI, " + p.edpi + " eDPI")}&url=${encodeURIComponent("https://esportskeyboards.com/players/" + p.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, ""))}`} target="_blank" rel="noopener noreferrer" className="px-2.5 py-1 rounded-lg text-xs font-bold transition-all hover:scale-105 no-underline" style={{ background: "#1da1f220", border: "1px solid #6b8cad30", color: "#1da1f2", textDecoration: "none" }}>𝕏 Tweet</a>
+                <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(p.name + " uses " + p.keyboard)}&url=${encodeURIComponent("https://esportskeyboards.com/players/" + p.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, ""))}`} target="_blank" rel="noopener noreferrer" className="px-2.5 py-1 rounded-lg text-xs font-bold transition-all hover:scale-105 no-underline" style={{ background: "#1da1f220", border: "1px solid #6b8cad30", color: "#1da1f2", textDecoration: "none" }}>𝕏 Tweet</a>
                 <a href={`https://reddit.com/submit?url=${encodeURIComponent("https://esportskeyboards.com/players/" + p.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, ""))}&title=${encodeURIComponent(p.name + " (" + p.game + ") — Keyboard, Settings & Setup")}`} target="_blank" rel="noopener noreferrer" className="px-2.5 py-1 rounded-lg text-xs font-bold transition-all hover:scale-105 no-underline" style={{ background: "#c4737320", border: "1px solid #c4737330", color: "#ff4499", textDecoration: "none" }}>Reddit</a>
                 <a href={`/contact?subject=correction&player=${encodeURIComponent(p.name)}`} className="px-2.5 py-1 rounded-lg text-xs font-bold transition-all hover:scale-105 no-underline ml-auto" style={{ background: "#0000000a", border: "1px solid #d4cfc8", color: "#8a8078", textDecoration: "none" }}>⚠️ Suggest Correction</a>
               </div>
@@ -3095,7 +2851,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       return <>{desc}<a href={amazonLink(keyboardName)} target="_blank" rel="noopener noreferrer"
                         className="font-bold underline decoration-dotted underline-offset-2 transition-all hover:opacity-100"
                         style={{ color: brandCol, opacity: 0.85 }}
-                        onClick={e => e.stopPropagation()}>{keyboardName}</a>{` at ${p.dpi} DPI and ${p.edpi} eDPI${p.sens ? ` (${p.sens} in-game sensitivity)` : ""}.`}</>;
+                        onClick={e => e.stopPropagation()}>{keyboardName}</a>{`.`}</>;
                     })()}</p>
                     <div className="flex flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-4">
                       <span className="px-3 py-1 rounded-lg text-sm font-bold" style={{ background: `${gc}20`, color: gc }}>{p.game}</span>
@@ -3103,10 +2859,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       <span className="px-3 py-1 rounded-lg text-sm font-bold" style={{ background: "#00000008", color: "#1a1614" }}>{p.role}</span>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-3 min-w-48">
-                    <StatBox label="DPI" value={p.dpi} color={gc} />
-                    <StatBox label="Sens" value={p.sens ?? " - "} color={gc} />
-                    <StatBox label="eDPI" value={p.edpi ?? " - "} color={gc} />
+                  <div className="grid grid-cols-1 gap-3 min-w-48">
                     <StatBox label="Age" value={p.age} color={gc} />
                   </div>
                   {/* Get This Setup CTA */}
@@ -3254,7 +3007,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
           const allGames = ["All", ...new Set(allPlayers.map(p => p.game))];
           const allRoles = ["All", ...new Set(allPlayers.map(p => p.role).filter(Boolean))];
           const allCountries = ["All", ...new Set(allPlayers.map(p => p.country).filter(Boolean)).values()].sort();
-          const activeFilterCount = [gameFilter !== "All", roleFilter !== "All", countryFilter !== "All", keyboardFilter, teamFilter, profileOnly, dpiRange[0] > 0 || dpiRange[1] < 10000].filter(Boolean).length;
+          const activeFilterCount = [gameFilter !== "All", roleFilter !== "All", countryFilter !== "All", keyboardFilter, teamFilter, profileOnly].filter(Boolean).length;
           const filteredPlayers = allPlayers
             .filter(p => gameFilter === "All" || p.game === gameFilter)
             .filter(p => roleFilter === "All" || p.role === roleFilter)
@@ -3262,11 +3015,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             .filter(p => !keyboardFilter || (p.keyboard || "").toLowerCase().includes(keyboardFilter.toLowerCase()))
             .filter(p => !teamFilter || (p.team || "").toLowerCase().includes(teamFilter.toLowerCase()))
             .filter(p => !profileOnly || p.hasProfile)
-            .filter(p => {
-              if (dpiRange[0] === 0 && dpiRange[1] >= 10000) return true;
-              const d = p.dpi || 0;
-              return d >= dpiRange[0] && d <= dpiRange[1];
-            })
             .filter(p => (p.name || "").toLowerCase().includes(searchQuery.toLowerCase()) || (p.team || "").toLowerCase().includes(searchQuery.toLowerCase()) || (p.keyboard || "").toLowerCase().includes(searchQuery.toLowerCase()));
           const sortedPlayers = [...filteredPlayers].sort((a, b) => {
             if (!playerSort.key) return 0;
@@ -3285,8 +3033,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             { key: "keyboard", label: "Keyboard" },
             { key: "hz", label: "Hz" },
             { key: "actuationPoint", label: "Actuation" },
-            { key: "sens", label: "Sens" },
-            { key: "edpi", label: "eDPI" },
             { key: "role", label: "Role" },
           ];
           return (
@@ -3298,13 +3044,10 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 const fp = gameFilter === "All" ? allPlayers : allPlayers.filter(p => p.game === gameFilter);
                 const mc = {}; fp.forEach(p => { mc[p.keyboard] = (mc[p.keyboard] || 0) + 1; });
                 const topM = Object.entries(mc).sort((a,b) => b[1]-a[1])[0];
-                const edpis = fp.filter(p => p.edpi > 0 && p.edpi < 50000).map(p => p.edpi);
-                const avgE = edpis.length ? Math.round(edpis.reduce((a,b) => a+b,0)/edpis.length) : 0;
                 const countries = new Set(fp.map(p => p.country)).size;
                 const teams = new Set(fp.filter(p => p.team !== "Content" && p.team !== "Free Agent" && p.team !== "Inactive" && p.team !== "Retired").map(p => p.team)).size;
                 return [
                   { label: "Top Keyboard", value: topM ? topM[0].replace(/(Wooting |Razer )/, "") : "-", color: "#b8956a" },
-                  { label: "Avg eDPI", value: avgE || "-", color: "#c4444f" },
                   { label: "Countries", value: countries, color: "#6b8cad" },
                   { label: "Active Teams", value: teams, color: "#b8956a" },
                 ].map((s, i) => (
@@ -3410,18 +3153,8 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   <input type="text" aria-label="Filter by team name" placeholder="e.g. Navi, Fnatic..." value={teamFilter} onChange={e => { setTeamFilter(e.target.value); setPlayerPage(0); }}
                     className="w-full px-3 py-2 rounded-lg text-sm outline-none" style={{ background: "#f5f2ee", border: "1px solid #d4cfc8", color: "#1a1614" }} />
                 </div>
-                <div className="col-span-2">
-                  <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#a09890" }}>DPI Range: <span className="font-bold text-stone-900">{dpiRange[0]} – {dpiRange[1] >= 10000 ? "Any" : dpiRange[1]}</span></div>
-                  <div className="flex items-center gap-3">
-                    <input type="range" aria-label="Minimum DPI" min={0} max={3200} step={100} value={dpiRange[0]} onChange={e => setDpiRange([Math.min(+e.target.value, dpiRange[1]), dpiRange[1]])}
-                      className="flex-1 accent-blue-400" style={{ height: 4 }} />
-                    <input type="range" aria-label="Maximum DPI" min={0} max={10000} step={100} value={dpiRange[1]} onChange={e => setDpiRange([dpiRange[0], Math.max(+e.target.value, dpiRange[0])])}
-                      className="flex-1 accent-blue-400" style={{ height: 4 }} />
-                  </div>
-                  <div className="flex justify-between text-sm opacity-20 mt-1"><span>0</span><span>800</span><span>1600</span><span>3200+</span></div>
-                </div>
                 <div className="col-span-2 flex items-end">
-                  <button onClick={() => { setGameFilter("All"); setRoleFilter("All"); setCountryFilter("All"); setKeyboardFilter(""); setTeamFilter(""); setDpiRange([0, 10000]); setProfileOnly(false); setSearchQuery(""); setPlayerPage(0); }}
+                  <button onClick={() => { setGameFilter("All"); setRoleFilter("All"); setCountryFilter("All"); setKeyboardFilter(""); setTeamFilter(""); setProfileOnly(false); setSearchQuery(""); setPlayerPage(0); }}
                     className="px-4 py-2 rounded-lg text-sm font-bold transition-all"
                     style={{ background: "#00000008", border: "1px solid #d4cfc8", color: "#8a8078" }}>
                     ✕ Clear All Filters
@@ -3478,9 +3211,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                           </div>
                         </td>
                         <td className="px-2 py-2.5 text-sm opacity-40">{p.hz ? `${p.hz >= 1000 ? `${p.hz/1000}K` : p.hz}` : " - "}</td>
-                        <td className="px-2 py-2.5 text-sm">{p.dpi}</td>
-                        <td className="px-2 py-2.5 text-sm opacity-60">{p.sens ?? " - "}</td>
-                        <td className="px-2 py-2.5 font-bold text-sm" style={{ color: p.edpi ? (p.edpi < 400 ? "#ff4444" : p.edpi < 1000 ? "#ffaa00" : p.edpi < 5000 ? "#44ff44" : "#44ddff") : "#666" }}>{p.edpi ?? " - "}</td>
                         <td className="px-2 py-2.5 text-sm">
                           <span className="opacity-40">{p.role}</span>
                         </td>
@@ -3560,15 +3290,11 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                               <a href={`/players/${p.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`} className="text-sm font-black text-stone-900 no-underline hover:underline" style={{ textDecoration: "none" }}>{p.name}</a>
                               <div style={{ fontSize: 11, color: gc }}>{p.team} · {p.game}</div>
                             </div>
-                            <div className="text-right flex-shrink-0">
-                              <div className="text-sm font-black" style={{ color: gc }}>{p.edpi}</div>
-                              <div style={{ fontSize: 10 }} className="opacity-30">eDPI</div>
-                            </div>
                           </div>
                           <div className="flex items-center gap-2 mb-2 px-2 py-1.5 rounded-lg" style={{ background: "#00000008" }}>
                             {m && KEYBOARD_IMAGE_URLS[m.name] && <img loading="lazy" src={KEYBOARD_IMAGE_URLS[m.name]} alt="" className="h-5 w-8 object-contain opacity-70 flex-shrink-0" />}
                             <span className="text-xs font-bold truncate" style={{ color: m ? (BRAND_COLORS[m.brand] || "#6b635b") : "#6b635b" }}>{p.keyboard}</span>
-                            <span className="text-xs opacity-20 ml-auto flex-shrink-0">{p.dpi} DPI · {p.role}</span>
+                            {p.role && p.role !== "—" && <span className="text-xs opacity-20 ml-auto flex-shrink-0">{p.role}</span>}
                           </div>
                           <a href={amazonLink(p.keyboard)} target="_blank" rel="noopener noreferrer"
                             className="flex items-center justify-center gap-1.5 w-full px-3 py-2 rounded-lg text-xs font-bold transition-all hover:scale-[1.03] no-underline"
@@ -3583,126 +3309,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               );
             })()}
 
-            <SectionTitle color="#ff4655" sub="Distribution of sensitivity settings across all tracked players">eDPI Distribution by Game</SectionTitle>
-            <div className="rounded-xl p-4 mb-4" style={{ background: "#c4737310", border: "1px solid #c4737318" }}>
-              <div className="text-sm opacity-50 leading-relaxed">
-                <span className="font-bold" style={{ color: "#c4444f" }}>Sample Size Notice:</span> These distributions are based on our database of <span className="font-bold text-stone-900">{allPlayers.filter(p => p.edpi).length}</span> players with confirmed eDPI data out of <span className="font-bold text-stone-900">{allPlayers.length}</span> total tracked players. Games with fewer than 3 players with eDPI data are excluded. PUBG uses a unique sensitivity system and does not have standardized eDPI values. Larger samples produce more reliable distributions.
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* OVERALL eDPI chart first */}
-              {(() => {
-                const allWithEdpi = allPlayers.filter(p => p.edpi);
-                const total = allWithEdpi.length;
-                if (total < 3) return null;
-                const ranges = [
-                  { range: "< 300", count: allWithEdpi.filter(p => p.edpi < 300).length },
-                  { range: "300-500", count: allWithEdpi.filter(p => p.edpi >= 300 && p.edpi < 500).length },
-                  { range: "500-700", count: allWithEdpi.filter(p => p.edpi >= 500 && p.edpi < 700).length },
-                  { range: "700-900", count: allWithEdpi.filter(p => p.edpi >= 700 && p.edpi < 900).length },
-                  { range: "900-1200", count: allWithEdpi.filter(p => p.edpi >= 900 && p.edpi < 1200).length },
-                  { range: "1200-2000", count: allWithEdpi.filter(p => p.edpi >= 1200 && p.edpi < 2000).length },
-                  { range: "2000-3000", count: allWithEdpi.filter(p => p.edpi >= 2000 && p.edpi < 3000).length },
-                  { range: "3000+", count: allWithEdpi.filter(p => p.edpi >= 3000).length },
-                ];
-                const avgEdpi = Math.round(allWithEdpi.reduce((a, p) => a + p.edpi, 0) / total);
-                const medianEdpi = allWithEdpi.map(p => p.edpi).sort((a, b) => a - b)[Math.floor(total / 2)];
-                const minEdpi = Math.min(...allWithEdpi.map(p => p.edpi));
-                const maxEdpi = Math.max(...allWithEdpi.map(p => p.edpi));
-                return (
-                  <div className="rounded-2xl p-5 md:col-span-2" style={{ background: "#ffffff", border: "1px solid #d4cfc8" }}>
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="text-base sm:text-lg font-black text-center sm:text-left" style={{ color: "#c4508a" }}><span className="inline-flex mr-1.5 align-middle">{I.globe(20)}</span>All Games  -  Overall eDPI Distribution</div>
-                      <div className="px-2.5 py-1 rounded text-sm font-bold" style={{ background: "#f472b615", color: "#c4508a" }}>n = {total}</div>
-                    </div>
-                    <div className="flex gap-5 mb-3 text-sm opacity-85">
-                      <span>Mean: <span className="font-bold text-stone-900">{avgEdpi}</span></span>
-                      <span>Median: <span className="font-bold text-stone-900">{medianEdpi}</span></span>
-                      <span>Min: <span className="font-bold text-stone-900">{minEdpi}</span></span>
-                      <span>Max: <span className="font-bold text-stone-900">{maxEdpi}</span></span>
-                    </div>
-                    <ResponsiveContainer width="100%" height={220}>
-                      <BarChart data={ranges}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#0000000a" />
-                        <XAxis dataKey="range" tick={{ fill: "#a09890", fontSize: 13 }} />
-                        <YAxis tick={{ fill: "#a09890", fontSize: 13 }} />
-                        <Bar dataKey="count" radius={[4, 4, 0, 0]} fillOpacity={0.8} name="Players">
-                          {ranges.map((r, ri) => <Cell key={ri} fill={r.count === Math.max(...ranges.map(x => x.count)) ? "#f472b6" : "#f472b640"} />)}
-                        </Bar>
-                        <Tooltip content={<CustomTooltip />} />
-                      </BarChart>
-                    </ResponsiveContainer>
-                    <div className="flex flex-wrap gap-3 mt-2">
-                      {ranges.map((r, ri) => (
-                        <div key={ri} className="text-sm opacity-30">
-                          {r.range}: <span className="font-bold" style={{ color: r.count === Math.max(...ranges.map(x => x.count)) ? "#f472b6" : "#8a8078" }}>{Math.round((r.count / total) * 100)}%</span> <span className="opacity-50">({r.count})</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })()}
-              {/* Per-game eDPI charts */}
-              {(() => {
-                const gcMap = { CS2: "#c47000", Valorant: "#c43848", "R6 Siege": "#3a6ca0", "Call of Duty": "#3a8a3a", Fortnite: "#3a60b0", "League of Legends": "#c89b3c", LoL: "#c89b3c", "Overwatch 2": "#c48018", Apex: "#a82020", "Dota 2": "#b83c30", "Rocket League": "#1478c4", "Marvel Rivals": "#b81820", Deadlock: "#6d40c4", PUBG: "#c48a00" };
-                const gamesList = [...new Set(allPlayers.map(p => p.game))];
-                return gamesList.map(game => {
-                  const gamePlayers = allPlayers.filter(p => p.game === game && p.edpi);
-                  if (gamePlayers.length < 3) return null;
-                  const total = gamePlayers.length;
-                  // adaptive ranges based on game genre
-                  const isHighSens = ["Overwatch 2", "Marvel Rivals", "Fortnite"].includes(game);
-                  const ranges = isHighSens ? [
-                    { range: "< 1000", count: gamePlayers.filter(p => p.edpi < 1000).length },
-                    { range: "1000-2000", count: gamePlayers.filter(p => p.edpi >= 1000 && p.edpi < 2000).length },
-                    { range: "2000-3000", count: gamePlayers.filter(p => p.edpi >= 2000 && p.edpi < 3000).length },
-                    { range: "3000-4000", count: gamePlayers.filter(p => p.edpi >= 3000 && p.edpi < 4000).length },
-                    { range: "4000+", count: gamePlayers.filter(p => p.edpi >= 4000).length },
-                  ] : [
-                    { range: "< 400", count: gamePlayers.filter(p => p.edpi < 400).length },
-                    { range: "400-600", count: gamePlayers.filter(p => p.edpi >= 400 && p.edpi < 600).length },
-                    { range: "600-800", count: gamePlayers.filter(p => p.edpi >= 600 && p.edpi < 800).length },
-                    { range: "800-1000", count: gamePlayers.filter(p => p.edpi >= 800 && p.edpi < 1000).length },
-                    { range: "1000+", count: gamePlayers.filter(p => p.edpi >= 1000).length },
-                  ];
-                  const avgEdpi = Math.round(gamePlayers.reduce((a, p) => a + p.edpi, 0) / total);
-                  const minEdpi = Math.min(...gamePlayers.map(p => p.edpi));
-                  const maxEdpi = Math.max(...gamePlayers.map(p => p.edpi));
-                  const gc = gcMap[game] || "#8a8078";
-                  return (
-                    <div key={game} className="rounded-2xl p-5" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="text-base sm:text-lg font-black text-center sm:text-left flex items-center gap-2" style={{ color: gc }}>
-                          {GAME_IMAGE_URLS[game] && <img loading="lazy" src={GAME_IMAGE_URLS[game]} alt={game} className="w-5 h-5 object-contain inline-block" />}
-                          {game}
-                        </div>
-                        <div className="px-2 py-0.5 rounded text-sm font-bold" style={{ background: `${gc}15`, color: gc }}>n = {total}</div>
-                      </div>
-                      <div className="flex gap-4 mb-3 text-sm opacity-85">
-                        <span>Avg: <span className="font-bold text-stone-900">{avgEdpi}</span></span>
-                        <span>Min: <span className="font-bold text-stone-900">{minEdpi}</span></span>
-                        <span>Max: <span className="font-bold text-stone-900">{maxEdpi}</span></span>
-                      </div>
-                      <ResponsiveContainer width="100%" height={180}>
-                        <BarChart data={ranges}>
-                          <XAxis dataKey="range" tick={{ fill: "#a09890", fontSize: 13 }} />
-                          <YAxis tick={{ fill: "#a09890", fontSize: 13 }} />
-                          <Bar dataKey="count" fill={gc} radius={[4, 4, 0, 0]} fillOpacity={0.7} name="Players" />
-                          <Tooltip content={<CustomTooltip />} />
-                        </BarChart>
-                      </ResponsiveContainer>
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {ranges.map((r, ri) => (
-                          <div key={ri} className="text-sm opacity-30">
-                            {r.range}: <span className="font-bold" style={{ color: r.count === Math.max(...ranges.map(x => x.count)) ? gc : "#8a8078" }}>{total > 0 ? Math.round((r.count / total) * 100) : 0}%</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                }).filter(Boolean);
-              })()}
-            </div>
           </div>
           );
         })()}
@@ -3886,38 +3492,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                         </Pie>
                         <Tooltip content={<CustomTooltip />} />
                       </PieChart>
-                    </ResponsiveContainer>
-                  );
-                })()}
-              </div>
-              <div className="rounded-2xl p-6" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
-                <div className="text-xs font-bold uppercase tracking-wider mb-4" style={{ color: "#a09890" }}>DPI Distribution Across All Pros</div>
-                {(() => {
-                  const dpiRanges = [
-                    { range: "< 400", min: 0, max: 400, color: "#c44040" },
-                    { range: "400-600", min: 400, max: 600, color: "#c47000" },
-                    { range: "600-800", min: 600, max: 800, color: "#b8956a" },
-                    { range: "800-1000", min: 800, max: 1000, color: "#b8956a" },
-                    { range: "1000-1600", min: 1000, max: 1600, color: "#6b8cad" },
-                    { range: "1600+", min: 1600, max: 999999, color: "#7048c4" },
-                  ];
-                  const data = dpiRanges.map(r => ({
-                    range: r.range,
-                    players: allPlayers.filter(p => p.dpi >= r.min && p.dpi < r.max).length,
-                    fill: r.color,
-                    pct: parseFloat((allPlayers.filter(p => p.dpi >= r.min && p.dpi < r.max).length / allPlayers.length * 100).toFixed(1))
-                  }));
-                  return (
-                    <ResponsiveContainer width="100%" height={280}>
-                      <BarChart data={data}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#00000008" />
-                        <XAxis dataKey="range" tick={{ fill: "#a09890", fontSize: 13 }} />
-                        <YAxis tick={{ fill: "#a09890", fontSize: 13 }} />
-                        <Tooltip content={<CustomTooltip />} />
-                        <Bar dataKey="players" radius={[6, 6, 0, 0]} name="Players">
-                          {data.map((d, i) => <Cell key={i} fill={d.fill} fillOpacity={0.7} />)}
-                        </Bar>
-                      </BarChart>
                     </ResponsiveContainer>
                   );
                 })()}
@@ -4161,28 +3735,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               </div>
             </div>
 
-            {/* ── eDPI by Game ── */}
-            <SectionTitle color="#c44040" sub="How sensitivity preferences vary across competitive titles">Average eDPI by Game</SectionTitle>
-            <div className="rounded-2xl p-6" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
-              <ResponsiveContainer width="100%" height={320}>
-                <BarChart data={gameBreakdown.filter(g => g.avgEdpi && g.players >= 10).map(g => ({
-                  game: g.game,
-                  avgEdpi: g.avgEdpi,
-                  fill: { CS2: "#c47000", Valorant: "#c43848", Apex: "#a82020", "R6 Siege": "#3a6ca0", "Overwatch 2": "#c48018", "Marvel Rivals": "#b81820", Deadlock: "#6d40c4", "Call of Duty": "#3a8a3a", "Quake Champions": "#a83c00" }[g.game] || "#8a8078"
-                }))} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#00000008" />
-                  <XAxis dataKey="game" tick={{ fill: "#a09890", fontSize: 13 }} />
-                  <YAxis tick={{ fill: "#a09890", fontSize: 13 }} />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Bar dataKey="avgEdpi" name="Avg eDPI" radius={[6, 6, 0, 0]}>
-                    {gameBreakdown.filter(g => g.avgEdpi && g.players >= 10).map((g, i) => (
-                      <Cell key={i} fill={{ CS2: "#c47000", Valorant: "#c43848", Apex: "#a82020", "R6 Siege": "#3a6ca0", "Overwatch 2": "#c48018", "Marvel Rivals": "#b81820", Deadlock: "#6d40c4", "Call of Duty": "#3a8a3a", "Quake Champions": "#a83c00" }[g.game] || "#8a8078"} fillOpacity={0.6} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-              <div className="text-sm text-center opacity-25 mt-2">Games with fewer than 10 tracked players or no eDPI data excluded</div>
-            </div>
           </div>
         )}
 
@@ -4192,7 +3744,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             sensor: m.switchType,
             brand: m.brand,
             name: m.name,
-            dpi: m.actuationPoint,
+            actuation: m.actuationPoint,
             pollingRate: m.pollingRate,
             weight: m.weight,
             proUsage: m.proUsage,
@@ -4563,7 +4115,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             <SectionTitle color="#9060c4" sub="Technical specifications compared across all switches">Switch Spec Comparison</SectionTitle>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="rounded-xl p-5" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
-                <div className="text-sm uppercase tracking-widest opacity-30 mb-4">Max DPI by Sensor</div>
+                <div className="text-sm uppercase tracking-widest opacity-30 mb-4">Actuation by Switch Type</div>
                 <div className="space-y-2">
                   {sensorProfiles.sort((a, b) => b.avgActuation - a.avgActuation).map((s, i) => (
                     <div key={s.switchType} className="flex items-center gap-2">
@@ -5495,7 +5047,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
                   { icon: I.crosshair(32), title: "Aim Style Analyzer", desc: "Answer questions about how you aim — tracking, flicking, micro-adjustments — and we'll profile your style and suggest optimal sensitivity ranges and keyboards." },
-                  { icon: I.bolt(32), title: "Pro Config Simulator", desc: "Pick any pro player from our database and simulate their full setup — DPI, sensitivity, polling rate, and keyboard — applied to your favorite game." },
+                  { icon: I.bolt(32), title: "Pro Config Simulator", desc: "Pick any pro player from our database and simulate their full setup — actuation, polling rate, switch type, and keyboard layout — applied to your favorite game." },
                 ].map((item, i) => (
                   <div key={i} className="rounded-2xl p-6 text-center relative overflow-hidden transition-all hover:scale-[1.02]"
                     style={{ background: "#ffffff", border: `1px solid ${accent}15` }}>
@@ -5757,7 +5309,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
           const fromGame = SENS_GAMES.find(g => g.id === sensFromGame) || SENS_GAMES[0];
           const cm360 = (sensFromDpi > 0 && sensFromSens > 0) ? 914.4 / (sensFromDpi * fromGame.yaw * sensFromSens) : 0;
           const inches360 = cm360 / 2.54;
-          const edpi = sensFromDpi * sensFromSens;
 
           let speedLabel = "", speedColor = "";
           if (cm360 > 80) { speedLabel = "Very Slow"; speedColor = "#3b82f6"; }
@@ -5766,15 +5317,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
           else if (cm360 > 18) { speedLabel = "Fast"; speedColor = "#b8956a"; }
           else if (cm360 > 10) { speedLabel = "Very Fast"; speedColor = "#ef4444"; }
           else { speedLabel = "Extreme"; speedColor = "#dc2626"; }
-
-          const proMatches = cm360 > 0 ? allPlayers.filter(p => {
-            if (!p.dpi || !p.edpi || p.edpi <= 0) return false;
-            const pSens = p.edpi / p.dpi;
-            const gameYaw = { CS2: 0.022, Valorant: 0.07, "Overwatch 2": 0.0066, Apex: 0.022, "Call of Duty": 0.0066, "R6 Siege": 0.00572958, Fortnite: 0.005555, PUBG: 0.000440, "Marvel Rivals": 0.0066, Deadlock: 0.022 };
-            const yaw = gameYaw[p.game] || 0.022;
-            const proCm360 = 914.4 / (p.dpi * yaw * pSens);
-            return Math.abs(proCm360 - cm360) / cm360 < 0.1;
-          }).slice(0, 12) : [];
 
           return (
           <div>
@@ -5805,7 +5347,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <div className="text-sm opacity-85 mb-2">DPI</div>
+                    <div className="text-sm opacity-85 mb-2">Mouse DPI</div>
                     <input type="number" value={sensFromDpi} onChange={e => setSensFromDpi(Number(e.target.value))}
                       className="w-full rounded-xl px-4 py-3 text-lg font-black text-center"
                       style={{ background: "#00000008", border: `1px solid ${accentC}25`, color: accentC, outline: "none" }} />
@@ -5825,7 +5367,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       step={fromGame.step}
                       className="w-full rounded-xl px-4 py-3 text-lg font-black text-center"
                       style={{ background: "#00000008", border: `1px solid ${accentC}25`, color: "#1a1614", outline: "none" }} />
-                    <div className="text-sm opacity-20 text-center mt-2" style={{ fontSize: 11 }}>eDPI: {edpi.toFixed(1)}</div>
                   </div>
                 </div>
               </div>
@@ -5886,7 +5427,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                     {SENS_GAMES.filter(g => g.id !== sensFromGame).map(g => {
                       const targetSens = 914.4 / (sensFromDpi * g.yaw * cm360);
-                      const targetEdpi = sensFromDpi * targetSens;
                       const isSameEngine = g.yaw === fromGame.yaw;
                       const formatted = targetSens < 0.01 ? targetSens.toFixed(4) : targetSens < 1 ? targetSens.toFixed(3) : targetSens < 10 ? targetSens.toFixed(2) : targetSens.toFixed(1);
                       return (
@@ -5897,7 +5437,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                           {g.img ? <img loading="lazy" src={g.img} alt={`${g.name} game icon`} className="flex-shrink-0 rounded-sm" style={{ width: 20, height: 20, objectFit: "contain" }} /> : <span className="flex-shrink-0 w-5 h-5 rounded-sm flex items-center justify-center text-sm" style={{ background: "#00000008" }}>{g.name.charAt(0)}</span>}
                           <div className="flex-1 min-w-0">
                             <div className="text-sm font-bold truncate" style={{ color: "#2d2824" }}>{g.name}</div>
-                            <div className="text-sm opacity-25" style={{ fontSize: 11 }}>{g.note} · eDPI: {targetEdpi.toFixed(1)}</div>
+                            <div className="text-sm opacity-25" style={{ fontSize: 11 }}>{g.note}</div>
                           </div>
                           <div className="text-right flex-shrink-0">
                             <div className="text-sm font-black" style={{ color: accentC }}>{formatted}</div>
@@ -5915,73 +5455,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 </div>
               )}
 
-              {/* Pro Players with Similar Sensitivity */}
-              {cm360 > 0 && cm360 < 10000 && (
-                <div className="p-4 sm:p-6" style={{ background: "#ffffff", borderTop: `1px solid ${accentC}10` }}>
-                  <button onClick={() => setSensShowPros(!sensShowPros)}
-                    className="flex items-center gap-2 text-sm uppercase tracking-widest opacity-85 hover:opacity-60 transition-all cursor-pointer mb-3">
-                    <span>{sensShowPros ? "▼" : "▶"} Pro Players with Similar Sensitivity ({proMatches.length} found)</span>
-                  </button>
-                  {sensShowPros && (
-                    <div>
-                      {proMatches.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          {proMatches.map((p, i) => {
-                            const gc = { CS2: "#c47000", Valorant: "#c43848", "Overwatch 2": "#c48018", Apex: "#a82020", "Call of Duty": "#3a8a3a", "R6 Siege": "#3a6ca0", Fortnite: "#3a60b0", "Marvel Rivals": "#b81820", Deadlock: "#6d40c4", "Quake Champions": "#a83c00" };
-                            return (
-                              <button key={i} onClick={() => { const pp = proPlayers.find(pp => pp.name === p.name); if (pp) { navigateToPlayer(pp); } }}
-                                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all cursor-pointer"
-                                style={{ background: "#00000008", border: "1px solid #e8e4df" }}
-                                onMouseEnter={e => { e.currentTarget.style.background = "#00000008"; }}
-                                onMouseLeave={e => { e.currentTarget.style.background = "#00000008"; }}>
-                                <Flag country={p.country} size={20} />
-                                <div className="flex-1 min-w-0">
-                                  <div className="text-sm font-bold">{p.name}</div>
-                                  <div className="text-sm opacity-30">{p.team} · <span style={{ color: gc[p.game] || "#8a8078" }}>{p.game}</span></div>
-                                </div>
-                                <div className="text-right flex-shrink-0">
-                                  <div className="text-sm font-bold" style={{ color: accentC }}>{p.dpi} DPI</div>
-                                  <div className="text-xs" style={{ color: "#a09890" }}>{p.edpi} eDPI</div>
-                                </div>
-                                <a href={amazonLink(p.keyboard)} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="flex items-center gap-1 px-2 py-1 rounded text-xs font-bold transition-all hover:scale-105 no-underline flex-shrink-0" style={{ background: "#b8956a18", color: "#b8956a", border: "1px solid #b8956a30", textDecoration: "none", fontSize: 10 }}>
-                                  {I.cart(10)} {(() => { const sm = keyboards.find(mm => mm.name === p.keyboard); return sm ? `$${sm.price}` : "Buy"; })()}
-                                </a>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        <div className="text-sm opacity-20 text-center py-4">No pros with a similar sensitivity found in our database. Try adjusting your settings.</div>
-                      )}
-                      {/* Popular keyboards at this sensitivity */}
-                      {proMatches.length > 0 && (() => {
-                        const matchKbds = {};
-                        proMatches.forEach(p => { matchKbds[p.keyboard] = (matchKbds[p.keyboard] || 0) + 1; });
-                        const topMatchKbds = Object.entries(matchKbds).sort((a, b) => b[1] - a[1]).slice(0, 3);
-                        return topMatchKbds.length > 0 && (
-                          <div className="mt-4 rounded-xl p-4" style={{ background: `${accentC}06`, border: `1px solid ${accentC}15` }}>
-                            <div className="text-xs uppercase tracking-widest font-bold mb-3" style={{ color: accentC }}>🎯 Popular Keyboards at Your Sensitivity</div>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                              {topMatchKbds.map(([mName, cnt], mi) => {
-                                const md = keyboards.find(mm => mm.name === mName || mName.includes(mm.name));
-                                return (
-                                  <div key={mi} className="rounded-lg p-3 text-center" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
-                                    <div className="text-xs font-black truncate mb-1" style={{ color: "#1a1614" }}>{mName.replace(/(Wooting |Razer )/, "")}</div>
-                                    <div style={{ fontSize: 10, color: "#a09890" }}>{cnt} pros at your eDPI{md ? ` · ${md.weight}g` : ""}</div>
-                                    <a href={amazonLink(mName)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 mt-2 px-3 py-1 rounded text-xs font-bold transition-all hover:scale-105 no-underline" style={{ background: "#b8956a20", color: "#b8956a", textDecoration: "none" }}>
-                                      {I.cart(10)} {md ? `$${md.price}` : "Buy"}
-                                    </a>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        );
-                      })()}
-                    </div>
-                  )}
-                </div>
-              )}
 
               {/* Quick Reference */}
               {cm360 > 0 && cm360 < 10000 && (
@@ -6213,10 +5686,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
           });
           const topBrands = Object.entries(brandCounts).sort((a, b) => b[1] - a[1]).slice(0, 6);
 
-          const edpis = uniquePlayers.map(p => p.edpi).filter(e => e && e > 0);
-          const avgEdpi = edpis.length ? Math.round(edpis.reduce((a, b) => a + b, 0) / edpis.length) : null;
-          const dpis = uniquePlayers.map(p => p.dpi).filter(d => d && d > 0);
-          const avgActuation = dpis.length ? Math.round(dpis.reduce((a, b) => a + b, 0) / dpis.length) : null;
 
           const countries = [...new Set(uniquePlayers.map(p => p.country).filter(Boolean))];
 
@@ -6249,12 +5718,11 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
                 {[
                   { label: "Players Tracked", value: uniquePlayers.length, color: tc },
                   { label: "Games", value: gameEntries.length, color: "#b8956a" },
-                  { label: "Avg DPI", value: avgActuation || "—", color: "#b8956a" },
-                  { label: "Avg eDPI", value: avgEdpi || "—", color: "#7048c4" },
+                  { label: "Nationalities", value: countries.length, color: "#6b8cad" },
                 ].map(s => (
                   <div key={s.label} className="rounded-xl p-3 text-center" style={{ background: "#ffffff", border: `1px solid ${s.color}15` }}>
                     <div className="text-lg sm:text-xl font-black" style={{ color: s.color }}>{s.value}</div>
@@ -6356,17 +5824,15 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                     {(() => {
                       const hasRoles = players.some(p => p.role && p.role !== "—");
                       return (<>
-                    <div className="hidden sm:grid px-4 py-2 text-xs uppercase tracking-widest opacity-30 items-center" style={{ background: "#ffffff", gridTemplateColumns: hasRoles ? "20% 10% 30% 12% 12% 12%" : "22% 38% 12% 12% 12%" }}>
+                    <div className="hidden sm:grid px-4 py-2 text-xs uppercase tracking-widest opacity-30 items-center" style={{ background: "#ffffff", gridTemplateColumns: hasRoles ? "20% 10% 40% 12%" : "22% 38% 12%" }}>
                       <div>Player</div>
                       {hasRoles && <div>Role</div>}
                       <div>Keyboard</div>
-                      <div className="text-center">DPI</div>
-                      <div className="text-center">eDPI</div>
                       <div className="text-center">Hz</div>
                     </div>
                     {players.map((p, i) => (
                       <div key={p.name + i} className="grid px-4 py-3 items-center transition-all hover:bg-white/[0.02]"
-                        style={{ borderTop: i > 0 ? "1px solid #e8e4df" : "none", gridTemplateColumns: hasRoles ? "20% 10% 30% 12% 12% 12%" : "22% 38% 12% 12% 12%" }}>
+                        style={{ borderTop: i > 0 ? "1px solid #e8e4df" : "none", gridTemplateColumns: hasRoles ? "20% 10% 40% 12%" : "22% 38% 12%" }}>
                         <div className="flex items-center gap-2 min-w-0">
                           <Flag country={p.country} size={18} className="shrink-0" />
                           <span className="text-sm font-bold truncate cursor-pointer hover:underline" style={{ color: "#1a1614" }}
@@ -6379,8 +5845,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                           <span className="opacity-80 cursor-pointer hover:underline hover:opacity-100 transition-opacity"
                             onClick={() => { const mm = keyboards.find(mm => mm.name === p.keyboard || p.keyboard?.includes(mm.name)); if (mm) { setSelectedKeyboard(mm); setActiveTab("keyboardDetail"); window.scrollTo({ top: 0, behavior: "smooth" }); } }}>{p.keyboard || "Unknown"}</span>
                         </div>
-                        <div className="text-center text-sm opacity-60">{p.dpi || "—"}</div>
-                        <div className="text-center text-sm font-bold" style={{ color: gc }}>{p.edpi || "—"}</div>
                         <div className="text-center text-sm opacity-60">{p.hz ? p.hz.toLocaleString() : "—"}</div>
                       </div>
                     ))}

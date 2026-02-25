@@ -8,7 +8,7 @@ const kbSlug = (name) => { const m = findKeyboard(name); return m ? slug(m.name)
 
 export const metadata = {
   title: "Sensitivity Converter — Convert Sensitivity Between Games",
-  description: "Convert your sensitivity between CS2, Valorant, Fortnite, Apex Legends, Overwatch 2, and more. See cm/360, compare with pro players, and find your ideal eDPI.",
+  description: "Convert your mouse sensitivity between CS2, Valorant, Fortnite, Apex Legends, Overwatch 2, and more. See cm/360 and compare with pro player settings.",
   alternates: { canonical: "https://esportskeyboards.com/sensitivity" },
   openGraph: {
     title: "Sensitivity Converter — Convert Sensitivity Between Games",
@@ -31,12 +31,12 @@ export default function SensitivityPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "HowTo",
         name: "How to Convert Sensitivity Between Games",
-        description: "Convert your sensitivity settings between CS2, Valorant, Fortnite, Apex Legends, and other esports titles using eDPI.",
+        description: "Convert your mouse sensitivity settings between CS2, Valorant, Fortnite, Apex Legends, and other esports titles.",
         step: [
-          { "@type": "HowToStep", name: "Find your current eDPI", text: "Multiply your DPI by your in-game sensitivity. For example, 800 DPI × 1.0 sens = 800 eDPI." },
-          { "@type": "HowToStep", name: "Calculate cm/360", text: "Use the formula: cm/360 = (360 × 2.54) / (DPI × sensitivity × game multiplier). This gives you your physical distance for a full 360-degree turn." },
+          { "@type": "HowToStep", name: "Select your game", text: "Choose the game you currently play from our list of 14 supported esports titles." },
+          { "@type": "HowToStep", name: "Enter your mouse settings", text: "Input your current mouse DPI and in-game sensitivity to calculate your cm/360." },
           { "@type": "HowToStep", name: "Convert to target game", text: "Enter your cm/360 into the target game's formula to find the equivalent sensitivity. Our converter does this automatically for all 14 supported games." },
-          { "@type": "HowToStep", name: "Fine-tune", text: "Test the converted sensitivity in-game and adjust slightly based on feel. Compare your eDPI with pro players in that game to see where you fall." },
+          { "@type": "HowToStep", name: "Fine-tune", text: "Test the converted sensitivity in-game and adjust slightly based on feel. Compare your settings with pro players in that game." },
         ],
       }) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({

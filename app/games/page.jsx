@@ -8,13 +8,13 @@ const mSlug = (name) => { const m = findKeyboard(name); return m ? slug(m.name) 
 
 export const metadata = {
   title: "Games — Keyboard DNA by Esports Title",
-  description: "Discover which keyboards dominate each esports game. CS2, Valorant, League of Legends, Fortnite, Apex Legends, Dota 2, Call of Duty, R6 Siege and more — brand splits, top keyboards, DPI averages, and gear culture per game.",
+  description: "Discover which keyboards dominate each esports game. CS2, Valorant, League of Legends, Fortnite, Apex Legends, Dota 2, Call of Duty, R6 Siege and more — brand splits, top keyboards, and gear culture per game.",
   alternates: { canonical: "https://esportskeyboards.com/games" },
   openGraph: {
     title: "Games — Keyboard DNA by Esports Title",
-    description: "Discover which keyboards dominate each esports game. Brand splits, top keyboards, DPI averages per game.",
+    description: "Discover which keyboards dominate each esports game. Brand splits, top keyboards, and gear culture per game.",
     url: "https://esportskeyboards.com/games",
-    images: [{ url: "https://esportskeyboards.com/og?title=Games&subtitle=Keyboard+DNA+%C2%B7+13+Esports+Titles+%C2%B7+Brand+Splits+%C2%B7+DPI+Data", width: 1200, height: 630 }],
+    images: [{ url: "https://esportskeyboards.com/og?title=Games&subtitle=Keyboard+DNA+%C2%B7+13+Esports+Titles+%C2%B7+Brand+Splits+%C2%B7+Pro+Gear", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
@@ -26,8 +26,6 @@ export default function GamesPage() {
     allPlayers.filter((p) => p.game === b).length - allPlayers.filter((p) => p.game === a).length
   );
   const totalPlayers = allPlayers.length;
-  const globalAvgDpi = Math.round(allPlayers.reduce((a, p) => a + (p.dpi || 0), 0) / totalPlayers);
-  const globalAvgEdpi = Math.round(allPlayers.reduce((a, p) => a + (p.edpi || 0), 0) / totalPlayers);
 
   return (
     <>
@@ -50,18 +48,15 @@ export default function GamesPage() {
         <p>
           Every esports title has its own keyboard meta. Discover which keyboards, brands, and settings dominate
           across {games.length} major competitive games covering {totalPlayers.toLocaleString()} professional players.
-          Global average DPI: {globalAvgDpi}. Global average eDPI: {globalAvgEdpi}.
         </p>
 
         <h2>All Games Overview</h2>
         <table>
           <caption>Summary of keyboard usage across {games.length} esports titles</caption>
-          <thead><tr><th>Game</th><th>Players</th><th>Avg DPI</th><th>Avg eDPI</th><th>Top Keyboard</th></tr></thead>
+          <thead><tr><th>Game</th><th>Players</th><th>Top Keyboard</th></tr></thead>
           <tbody>
             {games.map((game) => {
               const players = allPlayers.filter((p) => p.game === game);
-              const avgDpi = Math.round(players.reduce((a, p) => a + (p.dpi || 0), 0) / players.length);
-              const avgEdpi = Math.round(players.reduce((a, p) => a + (p.edpi || 0), 0) / players.length);
               const counts = {};
               players.forEach((p) => { counts[p.keyboard] = (counts[p.keyboard] || 0) + 1; });
               const topMouse = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
@@ -69,8 +64,6 @@ export default function GamesPage() {
                 <tr key={game}>
                   <td><a href={`/games/${slug(game)}`}>{game}</a></td>
                   <td>{players.length}</td>
-                  <td>{avgDpi}</td>
-                  <td>{avgEdpi}</td>
                   <td>{topMouse ? topMouse[0] : "—"}</td>
                 </tr>
               );
@@ -80,12 +73,6 @@ export default function GamesPage() {
 
         {games.map((game) => {
           const players = allPlayers.filter((p) => p.game === game);
-          const avgDpi = Math.round(players.reduce((a, p) => a + (p.dpi || 0), 0) / players.length);
-          const avgEdpi = Math.round(players.reduce((a, p) => a + (p.edpi || 0), 0) / players.length);
-          const medianEdpi = [...players].sort((a, b) => (a.edpi||0) - (b.edpi||0))[Math.floor(players.length / 2)]?.edpi;
-          const dpi400 = players.filter((p) => (p.dpi || 0) === 400).length;
-          const dpi800 = players.filter((p) => (p.dpi || 0) === 800).length;
-          const dpi1600 = players.filter((p) => (p.dpi || 0) === 1600).length;
 
           const keyboardCounts = {};
           players.forEach((p) => { if (p.keyboard) { keyboardCounts[p.keyboard] = (keyboardCounts[p.keyboard] || 0) + 1; } });
@@ -106,10 +93,7 @@ export default function GamesPage() {
               <h2><a href={`/games/${slug(game)}`}>{game}</a> — Complete Keyboard Usage Analysis</h2>
               {desc && <p>{desc}</p>}
               <p>
-                {players.length} professional {game} players tracked. Average DPI: {avgDpi}. Average eDPI: {avgEdpi}.
-                Median eDPI: {medianEdpi}. DPI distribution: {dpi400} use 400 DPI ({Math.round(dpi400/players.length*100)}%),
-                {dpi800} use 800 DPI ({Math.round(dpi800/players.length*100)}%),
-                {dpi1600} use 1600 DPI ({Math.round(dpi1600/players.length*100)}%).
+                {players.length} professional {game} players tracked.
               </p>
 
               <h3>Most Popular Keyboards in {game}</h3>
@@ -135,7 +119,7 @@ export default function GamesPage() {
                 <>
                   <h3>Top {game} Pro Players</h3>
                   <table>
-                    <thead><tr><th>Player</th><th>Team</th><th>Role</th><th>Keyboard</th><th>DPI</th><th>eDPI</th></tr></thead>
+                    <thead><tr><th>Player</th><th>Team</th><th>Role</th><th>Keyboard</th></tr></thead>
                     <tbody>
                       {gamePros.slice(0, 10).map((p) => {
                         const ms = mSlug(p.keyboard);
@@ -145,8 +129,6 @@ export default function GamesPage() {
                             <td>{p.team}</td>
                             <td>{p.role}</td>
                             <td>{ms ? <a href={`/keyboards/${ms}`}>{p.keyboard}</a> : p.keyboard}</td>
-                            <td>{p.dpi}</td>
-                            <td>{p.edpi}</td>
                           </tr>
                         );
                       })}
@@ -172,12 +154,10 @@ export default function GamesPage() {
 
       <SSRSection>
         <SSRTitle accent="Games">Keyboard DNA</SSRTitle>
-        <SSRSub>Which keyboards, brands, and settings dominate across {games.length} major competitive esports titles covering {totalPlayers.toLocaleString()} professionals.</SSRSub>
+        <SSRSub>Which keyboards and brands dominate across {games.length} major competitive esports titles covering {totalPlayers.toLocaleString()} professionals.</SSRSub>
         <SSRGrid>
           <SSRStat label="Games" value={games.length} color="#b8956a" />
           <SSRStat label="Total Players" value={totalPlayers.toLocaleString()} color="#b8956a" />
-          <SSRStat label="Avg DPI" value={globalAvgDpi} color="#b8956a" />
-          <SSRStat label="Avg eDPI" value={globalAvgEdpi} color="#b8956a" />
         </SSRGrid>
         <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "#a09890" }}>Select a game</p>
         <div className="flex flex-wrap gap-2 mb-4">

@@ -26,12 +26,11 @@ export default function SensorsPage() {
     const avgWeight = Math.round(switchKbds.reduce((a, m) => a + m?.weight, 0) / switchKbds.length);
     const avgPrice = Math.round(switchKbds.reduce((a, m) => a + m?.price, 0) / switchKbds.length);
     const brands = [...new Set(switchKbds.map((m) => m.brand))];
-    const maxDpi = Math.max(...switchKbds.map((m) => m.actuationPoint));
     const maxPolling = Math.max(...switchKbds.map((m) => m.pollingRate));
     const switchPros = proPlayers.filter((p) =>
       switchKbds.some((m) => p.keyboard.includes(m.name) || m.name.includes(p.keyboard))
     );
-    return { switchName, keyboards: switchKbds, totalProUsage, avgWeight, avgPrice, brands, maxDpi, maxPolling, pros: switchPros };
+    return { switchName, keyboards: switchKbds, totalProUsage, avgWeight, avgPrice, brands, maxPolling, pros: switchPros };
   }).sort((a, b) => b.totalProUsage - a.totalProUsage);
 
   return (
@@ -59,7 +58,7 @@ export default function SensorsPage() {
         <h2>Switch Rankings</h2>
         <table>
           <caption>Keyboard switches ranked by professional player usage</caption>
-          <thead><tr><th>Rank</th><th>Switch</th><th>Keyboards</th><th>Pro Usage</th><th>Max DPI</th><th>Max Hz</th><th>Brands</th></tr></thead>
+          <thead><tr><th>Rank</th><th>Switch</th><th>Keyboards</th><th>Pro Usage</th><th>Max Hz</th><th>Brands</th></tr></thead>
           <tbody>
             {switchData.map((s, i) => (
               <tr key={s.switchName}>
@@ -67,7 +66,6 @@ export default function SensorsPage() {
                 <td>{s.switchName}</td>
                 <td>{s.keyboards.length}</td>
                 <td>{s.totalProUsage}%</td>
-                <td>{s.maxDpi.toLocaleString()}</td>
                 <td>{s.maxPolling.toLocaleString()}</td>
                 <td>{s.brands.join(", ")}</td>
               </tr>
@@ -80,7 +78,7 @@ export default function SensorsPage() {
             <h2>{s.switchName} — Full Analysis</h2>
             <p>
               The {s.switchName} is found in {s.keyboards.length} esports keyboards with a combined {s.totalProUsage}% pro usage.
-              It supports up to {s.maxDpi.toLocaleString()} DPI and {s.maxPolling.toLocaleString()} Hz polling.
+              It supports up to {s.maxPolling.toLocaleString()} Hz polling.
               Average keyboard weight with this switch: {s.avgWeight}g. Average price: ${s.avgPrice}.
               Used by: {s.brands.join(", ")}.
             </p>

@@ -115,7 +115,7 @@ export default function RootLayout({ children }) {
                   {
                     "@type": "Question",
                     name: "What keyboard settings do pro players use?",
-                    acceptedAnswer: { "@type": "Answer", text: "Most professional esports players use between 400 and 800 DPI. 800 DPI is the most common setting, followed by 400 DPI. The actual aiming speed is determined by eDPI (DPI × in-game sensitivity), which varies significantly by game." },
+                    acceptedAnswer: { "@type": "Answer", text: "Professional esports players use a wide variety of keyboards, with brands like Wooting, Razer, and Logitech dominating the scene. The choice depends on hand size, grip style, and personal preference." },
                   },
                   {
                     "@type": "Question",

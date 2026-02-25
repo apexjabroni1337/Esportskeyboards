@@ -128,7 +128,7 @@ export default function MouseDetailPage({ params }) {
           <p>
             The {kb.name} is a {kb.connectivity.toLowerCase()} {kb.layout.toLowerCase()} gaming keyboard
             made by {kb.brand}. It weighs {kb?.weight} grams and uses the {kb.switchType} switch
-            with a maximum DPI of {kb.actuationPoint.toLocaleString()} and {kb.pollingRate >= 1000 ? `${kb.pollingRate / 1000}K` : kb.pollingRate}Hz
+            with {kb.pollingRate >= 1000 ? `${kb.pollingRate / 1000}K` : kb.pollingRate}Hz
             polling rate. It is priced at ${kb?.price} USD and rated {kb.rating}/10.
           </p>
         )}
@@ -140,7 +140,6 @@ export default function MouseDetailPage({ params }) {
             <tr><th>Brand</th><td><a href={`/brands/${kb.brand.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{kb.brand}</a></td></tr>
             <tr><th>Weight</th><td>{kb?.weight} grams</td></tr>
             <tr><th>Switch</th><td><a href={`/sensors/${kb.switchType.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{kb.switchType}</a></td></tr>
-            <tr><th>Max DPI</th><td>{kb.actuationPoint.toLocaleString()}</td></tr>
             <tr><th>Polling Rate</th><td>{kb.pollingRate.toLocaleString()} Hz</td></tr>
             <tr><th>Layout</th><td><a href={`/shapes/${kb.layout.toLowerCase()}`}>{kb.layout}</a></td></tr>
             <tr><th>Connectivity</th><td>{kb.connectivity}</td></tr>
@@ -163,7 +162,7 @@ export default function MouseDetailPage({ params }) {
               {usedBy.map((p, i) => (
                 <li key={i}>
                   <a href={`/players/${p.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-")}`}>{p.name}</a>
-                  {" "}— <a href={`/games/${p.game.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{p.game}</a> (<a href={`/teams/${p.team.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{p.team}</a>) — {p.dpi} DPI, {p.sens} sens, {p.edpi} eDPI
+                  {" "}— <a href={`/games/${p.game.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{p.game}</a> (<a href={`/teams/${p.team.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{p.team}</a>)
                 </li>
               ))}
             </ul>

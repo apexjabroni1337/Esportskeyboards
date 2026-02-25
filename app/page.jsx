@@ -74,7 +74,6 @@ export default function HomePage() {
                 <a href={`/players/${p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}>{p.name}</a>
                 {" "}— {p.game} ({p.team}) — Uses{" "}
                 {mSlug ? <a href={`/keyboards/${mSlug}`}>{p.keyboard}</a> : p.keyboard}
-                {" "}at {p.dpi} DPI, {p.edpi} eDPI
               </li>
             );
           })}

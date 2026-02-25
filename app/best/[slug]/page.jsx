@@ -94,8 +94,6 @@ export default function BestForPage({ params }) {
     players = allPlayers;
   }
 
-  const avgDpi = players.length > 0 ? Math.round(players.reduce((a, p) => a + (p.dpi || 0), 0) / players.filter(p => p.dpi).length) : 0;
-  const avgEdpi = players.length > 0 ? Math.round(players.reduce((a, p) => a + (p.edpi || 0), 0) / players.filter(p => p.edpi).length) : 0;
 
   const pageTitle = isGame
     ? `Best Keyboard for ${page.full} (2026)`
@@ -104,7 +102,6 @@ export default function BestForPage({ params }) {
   // FAQ schema
   const faq = isGame ? [
     { q: `What is the best keyboard for ${page.full}?`, a: `The most popular keyboard among ${page.game} pros is the ${topKeyboardsForPage[0]?.name || "Wooting 60HE"}, used by ${topKeyboardsForPage[0]?.gamePercent || "N/A"}% of tracked players. The top 3 are: ${topKeyboardsForPage.slice(0, 3).map(m => m.name).join(", ")}.` },
-    { q: `What DPI do ${page.game} pros use?`, a: `The average DPI among pro ${page.game} players is ${avgDpi}. Most pros use between 400-800 DPI with adjusted in-game sensitivity to achieve their preferred eDPI of around ${avgEdpi}.` },
     { q: `Do ${page.game} pros use wireless keyboards?`, a: `Yes — the vast majority of ${page.game} pros now use wireless keyboards. Modern wireless keyboards from Razer, Logitech, and others have sub-1ms latency, making them equal to or better than wired alternatives.` },
   ] : [
     { q: `What is the best ${page.full.toLowerCase()} gaming keyboard?`, a: `The top ${page.full.toLowerCase()} gaming keyboards based on pro usage are: ${topKeyboardsForPage.slice(0, 5).map(m => m.name).join(", ")}. These are ranked by adoption rate among ${allPlayers.length}+ professional esports players.` },
@@ -169,12 +166,6 @@ export default function BestForPage({ params }) {
         <h2>Tips & Settings</h2>
         <p>{page.tips}</p>
 
-        {isGame && (
-          <>
-            <h2>Average {page.game} Pro Settings</h2>
-            <p>Average DPI: {avgDpi}. Average eDPI: {avgEdpi}. Based on data from {players.length} professional {page.game} players tracked in our database.</p>
-          </>
-        )}
 
         <h2>Buy the Top Pick</h2>
         {topKeyboardsForPage.slice(0, 3).map(m => (

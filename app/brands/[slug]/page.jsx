@@ -159,7 +159,7 @@ export default function BrandDetailPage({ params }) {
             <table>
               <caption>Pro players using {brand} keyboards</caption>
               <thead>
-                <tr><th>Player</th><th>Game</th><th>Team</th><th>Keyboard</th><th>DPI</th><th>eDPI</th></tr>
+                <tr><th>Player</th><th>Game</th><th>Team</th><th>Keyboard</th></tr>
               </thead>
               <tbody>
                 {brandPros.slice(0, 50).map((p, i) => (
@@ -168,8 +168,6 @@ export default function BrandDetailPage({ params }) {
                     <td><a href={`/games/${slug(p.game)}`}>{p.game}</a></td>
                     <td><a href={`/teams/${slug(p.team)}`}>{p.team}</a></td>
                     <td>{p.keyboard}</td>
-                    <td>{p.dpi}</td>
-                    <td>{p.edpi}</td>
                   </tr>
                 ))}
               </tbody>

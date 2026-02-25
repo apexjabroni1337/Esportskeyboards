@@ -28,9 +28,6 @@ export default function PlayersPage() {
     return allPlayers.filter((p) => p.game === b).length - allPlayers.filter((p) => p.game === a).length;
   });
 
-  // Global stats
-  const avgDpi = Math.round(allPlayers.reduce((a, p) => a + p.dpi, 0) / allPlayers.length);
-  const avgEdpi = Math.round(allPlayers.reduce((a, p) => a + p.edpi, 0) / allPlayers.length);
   const mostUsedKeyboard = (() => {
     const counts = {};
     allPlayers.forEach((p) => { counts[p.keyboard] = (counts[p.keyboard] || 0) + 1; });
@@ -92,8 +89,6 @@ export default function PlayersPage() {
           <li>Total players tracked: {allPlayers.length.toLocaleString()}</li>
           <li>Players with full profiles: {proPlayers.length}</li>
           <li>Games covered: {games.length}</li>
-          <li>Average DPI across all pros: {avgDpi}</li>
-          <li>Average eDPI across all pros: {avgEdpi}</li>
           <li>Most popular keyboard: {mostUsedKeyboard[0]} ({mostUsedKeyboard[1]} players)</li>
         </ul>
 
@@ -108,8 +103,6 @@ export default function PlayersPage() {
         {games.map((game) => {
           const gamePlayers = proPlayers.filter((p) => p.game === game);
           const allGamePlayers = allPlayers.filter((p) => p.game === game);
-          const gameAvgDpi = Math.round(allGamePlayers.reduce((a, p) => a + p.dpi, 0) / allGamePlayers.length);
-          const gameAvgEdpi = Math.round(allGamePlayers.reduce((a, p) => a + p.edpi, 0) / allGamePlayers.length);
           const keyboardCounts = {};
           allGamePlayers.forEach((p) => { keyboardCounts[p.keyboard] = (keyboardCounts[p.keyboard] || 0) + 1; });
           const topKbdInGame = Object.entries(keyboardCounts).sort((a, b) => b[1] - a[1]).slice(0, 3);
@@ -119,12 +112,11 @@ export default function PlayersPage() {
             <section key={game}>
               <h2>{game} Pro Players</h2>
               <p>
-                {allGamePlayers.length} {game} players tracked. Average DPI: {gameAvgDpi}. Average eDPI: {gameAvgEdpi}.
-                Most popular keyboard: {topKbdInGame[0]?.[0]}.
+                {allGamePlayers.length} {game} players tracked. Most popular keyboard: {topKbdInGame[0]?.[0]}.
               </p>
               <h3>Top {game} Players with Full Profiles</h3>
               <table>
-                <thead><tr><th>Player</th><th>Team</th><th>Role</th><th>Keyboard</th><th>DPI</th><th>eDPI</th></tr></thead>
+                <thead><tr><th>Player</th><th>Team</th><th>Role</th><th>Keyboard</th></tr></thead>
                 <tbody>
                   {gamePlayers.slice(0, 15).map((p) => {
                     const ms = keyboardSlug(p.keyboard);
@@ -134,8 +126,6 @@ export default function PlayersPage() {
                         <td>{p.team}</td>
                         <td>{p.role}</td>
                         <td>{ms ? <a href={`/keyboards/${ms}`}>{p.keyboard}</a> : p.keyboard}</td>
-                        <td>{p.dpi}</td>
-                        <td>{p.edpi}</td>
                       </tr>
                     );
                   })}
@@ -196,14 +186,6 @@ export default function PlayersPage() {
           );
         })()}
 
-        <h2>DPI Distribution Among Pro Players</h2>
-        <p>The most common DPI settings used by professional esports players:</p>
-        <ul>
-          <li>400 DPI — {allPlayers.filter((p) => p.dpi === 400).length} players ({Math.round(allPlayers.filter((p) => p.dpi === 400).length / allPlayers.length * 100)}%)</li>
-          <li>800 DPI — {allPlayers.filter((p) => p.dpi === 800).length} players ({Math.round(allPlayers.filter((p) => p.dpi === 800).length / allPlayers.length * 100)}%)</li>
-          <li>1600 DPI — {allPlayers.filter((p) => p.dpi === 1600).length} players ({Math.round(allPlayers.filter((p) => p.dpi === 1600).length / allPlayers.length * 100)}%)</li>
-          <li>Other — {allPlayers.filter((p) => ![400, 800, 1600].includes(p.dpi)).length} players</li>
-        </ul>
 
         <h2>All Featured Pro Players (A-Z)</h2>
         <p>{proPlayers.length} players with detailed profiles including biography, achievements, and keyboard history:</p>
@@ -213,7 +195,7 @@ export default function PlayersPage() {
             return (
               <li key={`${p.name}-${p.game}`}>
                 <a href={`/players/${slug(p.name)}`}>{p.name}</a> — {p.game} ({p.team}),
-                uses {ms ? <a href={`/keyboards/${ms}`}>{p.keyboard}</a> : p.keyboard}, {p.dpi} DPI, {p.edpi} eDPI
+                uses {ms ? <a href={`/keyboards/${ms}`}>{p.keyboard}</a> : p.keyboard}
               </li>
             );
           })}
@@ -243,7 +225,6 @@ export default function PlayersPage() {
           <SSRStat label="Total Players" value={allPlayers.length.toLocaleString() + "+"} color="#b8956a" />
           <SSRStat label="Full Profiles" value={proPlayers.length} color="#b8956a" />
           <SSRStat label="Games" value={games.length} color="#b8956a" />
-          <SSRStat label="Avg DPI" value={avgDpi} color="#b8956a" />
         </SSRGrid>
         <div className="flex flex-wrap gap-2">
           <SSRLink href="/keyboards">All Keyboards</SSRLink>

@@ -118,7 +118,7 @@ export default function SensorPage({ params }) {
   const { switchKbds, totalProUsage, avgWeight, avgPrice, brands, maxDpi, maxPolling, playerCount, playerList } = getSensorData(sensorName);
   const desc = SENSOR_DESCS[sensorName];
 
-  // Related sensors (same manufacturer or similar DPI range)
+  // Related sensors (same manufacturer)
   const isPixArt = sensorName.startsWith("PAW") || sensorName.startsWith("PMW");
   const isRazer = sensorName.startsWith("Focus");
   const isLogitech = sensorName.startsWith("HERO");
@@ -141,7 +141,6 @@ export default function SensorPage({ params }) {
         description: desc || `${sensorName} gaming keyboard switch used in ${switchKbds.length} keyboards. ${totalProUsage}% total pro usage.`,
         url: `https://esportskeyboards.com/sensors/${params.slug}`,
         additionalProperty: [
-          { "@type": "PropertyValue", name: "Max DPI", value: maxDpi.toLocaleString() },
           { "@type": "PropertyValue", name: "Max Polling Rate", value: `${maxPolling}Hz` },
           { "@type": "PropertyValue", name: "Keyboards Using This Switch", value: switchKbds.length },
           { "@type": "PropertyValue", name: "Pro Player Usage", value: `${totalProUsage}%` },
@@ -168,8 +167,7 @@ export default function SensorPage({ params }) {
         {desc ? <p>{desc}</p> : (
           <p>
             The {sensorName} is a gaming keyboard switch used in {switchKbds.length} keyboards
-            from {brands.join(", ")}. It supports up to {maxDpi.toLocaleString()} DPI
-            and {maxPolling >= 1000 ? `${maxPolling / 1000}K` : maxPolling}Hz polling rate.
+            from {brands.join(", ")} with {maxPolling >= 1000 ? `${maxPolling / 1000}K` : maxPolling}Hz polling rate.
             {totalProUsage}% of tracked professional esports players use a keyboard with this switch.
           </p>
         )}
@@ -178,7 +176,6 @@ export default function SensorPage({ params }) {
         <table>
           <caption>Technical specifications for the {sensorName}</caption>
           <tbody>
-            <tr><th>Max DPI</th><td>{maxDpi.toLocaleString()}</td></tr>
             <tr><th>Max Polling Rate</th><td>{maxPolling >= 1000 ? `${maxPolling / 1000}K` : maxPolling}Hz</td></tr>
             <tr><th>Keyboards Using This Switch</th><td>{switchKbds.length}</td></tr>
             <tr><th>Total Pro Usage</th><td>{totalProUsage}%</td></tr>
@@ -213,7 +210,7 @@ export default function SensorPage({ params }) {
             <p>{playerCount} professional players use a keyboard with the {sensorName} switch.</p>
             <table>
               <caption>Professional players using {sensorName}-powered keyboards</caption>
-              <thead><tr><th>Player</th><th>Game</th><th>Team</th><th>Keyboard</th><th>DPI</th></tr></thead>
+              <thead><tr><th>Player</th><th>Game</th><th>Team</th><th>Keyboard</th></tr></thead>
               <tbody>
                 {playerList.map((p, i) => (
                   <tr key={i}>
@@ -221,7 +218,6 @@ export default function SensorPage({ params }) {
                     <td><a href={`/games/${sl(p.game)}`}>{p.game}</a></td>
                     <td>{p.team}</td>
                     <td><a href={`/keyboards/${sl(p.keyboard)}`}>{p.keyboard}</a></td>
-                    <td>{p.dpi}</td>
                   </tr>
                 ))}
               </tbody>

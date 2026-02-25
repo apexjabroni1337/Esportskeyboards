@@ -64,10 +64,10 @@ export function generateMetadata({ params }) {
   const bio = PLAYER_BIOS[player.name] || null;
   const description = bio
     ? bio.slice(0, 155) + "..."
-    : `${player.name} (${player.fullName || player.name}) — ${player.game} pro for ${player.team}. Uses ${player.keyboard} at ${player.dpi} DPI, ${player.sens} sensitivity (${player.edpi} eDPI).`;
+    : `${player.name} (${player.fullName || player.name}) — ${player.game} pro for ${player.team}. Uses ${player.keyboard}.`;
   const GAME_OG_COLORS = { CS2: "%23ff8c00", Valorant: "%23ff4655", Fortnite: "%234c7bd9", LoL: "%23c89b3c", "Dota 2": "%23e74c3c", "R6 Siege": "%234a86c8", "Overwatch 2": "%23f99e1a", Apex: "%23dc2626", "Call of Duty": "%235cb85c", PUBG: "%23f2a900", Deadlock: "%238b5cf6", "Quake Champions": "%23ce4a00", "Marvel Rivals": "%23ed1d24", "Rocket League": "%231a9fff" };
   const ogAccent = GAME_OG_COLORS[player.game] || "%2300ff6a";
-  const ogUrl = `https://esportskeyboards.com/og?title=${encodeURIComponent(player.name)}&subtitle=${encodeURIComponent(`${player.game} · ${player.team}`)}&badge=${encodeURIComponent(player.game + ' Pro')}&accent=${ogAccent}&stat1=${encodeURIComponent(player.dpi + ' DPI')}&s1Label=DPI&stat2=${encodeURIComponent(String(player.edpi))}&s2Label=eDPI&stat3=${encodeURIComponent(player.keyboard.replace(/(Logitech |Razer |)/, ''))}&s3Label=Keyboard`;
+  const ogUrl = `https://esportskeyboards.com/og?title=${encodeURIComponent(player.name)}&subtitle=${encodeURIComponent(`${player.game} · ${player.team}`)}&badge=${encodeURIComponent(player.game + ' Pro')}&accent=${ogAccent}&stat1=${encodeURIComponent(player.keyboard.replace(/(Logitech |Razer |)/, ''))}&s1Label=Keyboard&stat2=${encodeURIComponent(player.team)}&s2Label=Team&stat3=${encodeURIComponent(player.role)}&s3Label=Role`;
   return {
     title: `${player.name} — ${player.game} Pro Player Settings & Gear`,
     description,
@@ -113,7 +113,7 @@ export default function PlayerProfilePage({ params }) {
         name: player.fullName || player.name,
         alternateName: player.name,
         jobTitle: `Professional ${player.game} Player`,
-        description: bio ? bio.slice(0, 300) : `${player.name} is a professional ${player.game} player for ${player.team}. Uses the ${player.keyboard} at ${player.dpi} DPI.`,
+        description: bio ? bio.slice(0, 300) : `${player.name} is a professional ${player.game} player for ${player.team}. Uses the ${player.keyboard}.`,
         memberOf: { "@type": "SportsTeam", name: player.team },
         url: `https://esportskeyboards.com/players/${params.slug}`,
       }) }} />
@@ -141,21 +141,16 @@ export default function PlayerProfilePage({ params }) {
           <p>
             {player.name} ({player.fullName || player.name}) is a professional <a href={`/games/${player.game.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{player.game}</a> player
             for <a href={`/teams/${player.team?.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{player.team}</a>. They play the {player.role} role and are {player.age} years old.
-            {player.name} uses the {keyboardSlugVal ? <a href={`/keyboards/${keyboardSlugVal}`}>{player.keyboard}</a> : player.keyboard} at {player.dpi} DPI with {player.sens} in-game
-            sensitivity for an effective DPI of {player.edpi}.
+            {player.name} uses the {keyboardSlugVal ? <a href={`/keyboards/${keyboardSlugVal}`}>{player.keyboard}</a> : player.keyboard}.
           </p>
         )}
 
         <h2>{player.name} Complete Keyboard Settings</h2>
         <table>
-          <caption>Full keyboard and sensitivity settings for {player.name} in {player.game}</caption>
+          <caption>Full keyboard settings for {player.name} in {player.game}</caption>
           <tbody>
             <tr><th>Keyboard</th><td>{keyboardSlugVal ? <a href={`/keyboards/${keyboardSlugVal}`}>{player.keyboard}</a> : player.keyboard}</td></tr>
-            <tr><th>DPI</th><td>{player.dpi}</td></tr>
-            <tr><th>In-Game Sensitivity</th><td>{player.sens}</td></tr>
-            <tr><th>eDPI (DPI × Sensitivity)</th><td>{player.edpi}</td></tr>
             <tr><th>Polling Rate</th><td>{player.hz} Hz</td></tr>
-            {cm360 && <tr><th>cm/360°</th><td>{cm360} cm</td></tr>}
           </tbody>
         </table>
 
@@ -173,24 +168,6 @@ export default function PlayerProfilePage({ params }) {
           </tbody>
         </table>
 
-        <h2>{player.name} Sensitivity Analysis</h2>
-        <p>
-          {player.name} plays at {player.edpi} eDPI ({player.dpi} DPI × {player.sens} sensitivity), which is
-          {sensCategory === "low" ? " lower than" : sensCategory === "high" ? " higher than" : " close to"} the
-          average {player.game} professional eDPI of {avgEdpi}. This places {player.name} in the {edpiPercentile}th
-          percentile among {allGamePlayers.length} tracked {player.game} players — meaning {edpiPercentile}% of
-          {player.game} pros play at a sensitivity equal to or lower than {player.name}.
-        </p>
-        <p>
-          {sensCategory === "low"
-            ? `As a ${sensCategory}-sensitivity player, ${player.name} likely uses large arm movements for aiming, requiring a large mousepad. This style favors precision tracking and is common among ${player.role === "AWPer" || player.role === "Sniper" ? "snipers and" : ""} players who prioritize crosshair placement.`
-            : sensCategory === "high"
-            ? `As a ${sensCategory}-sensitivity player, ${player.name} relies more on wrist movements, enabling faster flicks and quick 180-degree turns. This style is common among ${player.role === "Entry Fragger" || player.role === "Duelist" ? "entry fraggers and aggressive players" : "players who prioritize reaction speed"}.`
-            : `${player.name}'s medium sensitivity is the most common choice among professionals, offering a balance between precision and speed of movement.`
-          }
-        </p>
-        {cm360 && <p>{player.name} needs to move approximately {cm360} centimeters to perform a full 360-degree turn in-game.</p>}
-        <p><a href={`/sensitivity/${player.game.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>Use our {player.game} Sensitivity Converter to convert {player.name}&apos;s settings to other games</a>.</p>
 
         {keyboardData && (
           <>
@@ -266,7 +243,7 @@ export default function PlayerProfilePage({ params }) {
               <h2>{player.team} Roster — {player.name}&apos;s Teammates</h2>
               <p>Current {player.team} players and their keyboard setups:</p>
               <table>
-                <thead><tr><th>Player</th><th>Role</th><th>Keyboard</th><th>DPI</th><th>eDPI</th></tr></thead>
+                <thead><tr><th>Player</th><th>Role</th><th>Keyboard</th></tr></thead>
                 <tbody>
                   {teammates.map((p) => {
                     const ms = mSlug(p.keyboard);
@@ -275,8 +252,6 @@ export default function PlayerProfilePage({ params }) {
                         <td><a href={`/players/${slug(p.name)}`}>{p.name}</a></td>
                         <td>{p.role}</td>
                         <td>{ms ? <a href={`/keyboards/${ms}`}>{p.keyboard}</a> : p.keyboard}</td>
-                        <td>{p.dpi}</td>
-                        <td>{p.edpi}</td>
                       </tr>
                     );
                   })}
@@ -304,15 +279,13 @@ export default function PlayerProfilePage({ params }) {
                 {Object.entries(gameBreakdown).map(([g, c]) => `${g} (${c})`).join(", ")}.
               </p>
               <table>
-                <thead><tr><th>Player</th><th>Game</th><th>Team</th><th>DPI</th><th>eDPI</th></tr></thead>
+                <thead><tr><th>Player</th><th>Game</th><th>Team</th></tr></thead>
                 <tbody>
                   {sameMousePlayers.map((p) => (
                     <tr key={`${p.name}-${p.game}`}>
                       <td><a href={`/players/${slug(p.name)}`}>{p.name}</a></td>
                       <td>{p.game}</td>
                       <td>{p.team}</td>
-                      <td>{p.dpi}</td>
-                      <td>{p.edpi}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -330,7 +303,7 @@ export default function PlayerProfilePage({ params }) {
               <h2>All {player.game} Pro Players</h2>
               <p>{sameGame.length} other {player.game} pro players with detailed profiles:</p>
               <table>
-                <thead><tr><th>Player</th><th>Team</th><th>Role</th><th>Keyboard</th><th>eDPI</th></tr></thead>
+                <thead><tr><th>Player</th><th>Team</th><th>Role</th><th>Keyboard</th></tr></thead>
                 <tbody>
                   {sameGame.map((p) => {
                     const ms = mSlug(p.keyboard);
@@ -340,7 +313,6 @@ export default function PlayerProfilePage({ params }) {
                         <td>{p.team}</td>
                         <td>{p.role}</td>
                         <td>{ms ? <a href={`/keyboards/${ms}`}>{p.keyboard}</a> : p.keyboard}</td>
-                        <td>{p.edpi}</td>
                       </tr>
                     );
                   })}
@@ -362,7 +334,7 @@ export default function PlayerProfilePage({ params }) {
               <h2>{player.game} Players with Similar Sensitivity to {player.name}</h2>
               <p>{player.name} plays at {player.edpi} eDPI. These {player.game} pros use a sensitivity within ±150 eDPI:</p>
               <table>
-                <thead><tr><th>Player</th><th>Team</th><th>eDPI</th><th>DPI</th><th>Sensitivity</th><th>Keyboard</th></tr></thead>
+                <thead><tr><th>Player</th><th>Team</th><th>Keyboard</th></tr></thead>
                 <tbody>
                   {similar.map((p) => {
                     const ms = mSlug(p.keyboard);
@@ -370,9 +342,6 @@ export default function PlayerProfilePage({ params }) {
                       <tr key={p.name}>
                         <td><a href={`/players/${slug(p.name)}`}>{p.name}</a></td>
                         <td>{p.team}</td>
-                        <td>{p.edpi}</td>
-                        <td>{p.dpi}</td>
-                        <td>{p.sens}</td>
                         <td>{ms ? <a href={`/keyboards/${ms}`}>{p.keyboard}</a> : p.keyboard}</td>
                       </tr>
                     );
@@ -414,18 +383,8 @@ export default function PlayerProfilePage({ params }) {
           <dt>What keyboard does {player.name} use?</dt>
           <dd>{player.name} uses the {keyboardSlugVal ? <a href={`/keyboards/${keyboardSlugVal}`}>{player.keyboard}</a> : player.keyboard}. {keyboardData ? `It weighs ${keyboardData?.weight}g, costs $${keyboardData?.price}, and uses the ${keyboardData.switchType} switch.` : ""}</dd>
 
-          <dt>What DPI does {player.name} use?</dt>
-          <dd>{player.name} plays at {player.dpi} DPI with an in-game sensitivity of {player.sens}, giving an effective DPI (eDPI) of {player.edpi}.</dd>
-
           <dt>What team does {player.name} play for?</dt>
           <dd>{player.name} ({player.fullName || player.name}) currently plays for {player.team} as a {player.role} in {player.game}.</dd>
-
-          {cm360 && (
-            <>
-              <dt>What is {player.name}&apos;s cm/360?</dt>
-              <dd>{player.name}&apos;s sensitivity requires approximately {cm360} cm of movement to complete a full 360-degree turn.</dd>
-            </>
-          )}
 
           <dt>What polling rate does {player.name} use?</dt>
           <dd>{player.name} uses a polling rate of {player.hz} Hz on their {player.keyboard}.</dd>
@@ -436,9 +395,6 @@ export default function PlayerProfilePage({ params }) {
               <dd>{player.name} has used {player.keyboardHistory.length} keyboards throughout their career: {player.keyboardHistory.map((mh) => `${mh.keyboard} (${mh.period})`).join(", ")}.</dd>
             </>
           )}
-
-          <dt>Is {player.name}&apos;s sensitivity high or low?</dt>
-          <dd>{player.name}&apos;s eDPI of {player.edpi} is {sensCategory === "low" ? "below" : sensCategory === "high" ? "above" : "near"} the average of {avgEdpi} for {player.game} professionals, placing them in the {edpiPercentile}th percentile.</dd>
         </dl>
 
         <nav aria-label="Related pages">
@@ -448,7 +404,6 @@ export default function PlayerProfilePage({ params }) {
             <li><a href="/keyboards">All Esports Keyboards — Specs and Rankings</a></li>
             {keyboardSlugVal && <li><a href={`/keyboards/${keyboardSlugVal}`}>{player.keyboard} — Full Review and Specs</a></li>}
             <li><a href={`/games/${player.game.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`}>{player.game} Keyboard Meta and Usage Data</a></li>
-            <li><a href="/sensitivity">Sensitivity Converter — Convert {player.name}&apos;s Settings</a></li>
             <li><a href="/brands">Keyboard Brand Comparison</a></li>
             <li><a href="/switches">Keyboard Switch Comparison</a></li>
             <li><a href="/compare">Compare Keyboards Side by Side</a></li>
@@ -466,23 +421,15 @@ export default function PlayerProfilePage({ params }) {
         <SSRSub>
           {bio
             ? bio.slice(0, 280) + "..."
-            : `${player.name} (${player.fullName || player.name}) is a professional ${player.game} ${player.role} for ${player.team}. Uses the ${player.keyboard} at ${player.dpi} DPI with ${player.sens} sensitivity (${player.edpi} eDPI).`
+            : `${player.name} (${player.fullName || player.name}) is a professional ${player.game} ${player.role} for ${player.team}. Uses the ${player.keyboard}.`
           }
         </SSRSub>
         <SSRGrid>
           <SSRStat label="Keyboard" value={player.keyboard.replace(/(Wooting |Razer |Logitech |SteelSeries |Corsair |Cherry |Ducky |DrunkDeer |Endgame Gear |ASUS |Keychron |Glorious )/, "")} />
-          <SSRStat label="DPI" value={player.dpi} />
-          <SSRStat label="Sensitivity" value={player.sens} />
-          <SSRStat label="eDPI" value={player.edpi} />
           <SSRStat label="Polling Rate" value={`${player.hz} Hz`} />
-          {cm360 && <SSRStat label="cm/360" value={`${cm360} cm`} />}
           <SSRStat label="Team" value={player.team} />
           <SSRStat label="Role" value={player.role} />
         </SSRGrid>
-        <p className="text-xs mb-3" style={{ color: "#8a8078" }}>
-          {player.name}&apos;s eDPI of {player.edpi} is {sensCategory === "low" ? "below" : sensCategory === "high" ? "above" : "near"} the
-          {" "}{player.game} average of {avgEdpi} ({edpiPercentile}th percentile among {allGamePlayers.length} pros).
-        </p>
         <SSRDivider />
         <div className="flex flex-wrap gap-2">
           {keyboardSlugVal && <SSRLink href={`/keyboards/${keyboardSlugVal}`}>{player.keyboard.replace(/(Wooting |Razer |Logitech |SteelSeries |Corsair |Cherry |Ducky |DrunkDeer |Endgame Gear |ASUS |Keychron |Glorious )/, "")} →</SSRLink>}
