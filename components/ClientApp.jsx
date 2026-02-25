@@ -1319,6 +1319,9 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       </div>
                     );
                   })()}
+                  </>
+                  );
+                })()}
               </div>
 
 
