@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 4: Command Palette Style</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f5f0e8;
+            color: #1a1614;
+            padding: 32px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        .title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #a09890;
+            font-size: 14px;
+        }
+
+        /* Command Palette */
+        .command-palette {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 48px;
+            background: white;
+            border: 2px solid #d4ccc4;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(26, 22, 20, 0.15);
+        }
+
+        .palette-input-wrapper {
+            padding: 16px 20px;
+            border-bottom: 2px solid #e8e3db;
+            background: linear-gradient(135deg, #fbf9f7 0%, #f9f7f5 100%);
+        }
+
+        .palette-input {
+            width: 100%;
+            padding: 0;
+            border: none;
+            background: transparent;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            color: #1a1614;
+            outline: none;
+            font-weight: 500;
+        }
+
+        .palette-input::placeholder {
+            color: #a09890;
+        }
+
+        /* Help Text */
+        .help-text {
+            padding: 12px 20px;
+            background: rgba(184, 149, 106, 0.08);
+            border-bottom: 1px solid #e8e3db;
+            font-size: 12px;
+            color: #a09890;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Active Filters */
+        .active-filters-section {
+            padding: 12px 20px;
+            border-bottom: 1px solid #e8e3db;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            min-height: 40px;
+            background: rgba(6, 182, 212, 0.05);
+        }
+
+        .filter-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #a09890;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-tag {
+            padding: 4px 8px;
+            background: #06b6d4;
+            color: white;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            font-family: 'Fira Code', monospace;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .filter-tag .remove {
+            cursor: pointer;
+            font-weight: bold;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+
+        .filter-tag .remove:hover {
+            opacity: 1;
+        }
+
+        /* Palette Content (hidden until focused) */
+        .palette-content {
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .palette-content.active {
+            display: block;
+        }
+
+        .palette-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid #f0ebe3;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .palette-item:hover {
+            background: #f9f7f5;
+        }
+
+        .palette-item.selected {
+            background: rgba(184, 149, 106, 0.1);
+            border-left: 3px solid #b8956a;
+            padding-left: 17px;
+        }
+
+        .item-icon {
+            width: 20px;
+            height: 20px;
+            background: #e8e3db;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #a09890;
+            flex-shrink: 0;
+        }
+
+        .item-text {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 500;
+            color: #1a1614;
+        }
+
+        .item-desc {
+            font-size: 11px;
+            color: #a09890;
+            margin-top: 2px;
+        }
+
+        .item-shortcut {
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            color: #a09890;
+            background: #f0ebe3;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        @media (min-width: 1024px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Placeholder Card */
+        .card {
+            background: white;
+            border: 2px solid #e8e3db;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(184, 149, 106, 0.05) 100%);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            border-color: #b8956a;
+            box-shadow: 0 8px 24px rgba(26, 22, 20, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .card-image {
+            width: 100px;
+            height: 70px;
+            background: linear-gradient(135deg, #e8e3db 0%, #d4ccc4 100%);
+            border-radius: 6px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #1a1614;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-spec {
+            font-size: 11px;
+            color: #a09890;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer {
+            text-align: center;
+            color: #a09890;
+            font-size: 13px;
+            padding-top: 20px;
+            border-top: 1px solid #e8e3db;
+        }
+
+        .instructions {
+            background: rgba(184, 149, 106, 0.08);
+            border: 1px solid #d4ccc4;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 32px;
+            font-size: 13px;
+            color: #a09890;
+            font-family: 'Fira Code', monospace;
+            line-height: 1.6;
+        }
+
+        .instructions strong {
+            color: #b8956a;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">Mockup 4: Command Palette</div>
+            <div class="subtitle">Minimalist search-first interface with developer-friendly syntax (brand:razer, weight:<60g)</div>
+        </div>
+
+        <div class="instructions">
+            <strong>Try typing:</strong> "brand:razer" • "weight:<60g" • "wireless" • "rgb" • "mechanic"
+        </div>
+
+        <!-- Command Palette -->
+        <div class="command-palette">
+            <div class="palette-input-wrapper">
+                <input
+                    type="text"
+                    class="palette-input"
+                    placeholder="Search keyboards (type 'brand:razer', 'weight:<60g', or just filter names)..."
+                    id="commandInput"
+                    autofocus
+                >
+            </div>
+
+            <div class="help-text">
+                Filters: brand:razer | weight:<60g | connection:wireless | type:mechanical
+            </div>
+
+            <div class="active-filters-section">
+                <span class="filter-label">Active:</span>
+                <div class="filter-tag">
+                    brand:razer <span class="remove">×</span>
+                </div>
+                <div class="filter-tag">
+                    type:wireless <span class="remove">×</span>
+                </div>
+            </div>
+
+            <div class="palette-content active">
+                <div class="palette-item selected">
+                    <div class="item-icon">⌨</div>
+                    <div class="item-text">
+                        <div class="item-name">Razer DeathStalker</div>
+                        <div class="item-desc">Optical Linear • 60% • Wireless</div>
+                    </div>
+                    <div class="item-shortcut">Enter</div>
+                </div>
+                <div class="palette-item">
+                    <div class="item-icon">⌨</div>
+                    <div class="item-text">
+                        <div class="item-name">Razer Huntsman V2</div>
+                        <div class="item-desc">Optical Linear • TKL • Wired</div>
+                    </div>
+                    <div class="item-shortcut">↓</div>
+                </div>
+                <div class="palette-item">
+                    <div class="item-icon">⌨</div>
+                    <div class="item-text">
+                        <div class="item-name">Razer Pro Type</div>
+                        <div class="item-desc">Mechanical • Full Size • Wireless</div>
+                    </div>
+                </div>
+                <div class="palette-item">
+                    <div class="item-icon">🔧</div>
+                    <div class="item-text">
+                        <div class="item-name">Clear all filters</div>
+                        <div class="item-desc">Reset search parameters</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">Corsair K70</div>
+                <div class="card-spec">RGB Mechanical • TKL</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">Razer DeathStalker</div>
+                <div class="card-spec">Optical Linear • 60%</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">SteelSeries Apex</div>
+                <div class="card-spec">Premium Mechanical • Full</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">Keychron Q1</div>
+                <div class="card-spec">Wireless Mechanical • TKL</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">Logitech G915</div>
+                <div class="card-spec">Low Profile RGB • Full</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">DuckyOne 2</div>
+                <div class="card-spec">Cherry MX • Full Size</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">NZXT Stream</div>
+                <div class="card-spec">Content Creator • TKL</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">Varmilo VA87M</div>
+                <div class="card-spec">Silenced Mechanical • TKL</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Showing 8 keyboards — Command palette interface with tag-based filtering and developer syntax
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('commandInput');
+        const paletteContent = document.querySelector('.palette-content');
+
+        input.addEventListener('focus', () => {
+            paletteContent.classList.add('active');
+        });
+
+        input.addEventListener('blur', () => {
+            setTimeout(() => {
+                paletteContent.classList.remove('active');
+            }, 100);
+        });
+    </script>
+</body>
+</html>

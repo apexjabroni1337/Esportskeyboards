@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 1: Keycap Shape Card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #f5f0e8;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+
+        .header h1 {
+            color: #1a1614;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            /* Keycap-shaped outline */
+            clip-path: polygon(5% 0%, 95% 0%, 100% 15%, 100% 100%, 0% 100%, 0% 15%);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .rank-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            background: #b8956a;
+            color: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .image-container {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(135deg, #f5f0e8 0%, #ede8df 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-top: 4px solid #a09890;
+            overflow: hidden;
+        }
+
+        .brand-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .keyboard-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #e8e2d8 0%, #f5f0e8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #a09890;
+            font-style: italic;
+        }
+
+        .content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-section {
+            margin-bottom: 16px;
+        }
+
+        .keyboard-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1614;
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+
+        .brand {
+            font-size: 12px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .switch-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-top: 8px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 16px 0;
+            padding: 12px;
+            background: #f9f7f4;
+            border-radius: 8px;
+        }
+
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .spec-label {
+            font-size: 11px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .spec-value {
+            font-size: 14px;
+            color: #1a1614;
+            font-weight: 600;
+        }
+
+        .rating-section {
+            margin: 16px 0;
+        }
+
+        .rating-label {
+            font-size: 11px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .actuation-bar {
+            width: 100%;
+            height: 8px;
+            background: #ede8df;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .actuation-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #b8956a 0%, #c9a961 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .card:hover .actuation-fill {
+            box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .buy-button {
+            width: 100%;
+            padding: 12px;
+            background: #1a1614;
+            color: #f5f0e8;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: auto;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .buy-button:hover {
+            background: #2d2520;
+            box-shadow: 0 4px 12px rgba(26, 22, 20, 0.3);
+        }
+
+        .buy-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Brand-specific colors */
+        .wooting .brand-border { background: #06b6d4; }
+        .wooting .switch-indicator { background: #06b6d4; }
+        .wooting .actuation-fill { background: linear-gradient(90deg, #06b6d4 0%, #22d3ee 100%); }
+
+        .razer .brand-border { background: #00ff44; }
+        .razer .switch-indicator { background: #00ff44; }
+        .razer .actuation-fill { background: linear-gradient(90deg, #00ff44 0%, #4ade80 100%); }
+
+        .logitech .brand-border { background: #6b8cad; }
+        .logitech .switch-indicator { background: #6b8cad; }
+        .logitech .actuation-fill { background: linear-gradient(90deg, #6b8cad 0%, #8ba3c0 100%); }
+
+        .steelseries .brand-border { background: #ff5500; }
+        .steelseries .switch-indicator { background: #ff5500; }
+        .steelseries .actuation-fill { background: linear-gradient(90deg, #ff5500 0%, #ff8c42 100%); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Mockup 1: Keycap Shape Card</h1>
+        <p>Card features a subtle keycap-shaped outline (wider at top, narrower at base). Brand colors on top border. Switch type shown as small colored dot indicator. Stats in a 2x2 grid. Rating shown as a horizontal "actuation bar" that fills like a switch being pressed. Rank shown as a keycap-styled badge in corner.</p>
+    </div>
+
+    <div class="grid">
+        <!-- Wooting Card -->
+        <div class="card wooting">
+            <div class="rank-badge">#1</div>
+            <div class="image-container">
+                <div class="brand-border"></div>
+                <div class="keyboard-image">Wooting 60HE+ Keyboard</div>
+            </div>
+            <div class="content">
+                <div class="header-section">
+                    <div class="keyboard-name">Wooting 60HE+</div>
+                    <div class="brand">Wooting</div>
+                    <div style="margin-top: 8px; font-size: 12px;">
+                        <span class="switch-indicator"></span>
+                        <span style="color: #a09890; font-size: 11px;">Linear / Hall Effect</span>
+                    </div>
+                </div>
+
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <div class="spec-label">Weight</div>
+                        <div class="spec-value">360g</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Poll Rate</div>
+                        <div class="spec-value">8000Hz</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Price</div>
+                        <div class="spec-value">$175</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Pro Usage</div>
+                        <div class="spec-value">15.2%</div>
+                    </div>
+                </div>
+
+                <div class="rating-section">
+                    <div class="rating-label">Rating</div>
+                    <div class="actuation-bar">
+                        <div class="actuation-fill" style="width: 94%;"></div>
+                    </div>
+                    <div style="font-size: 12px; color: #1a1614; font-weight: 600; margin-top: 4px;">9.4/10</div>
+                </div>
+
+                <button class="buy-button">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- Razer Card -->
+        <div class="card razer">
+            <div class="rank-badge">#2</div>
+            <div class="image-container">
+                <div class="brand-border"></div>
+                <div class="keyboard-image">Razer Huntsman V3 Pro</div>
+            </div>
+            <div class="content">
+                <div class="header-section">
+                    <div class="keyboard-name">Razer Huntsman V3 Pro</div>
+                    <div class="brand">Razer</div>
+                    <div style="margin-top: 8px; font-size: 12px;">
+                        <span class="switch-indicator"></span>
+                        <span style="color: #a09890; font-size: 11px;">Clicky / Optical</span>
+                    </div>
+                </div>
+
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <div class="spec-label">Weight</div>
+                        <div class="spec-value">820g</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Poll Rate</div>
+                        <div class="spec-value">8000Hz</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Price</div>
+                        <div class="spec-value">$250</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Pro Usage</div>
+                        <div class="spec-value">8.1%</div>
+                    </div>
+                </div>
+
+                <div class="rating-section">
+                    <div class="rating-label">Rating</div>
+                    <div class="actuation-bar">
+                        <div class="actuation-fill" style="width: 91%;"></div>
+                    </div>
+                    <div style="font-size: 12px; color: #1a1614; font-weight: 600; margin-top: 4px;">9.1/10</div>
+                </div>
+
+                <button class="buy-button">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- Logitech Card -->
+        <div class="card logitech">
+            <div class="rank-badge">#4</div>
+            <div class="image-container">
+                <div class="brand-border"></div>
+                <div class="keyboard-image">Logitech G Pro X TKL</div>
+            </div>
+            <div class="content">
+                <div class="header-section">
+                    <div class="keyboard-name">Logitech G Pro X TKL</div>
+                    <div class="brand">Logitech</div>
+                    <div style="margin-top: 8px; font-size: 12px;">
+                        <span class="switch-indicator"></span>
+                        <span style="color: #a09890; font-size: 11px;">Mechanical / GX</span>
+                    </div>
+                </div>
+
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <div class="spec-label">Weight</div>
+                        <div class="spec-value">680g</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Poll Rate</div>
+                        <div class="spec-value">1000Hz</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Price</div>
+                        <div class="spec-value">$100</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Pro Usage</div>
+                        <div class="spec-value">5.3%</div>
+                    </div>
+                </div>
+
+                <div class="rating-section">
+                    <div class="rating-label">Rating</div>
+                    <div class="actuation-bar">
+                        <div class="actuation-fill" style="width: 85%;"></div>
+                    </div>
+                    <div style="font-size: 12px; color: #1a1614; font-weight: 600; margin-top: 4px;">8.5/10</div>
+                </div>
+
+                <button class="buy-button">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- SteelSeries Card -->
+        <div class="card steelseries">
+            <div class="rank-badge">#3</div>
+            <div class="image-container">
+                <div class="brand-border"></div>
+                <div class="keyboard-image">SteelSeries Apex Pro TKL</div>
+            </div>
+            <div class="content">
+                <div class="header-section">
+                    <div class="keyboard-name">SteelSeries Apex Pro TKL</div>
+                    <div class="brand">SteelSeries</div>
+                    <div style="margin-top: 8px; font-size: 12px;">
+                        <span class="switch-indicator"></span>
+                        <span style="color: #a09890; font-size: 11px;">Adjustable / OmniPoint</span>
+                    </div>
+                </div>
+
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <div class="spec-label">Weight</div>
+                        <div class="spec-value">680g</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Poll Rate</div>
+                        <div class="spec-value">1000Hz</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Price</div>
+                        <div class="spec-value">$190</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Pro Usage</div>
+                        <div class="spec-value">3.8%</div>
+                    </div>
+                </div>
+
+                <div class="rating-section">
+                    <div class="rating-label">Rating</div>
+                    <div class="actuation-bar">
+                        <div class="actuation-fill" style="width: 87%;"></div>
+                    </div>
+                    <div style="font-size: 12px; color: #1a1614; font-weight: 600; margin-top: 4px;">8.7/10</div>
+                </div>
+
+                <button class="buy-button">Buy Now</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 7: Comparison Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f5f0e8;
+            color: #1a1614;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .mockup-header {
+            text-align: center;
+            padding: 20px;
+            background: #1a1614;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .mockup-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .mockup-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: #1a1614;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            color: #a09890;
+            font-size: 0.95rem;
+        }
+
+        .comparison-wrapper {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .keyboard-profile {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #06b6d4;
+        }
+
+        .keyboard-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border-radius: 12px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .profile-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: #1a1614;
+            margin-bottom: 5px;
+        }
+
+        .profile-brand {
+            font-size: 0.9rem;
+            color: #a09890;
+            margin-bottom: 15px;
+        }
+
+        .profile-rating {
+            background: rgba(6, 182, 212, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .profile-rating-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #06b6d4;
+        }
+
+        .profile-rating-label {
+            font-size: 0.8rem;
+            color: #a09890;
+        }
+
+        .profile-specs {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f0e8;
+        }
+
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            color: #a09890;
+            font-size: 0.9rem;
+        }
+
+        .spec-value {
+            font-weight: 600;
+            color: #1a1614;
+            font-size: 0.9rem;
+        }
+
+        .compare-section {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .compare-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: #1a1614;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #06b6d4;
+            padding-bottom: 15px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f5f0e8;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 600;
+            color: #1a1614;
+            width: 30%;
+            background: rgba(245, 240, 232, 0.5);
+        }
+
+        .comparison-table td:nth-child(2),
+        .comparison-table td:nth-child(3),
+        .comparison-table td:nth-child(4) {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #1a1614;
+        }
+
+        .comparison-winner {
+            background: rgba(6, 182, 212, 0.1);
+            color: #06b6d4;
+            font-weight: 600;
+        }
+
+        .comparison-item {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .comparison-item h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            color: #1a1614;
+            margin-bottom: 15px;
+        }
+
+        .comparison-bars {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bar-fill {
+            width: 100%;
+            background: #06b6d4;
+            border-radius: 4px 4px 0 0;
+            margin-bottom: 5px;
+        }
+
+        .bar-label {
+            font-size: 0.75rem;
+            color: #a09890;
+            text-align: center;
+        }
+
+        .bar-label-name {
+            font-size: 0.8rem;
+            color: #1a1614;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .comparison-action {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .full-compare-btn {
+            background: #06b6d4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .full-compare-btn:hover {
+            background: #0891b2;
+        }
+
+        .pro-players-section {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .pro-players-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: #1a1614;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #06b6d4;
+            padding-bottom: 15px;
+        }
+
+        .pro-players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .pro-player-card {
+            text-align: center;
+            padding: 15px;
+            background: rgba(6, 182, 212, 0.05);
+            border: 1px solid #06b6d4;
+            border-radius: 8px;
+        }
+
+        .pro-avatar {
+            width: 60px;
+            height: 60px;
+            background: #06b6d4;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .pro-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        @media (max-width: 1000px) {
+            .comparison-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table td:nth-child(2),
+            .comparison-table td:nth-child(4) {
+                display: none;
+            }
+
+            .comparison-table td:first-child {
+                width: 50%;
+            }
+
+            .comparison-table td:nth-child(3) {
+                width: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <h1>Mockup 7: Comparison Hub</h1>
+        <p>Keyboard specs on left, comparison section with alternatives on right, actionable layout</p>
+    </div>
+
+    <div class="container">
+        <div class="page-title">
+            <h1>Wooting 60HE+</h1>
+            <p>Compare with other professional keyboards to find your perfect match</p>
+        </div>
+
+        <div class="comparison-wrapper">
+            <div class="keyboard-profile">
+                <div class="profile-header">
+                    <div class="keyboard-icon">⌨️</div>
+                    <h2>Wooting 60HE+</h2>
+                    <div class="profile-brand">By Wooting</div>
+                    <div class="profile-rating">
+                        <div class="profile-rating-value">9.4</div>
+                        <div class="profile-rating-label">Community Rating</div>
+                    </div>
+                </div>
+                <div class="profile-specs">
+                    <div class="spec-item">
+                        <span class="spec-label">Weight</span>
+                        <span class="spec-value">360g</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Switch Type</span>
+                        <span class="spec-value">Hall Effect</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Polling Rate</span>
+                        <span class="spec-value">8000Hz</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Layout</span>
+                        <span class="spec-value">60%</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Connection</span>
+                        <span class="spec-value">USB-C Wired</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Keycaps</span>
+                        <span class="spec-value">PBT Doubleshot</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Price</span>
+                        <span class="spec-value">$175</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Pro Usage</span>
+                        <span class="spec-value">15.2%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="compare-section">
+                <div class="compare-title">Quick Compare vs Top Alternatives</div>
+
+                <div class="comparison-item">
+                    <h3>Wooting 60HE+ vs Razer Huntsman V3 Pro</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <td>Polling Rate</td>
+                            <td class="comparison-winner">8000Hz</td>
+                            <td>8000Hz</td>
+                        </tr>
+                        <tr>
+                            <td>Layout</td>
+                            <td class="comparison-winner">60%</td>
+                            <td>60%</td>
+                        </tr>
+                        <tr>
+                            <td>Switch Type</td>
+                            <td class="comparison-winner">Hall Effect</td>
+                            <td>Optical</td>
+                        </tr>
+                        <tr>
+                            <td>Hot-Swappable</td>
+                            <td class="comparison-winner">Yes</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Price</td>
+                            <td>$175</td>
+                            <td class="comparison-winner">$199</td>
+                        </tr>
+                        <tr>
+                            <td>Pro Endorsement</td>
+                            <td class="comparison-winner">15.2%</td>
+                            <td>8.7%</td>
+                        </tr>
+                    </table>
+                    <div class="comparison-action">
+                        <button class="full-compare-btn">Full Comparison</button>
+                    </div>
+                </div>
+
+                <div class="comparison-item">
+                    <h3>Wooting 60HE+ vs Logitech G Pro X TKL</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <td>Polling Rate</td>
+                            <td class="comparison-winner">8000Hz</td>
+                            <td>8000Hz</td>
+                        </tr>
+                        <tr>
+                            <td>Layout</td>
+                            <td class="comparison-winner">60%</td>
+                            <td>TKL</td>
+                        </tr>
+                        <tr>
+                            <td>Rapid Trigger</td>
+                            <td class="comparison-winner">Yes</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Adjustable Actuation</td>
+                            <td class="comparison-winner">Yes</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Wireless Option</td>
+                            <td>No</td>
+                            <td class="comparison-winner">Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Pro Endorsement</td>
+                            <td class="comparison-winner">15.2%</td>
+                            <td>6.3%</td>
+                        </tr>
+                    </table>
+                    <div class="comparison-action">
+                        <button class="full-compare-btn">Full Comparison</button>
+                    </div>
+                </div>
+
+                <div class="comparison-item">
+                    <h3>Feature Comparison: Polling Rate Performance</h3>
+                    <div class="comparison-bars">
+                        <div class="bar">
+                            <div class="bar-fill" style="height: 100%;"></div>
+                            <div class="bar-label">
+                                <div class="bar-label-name">Wooting</div>
+                                <div>8000Hz</div>
+                            </div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-fill" style="height: 100%;"></div>
+                            <div class="bar-label">
+                                <div class="bar-label-name">Razer</div>
+                                <div>8000Hz</div>
+                            </div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-fill" style="height: 100%;"></div>
+                            <div class="bar-label">
+                                <div class="bar-label-name">Logitech</div>
+                                <div>8000Hz</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pro-players-section">
+            <h2>Pro Player Endorsements</h2>
+            <div class="pro-players-grid">
+                <div class="pro-player-card">
+                    <div class="pro-avatar">S</div>
+                    <div class="pro-name">s1mple</div>
+                </div>
+                <div class="pro-player-card">
+                    <div class="pro-avatar">T</div>
+                    <div class="pro-name">TenZ</div>
+                </div>
+                <div class="pro-player-card">
+                    <div class="pro-avatar">D</div>
+                    <div class="pro-name">donk</div>
+                </div>
+                <div class="pro-player-card">
+                    <div class="pro-avatar">Z</div>
+                    <div class="pro-name">ZywOo</div>
+                </div>
+                <div class="pro-player-card">
+                    <div class="pro-avatar">N</div>
+                    <div class="pro-name">NiKo</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

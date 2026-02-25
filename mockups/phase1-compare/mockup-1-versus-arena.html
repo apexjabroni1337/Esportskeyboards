@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 1: Versus Arena</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f0e8;
+            color: #1a1614;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+        }
+
+        .arena {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .arena::before {
+            content: "VS";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            font-weight: 900;
+            color: #b8956a;
+            z-index: 10;
+            text-shadow: 0 0 20px rgba(184, 149, 106, 0.3);
+        }
+
+        .keyboard-side {
+            padding: 40px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .keyboard-side.left {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+            border: 2px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .keyboard-side.right {
+            background: linear-gradient(135deg, rgba(0, 255, 68, 0.1) 0%, rgba(0, 255, 68, 0.05) 100%);
+            border: 2px solid rgba(0, 255, 68, 0.2);
+        }
+
+        .keyboard-image {
+            width: 280px;
+            height: 120px;
+            background: #fff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border: 1px solid #e0d9d0;
+            font-size: 48px;
+        }
+
+        .keyboard-name {
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .keyboard-brand {
+            font-size: 12px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+
+        .spec-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        .spec-value {
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+        }
+
+        .winner-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #b8956a;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-bars {
+            width: 100%;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .bar-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .bar-label {
+            flex: 0 0 80px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .bar-container {
+            flex: 1;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .bar-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .bar-fill.wins {
+            background: #06b6d4;
+        }
+
+        .bar-fill.loses {
+            background: #00ff44;
+        }
+
+        .victory-section {
+            background: linear-gradient(135deg, #b8956a 0%, #a0845a 100%);
+            color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .victory-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .victory-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .victory-text {
+            font-size: 14px;
+            opacity: 0.95;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .score-table {
+            width: 100%;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+        }
+
+        .score-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        .score-row:last-child {
+            border-bottom: none;
+        }
+
+        .score-cell {
+            padding: 16px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .score-cell.label {
+            background: #f5f0e8;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .score-winner {
+            background: rgba(184, 149, 106, 0.1);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mockup 1: Versus Arena</h1>
+            <p>Boxing match / esports tournament bracket aesthetic for keyboard comparison.</p>
+        </div>
+
+        <div class="arena">
+            <div class="keyboard-side left">
+                <div class="winner-badge">CHAMPION</div>
+                <div class="keyboard-image">⌨️</div>
+                <div class="keyboard-name">Wooting 60HE+</div>
+                <div class="keyboard-brand">Wooting</div>
+
+                <div class="spec-list">
+                    <div class="spec-item">
+                        <span class="spec-label">Weight</span>
+                        <span class="spec-value">360g</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Switch</span>
+                        <span class="spec-value">Lekker Hall Effect</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Poll Rate</span>
+                        <span class="spec-value">8000Hz</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Price</span>
+                        <span class="spec-value">$175</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Pro Usage</span>
+                        <span class="spec-value">15.2%</span>
+                    </div>
+                </div>
+
+                <div class="category-bars">
+                    <div class="bar-item">
+                        <span class="bar-label">Weight</span>
+                        <div class="bar-container">
+                            <div class="bar-fill wins" style="width: 75%;">WIN</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Actuation</span>
+                        <div class="bar-container">
+                            <div class="bar-fill wins" style="width: 85%;">WIN</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Price</span>
+                        <div class="bar-container">
+                            <div class="bar-fill wins" style="width: 80%;">WIN</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="keyboard-side right">
+                <div class="keyboard-image">⌨️</div>
+                <div class="keyboard-name">Razer Huntsman V3 Pro Mini</div>
+                <div class="keyboard-brand">Razer</div>
+
+                <div class="spec-list">
+                    <div class="spec-item">
+                        <span class="spec-label">Weight</span>
+                        <span class="spec-value">420g</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Switch</span>
+                        <span class="spec-value">Razer Analog Optical Gen-3</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Poll Rate</span>
+                        <span class="spec-value">8000Hz</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Price</span>
+                        <span class="spec-value">$250</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Pro Usage</span>
+                        <span class="spec-value">8.1%</span>
+                    </div>
+                </div>
+
+                <div class="category-bars">
+                    <div class="bar-item">
+                        <span class="bar-label">RGB</span>
+                        <div class="bar-container">
+                            <div class="bar-fill loses" style="width: 90%;">WIN</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Ergonomics</span>
+                        <div class="bar-container">
+                            <div class="bar-fill loses" style="width: 70%;">WIN</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Pro Adoption</span>
+                        <div class="bar-container">
+                            <div class="bar-fill loses" style="width: 75%;">WIN</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="victory-section">
+            <div class="victory-icon">🏆</div>
+            <div class="victory-title">Wooting 60HE+ Wins Overall</div>
+            <div class="victory-text">Better price-to-performance ratio, lighter weight, and higher pro adoption. Perfect for competitive esports.</div>
+        </div>
+
+        <div class="score-table">
+            <div class="score-row">
+                <div class="score-cell label">Spec Category</div>
+                <div class="score-cell label">Wooting 60HE+</div>
+                <div class="score-cell label">Razer Huntsman V3 Pro Mini</div>
+            </div>
+            <div class="score-row">
+                <div class="score-cell label">Weight</div>
+                <div class="score-cell score-winner">360g ✓</div>
+                <div class="score-cell">420g</div>
+            </div>
+            <div class="score-row">
+                <div class="score-cell label">Poll Rate</div>
+                <div class="score-cell">8000Hz</div>
+                <div class="score-cell">8000Hz</div>
+            </div>
+            <div class="score-row">
+                <div class="score-cell label">Price</div>
+                <div class="score-cell score-winner">$175 ✓</div>
+                <div class="score-cell">$250</div>
+            </div>
+            <div class="score-row">
+                <div class="score-cell label">Pro Usage</div>
+                <div class="score-cell score-winner">15.2% ✓</div>
+                <div class="score-cell">8.1%</div>
+            </div>
+            <div class="score-row">
+                <div class="score-cell label">Rating</div>
+                <div class="score-cell score-winner">9.4 / 10 ✓</div>
+                <div class="score-cell">9.1 / 10</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 5: Quick Pick Cards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f0e8;
+            color: #1a1614;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .game-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #c47000;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+        }
+
+        .quick-picks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .quick-pick-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #e0d9d0;
+            transition: all 0.3s;
+        }
+
+        .quick-pick-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+            border-color: #c47000;
+        }
+
+        .card-badge {
+            background: linear-gradient(135deg, #c47000, #b06000);
+            color: #fff;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background: #f5f0e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+
+        .card-keyboard-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .card-brand {
+            font-size: 11px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .card-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card-spec {
+            background: #f5f0e8;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 11px;
+        }
+
+        .spec-label {
+            color: #a09890;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+        }
+
+        .spec-value {
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+            font-size: 12px;
+            color: #1a1614;
+        }
+
+        .card-recommendation {
+            background: rgba(196, 112, 0, 0.1);
+            border-left: 3px solid #c47000;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            color: #1a1614;
+        }
+
+        .card-cta {
+            width: 100%;
+            padding: 12px;
+            background: #c47000;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .card-cta:hover {
+            background: #b06000;
+            transform: translateY(-2px);
+        }
+
+        .top-10-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f5f0e8;
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        td {
+            padding: 12px;
+            font-size: 12px;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        tbody tr:hover {
+            background: #f9f7f3;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rank-cell {
+            font-weight: 700;
+            color: #c47000;
+        }
+
+        .rank-1 {
+            background: rgba(196, 112, 0, 0.08);
+        }
+
+        .keyboard-list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .keyboard-list-icon {
+            width: 32px;
+            height: 32px;
+            background: #f5f0e8;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .keyboard-list-name {
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        .comparison-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e0d9d0;
+        }
+
+        .comparison-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: #f5f0e8;
+            padding: 12px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        .comparison-table td {
+            padding: 12px;
+            font-size: 12px;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: #f9f7f3;
+        }
+
+        .comparison-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .check {
+            color: #00c800;
+            font-weight: 700;
+        }
+
+        .cross {
+            color: #c83232;
+        }
+
+        @media (max-width: 1024px) {
+            .quick-picks {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card-specs {
+                grid-template-columns: 1fr;
+            }
+
+            .table-wrapper {
+                font-size: 11px;
+            }
+
+            th, td {
+                padding: 8px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="game-title">Best Keyboard For</div>
+            <h1>CS2 — Quick Pick Cards</h1>
+            <p>Instant recommendations for three different playstyles and budgets.</p>
+        </div>
+
+        <div class="quick-picks">
+            <!-- Best Overall -->
+            <div class="quick-pick-card">
+                <div class="card-badge">⭐ Best Overall</div>
+                <div class="card-image">⌨️</div>
+                <div class="card-content">
+                    <div class="card-keyboard-name">Wooting 60HE+</div>
+                    <div class="card-brand">Wooting</div>
+
+                    <div class="card-specs">
+                        <div class="card-spec">
+                            <div class="spec-label">Price</div>
+                            <div class="spec-value">$175</div>
+                        </div>
+                        <div class="card-spec">
+                            <div class="spec-label">Rating</div>
+                            <div class="spec-value">9.4 / 10</div>
+                        </div>
+                        <div class="card-spec">
+                            <div class="spec-label">Pro Usage</div>
+                            <div class="spec-value">15.2%</div>
+                        </div>
+                        <div class="card-spec">
+                            <div class="spec-label">Weight</div>
+                            <div class="spec-value">360g</div>
+                        </div>
+                    </div>
+
+                    <div class="card-recommendation">
+                        Top choice for competitive esports. Trusted by 15.2% of pro players, best value, and lightest weight.
+                    </div>
+
+                    <button class="card-cta">Buy Wooting 60HE+</button>
+                </div>
+            </div>
+
+            <!-- Best Value -->
+            <div class="quick-pick-card">
+                <div class="card-badge">💰 Best Value</div>
+                <div class="card-image">⌨️</div>
+                <div class="card-content">
+                    <div class="card-keyboard-name">Logitech G Pro X TKL</div>
+                    <div class="card-brand">Logitech</div>
+
+                    <div class="card-specs">
+                        <div class="card-spec">
+                            <div class="spec-label">Price</div>
+                            <div class="spec-value">$199</div>
+                        </div>
+                        <div class="card-spec">
+                            <div class="spec-label">Rating</div>
+                            <div class="spec-value">8.9 / 10</div>
+                        </div>
+                        <div class="card-spec">
+                            <div class="spec-label">Pro Usage</div>
+                            <div class="spec-value">5.3%</div>
+                        </div>
+                        <div class="card-spec">
+                            <div class="spec-label">Weight</div>
+                            <div class="spec-value">395g</div>
+                        </div>
+                    </div>
+
+                    <div class="card-recommendation">
+                        Excellent middle ground. Great features, solid rating, and still under $200. Perfect for budget-conscious gamers.
+                    </div>
+
+                    <button class="card-cta">Buy Logitech G Pro X TKL</button>
+                </div>
+            </div>
+
+            <!-- Best Premium -->
+            <div class="quick-pick-card">
+                <div class="card-badge">👑 Best Premium</div>
+                <div class="card-image">⌨️</div>
+                <div class="card-content">
+                    <div class="card-keyboard-name">Razer Huntsman V3 Pro Mini</div>
+                    <div class="card-brand">Razer</div>
+
+                    <div class="card-specs">
+                        <div class="card-spec">
+                            <div class="spec-label">Price</div>
+                            <div class="spec-value">$250</div>
+                        </div>
+                        <div class="card-spec">
+                            <div class="spec-label">Rating</div>
+                            <div class="spec-value">9.1 / 10</div>
+                        </div>
+                        <div class="card-spec">
+                            <div class="spec-label">Pro Usage</div>
+                            <div class="spec-value">8.1%</div>
+                        </div>
+                        <div class="card-spec">
+                            <div class="spec-label">Weight</div>
+                            <div class="spec-value">420g</div>
+                        </div>
+                    </div>
+
+                    <div class="card-recommendation">
+                        Premium choice with wireless freedom. RGB lighting, high-end build quality, and Razer ecosystem integration.
+                    </div>
+
+                    <button class="card-cta">Buy Razer Huntsman V3 Pro Mini</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="top-10-section">
+            <div class="section-title">Complete Top 10 Rankings</div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Keyboard</th>
+                            <th>Pro Usage</th>
+                            <th>Price</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="rank-1">
+                            <td class="rank-cell">1</td>
+                            <td>
+                                <div class="keyboard-list-item">
+                                    <div class="keyboard-list-icon">⌨️</div>
+                                    <div class="keyboard-list-name">Wooting 60HE+</div>
+                                </div>
+                            </td>
+                            <td>15.2%</td>
+                            <td>$175</td>
+                            <td>★ 9.4</td>
+                        </tr>
+                        <tr>
+                            <td class="rank-cell">2</td>
+                            <td>
+                                <div class="keyboard-list-item">
+                                    <div class="keyboard-list-icon">⌨️</div>
+                                    <div class="keyboard-list-name">Razer Huntsman V3 Pro Mini</div>
+                                </div>
+                            </td>
+                            <td>8.1%</td>
+                            <td>$250</td>
+                            <td>★ 9.1</td>
+                        </tr>
+                        <tr>
+                            <td class="rank-cell">3</td>
+                            <td>
+                                <div class="keyboard-list-item">
+                                    <div class="keyboard-list-icon">⌨️</div>
+                                    <div class="keyboard-list-name">Logitech G Pro X TKL</div>
+                                </div>
+                            </td>
+                            <td>5.3%</td>
+                            <td>$199</td>
+                            <td>★ 8.9</td>
+                        </tr>
+                        <tr>
+                            <td class="rank-cell">4</td>
+                            <td>
+                                <div class="keyboard-list-item">
+                                    <div class="keyboard-list-icon">⌨️</div>
+                                    <div class="keyboard-list-name">SteelSeries Apex Pro</div>
+                                </div>
+                            </td>
+                            <td>4.7%</td>
+                            <td>$229</td>
+                            <td>★ 8.8</td>
+                        </tr>
+                        <tr>
+                            <td class="rank-cell">5</td>
+                            <td>
+                                <div class="keyboard-list-item">
+                                    <div class="keyboard-list-icon">⌨️</div>
+                                    <div class="keyboard-list-name">Corsair K65 Plus Ultra</div>
+                                </div>
+                            </td>
+                            <td>3.9%</td>
+                            <td>$269</td>
+                            <td>★ 8.6</td>
+                        </tr>
+                        <tr>
+                            <td class="rank-cell">6</td>
+                            <td>
+                                <div class="keyboard-list-item">
+                                    <div class="keyboard-list-icon">⌨️</div>
+                                    <div class="keyboard-list-name">ASUS ROG Strix Scope TKL</div>
+                                </div>
+                            </td>
+                            <td>3.2%</td>
+                            <td>$189</td>
+                            <td>★ 8.4</td>
+                        </tr>
+                        <tr>
+                            <td class="rank-cell">7</td>
+                            <td>
+                                <div class="keyboard-list-item">
+                                    <div class="keyboard-list-icon">⌨️</div>
+                                    <div class="keyboard-list-name">Ducky One 2 SF</div>
+                                </div>
+                            </td>
+                            <td>2.8%</td>
+                            <td>$179</td>
+                            <td>★ 8.3</td>
+                        </tr>
+                        <tr>
+                            <td class="rank-cell">8</td>
+                            <td>
+                                <div class="keyboard-list-item">
+                                    <div class="keyboard-list-icon">⌨️</div>
+                                    <div class="keyboard-list-name">VicTsing Mechanical Gaming</div>
+                                </div>
+                            </td>
+                            <td>2.4%</td>
+                            <td>$79</td>
+                            <td>★ 8.1</td>
+                        </tr>
+                        <tr>
+                            <td class="rank-cell">9</td>
+                            <td>
+                                <div class="keyboard-list-item">
+                                    <div class="keyboard-list-icon">⌨️</div>
+                                    <div class="keyboard-list-name">Glorious GMMK Pro</div>
+                                </div>
+                            </td>
+                            <td>2.1%</td>
+                            <td>$169</td>
+                            <td>★ 8.2</td>
+                        </tr>
+                        <tr>
+                            <td class="rank-cell">10</td>
+                            <td>
+                                <div class="keyboard-list-item">
+                                    <div class="keyboard-list-icon">⌨️</div>
+                                    <div class="keyboard-list-name">HKGK Mechanical Keyboard</div>
+                                </div>
+                            </td>
+                            <td>1.9%</td>
+                            <td>$89</td>
+                            <td>★ 7.9</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="comparison-section">
+            <div class="comparison-title">Feature Comparison — Top 3 Picks</div>
+            <div class="table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Wooting 60HE+</th>
+                            <th>Logitech G Pro X TKL</th>
+                            <th>Razer Huntsman V3 Pro Mini</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Rapid Trigger</strong></td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>8000Hz Poll Rate</strong></td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Wireless</strong></td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RGB Lighting</strong></td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hot-Swappable</strong></td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Under $200</strong></td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="cross">✗</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Customizable Actuation</strong></td>
+                            <td class="check">✓</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

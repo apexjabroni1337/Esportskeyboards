@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 1: Keyboard Blueprint</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #e8f4f8 0%, #f5f0e8 100%);
+            color: #1a1614;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1a1614;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #a09890;
+        }
+
+        /* Grid background */
+        .blueprint-container {
+            background:
+                linear-gradient(0deg, transparent 24%, rgba(100, 200, 220, 0.08) 25%, rgba(100, 200, 220, 0.08) 26%, transparent 27%, transparent 74%, rgba(100, 200, 220, 0.08) 75%, rgba(100, 200, 220, 0.08) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(100, 200, 220, 0.08) 25%, rgba(100, 200, 220, 0.08) 26%, transparent 27%, transparent 74%, rgba(100, 200, 220, 0.08) 75%, rgba(100, 200, 220, 0.08) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            border: 2px solid #06b6d4;
+            border-radius: 8px;
+            padding: 40px;
+            position: relative;
+        }
+
+        /* Keyboard picker buttons */
+        .keyboard-picker {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 40px;
+            overflow-x: auto;
+            padding: 0 0 8px 0;
+        }
+
+        .keycap-btn {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            border: 2px solid #06b6d4;
+            background: white;
+            cursor: pointer;
+            font-family: 'Fira Code', monospace;
+            font-size: 10px;
+            font-weight: 500;
+            color: #1a1614;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .keycap-btn:hover {
+            background: #06b6d4;
+            color: white;
+        }
+
+        .keycap-btn.active {
+            background: #06b6d4;
+            color: white;
+        }
+
+        /* Main blueprint layout */
+        .blueprint-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .blueprint-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .keyboard-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 16 / 9;
+            background: white;
+            border: 2px dashed #06b6d4;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .keyboard-image-container svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Callout lines */
+        .callout {
+            position: absolute;
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            background: white;
+            padding: 4px 8px;
+            border: 1px solid #06b6d4;
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        .callout-line {
+            position: absolute;
+            border: 1px dashed #06b6d4;
+            pointer-events: none;
+        }
+
+        .callout.top-left {
+            top: -60px;
+            left: -40px;
+        }
+
+        .callout.top-right {
+            top: -60px;
+            right: -40px;
+        }
+
+        .callout.bottom-left {
+            bottom: -60px;
+            left: -40px;
+        }
+
+        .callout.bottom-right {
+            bottom: -60px;
+            right: -40px;
+        }
+
+        .keyboard-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            color: #1a1614;
+        }
+
+        .keyboard-brand {
+            font-size: 12px;
+            color: #a09890;
+            text-align: center;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Specs grid */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .spec-box {
+            border: 2px dotted #a09890;
+            padding: 16px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .spec-label {
+            font-size: 10px;
+            font-family: 'Fira Code', monospace;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .spec-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        /* Pro players sidebar */
+        .pro-players-sidebar {
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid #06b6d4;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .sidebar-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1a1614;
+        }
+
+        .pro-player {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e8e8e8;
+        }
+
+        .player-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        .player-game {
+            font-size: 10px;
+            color: #a09890;
+            font-family: 'Fira Code', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mockup 1: Keyboard Blueprint</h1>
+            <p>Technical blueprint/schematic design with callout annotations and spec boxes</p>
+        </div>
+
+        <div class="blueprint-container">
+            <div class="keyboard-picker">
+                <button class="keycap-btn active">W60</button>
+                <button class="keycap-btn">W84</button>
+                <button class="keycap-btn">K380</button>
+                <button class="keycap-btn">G915</button>
+                <button class="keycap-btn">HyperX</button>
+                <button class="keycap-btn">Varmilo</button>
+                <button class="keycap-btn">Ducky</button>
+                <button class="keycap-btn">Leopold</button>
+            </div>
+
+            <div class="blueprint-layout">
+                <div class="blueprint-center">
+                    <div class="keyboard-image-container">
+                        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="50" y="50" width="300" height="100" fill="#e8e8e8" stroke="#1a1614" stroke-width="2" rx="8"/>
+                            <rect x="60" y="60" width="40" height="30" fill="#a09890" stroke="#1a1614" stroke-width="1" rx="2"/>
+                            <rect x="110" y="60" width="180" height="30" fill="#a09890" stroke="#1a1614" stroke-width="1" rx="2"/>
+                            <rect x="300" y="60" width="40" height="30" fill="#a09890" stroke="#1a1614" stroke-width="1" rx="2"/>
+                            <rect x="60" y="95" width="280" height="40" fill="#a09890" stroke="#1a1614" stroke-width="1" rx="2"/>
+                            <text x="200" y="140" font-family="Space Grotesk" font-size="14" text-anchor="middle" fill="#1a1614">Wooting 60HE+</text>
+                        </svg>
+                    </div>
+
+                    <div class="keyboard-title">Wooting 60HE+</div>
+                    <div class="keyboard-brand">WOOTING • 60% LAYOUT • WIRED • LEKKER SWITCH</div>
+
+                    <div class="specs-grid">
+                        <div class="spec-box">
+                            <div class="spec-label">Weight</div>
+                            <div class="spec-value">360g</div>
+                        </div>
+                        <div class="spec-box">
+                            <div class="spec-label">Poll Rate</div>
+                            <div class="spec-value">8000 Hz</div>
+                        </div>
+                        <div class="spec-box">
+                            <div class="spec-label">Price</div>
+                            <div class="spec-value">$175</div>
+                        </div>
+                        <div class="spec-box">
+                            <div class="spec-label">Pro Usage</div>
+                            <div class="spec-value">15.2%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pro-players-sidebar">
+                    <div class="sidebar-label">Tested by Pros</div>
+
+                    <div class="pro-player">
+                        <div class="player-avatar">s1</div>
+                        <div class="player-info">
+                            <div class="player-name">s1mple</div>
+                            <div class="player-game">CS2 • Spirit</div>
+                        </div>
+                    </div>
+
+                    <div class="pro-player">
+                        <div class="player-avatar">TZ</div>
+                        <div class="player-info">
+                            <div class="player-name">TenZ</div>
+                            <div class="player-game">Valorant • SEN</div>
+                        </div>
+                    </div>
+
+                    <div class="pro-player">
+                        <div class="player-avatar">Dk</div>
+                        <div class="player-info">
+                            <div class="player-name">donk</div>
+                            <div class="player-game">CS2 • Spirit</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

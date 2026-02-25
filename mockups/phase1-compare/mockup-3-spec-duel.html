@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 3: Spec Duel Table</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f0e8;
+            color: #1a1614;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+        }
+
+        .table-wrapper {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #1a1614 0%, #2a2420 100%);
+            color: #fff;
+        }
+
+        th {
+            padding: 20px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        th:nth-child(2),
+        th:nth-child(3) {
+            text-align: center;
+        }
+
+        th:nth-child(4) {
+            text-align: center;
+            width: 120px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #e0d9d0;
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #f9f7f3;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        td {
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        td:nth-child(2),
+        td:nth-child(3) {
+            text-align: center;
+        }
+
+        td:nth-child(4) {
+            text-align: center;
+        }
+
+        .spec-name {
+            font-weight: 700;
+            color: #1a1614;
+            min-width: 140px;
+        }
+
+        .spec-value {
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        .winner-cell {
+            background: rgba(184, 149, 106, 0.1);
+            color: #b8956a;
+            font-weight: 700;
+        }
+
+        .winner-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 700;
+            background: #b8956a;
+            color: #fff;
+        }
+
+        .winner-row {
+            background: #f9f7f3;
+        }
+
+        .tally-section {
+            background: linear-gradient(135deg, #b8956a 0%, #a0845a 100%);
+            color: #fff;
+            padding: 32px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .tally-title {
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .tally-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .tally-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .tally-value {
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .tally-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
+
+        .category-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .category-tag {
+            background: #fff;
+            border: 1px solid #e0d9d0;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        .category-tag.highlighted {
+            background: #b8956a;
+            color: #fff;
+            border-color: #b8956a;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 12px;
+            }
+
+            th:nth-child(4) {
+                width: 100px;
+            }
+
+            .tally-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mockup 3: Spec Duel Table</h1>
+            <p>Central comparison table with spreadsheet-like precision and visual winner indicators.</p>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Specification</th>
+                        <th style="width: 25%;">Wooting 60HE+</th>
+                        <th style="width: 25%;">Razer Huntsman V3 Pro Mini</th>
+                        <th style="width: 25%;">Winner</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="spec-name">Weight</td>
+                        <td class="spec-value">360g</td>
+                        <td class="spec-value">420g</td>
+                        <td><span class="winner-indicator">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Form Factor</td>
+                        <td class="spec-value">60%</td>
+                        <td class="spec-value">60%</td>
+                        <td class="spec-value">—</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Switch Type</td>
+                        <td class="spec-value">Lekker Hall Effect</td>
+                        <td class="spec-value">Razer Analog Optical Gen-3</td>
+                        <td class="spec-value">—</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Poll Rate</td>
+                        <td class="spec-value">8000Hz</td>
+                        <td class="spec-value">8000Hz</td>
+                        <td class="spec-value">—</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Rapid Trigger</td>
+                        <td class="spec-value">Yes</td>
+                        <td class="spec-value">Yes</td>
+                        <td class="spec-value">—</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Hot-Swap</td>
+                        <td class="spec-value">Yes</td>
+                        <td class="spec-value">Yes</td>
+                        <td class="spec-value">—</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Wireless</td>
+                        <td class="spec-value">No</td>
+                        <td class="spec-value">Yes</td>
+                        <td><span class="winner-indicator">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Actuation Distance</td>
+                        <td class="spec-value">0.2mm - 4mm</td>
+                        <td class="spec-value">0.2mm - 2.5mm</td>
+                        <td><span class="winner-indicator">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Price</td>
+                        <td class="spec-value">$175</td>
+                        <td class="spec-value">$250</td>
+                        <td><span class="winner-indicator">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Pro Usage Rate</td>
+                        <td class="spec-value">15.2%</td>
+                        <td class="spec-value">8.1%</td>
+                        <td><span class="winner-indicator">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Customer Rating</td>
+                        <td class="spec-value">9.4 / 10</td>
+                        <td class="spec-value">9.1 / 10</td>
+                        <td><span class="winner-indicator">✓</span></td>
+                    </tr>
+                    <tr class="winner-row">
+                        <td colspan="3" style="font-weight: 700; font-size: 14px;">Total Wins</td>
+                        <td style="font-size: 18px; font-weight: 900;">6 : 1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tally-section">
+            <div class="tally-title">Overall Score</div>
+            <div class="tally-grid">
+                <div class="tally-item">
+                    <div class="tally-value">6</div>
+                    <div class="tally-label">Wooting Wins</div>
+                </div>
+                <div class="tally-item">
+                    <div class="tally-value">1</div>
+                    <div class="tally-label">Razer Wins</div>
+                </div>
+                <div class="tally-item">
+                    <div class="tally-value">4</div>
+                    <div class="tally-label">Tied</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-tags">
+            <div class="category-tag highlighted">Wooting 60HE+ - Better Overall</div>
+            <div class="category-tag">Lighter Weight</div>
+            <div class="category-tag">Better Price</div>
+            <div class="category-tag">Higher Pro Adoption</div>
+            <div class="category-tag">More Customizable Actuation</div>
+            <div class="category-tag">Razer: Only Wireless Option</div>
+        </div>
+    </div>
+</body>
+</html>

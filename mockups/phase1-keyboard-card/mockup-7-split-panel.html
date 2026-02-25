@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 7: Split Panel Card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #f5f0e8;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+
+        .header h1 {
+            color: #1a1614;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .top-panel {
+            position: relative;
+            height: 180px;
+            background: linear-gradient(135deg, #f5f0e8 0%, #ede8df 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .brand-accent-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--brand-color);
+        }
+
+        .keyboard-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #e8e2d8 0%, #f5f0e8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #a09890;
+            font-style: italic;
+        }
+
+        .rank-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: white;
+            color: var(--brand-color);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            border: 2px solid var(--brand-color);
+            z-index: 5;
+        }
+
+        .divider-badge {
+            position: absolute;
+            bottom: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background: var(--brand-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .bottom-panel {
+            background: #faf8f5;
+            padding: 20px 16px 16px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            margin-top: 16px;
+        }
+
+        .name-brand-section {
+            margin-bottom: 12px;
+        }
+
+        .keyboard-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1614;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .brand {
+            font-size: 11px;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            font-weight: 700;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 8px;
+            justify-content: space-between;
+            margin: 12px 0;
+        }
+
+        .stat-cell {
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 9px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .stat-value {
+            font-size: 12px;
+            color: #1a1614;
+            font-weight: 700;
+        }
+
+        .rating-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            margin: 12px 0;
+            border: 1px solid #ede8df;
+        }
+
+        .rating-label {
+            font-size: 10px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 700;
+        }
+
+        .rating-value {
+            font-size: 14px;
+            color: var(--brand-color);
+            font-weight: 700;
+        }
+
+        .buy-button {
+            width: 100%;
+            padding: 11px;
+            background: #1a1614;
+            color: #f5f0e8;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: auto;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .buy-button:hover {
+            background: #2d2520;
+            box-shadow: 0 4px 12px rgba(26, 22, 20, 0.3);
+        }
+
+        .buy-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Brand-specific colors */
+        .wooting { --brand-color: #06b6d4; }
+        .razer { --brand-color: #00ff44; }
+        .logitech { --brand-color: #6b8cad; }
+        .steelseries { --brand-color: #ff5500; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Mockup 7: Split Panel Card</h1>
+        <p>Card split into two panels—top panel is visual area (image + brand color accent bar), bottom panel is data area with slightly different background shade. Switch type pill badge sits on dividing line between panels. Stats shown in compact single row. Name and brand in bottom panel. Rank as bold number in top corner. Clean, editorial feel.</p>
+    </div>
+
+    <div class="grid">
+        <!-- Wooting Card -->
+        <div class="card wooting">
+            <div class="top-panel">
+                <div class="keyboard-image">Wooting 60HE+ Keyboard</div>
+                <div class="brand-accent-bar"></div>
+                <div class="rank-badge">#1</div>
+            </div>
+            <div class="divider-badge">Hall Effect Linear</div>
+            <div class="bottom-panel">
+                <div class="name-brand-section">
+                    <div class="keyboard-name">Wooting 60HE+</div>
+                    <div class="brand">Wooting</div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-cell">
+                        <div class="stat-label">Weight</div>
+                        <div class="stat-value">360g</div>
+                    </div>
+                    <div class="stat-cell">
+                        <div class="stat-label">Rate</div>
+                        <div class="stat-value">8kHz</div>
+                    </div>
+                    <div class="stat-cell">
+                        <div class="stat-label">Price</div>
+                        <div class="stat-value">$175</div>
+                    </div>
+                    <div class="stat-cell">
+                        <div class="stat-label">Pro %</div>
+                        <div class="stat-value">15.2%</div>
+                    </div>
+                </div>
+
+                <div class="rating-display">
+                    <div class="rating-label">Rating</div>
+                    <div class="rating-value">9.4/10</div>
+                </div>
+
+                <button class="buy-button">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- Razer Card -->
+        <div class="card razer">
+            <div class="top-panel">
+                <div class="keyboard-image">Razer Huntsman V3 Pro</div>
+                <div class="brand-accent-bar"></div>
+                <div class="rank-badge">#2</div>
+            </div>
+            <div class="divider-badge">Clicky Optical</div>
+            <div class="bottom-panel">
+                <div class="name-brand-section">
+                    <div class="keyboard-name">Razer Huntsman V3 Pro</div>
+                    <div class="brand">Razer</div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-cell">
+                        <div class="stat-label">Weight</div>
+                        <div class="stat-value">820g</div>
+                    </div>
+                    <div class="stat-cell">
+                        <div class="stat-label">Rate</div>
+                        <div class="stat-value">8kHz</div>
+                    </div>
+                    <div class="stat-cell">
+                        <div class="stat-label">Price</div>
+                        <div class="stat-value">$250</div>
+                    </div>
+                    <div class="stat-cell">
+                        <div class="stat-label">Pro %</div>
+                        <div class="stat-value">8.1%</div>
+                    </div>
+                </div>
+
+                <div class="rating-display">
+                    <div class="rating-label">Rating</div>
+                    <div class="rating-value">9.1/10</div>
+                </div>
+
+                <button class="buy-button">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- Logitech Card -->
+        <div class="card logitech">
+            <div class="top-panel">
+                <div class="keyboard-image">Logitech G Pro X TKL</div>
+                <div class="brand-accent-bar"></div>
+                <div class="rank-badge">#4</div>
+            </div>
+            <div class="divider-badge">Mechanical GX</div>
+            <div class="bottom-panel">
+                <div class="name-brand-section">
+                    <div class="keyboard-name">Logitech G Pro X TKL</div>
+                    <div class="brand">Logitech</div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-cell">
+                        <div class="stat-label">Weight</div>
+                        <div class="stat-value">680g</div>
+                    </div>
+                    <div class="stat-cell">
+                        <div class="stat-label">Rate</div>
+                        <div class="stat-value">1kHz</div>
+                    </div>
+                    <div class="stat-cell">
+                        <div class="stat-label">Price</div>
+                        <div class="stat-value">$100</div>
+                    </div>
+                    <div class="stat-cell">
+                        <div class="stat-label">Pro %</div>
+                        <div class="stat-value">5.3%</div>
+                    </div>
+                </div>
+
+                <div class="rating-display">
+                    <div class="rating-label">Rating</div>
+                    <div class="rating-value">8.5/10</div>
+                </div>
+
+                <button class="buy-button">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- SteelSeries Card -->
+        <div class="card steelseries">
+            <div class="top-panel">
+                <div class="keyboard-image">SteelSeries Apex Pro TKL</div>
+                <div class="brand-accent-bar"></div>
+                <div class="rank-badge">#3</div>
+            </div>
+            <div class="divider-badge">Adjustable OmniPoint</div>
+            <div class="bottom-panel">
+                <div class="name-brand-section">
+                    <div class="keyboard-name">SteelSeries Apex Pro TKL</div>
+                    <div class="brand">SteelSeries</div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-cell">
+                        <div class="stat-label">Weight</div>
+                        <div class="stat-value">680g</div>
+                    </div>
+                    <div class="stat-cell">
+                        <div class="stat-label">Rate</div>
+                        <div class="stat-value">1kHz</div>
+                    </div>
+                    <div class="stat-cell">
+                        <div class="stat-label">Price</div>
+                        <div class="stat-value">$190</div>
+                    </div>
+                    <div class="stat-cell">
+                        <div class="stat-label">Pro %</div>
+                        <div class="stat-value">3.8%</div>
+                    </div>
+                </div>
+
+                <div class="rating-display">
+                    <div class="rating-label">Rating</div>
+                    <div class="rating-value">8.7/10</div>
+                </div>
+
+                <button class="buy-button">Buy Now</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 3: Buyer's Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f0e8;
+            color: #1a1614;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .game-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #c47000;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+        }
+
+        .journey-steps {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .step {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .step-connector {
+            position: absolute;
+            left: 40px;
+            top: 100%;
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, #b8956a, transparent);
+            z-index: 0;
+        }
+
+        .step:last-child .step-connector {
+            display: none;
+        }
+
+        .step-content {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 24px;
+            align-items: start;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #c47000, #b06000);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .step-panel {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e0d9d0;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .step-description {
+            font-size: 13px;
+            color: #a09890;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .step-content-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            font-size: 13px;
+        }
+
+        .feature-icon {
+            color: #c47000;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .keyboard-card {
+            background: #f5f0e8;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e0d9d0;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .keyboard-card-image {
+            width: 80px;
+            height: 60px;
+            background: #fff;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .keyboard-card-info {
+            flex: 1;
+        }
+
+        .keyboard-card-name {
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .keyboard-card-meta {
+            font-size: 11px;
+            color: #a09890;
+            display: flex;
+            gap: 12px;
+        }
+
+        .keyboard-card-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 11px;
+        }
+
+        .keyboard-card-stat {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .comparison-card {
+            background: #f5f0e8;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .comparison-label {
+            color: #a09890;
+            font-weight: 700;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .comparison-name {
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .comparison-stat {
+            font-size: 11px;
+            margin-bottom: 2px;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ranking-table thead {
+            background: #f5f0e8;
+        }
+
+        .ranking-table th {
+            padding: 12px 8px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        .ranking-table td {
+            padding: 12px 8px;
+            font-size: 12px;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        .ranking-table tbody tr:hover {
+            background: #f9f7f3;
+        }
+
+        .ranking-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rank-number {
+            font-weight: 700;
+            color: #c47000;
+            min-width: 30px;
+        }
+
+        .cta-button {
+            background: #c47000;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #b06000;
+            transform: translateY(-2px);
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e0d9d0;
+            transition: all 0.3s;
+        }
+
+        .progress-dot.active {
+            background: #c47000;
+            width: 20px;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .step-content {
+                grid-template-columns: 60px 1fr;
+                gap: 16px;
+            }
+
+            .step-number {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+
+            .step-panel {
+                padding: 20px;
+            }
+
+            .keyboard-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-indicator {
+                padding: 0;
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="game-title">Best Keyboard For</div>
+            <h1>CS2 Buying Guide</h1>
+            <p>A guided journey to help you make the right keyboard decision for competitive Counter-Strike 2.</p>
+        </div>
+
+        <div class="progress-indicator">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+        </div>
+
+        <div class="journey-steps">
+            <!-- Step 1: What Matters -->
+            <div class="step">
+                <div class="step-connector"></div>
+                <div class="step-content">
+                    <div class="step-number">1</div>
+                    <div class="step-panel">
+                        <div class="step-title">What Matters for CS2?</div>
+                        <div class="step-description">Understanding key features that impact competitive play</div>
+                        <div class="step-content-inner">
+                            <div class="feature-list">
+                                <div class="feature-item">
+                                    <span class="feature-icon">⚡</span>
+                                    <span><strong>Rapid Trigger:</strong> Reduces physical key travel, enabling ultra-responsive counter-strafing</span>
+                                </div>
+                                <div class="feature-item">
+                                    <span class="feature-icon">🎯</span>
+                                    <span><strong>Poll Rate:</strong> 8000Hz is industry standard for competitive esports</span>
+                                </div>
+                                <div class="feature-item">
+                                    <span class="feature-icon">⚙️</span>
+                                    <span><strong>Actuation Customization:</strong> Fine-tune sensitivity from 0.2mm to 4mm</span>
+                                </div>
+                                <div class="feature-item">
+                                    <span class="feature-icon">💰</span>
+                                    <span><strong>Price-to-Performance:</strong> Best value keyboards offer pro-level specs under $200</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: The Top Pick -->
+            <div class="step">
+                <div class="step-connector"></div>
+                <div class="step-content">
+                    <div class="step-number">2</div>
+                    <div class="step-panel">
+                        <div class="step-title">The Top Pick</div>
+                        <div class="step-description">Recommended by 15.2% of professional CS2 players</div>
+                        <div class="step-content-inner">
+                            <div class="keyboard-card">
+                                <div class="keyboard-card-image">⌨️</div>
+                                <div class="keyboard-card-info">
+                                    <div class="keyboard-card-name">Wooting 60HE+</div>
+                                    <div class="keyboard-card-meta">
+                                        <span>Wooting</span>
+                                        <span>★ 9.4 / 10</span>
+                                    </div>
+                                    <div class="keyboard-card-stats">
+                                        <div class="keyboard-card-stat">
+                                            <span>Price:</span>
+                                            <span>$175</span>
+                                        </div>
+                                        <div class="keyboard-card-stat">
+                                            <span>Weight:</span>
+                                            <span>360g</span>
+                                        </div>
+                                        <div class="keyboard-card-stat">
+                                            <span>Poll Rate:</span>
+                                            <span>8000Hz</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 16px; padding: 16px; background: rgba(196, 112, 0, 0.1); border-radius: 8px; border-left: 3px solid #c47000;">
+                                <div style="font-size: 12px; color: #1a1614; line-height: 1.6;">
+                                    <strong>Why it wins:</strong> Unbeatable combination of lightweight design, customizable actuation, and the most pro player endorsements. Best overall value for serious competitors.
+                                </div>
+                            </div>
+                            <button class="cta-button">Buy Wooting 60HE+ Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Alternatives -->
+            <div class="step">
+                <div class="step-connector"></div>
+                <div class="step-content">
+                    <div class="step-number">3</div>
+                    <div class="step-panel">
+                        <div class="step-title">Strong Alternatives</div>
+                        <div class="step-description">If you prioritize different features, these are excellent choices</div>
+                        <div class="step-content-inner">
+                            <div class="comparison-grid">
+                                <div class="comparison-card">
+                                    <div class="comparison-label">Best with Wireless</div>
+                                    <div class="comparison-name">Razer Huntsman V3 Pro Mini</div>
+                                    <div class="comparison-stat">8.1% pro usage</div>
+                                    <div class="comparison-stat">★ 9.1 / 10</div>
+                                    <div class="comparison-stat" style="margin-top: 6px; color: #c47000; font-weight: 700;">$250</div>
+                                </div>
+                                <div class="comparison-card">
+                                    <div class="comparison-label">Best Balance</div>
+                                    <div class="comparison-name">Logitech G Pro X TKL</div>
+                                    <div class="comparison-stat">5.3% pro usage</div>
+                                    <div class="comparison-stat">★ 8.9 / 10</div>
+                                    <div class="comparison-stat" style="margin-top: 6px; color: #c47000; font-weight: 700;">$199</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Full Rankings -->
+            <div class="step">
+                <div class="step-content">
+                    <div class="step-number">4</div>
+                    <div class="step-panel">
+                        <div class="step-title">Full Top 10 Rankings</div>
+                        <div class="step-description">Complete list of recommended keyboards for CS2</div>
+                        <div class="step-content-inner">
+                            <table class="ranking-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10%;">Rank</th>
+                                        <th style="width: 40%;">Keyboard</th>
+                                        <th style="width: 20%;">Pro Usage</th>
+                                        <th style="width: 15%;">Price</th>
+                                        <th style="width: 15%;">Rating</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="rank-number">1</td>
+                                        <td><strong>Wooting 60HE+</strong></td>
+                                        <td>15.2%</td>
+                                        <td>$175</td>
+                                        <td>★ 9.4</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rank-number">2</td>
+                                        <td>Razer Huntsman V3 Pro Mini</td>
+                                        <td>8.1%</td>
+                                        <td>$250</td>
+                                        <td>★ 9.1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rank-number">3</td>
+                                        <td>Logitech G Pro X TKL</td>
+                                        <td>5.3%</td>
+                                        <td>$199</td>
+                                        <td>★ 8.9</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rank-number">4</td>
+                                        <td>SteelSeries Apex Pro</td>
+                                        <td>4.7%</td>
+                                        <td>$229</td>
+                                        <td>★ 8.8</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rank-number">5</td>
+                                        <td>Corsair K65 Plus Ultra</td>
+                                        <td>3.9%</td>
+                                        <td>$269</td>
+                                        <td>★ 8.6</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rank-number">6</td>
+                                        <td>ASUS ROG Strix Scope TKL</td>
+                                        <td>3.2%</td>
+                                        <td>$189</td>
+                                        <td>★ 8.4</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rank-number">7</td>
+                                        <td>Ducky One 2 SF</td>
+                                        <td>2.8%</td>
+                                        <td>$179</td>
+                                        <td>★ 8.3</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rank-number">8</td>
+                                        <td>VicTsing Mechanical Gaming</td>
+                                        <td>2.4%</td>
+                                        <td>$79</td>
+                                        <td>★ 8.1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rank-number">9</td>
+                                        <td>Glorious GMMK Pro</td>
+                                        <td>2.1%</td>
+                                        <td>$169</td>
+                                        <td>★ 8.2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rank-number">10</td>
+                                        <td>HKGK Mechanical Keyboard</td>
+                                        <td>1.9%</td>
+                                        <td>$89</td>
+                                        <td>★ 7.9</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

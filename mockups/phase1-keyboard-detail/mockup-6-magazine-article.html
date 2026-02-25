@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 6: Magazine Article</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f5f0e8;
+            color: #1a1614;
+            line-height: 1.8;
+        }
+
+        .mockup-header {
+            text-align: center;
+            padding: 20px;
+            background: #1a1614;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .mockup-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .mockup-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .article-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .article-header {
+            margin-bottom: 40px;
+        }
+
+        .article-category {
+            display: inline-block;
+            background: #06b6d4;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .article-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1a1614;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .article-byline {
+            color: #a09890;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .article-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border-radius: 12px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(26, 22, 20, 0.15);
+            font-size: 1.2rem;
+        }
+
+        .article-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .article-body {
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        .article-body p {
+            margin-bottom: 20px;
+        }
+
+        .article-body p:first-child::first-letter {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #06b6d4;
+            margin-right: 3px;
+        }
+
+        .spec-highlight {
+            background: rgba(6, 182, 212, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #06b6d4;
+            font-weight: 600;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .pull-quote {
+            background: white;
+            border-left: 4px solid #b8956a;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+            font-style: italic;
+            font-size: 1.15rem;
+            color: #1a1614;
+            line-height: 1.7;
+        }
+
+        .pull-quote::before {
+            content: '"';
+            font-size: 3rem;
+            color: #06b6d4;
+            opacity: 0.5;
+            line-height: 0.5;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .sidebar {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 25px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: #1a1614;
+            border-bottom: 2px solid #06b6d4;
+            padding-bottom: 10px;
+        }
+
+        .sidebar-stat {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f5f0e8;
+        }
+
+        .sidebar-stat:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .sidebar-stat-label {
+            font-size: 0.8rem;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #06b6d4;
+        }
+
+        .related-section {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid #b8956a;
+        }
+
+        .related-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #1a1614;
+        }
+
+        .related-keyboards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .related-item {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .related-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.15);
+        }
+
+        .related-image {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, #b8956a 0%, #a09890 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(26, 22, 20, 0.2);
+            font-size: 0.9rem;
+        }
+
+        .related-info {
+            padding: 15px;
+        }
+
+        .related-info h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: #1a1614;
+        }
+
+        .related-info p {
+            font-size: 0.85rem;
+            color: #a09890;
+        }
+
+        .article-footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(245, 240, 232, 0.5);
+            border-radius: 12px;
+            margin-top: 40px;
+        }
+
+        .article-footer p {
+            color: #a09890;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .article-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .article-title {
+                font-size: 2rem;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <h1>Mockup 6: Magazine Article</h1>
+        <p>Editorial long-form article with sidebar stats, pull quotes, and related keyboards</p>
+    </div>
+
+    <div class="article-container">
+        <div class="article-header">
+            <div class="article-category">Keyboard Review</div>
+            <h1 class="article-title">Wooting 60HE+: The Keyboard That Changed Professional Esports</h1>
+            <div class="article-byline">By Editorial Team | February 2026 | 12 min read</div>
+        </div>
+
+        <div class="article-image">[Editorial Product Photography]</div>
+
+        <div class="article-wrapper">
+            <div class="article-body">
+                <p>The keyboard has always been the unsung hero of professional gaming. While monitors get the marketing dollars and headsets get the airtime, it's the humble keyboard that bears the weight of every keystroke, every clutch decision, and every millisecond that separates champions from contenders. The Wooting 60HE+ has fundamentally changed this narrative.</p>
+
+                <p>Launched in 2023, the Wooting 60HE+ arrived at a critical juncture in esports hardware evolution. Professional gamers had been pushing the boundaries of what was possible with conventional keyboard switches for years. They wanted faster response times, adjustable actuation points, and the ability to customize their input experience. The Wooting 60HE+ answered every single one of these demands with <span class="spec-highlight">8000Hz polling rate</span> technology and groundbreaking <span class="spec-highlight">Hall Effect switches</span>.</p>
+
+                <div class="pull-quote">
+                    "I've tried every keyboard on the market. The Wooting 60HE+ isn't just better—it's in a different category entirely. It's the first keyboard that actually listens to what pro players have been asking for."
+                </div>
+
+                <p>What makes the 60HE+ revolutionary isn't any single feature, but rather how thoughtfully these features work together. The <span class="spec-highlight">Lekker Hall Effect switches</span> eliminate the mechanical inconsistencies that plague traditional Cherry MX switches. With adjustable rapid trigger and <span class="spec-highlight">adjustable actuation</span>, players can fine-tune their keyboard to match their unique playstyle and the specific demands of their game.</p>
+
+                <p>The adoption rate tells the real story. Within months of release, the Wooting 60HE+ was spotted in every major CS:GO tournament. Professional players like s1mple, TenZ, ZywOo, donk, and NiKo publicly endorsed the keyboard, not because of sponsorship deals, but because it genuinely made them better at their craft. Today, at <span class="spec-highlight">15.2% pro usage rate</span>, it's the most-used keyboard in professional esports.</p>
+
+                <p>The <span class="spec-highlight">60% compact layout</span> provides mobility without sacrifice—essential for tournament players who might need to relocate their setup between matches. The <span class="spec-highlight">PBT doubleshot keycaps</span> ensure durability through years of intensive competitive play, while the <span class="spec-highlight">hot-swappable design</span> gives players complete control over their switch selection.</p>
+
+                <div class="pull-quote">
+                    "When you're competing at the highest level, every advantage matters. The Wooting 60HE+ isn't just a keyboard; it's a competitive advantage."
+                </div>
+
+                <p>At $175, the Wooting 60HE+ sits in the premium segment, but professional players and serious competitors consider it a non-negotiable investment. The keyboard doesn't just perform—it delivers a <span class="spec-highlight">9.4 out of 10 rating</span> from the community, marking it as one of the highest-rated keyboards ever created. The USB-C wired connection ensures zero latency concerns in critical tournament moments.</p>
+
+                <p>The Wooting 60HE+ represents the maturation of esports hardware. It's no longer about incremental improvements; it's about fundamental innovation that changes how professional players approach their craft. Whether you're competing at the highest levels or simply want to experience the keyboard that changed professional esports, the Wooting 60HE+ is the unmissable choice.</p>
+            </div>
+
+            <div class="sidebar">
+                <h3>Quick Specs</h3>
+                <div class="sidebar-stat">
+                    <div class="sidebar-stat-label">Polling Rate</div>
+                    <div class="sidebar-stat-value">8000Hz</div>
+                </div>
+                <div class="sidebar-stat">
+                    <div class="sidebar-stat-label">Switch Type</div>
+                    <div class="sidebar-stat-value">Hall Effect</div>
+                </div>
+                <div class="sidebar-stat">
+                    <div class="sidebar-stat-label">Layout</div>
+                    <div class="sidebar-stat-value">60%</div>
+                </div>
+                <div class="sidebar-stat">
+                    <div class="sidebar-stat-label">Weight</div>
+                    <div class="sidebar-stat-value">360g</div>
+                </div>
+                <div class="sidebar-stat">
+                    <div class="sidebar-stat-label">Rating</div>
+                    <div class="sidebar-stat-value">9.4/10</div>
+                </div>
+                <div class="sidebar-stat">
+                    <div class="sidebar-stat-label">Pro Usage</div>
+                    <div class="sidebar-stat-value">15.2%</div>
+                </div>
+                <div class="sidebar-stat">
+                    <div class="sidebar-stat-label">Price</div>
+                    <div class="sidebar-stat-value">$175</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="related-section">
+            <h2>Also Featured</h2>
+            <div class="related-keyboards">
+                <div class="related-item">
+                    <div class="related-image">Product Image</div>
+                    <div class="related-info">
+                        <h3>Razer Huntsman V3 Pro</h3>
+                        <p>Optical switches, 60% layout</p>
+                    </div>
+                </div>
+                <div class="related-item">
+                    <div class="related-image">Product Image</div>
+                    <div class="related-info">
+                        <h3>Logitech G Pro X TKL</h3>
+                        <p>Tenkeyless, Detachable cable</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-footer">
+            <p>EsportsKeyboards.com Editorial | Wooting 60HE+ Professional Review | All specifications and statistics accurate as of February 2026</p>
+        </div>
+    </div>
+</body>
+</html>

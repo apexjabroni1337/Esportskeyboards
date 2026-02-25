@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 1: Keycap Filter Bar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f5f0e8;
+            color: #1a1614;
+            padding: 32px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #a09890;
+            font-size: 14px;
+        }
+
+        /* Filter Bar Section */
+        .filter-bar {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        /* Spacebar-style Search */
+        .search-wrapper {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #a09890;
+            border-radius: 8px;
+            background: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            color: #1a1614;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #b8956a;
+            box-shadow: 0 4px 12px rgba(184, 149, 106, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Keycap-style Filter Chips */
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-chip {
+            position: relative;
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #e8e3db 0%, #d4ccc4 100%);
+            border: 1px solid #a09890;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            transform: translateY(0);
+        }
+
+        .filter-chip:hover {
+            background: linear-gradient(135deg, #f0ebe3 0%, #dcd4cc 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-chip.active {
+            background: linear-gradient(135deg, #b8956a 0%, #a67c52 100%);
+            color: white;
+            border-color: #8b6f47;
+            transform: translateY(3px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 -1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .filter-chip .remove {
+            margin-left: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Function Key-style Sort */
+        .sort-wrapper {
+            position: relative;
+        }
+
+        .sort-select {
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            color: white;
+            border: 1px solid #5b21b6;
+            border-radius: 6px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sort-select:hover {
+            background: linear-gradient(135deg, #9f5cf6 0%, #7d28d9 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .sort-select:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        @media (min-width: 1024px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Placeholder Card */
+        .card {
+            background: white;
+            border: 2px solid #e8e3db;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(184, 149, 106, 0.05) 100%);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            border-color: #b8956a;
+            box-shadow: 0 8px 24px rgba(26, 22, 20, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .card-image {
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(135deg, #e8e3db 0%, #d4ccc4 100%);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1614;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-spec {
+            font-size: 12px;
+            color: #a09890;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer {
+            text-align: center;
+            color: #a09890;
+            font-size: 13px;
+            padding-top: 20px;
+            border-top: 1px solid #e8e3db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">Mockup 1: Keycap Filter Bar</div>
+            <div class="subtitle">Individual keycap-styled filter chips with spacebar search input and function key sort dropdown</div>
+        </div>
+
+        <div class="filter-bar">
+            <div class="search-wrapper">
+                <input type="text" class="search-input" placeholder="Search keyboards...">
+            </div>
+
+            <div class="filter-chips">
+                <div class="filter-chip active">
+                    Razer <span class="remove">×</span>
+                </div>
+                <div class="filter-chip active">
+                    TKL <span class="remove">×</span>
+                </div>
+                <div class="filter-chip active">
+                    Wireless <span class="remove">×</span>
+                </div>
+                <div class="filter-chip">
+                    + Filters
+                </div>
+            </div>
+
+            <div class="sort-wrapper">
+                <select class="sort-select">
+                    <option>Pro Usage</option>
+                    <option>Weight</option>
+                    <option>Price</option>
+                    <option>Rating</option>
+                    <option>Poll Rate</option>
+                    <option>Name</option>
+                    <option>Newest</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">Corsair K70</div>
+                <div class="card-spec">RGB Mechanical • TKL</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">Razer DeathStalker</div>
+                <div class="card-spec">Optical Linear • 60%</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">SteelSeries Apex</div>
+                <div class="card-spec">Premium Mechanical • Full</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">Keychron Q1</div>
+                <div class="card-spec">Wireless Mechanical • TKL</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">Logitech G915</div>
+                <div class="card-spec">Low Profile RGB • Full</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">DuckyOne 2</div>
+                <div class="card-spec">Cherry MX • Full Size</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">NZXT Stream</div>
+                <div class="card-spec">Content Creator • TKL</div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-name">Varmilo VA87M</div>
+                <div class="card-spec">Silenced Mechanical • TKL</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Showing 8 keyboards — Keycap filter theme with spacebar search and function key sort
+        </div>
+    </div>
+</body>
+</html>

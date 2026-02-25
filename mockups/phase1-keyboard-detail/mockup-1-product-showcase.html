@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 1: Product Showcase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f5f0e8;
+            color: #1a1614;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header .tagline {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #06b6d4 0%, #a09890 100%);
+            border-radius: 12px;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: rgba(26, 22, 20, 0.3);
+            font-weight: 600;
+        }
+
+        .selling-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .selling-point {
+            display: flex;
+            gap: 15px;
+        }
+
+        .selling-point-icon {
+            width: 50px;
+            height: 50px;
+            background: #06b6d4;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .selling-point-text h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #1a1614;
+        }
+
+        .selling-point-text p {
+            font-size: 0.9rem;
+            color: #a09890;
+        }
+
+        .specs-section {
+            margin-bottom: 50px;
+        }
+
+        .specs-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #1a1614;
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border: 1px solid #b8956a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .specs-table tr {
+            border-bottom: 1px solid #f5f0e8;
+        }
+
+        .specs-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .specs-table td {
+            padding: 15px 20px;
+        }
+
+        .specs-table td:first-child {
+            font-weight: 600;
+            color: #06b6d4;
+            width: 40%;
+            background: rgba(245, 240, 232, 0.5);
+        }
+
+        .specs-table td:last-child {
+            color: #1a1614;
+        }
+
+        .pro-players-section {
+            margin-bottom: 50px;
+        }
+
+        .pro-players-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: #1a1614;
+        }
+
+        .pro-players-scroll {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .pro-player-card {
+            flex-shrink: 0;
+            width: 180px;
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .pro-player-avatar {
+            width: 80px;
+            height: 80px;
+            background: #06b6d4;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .pro-player-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #1a1614;
+        }
+
+        .pro-player-card p {
+            font-size: 0.85rem;
+            color: #a09890;
+        }
+
+        .related-keyboards {
+            margin-bottom: 50px;
+        }
+
+        .related-keyboards h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: #1a1614;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .related-item {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .related-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #b8956a 0%, #a09890 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(26, 22, 20, 0.2);
+            font-size: 1rem;
+        }
+
+        .related-info {
+            padding: 15px;
+        }
+
+        .related-info h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: #1a1614;
+        }
+
+        .related-info p {
+            font-size: 0.8rem;
+            color: #a09890;
+            margin-bottom: 10px;
+        }
+
+        .buy-section {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            border: 2px solid #b8956a;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .buy-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #1a1614;
+        }
+
+        .buy-section .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #06b6d4;
+            margin: 15px 0;
+        }
+
+        .buy-btn {
+            background: #06b6d4;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .buy-btn:hover {
+            background: #0891b2;
+            transform: translateY(-2px);
+        }
+
+        .description {
+            background: rgba(245, 240, 232, 0.5);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            line-height: 1.8;
+        }
+
+        .mockup-header {
+            text-align: center;
+            padding: 20px;
+            background: #1a1614;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .mockup-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .mockup-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <h1>Mockup 1: Product Showcase</h1>
+        <p>Premium keyboard manufacturer style with hero image, selling points, specs table, and pro player cards</p>
+    </div>
+
+    <header>
+        <h1>Wooting 60HE+</h1>
+        <p class="tagline">The most used keyboard in professional esports</p>
+    </header>
+
+    <div class="container">
+        <div class="hero-image">
+            [Premium Product Image Here]
+        </div>
+
+        <div class="selling-points">
+            <div class="selling-point">
+                <div class="selling-point-icon">⚡</div>
+                <div class="selling-point-text">
+                    <h3>Rapid Trigger</h3>
+                    <p>Instant actuation response for competitive advantage</p>
+                </div>
+            </div>
+            <div class="selling-point">
+                <div class="selling-point-icon">🎯</div>
+                <div class="selling-point-text">
+                    <h3>Adjustable Actuation</h3>
+                    <p>Customize sensitivity to your playstyle</p>
+                </div>
+            </div>
+            <div class="selling-point">
+                <div class="selling-point-icon">📊</div>
+                <div class="selling-point-text">
+                    <h3>8000Hz Polling</h3>
+                    <p>0.125ms response time for zero latency</p>
+                </div>
+            </div>
+            <div class="selling-point">
+                <div class="selling-point-icon">🔧</div>
+                <div class="selling-point-text">
+                    <h3>Hot-Swappable</h3>
+                    <p>Swap switches in seconds without soldering</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="specs-section">
+            <h2>Key Specifications</h2>
+            <table class="specs-table">
+                <tr>
+                    <td>Weight</td>
+                    <td>360g</td>
+                </tr>
+                <tr>
+                    <td>Switch Type</td>
+                    <td>Lekker Hall Effect</td>
+                </tr>
+                <tr>
+                    <td>Polling Rate</td>
+                    <td>8000Hz</td>
+                </tr>
+                <tr>
+                    <td>Layout</td>
+                    <td>60% (Compact)</td>
+                </tr>
+                <tr>
+                    <td>Connection</td>
+                    <td>Wired USB-C</td>
+                </tr>
+                <tr>
+                    <td>Keycaps</td>
+                    <td>PBT Doubleshot</td>
+                </tr>
+                <tr>
+                    <td>Release Year</td>
+                    <td>2023</td>
+                </tr>
+                <tr>
+                    <td>Rating</td>
+                    <td>9.4 / 10.0</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="description">
+            <p>The Wooting 60HE+ represents the pinnacle of esports keyboard technology. With Lekker Hall Effect switches, 8000Hz polling rate, and adjustable rapid trigger, it's the choice of the world's top professional gamers. The 60% compact form factor provides mobility without sacrificing functionality, while PBT doubleshot keycaps ensure durability through intensive competitive play. Pro usage rate of 15.2% makes it the most trusted keyboard in professional esports.</p>
+        </div>
+
+        <div class="pro-players-section">
+            <h2>Trusted by Pro Players</h2>
+            <div class="pro-players-scroll">
+                <div class="pro-player-card">
+                    <div class="pro-player-avatar">S</div>
+                    <h3>s1mple</h3>
+                    <p>CS:GO Legend</p>
+                </div>
+                <div class="pro-player-card">
+                    <div class="pro-player-avatar">T</div>
+                    <h3>TenZ</h3>
+                    <p>Valorant Pro</p>
+                </div>
+                <div class="pro-player-card">
+                    <div class="pro-player-avatar">D</div>
+                    <h3>donk</h3>
+                    <p>CS2 Professional</p>
+                </div>
+                <div class="pro-player-card">
+                    <div class="pro-player-avatar">Z</div>
+                    <h3>ZywOo</h3>
+                    <p>CS:GO Champion</p>
+                </div>
+                <div class="pro-player-card">
+                    <div class="pro-player-avatar">N</div>
+                    <h3>NiKo</h3>
+                    <p>FaZe Clan</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="buy-section">
+            <h2>Ready to Compete?</h2>
+            <p>Join the pros. Get your Wooting 60HE+ today.</p>
+            <div class="price">$175</div>
+            <button class="buy-btn">Buy Now</button>
+        </div>
+
+        <div class="related-keyboards">
+            <h2>Related Keyboards</h2>
+            <div class="related-grid">
+                <div class="related-item">
+                    <div class="related-image">Product Image</div>
+                    <div class="related-info">
+                        <h3>Razer Huntsman V3 Pro</h3>
+                        <p>60% layout, Optical switches</p>
+                    </div>
+                </div>
+                <div class="related-item">
+                    <div class="related-image">Product Image</div>
+                    <div class="related-info">
+                        <h3>Logitech G Pro X TKL</h3>
+                        <p>Tenkeyless, Detachable cable</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

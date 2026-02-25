@@ -196,12 +196,110 @@ export default function BestForPage({ params }) {
       <SSRSection>
         <SSRTitle accent={isGame ? page.full : page.full}>Best Keyboard{isGame ? ` for ${page.full}` : ` — ${page.full}`}</SSRTitle>
         <SSRSub>{page.intro.slice(0, 200)}...</SSRSub>
-        <SSRGrid>
-          <SSRStat label="#1 Pick" value={topKeyboardsForPage[0]?.name || "—"} color={BRAND_COLORS[topKeyboardsForPage[0]?.brand] || "#b8956a"} />
-          <SSRStat label="#2 Pick" value={topKeyboardsForPage[1]?.name || "—"} color={BRAND_COLORS[topKeyboardsForPage[1]?.brand] || "#6b8cad"} />
-          {isGame && <SSRStat label="Pro Players" value={players.length.toString()} color="#b8956a" />}
-          <SSRStat label="Players Tracked" value={players.length.toString()} color="#a78bfa" />
-        </SSRGrid>
+
+        {/* Tier List */}
+        <div style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+          {(() => {
+            const tierData = [
+              {
+                tier: "S",
+                label: "S-Tier",
+                color: "#b8956a",
+                bgColor: "rgba(184, 149, 106, 0.08)",
+                keyboards: topKeyboardsForPage.slice(0, 1)
+              },
+              {
+                tier: "A",
+                label: "A-Tier",
+                color: "#06b6d4",
+                bgColor: "rgba(6, 182, 212, 0.08)",
+                keyboards: topKeyboardsForPage.slice(1, 3)
+              },
+              {
+                tier: "B",
+                label: "B-Tier",
+                color: "#8b5cf6",
+                bgColor: "rgba(139, 92, 246, 0.08)",
+                keyboards: topKeyboardsForPage.slice(3, 6)
+              },
+              {
+                tier: "C",
+                label: "C-Tier",
+                color: "#a09890",
+                bgColor: "rgba(160, 152, 144, 0.08)",
+                keyboards: topKeyboardsForPage.slice(6, 10)
+              }
+            ];
+
+            return tierData.map((tierGroup) => (
+              tierGroup.keyboards.length > 0 && (
+                <div key={tierGroup.tier} style={{ marginBottom: "1.5rem" }}>
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "1rem",
+                    paddingBottom: "0.75rem",
+                    marginBottom: "0.75rem",
+                    borderBottom: `2px solid ${tierGroup.color}`
+                  }}>
+                    <div style={{
+                      width: "48px",
+                      height: "48px",
+                      borderRadius: "4px",
+                      backgroundColor: tierGroup.color,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "20px",
+                      fontWeight: "700",
+                      color: "#f5f0e8"
+                    }}>
+                      {tierGroup.tier}
+                    </div>
+                    <div style={{ fontSize: "13px", fontWeight: "700", color: "#a09890", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                      {tierGroup.label}
+                    </div>
+                  </div>
+
+                  {tierGroup.keyboards.map((kbd, idx) => (
+                    <div
+                      key={kbd.name}
+                      style={{
+                        padding: "1rem",
+                        backgroundColor: tierGroup.bgColor,
+                        borderRadius: "4px",
+                        marginBottom: idx < tierGroup.keyboards.length - 1 ? "0.75rem" : "0",
+                        display: "grid",
+                        gridTemplateColumns: "2fr 1fr 1fr 1fr",
+                        gap: "1rem",
+                        alignItems: "center",
+                        borderLeft: `3px solid ${tierGroup.color}`
+                      }}
+                    >
+                      <div>
+                        <div style={{ fontWeight: "700", color: "#1a1614", fontSize: "13px" }}>{kbd.name}</div>
+                        <div style={{ fontSize: "11px", color: "#a09890", marginTop: "2px" }}>{kbd.brand}</div>
+                      </div>
+                      <div style={{ textAlign: "center" }}>
+                        <div style={{ fontSize: "11px", color: "#a09890", marginBottom: "2px" }}>Pro Usage</div>
+                        <div style={{ fontWeight: "700", color: "#1a1614", fontSize: "13px" }}>{kbd.gamePercent}%</div>
+                      </div>
+                      <div style={{ textAlign: "center" }}>
+                        <div style={{ fontSize: "11px", color: "#a09890", marginBottom: "2px" }}>Weight</div>
+                        <div style={{ fontWeight: "700", color: "#1a1614", fontSize: "13px" }}>{kbd?.weight}g</div>
+                      </div>
+                      <div style={{ textAlign: "center" }}>
+                        <div style={{ fontSize: "11px", color: "#a09890", marginBottom: "2px" }}>Price</div>
+                        <div style={{ fontWeight: "700", color: "#1a1614", fontSize: "13px" }}>${kbd?.price}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )
+            ));
+          })()}
+        </div>
+
         <div className="flex flex-wrap gap-2">
           {topKeyboardsForPage.slice(0, 5).map(m => (
             <SSRLink key={m.name} href={`/keyboards/${sl(m.name)}`}>{m.name}</SSRLink>

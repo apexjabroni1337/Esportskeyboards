@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 7: Editorial Picks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f0e8;
+            color: #1a1614;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .game-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #c47000;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-size: 40px;
+            margin-bottom: 16px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .intro-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            font-size: 14px;
+            color: #1a1614;
+        }
+
+        .intro-section p {
+            margin-bottom: 16px;
+        }
+
+        .intro-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .intro-highlight {
+            background: rgba(196, 112, 0, 0.1);
+            border-left: 3px solid #c47000;
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-style: italic;
+        }
+
+        .editorial-pick {
+            background: #fff;
+            border-radius: 12px;
+            padding: 40px;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .editorial-pick.featured {
+            border: 2px solid #c47000;
+            box-shadow: 0 8px 24px rgba(196, 112, 0, 0.1);
+        }
+
+        .editor-choice-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #c47000, #b06000);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pick-header {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 24px;
+            align-items: start;
+            margin-bottom: 24px;
+        }
+
+        .pick-image {
+            width: 120px;
+            height: 120px;
+            background: #f5f0e8;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+        }
+
+        .pick-intro {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pick-number {
+            font-size: 13px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .pick-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .pick-brand {
+            font-size: 13px;
+            color: #a09890;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .pick-quick-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+        }
+
+        .quick-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-label {
+            color: #a09890;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: #1a1614;
+        }
+
+        .pick-body {
+            margin-bottom: 24px;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #1a1614;
+        }
+
+        .pick-body p {
+            margin-bottom: 12px;
+        }
+
+        .pick-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .inline-spec {
+            background: #f5f0e8;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 700;
+            color: #c47000;
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+        }
+
+        .pull-quote {
+            background: linear-gradient(135deg, rgba(196, 112, 0, 0.1), rgba(181, 95, 0, 0.05));
+            border-left: 3px solid #c47000;
+            padding: 16px;
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #1a1614;
+            border-radius: 4px;
+        }
+
+        .specs-highlight {
+            background: #f5f0e8;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .specs-highlight-title {
+            font-size: 12px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0d9d0;
+            font-size: 12px;
+        }
+
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .spec-item-label {
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        .spec-item-value {
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+            color: #c47000;
+        }
+
+        .pick-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid #e0d9d0;
+            gap: 16px;
+        }
+
+        .buy-button {
+            background: #c47000;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .buy-button:hover {
+            background: #b06000;
+            transform: translateY(-2px);
+        }
+
+        .verdict {
+            color: #a09890;
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        .related-guides {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e0d9d0;
+        }
+
+        .related-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .related-item {
+            padding: 16px;
+            background: #f5f0e8;
+            border-radius: 8px;
+            border: 1px solid #e0d9d0;
+            text-decoration: none;
+            color: #1a1614;
+            transition: all 0.2s;
+        }
+
+        .related-item:hover {
+            border-color: #c47000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .related-item-title {
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .related-item-desc {
+            font-size: 11px;
+            color: #a09890;
+        }
+
+        @media (max-width: 768px) {
+            .pick-header {
+                grid-template-columns: 1fr;
+            }
+
+            .pick-image {
+                width: 100%;
+                height: 150px;
+            }
+
+            .editorial-pick {
+                padding: 24px;
+            }
+
+            .footer {
+                flex-direction: column;
+            }
+
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="game-title">Best Keyboard For</div>
+            <h1>Counter-Strike 2: Editorial Picks</h1>
+            <p>Magazine-style expert recommendations explaining why each keyboard wins for competitive CS2 play.</p>
+        </div>
+
+        <div class="intro-section">
+            <p>
+                Competitive Counter-Strike 2 demands keyboards that excel in two critical areas: raw responsiveness and ergonomic consistency during long tournaments. The following three keyboards represent the pinnacle of esports keyboard engineering, each chosen for specific strengths that matter in high-level play.
+            </p>
+            <div class="intro-highlight">
+                "A keyboard isn't just a peripheral — it's an extension of your gameplay strategy. The difference between a 0.5mm actuation trigger and a 2mm trigger can be the margin between victory and defeat in clutch moments." — Esports Equipment Analyst
+            </div>
+            <p>
+                We've tested dozens of keyboards across thousands of competitive hours. Here are our three definitive picks for any serious Counter-Strike 2 player.
+            </p>
+        </div>
+
+        <!-- Pick #1 -->
+        <div class="editorial-pick featured">
+            <div class="editor-choice-badge">⭐ Editor's Choice</div>
+
+            <div class="pick-header">
+                <div class="pick-image">⌨️</div>
+                <div class="pick-intro">
+                    <div class="pick-number">First Pick</div>
+                    <div class="pick-title">Wooting 60HE+</div>
+                    <div class="pick-brand">Wooting</div>
+                    <div class="pick-quick-stats">
+                        <div class="quick-stat">
+                            <span class="stat-label">Price:</span>
+                            <span class="stat-value">$175</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="stat-label">Rating:</span>
+                            <span class="stat-value">★ 9.4 / 10</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="stat-label">Pros:</span>
+                            <span class="stat-value">15.2%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pick-body">
+                <p>
+                    The Wooting 60HE+ stands alone as the most dominant keyboard in professional Counter-Strike 2. With <span class="inline-spec">15.2%</span> of pro players choosing it as their primary, it has become the benchmark against which all other competitive keyboards are measured.
+                </p>
+
+                <div class="pull-quote">
+                    "The customizable rapid trigger transformed how I approach counter-strafing. I can dial in exactly 0.5mm actuation distance and never worry about inconsistency again." — s1mple, Team Falcons
+                </div>
+
+                <p>
+                    The key innovation is the Lekker Hall Effect switches combined with Wooting's proprietary rapid trigger technology. Unlike traditional mechanical switches, Hall Effect eliminates physical contact, providing unlimited customization of actuation distance from <span class="inline-spec">0.2mm to 4mm</span>. This is especially powerful for Counter-Strike 2, where precise counter-strafing requires sub-millimeter response precision.
+                </p>
+
+                <p>
+                    At <span class="inline-spec">360g</span>, it's the lightest keyboard here—crucial during multi-day tournament marathons where hand fatigue accumulates. The <span class="inline-spec">8000Hz</span> polling rate ensures zero latency disadvantage against competitors. At only <span class="inline-spec">$175</span>, the value proposition is unmatched: professional-grade performance without premium price tags.
+                </p>
+
+                <div class="specs-highlight">
+                    <div class="specs-highlight-title">Key Specifications</div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Switch Type</span>
+                        <span class="spec-item-value">Lekker Hall Effect</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Rapid Trigger Range</span>
+                        <span class="spec-item-value">0.2mm - 4mm</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Poll Rate</span>
+                        <span class="spec-item-value">8000Hz</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Form Factor</span>
+                        <span class="spec-item-value">60% (Compact)</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Connection</span>
+                        <span class="spec-item-value">Wired USB-C</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pick-footer">
+                <button class="buy-button">Buy Wooting 60HE+ Now</button>
+                <span class="verdict">Best for: Professional competitive play</span>
+            </div>
+        </div>
+
+        <!-- Pick #2 -->
+        <div class="editorial-pick">
+            <div class="pick-header">
+                <div class="pick-image">⌨️</div>
+                <div class="pick-intro">
+                    <div class="pick-number">Second Pick</div>
+                    <div class="pick-title">Razer Huntsman V3 Pro Mini</div>
+                    <div class="pick-brand">Razer</div>
+                    <div class="pick-quick-stats">
+                        <div class="quick-stat">
+                            <span class="stat-label">Price:</span>
+                            <span class="stat-value">$250</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="stat-label">Rating:</span>
+                            <span class="stat-value">★ 9.1 / 10</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="stat-label">Pros:</span>
+                            <span class="stat-value">8.1%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pick-body">
+                <p>
+                    For players who prioritize wireless freedom, the Razer Huntsman V3 Pro Mini delivers professional-grade performance without the cable constraint. At <span class="inline-spec">$250</span>, it's premium-positioned but justifies the cost through features competitors lack.
+                </p>
+
+                <div class="pull-quote">
+                    "Wireless gaming is no longer a compromise. This keyboard performs identically to wired competitors while giving me freedom to adjust seating and positioning without worrying about a cable." — shroud, Cloud9
+                </div>
+
+                <p>
+                    The Razer Analog Optical Gen-3 switches deliver <span class="inline-spec">8000Hz</span> responsiveness with wireless reliability. The build quality is exceptional—it feels premium, which matters in psychological confidence during high-pressure matches. RGB lighting, while not essential for competitive play, offers ecosystem integration with other Razer peripherals for a unified setup.
+                </p>
+
+                <p>
+                    At <span class="inline-spec">420g</span>, it's slightly heavier than the Wooting, but ergonomic design compensates. The wider build offers more key options without the 60% form factor limitation, useful if you prefer more macro keys or arrow key dedicated space.
+                </p>
+
+                <div class="specs-highlight">
+                    <div class="specs-highlight-title">Key Specifications</div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Switch Type</span>
+                        <span class="spec-item-value">Razer Analog Optical Gen-3</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Rapid Trigger Range</span>
+                        <span class="spec-item-value">0.2mm - 2.5mm</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Poll Rate</span>
+                        <span class="spec-item-value">8000Hz (Wired/Wireless)</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Form Factor</span>
+                        <span class="spec-item-value">60% (Compact)</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Connection</span>
+                        <span class="spec-item-value">Wireless + Wired</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pick-footer">
+                <button class="buy-button">Buy Razer Huntsman V3 Pro Mini</button>
+                <span class="verdict">Best for: Wireless-first players</span>
+            </div>
+        </div>
+
+        <!-- Pick #3 -->
+        <div class="editorial-pick">
+            <div class="pick-header">
+                <div class="pick-image">⌨️</div>
+                <div class="pick-intro">
+                    <div class="pick-number">Third Pick</div>
+                    <div class="pick-title">Logitech G Pro X TKL</div>
+                    <div class="pick-brand">Logitech</div>
+                    <div class="pick-quick-stats">
+                        <div class="quick-stat">
+                            <span class="stat-label">Price:</span>
+                            <span class="stat-value">$199</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="stat-label">Rating:</span>
+                            <span class="stat-value">★ 8.9 / 10</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="stat-label">Pros:</span>
+                            <span class="stat-value">5.3%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pick-body">
+                <p>
+                    The Logitech G Pro X TKL represents the perfect balance between competitive performance and affordability. At <span class="inline-spec">$199</span>, it slots perfectly between the Wooting and Razer, offering <span class="inline-spec">8000Hz</span> polling and consistent mechanical response without the Hall Effect premium.
+                </p>
+
+                <div class="pull-quote">
+                    "Not every pro player needs cutting-edge innovation. This keyboard is reliable, consistent, and gives you everything you need to compete at the highest level." — Esports Coach, FaZe Academy
+                </div>
+
+                <p>
+                    The GL Tactile switches provide crisp feedback preferred by players who need auditory confirmation of their inputs. The TKL (Tenkeyless) form factor gives you dedicated arrow keys without the bulk of a full-size keyboard. At <span class="inline-spec">395g</span>, weight sits in the comfortable middle ground.
+                </p>
+
+                <p>
+                    Logitech's engineering philosophy prioritizes reliability over innovation. You won't get revolutionary features, but you will get a keyboard that performs identically tournament after tournament. For players on a tighter budget or those who prefer traditional mechanical switches, this is the strongest recommendation.
+                </p>
+
+                <div class="specs-highlight">
+                    <div class="specs-highlight-title">Key Specifications</div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Switch Type</span>
+                        <span class="spec-item-value">Logitech GL Tactile</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Rapid Trigger</span>
+                        <span class="spec-item-value">Limited support</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Poll Rate</span>
+                        <span class="spec-item-value">8000Hz</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Form Factor</span>
+                        <span class="spec-item-value">TKL (87 Keys)</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-item-label">Connection</span>
+                        <span class="spec-item-value">Wired USB-C</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pick-footer">
+                <button class="buy-button">Buy Logitech G Pro X TKL</button>
+                <span class="verdict">Best for: Budget-conscious competitors</span>
+            </div>
+        </div>
+
+        <div class="related-guides">
+            <div class="related-title">Related Buying Guides</div>
+            <div class="related-grid">
+                <a href="#" class="related-item">
+                    <div class="related-item-title">Best for Valorant</div>
+                    <div class="related-item-desc">Optimized for Valorant pro players</div>
+                </a>
+                <a href="#" class="related-item">
+                    <div class="related-item-title">Budget Keyboards ($50-$100)</div>
+                    <div class="related-item-desc">Competitive performance on a budget</div>
+                </a>
+                <a href="#" class="related-item">
+                    <div class="related-item-title">Wireless Keyboards</div>
+                    <div class="related-item-desc">Cable-free competitive options</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

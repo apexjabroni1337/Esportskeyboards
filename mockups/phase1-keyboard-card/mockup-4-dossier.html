@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 4: Keyboard Dossier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #f5f0e8;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+
+        .header h1 {
+            color: #1a1614;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border: 1px solid #ede8df;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .header-strip {
+            background: #1a1614;
+            color: white;
+            padding: 10px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .classified-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .classified-stamp {
+            width: 6px;
+            height: 6px;
+            background: currentColor;
+            border-radius: 50%;
+        }
+
+        .rank-badge {
+            background: #a09890;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 2px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .image-frame {
+            position: relative;
+            height: 180px;
+            background: linear-gradient(135deg, #f5f0e8 0%, #ede8df 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dotted #a09890;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .keyboard-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #e8e2d8 0%, #f5f0e8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: #a09890;
+            font-style: italic;
+        }
+
+        .keyboard-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1614;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .spec-sheet {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #f9f7f4;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            color: #1a1614;
+            line-height: 1.4;
+        }
+
+        .spec-label {
+            color: #a09890;
+            font-weight: 600;
+        }
+
+        .spec-value {
+            color: #1a1614;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .clearance-section {
+            margin: 12px 0;
+            padding: 10px;
+            background: #f9f7f4;
+            border-radius: 4px;
+        }
+
+        .clearance-label {
+            font-size: 10px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .clearance-bars {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .clearance-bar {
+            height: 6px;
+            flex: 1;
+            background: #ede8df;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .clearance-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+        }
+
+        .deployment-info {
+            font-size: 11px;
+            font-family: 'Fira Code', monospace;
+            color: #1a1614;
+            margin: 12px 0;
+            padding: 8px 12px;
+            background: #f9f7f4;
+            border-left: 3px solid #a09890;
+            border-radius: 2px;
+        }
+
+        .deployment-label {
+            color: #a09890;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .deployment-value {
+            font-weight: 700;
+            color: #1a1614;
+        }
+
+        .acquire-button {
+            width: 100%;
+            padding: 10px;
+            background: #1a1614;
+            color: #f5f0e8;
+            border: 1px solid #1a1614;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: auto;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .acquire-button:hover {
+            background: #2d2520;
+            box-shadow: 0 4px 12px rgba(26, 22, 20, 0.3);
+        }
+
+        .acquire-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Brand-specific colors */
+        .wooting .clearance-bar-fill { background: linear-gradient(90deg, #06b6d4 0%, #22d3ee 100%); }
+        .wooting .header-strip { background: #06b6d4; }
+
+        .razer .clearance-bar-fill { background: linear-gradient(90deg, #00ff44 0%, #4ade80 100%); }
+        .razer .header-strip { background: #00ff44; color: #1a1614; }
+
+        .logitech .clearance-bar-fill { background: linear-gradient(90deg, #6b8cad 0%, #8ba3c0 100%); }
+        .logitech .header-strip { background: #6b8cad; }
+
+        .steelseries .clearance-bar-fill { background: linear-gradient(90deg, #ff5500 0%, #ff8c42 100%); }
+        .steelseries .header-strip { background: #ff5500; color: #1a1614; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Mockup 4: Keyboard Dossier</h1>
+        <p>Styled like a classified document or spec sheet. Header strip with brand-colored label and rank indicator. Keyboard image in rounded frame with dotted border. Stats formatted as spec sheet with label: value pairs in monospace font (Fira Code). Clearance level indicator (rating) shown as colored bars. Pro usage as "FIELD DEPLOYMENT". Features an "ACQUIRE" button instead of "Buy".</p>
+    </div>
+
+    <div class="grid">
+        <!-- Wooting Card -->
+        <div class="card wooting">
+            <div class="header-strip">
+                <div class="classified-label">
+                    <span class="classified-stamp"></span>
+                    <span>WOOTING UNIT</span>
+                </div>
+                <div class="rank-badge">#1</div>
+            </div>
+            <div class="content">
+                <div class="image-frame">
+                    <div class="keyboard-image">Wooting 60HE+ Keyboard</div>
+                </div>
+
+                <div class="keyboard-name">wooting_60he_plus</div>
+
+                <div class="spec-sheet">
+                    <div class="spec-row">
+                        <span class="spec-label">WEIGHT</span>
+                        <span class="spec-value">360g</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">POLL_RATE</span>
+                        <span class="spec-value">8000Hz</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">PRICE_USD</span>
+                        <span class="spec-value">$175</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">RATING</span>
+                        <span class="spec-value">9.4/10</span>
+                    </div>
+                </div>
+
+                <div class="clearance-section">
+                    <div class="clearance-label">CLEARANCE LEVEL</div>
+                    <div class="clearance-bars">
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 94%;"></div></div>
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 94%;"></div></div>
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 94%;"></div></div>
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 94%;"></div></div>
+                    </div>
+                </div>
+
+                <div class="deployment-info">
+                    <span class="deployment-label">FIELD DEPLOYMENT</span>
+                    <span class="deployment-value">15.2% Pro Usage</span>
+                </div>
+
+                <button class="acquire-button">ACQUIRE UNIT</button>
+            </div>
+        </div>
+
+        <!-- Razer Card -->
+        <div class="card razer">
+            <div class="header-strip">
+                <div class="classified-label">
+                    <span class="classified-stamp"></span>
+                    <span>RAZER UNIT</span>
+                </div>
+                <div class="rank-badge">#2</div>
+            </div>
+            <div class="content">
+                <div class="image-frame">
+                    <div class="keyboard-image">Razer Huntsman V3 Pro</div>
+                </div>
+
+                <div class="keyboard-name">razer_huntsman_v3</div>
+
+                <div class="spec-sheet">
+                    <div class="spec-row">
+                        <span class="spec-label">WEIGHT</span>
+                        <span class="spec-value">820g</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">POLL_RATE</span>
+                        <span class="spec-value">8000Hz</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">PRICE_USD</span>
+                        <span class="spec-value">$250</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">RATING</span>
+                        <span class="spec-value">9.1/10</span>
+                    </div>
+                </div>
+
+                <div class="clearance-section">
+                    <div class="clearance-label">CLEARANCE LEVEL</div>
+                    <div class="clearance-bars">
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 91%;"></div></div>
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 91%;"></div></div>
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 91%;"></div></div>
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 91%;"></div></div>
+                    </div>
+                </div>
+
+                <div class="deployment-info">
+                    <span class="deployment-label">FIELD DEPLOYMENT</span>
+                    <span class="deployment-value">8.1% Pro Usage</span>
+                </div>
+
+                <button class="acquire-button">ACQUIRE UNIT</button>
+            </div>
+        </div>
+
+        <!-- Logitech Card -->
+        <div class="card logitech">
+            <div class="header-strip">
+                <div class="classified-label">
+                    <span class="classified-stamp"></span>
+                    <span>LOGITECH UNIT</span>
+                </div>
+                <div class="rank-badge">#4</div>
+            </div>
+            <div class="content">
+                <div class="image-frame">
+                    <div class="keyboard-image">Logitech G Pro X TKL</div>
+                </div>
+
+                <div class="keyboard-name">logitech_g_pro_x</div>
+
+                <div class="spec-sheet">
+                    <div class="spec-row">
+                        <span class="spec-label">WEIGHT</span>
+                        <span class="spec-value">680g</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">POLL_RATE</span>
+                        <span class="spec-value">1000Hz</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">PRICE_USD</span>
+                        <span class="spec-value">$100</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">RATING</span>
+                        <span class="spec-value">8.5/10</span>
+                    </div>
+                </div>
+
+                <div class="clearance-section">
+                    <div class="clearance-label">CLEARANCE LEVEL</div>
+                    <div class="clearance-bars">
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 85%;"></div></div>
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 85%;"></div></div>
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 85%;"></div></div>
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 35%;"></div></div>
+                    </div>
+                </div>
+
+                <div class="deployment-info">
+                    <span class="deployment-label">FIELD DEPLOYMENT</span>
+                    <span class="deployment-value">5.3% Pro Usage</span>
+                </div>
+
+                <button class="acquire-button">ACQUIRE UNIT</button>
+            </div>
+        </div>
+
+        <!-- SteelSeries Card -->
+        <div class="card steelseries">
+            <div class="header-strip">
+                <div class="classified-label">
+                    <span class="classified-stamp"></span>
+                    <span>STEELSERIES UNIT</span>
+                </div>
+                <div class="rank-badge">#3</div>
+            </div>
+            <div class="content">
+                <div class="image-frame">
+                    <div class="keyboard-image">SteelSeries Apex Pro TKL</div>
+                </div>
+
+                <div class="keyboard-name">steelseries_apex_tkl</div>
+
+                <div class="spec-sheet">
+                    <div class="spec-row">
+                        <span class="spec-label">WEIGHT</span>
+                        <span class="spec-value">680g</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">POLL_RATE</span>
+                        <span class="spec-value">1000Hz</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">PRICE_USD</span>
+                        <span class="spec-value">$190</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">RATING</span>
+                        <span class="spec-value">8.7/10</span>
+                    </div>
+                </div>
+
+                <div class="clearance-section">
+                    <div class="clearance-label">CLEARANCE LEVEL</div>
+                    <div class="clearance-bars">
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 87%;"></div></div>
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 87%;"></div></div>
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 87%;"></div></div>
+                        <div class="clearance-bar"><div class="clearance-bar-fill" style="width: 38%;"></div></div>
+                    </div>
+                </div>
+
+                <div class="deployment-info">
+                    <span class="deployment-label">FIELD DEPLOYMENT</span>
+                    <span class="deployment-value">3.8% Pro Usage</span>
+                </div>
+
+                <button class="acquire-button">ACQUIRE UNIT</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

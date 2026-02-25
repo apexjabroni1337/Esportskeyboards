@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 7: Split Screen View</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f0e8;
+            color: #1a1614;
+            padding: 40px 0;
+        }
+
+        .header {
+            text-align: center;
+            background: #fff;
+            padding: 40px 20px;
+            margin-bottom: 0;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .split-side {
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .split-side.left {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(6, 182, 212, 0.04) 100%);
+            border-right: 2px solid #e0d9d0;
+        }
+
+        .split-side.right {
+            background: linear-gradient(135deg, rgba(0, 255, 68, 0.08) 0%, rgba(0, 255, 68, 0.04) 100%);
+        }
+
+        .divider {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent 0%, #b8956a 20%, #b8956a 80%, transparent 100%);
+            z-index: 10;
+        }
+
+        .divider-label {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #b8956a;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 11;
+            white-space: nowrap;
+        }
+
+        .keyboard-profile {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #e0d9d0;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 180px;
+            background: #f5f0e8;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .profile-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .profile-brand {
+            font-size: 12px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .profile-rating {
+            font-size: 13px;
+            color: #b8956a;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .profile-specs {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .profile-spec {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0d9d0;
+            font-size: 12px;
+        }
+
+        .profile-spec:last-child {
+            border-bottom: none;
+        }
+
+        .spec-name {
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        .spec-val {
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+        }
+
+        .profile-cta {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            background: #06b6d4;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 16px;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+
+        .profile-cta.right {
+            background: #00ff44;
+            color: #000;
+        }
+
+        .profile-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-highlights {
+            background: #f5f0e8;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        .highlights-title {
+            font-size: 12px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .highlight-item {
+            font-size: 12px;
+            margin-bottom: 6px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .highlight-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight-item::before {
+            content: "✓";
+            color: #b8956a;
+            font-weight: 700;
+        }
+
+        .key-differences {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #e0d9d0;
+            grid-column: 1 / -1;
+            margin: 40px 20px 0;
+        }
+
+        .differences-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .differences-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .difference-item {
+            padding: 16px;
+            background: #f5f0e8;
+            border-radius: 8px;
+            border-left: 3px solid #b8956a;
+        }
+
+        .difference-label {
+            font-size: 11px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .difference-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        @media (max-width: 1024px) {
+            .split-container {
+                grid-template-columns: 1fr;
+            }
+
+            .split-side.left {
+                border-right: none;
+                border-bottom: 2px solid #e0d9d0;
+            }
+
+            .divider {
+                left: 0;
+                right: 0;
+                top: auto;
+                bottom: 48%;
+                width: auto;
+                height: 2px;
+                transform: none;
+            }
+
+            .divider-label {
+                left: 50%;
+                top: auto;
+                bottom: calc(48% - 16px);
+                transform: translateX(-50%);
+            }
+
+            .differences-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .split-side {
+                padding: 20px;
+                gap: 16px;
+            }
+
+            .key-differences {
+                margin: 20px 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Mockup 7: Split Screen View</h1>
+        <p>Magazine-style split layout with independent keyboard profiles and central divider showing key differences.</p>
+    </div>
+
+    <div class="split-container">
+        <div class="divider"></div>
+        <div class="divider-label">VS</div>
+
+        <!-- Left Side: Wooting -->
+        <div class="split-side left">
+            <div class="keyboard-profile">
+                <div class="profile-image">⌨️</div>
+                <div class="profile-brand">Wooting</div>
+                <div class="profile-title">60HE+</div>
+                <div class="profile-rating">★ 9.4 / 10 Rating</div>
+
+                <div class="profile-specs">
+                    <div class="profile-spec">
+                        <span class="spec-name">Weight</span>
+                        <span class="spec-val">360g</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Form Factor</span>
+                        <span class="spec-val">60%</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Switch Type</span>
+                        <span class="spec-val">Lekker Hall Effect</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Poll Rate</span>
+                        <span class="spec-val">8000Hz</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Rapid Trigger</span>
+                        <span class="spec-val">Yes</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Wireless</span>
+                        <span class="spec-val">No</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Price</span>
+                        <span class="spec-val">$175</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Pro Usage</span>
+                        <span class="spec-val">15.2%</span>
+                    </div>
+                </div>
+
+                <button class="profile-cta">Buy Wooting 60HE+</button>
+
+                <div class="profile-highlights">
+                    <div class="highlights-title">Why Choose This</div>
+                    <div class="highlight-item">Lowest price ($175)</div>
+                    <div class="highlight-item">Lightest weight (360g)</div>
+                    <div class="highlight-item">Most pro players (15.2%)</div>
+                    <div class="highlight-item">Customizable actuation</div>
+                    <div class="highlight-item">Best value for esports</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Razer -->
+        <div class="split-side right">
+            <div class="keyboard-profile">
+                <div class="profile-image">⌨️</div>
+                <div class="profile-brand">Razer</div>
+                <div class="profile-title">Huntsman V3 Pro Mini</div>
+                <div class="profile-rating">★ 9.1 / 10 Rating</div>
+
+                <div class="profile-specs">
+                    <div class="profile-spec">
+                        <span class="spec-name">Weight</span>
+                        <span class="spec-val">420g</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Form Factor</span>
+                        <span class="spec-val">60%</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Switch Type</span>
+                        <span class="spec-val">Razer Analog Optical Gen-3</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Poll Rate</span>
+                        <span class="spec-val">8000Hz</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Rapid Trigger</span>
+                        <span class="spec-val">Yes</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Wireless</span>
+                        <span class="spec-val">Yes</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Price</span>
+                        <span class="spec-val">$250</span>
+                    </div>
+                    <div class="profile-spec">
+                        <span class="spec-name">Pro Usage</span>
+                        <span class="spec-val">8.1%</span>
+                    </div>
+                </div>
+
+                <button class="profile-cta right">Buy Razer Huntsman</button>
+
+                <div class="profile-highlights">
+                    <div class="highlights-title">Why Choose This</div>
+                    <div class="highlight-item">Wireless connectivity</div>
+                    <div class="highlight-item">Premium RGB lighting</div>
+                    <div class="highlight-item">Razer ecosystem</div>
+                    <div class="highlight-item">High-end ergonomics</div>
+                    <div class="highlight-item">Excellent build quality</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="key-differences">
+            <div class="differences-title">Key Differentiators</div>
+            <div class="differences-grid">
+                <div class="difference-item">
+                    <div class="difference-label">Price Winner</div>
+                    <div class="difference-value">Wooting 60HE+ ($175 vs $250)</div>
+                </div>
+                <div class="difference-item">
+                    <div class="difference-label">Connectivity Winner</div>
+                    <div class="difference-value">Razer (Wireless available)</div>
+                </div>
+                <div class="difference-item">
+                    <div class="difference-label">Pro Endorsement</div>
+                    <div class="difference-value">Wooting (15.2% vs 8.1% usage)</div>
+                </div>
+                <div class="difference-item">
+                    <div class="difference-label">Feature Set</div>
+                    <div class="difference-value">Razer (RGB + Wireless)</div>
+                </div>
+                <div class="difference-item">
+                    <div class="difference-label">Best For Budget Conscious</div>
+                    <div class="difference-value">Wooting 60HE+</div>
+                </div>
+                <div class="difference-item">
+                    <div class="difference-label">Best For Enthusiasts</div>
+                    <div class="difference-value">Razer Huntsman V3 Pro Mini</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

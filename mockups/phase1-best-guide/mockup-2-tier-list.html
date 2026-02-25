@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 2: Tier List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f0e8;
+            color: #1a1614;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .game-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #c47000;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .intro-text {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .tier-section {
+            margin-bottom: 24px;
+        }
+
+        .tier-row {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .tier-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 900;
+            color: #fff;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .tier-s .tier-label {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+        }
+
+        .tier-a .tier-label {
+            background: linear-gradient(135deg, #ffaa00, #ff8800);
+        }
+
+        .tier-b .tier-label {
+            background: linear-gradient(135deg, #ffff00, #ffdd00);
+        }
+
+        .tier-b .tier-label {
+            color: #1a1614;
+        }
+
+        .tier-c .tier-label {
+            background: linear-gradient(135deg, #aaaaaa, #888888);
+        }
+
+        .tier-content {
+            background: #fff;
+            border-radius: 0 8px 8px 0;
+            border: 1px solid #e0d9d0;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .tier-desc {
+            font-size: 11px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .tier-cards {
+            display: grid;
+            gap: 12px;
+        }
+
+        .tier-s .tier-cards,
+        .tier-a .tier-cards {
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        }
+
+        .tier-b .tier-cards,
+        .tier-c .tier-cards {
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
+
+        .tier-card {
+            background: #f5f0e8;
+            border: 1px solid #e0d9d0;
+            border-radius: 8px;
+            padding: 12px;
+            transition: all 0.3s;
+        }
+
+        .tier-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: #b8956a;
+        }
+
+        .tier-s .tier-card {
+            background: rgba(255, 68, 68, 0.08);
+            border-color: rgba(255, 68, 68, 0.3);
+        }
+
+        .tier-a .tier-card {
+            background: rgba(255, 170, 0, 0.08);
+            border-color: rgba(255, 170, 0, 0.3);
+        }
+
+        .tier-b .tier-card {
+            background: rgba(255, 255, 0, 0.05);
+            border-color: rgba(200, 200, 0, 0.3);
+        }
+
+        .tier-c .tier-card {
+            background: rgba(170, 170, 170, 0.08);
+            border-color: rgba(136, 136, 136, 0.3);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 60px;
+            background: #fff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .card-name {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .card-stat {
+            font-size: 10px;
+            color: #a09890;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2px;
+        }
+
+        .legend {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+        }
+
+        .legend-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .legend-item {
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .legend-item.s {
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        .legend-item.a {
+            background: rgba(255, 170, 0, 0.1);
+        }
+
+        .legend-item.b {
+            background: rgba(255, 255, 0, 0.1);
+        }
+
+        .legend-item.c {
+            background: rgba(170, 170, 170, 0.1);
+        }
+
+        .legend-label {
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .legend-desc {
+            font-size: 11px;
+            color: #a09890;
+        }
+
+        .tier-s .legend-label {
+            color: #cc0000;
+        }
+
+        .tier-a .legend-label {
+            color: #ff8800;
+        }
+
+        .tier-b .legend-label {
+            color: #888800;
+        }
+
+        .tier-c .legend-label {
+            color: #666;
+        }
+
+        @media (max-width: 1024px) {
+            .tier-s .tier-cards,
+            .tier-a .tier-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .legend-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tier-row {
+                grid-template-columns: 60px 1fr;
+            }
+
+            .tier-label {
+                font-size: 20px;
+                border-radius: 6px 0 0 6px;
+            }
+
+            .tier-content {
+                border-radius: 0 6px 6px 0;
+            }
+
+            .legend-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="game-title">Best Keyboard For</div>
+            <h1>CS2 Tier List</h1>
+            <p>Professional keyboards ranked by performance tier for Counter-Strike 2.</p>
+        </div>
+
+        <div class="intro-text">
+            A familiar tier ranking system for competitive gamers. S-tier represents the absolute best choices, while lower tiers offer alternatives based on budget or specific preferences. All keyboards here are viable for professional play.
+        </div>
+
+        <div class="legend">
+            <div class="legend-title">Tier Definitions</div>
+            <div class="legend-grid">
+                <div class="legend-item s">
+                    <div class="legend-label">S-TIER</div>
+                    <div class="legend-desc">Top 3: Best overall for CS2</div>
+                </div>
+                <div class="legend-item a">
+                    <div class="legend-label">A-TIER</div>
+                    <div class="legend-desc">Next 4: Great alternatives</div>
+                </div>
+                <div class="legend-item b">
+                    <div class="legend-label">B-TIER</div>
+                    <div class="legend-desc">Solid: Reliable options</div>
+                </div>
+                <div class="legend-item c">
+                    <div class="legend-label">C-TIER</div>
+                    <div class="legend-desc">Good: Budget friendly</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- S-Tier -->
+        <div class="tier-section tier-s">
+            <div class="tier-row">
+                <div class="tier-label">S</div>
+                <div class="tier-content">
+                    <div class="tier-desc">Absolute Best — Top tier for competitive CS2</div>
+                    <div class="tier-cards">
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">Wooting 60HE+</div>
+                            <div class="card-stat">
+                                <span>Usage: 15.2%</span>
+                                <span>★ 9.4</span>
+                            </div>
+                            <div class="card-stat">
+                                <span>Price: $175</span>
+                            </div>
+                        </div>
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">Razer Huntsman V3 Pro Mini</div>
+                            <div class="card-stat">
+                                <span>Usage: 8.1%</span>
+                                <span>★ 9.1</span>
+                            </div>
+                            <div class="card-stat">
+                                <span>Price: $250</span>
+                            </div>
+                        </div>
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">Logitech G Pro X TKL</div>
+                            <div class="card-stat">
+                                <span>Usage: 5.3%</span>
+                                <span>★ 8.9</span>
+                            </div>
+                            <div class="card-stat">
+                                <span>Price: $199</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- A-Tier -->
+        <div class="tier-section tier-a">
+            <div class="tier-row">
+                <div class="tier-label">A</div>
+                <div class="tier-content">
+                    <div class="tier-desc">Excellent — Strong alternatives, high pro usage</div>
+                    <div class="tier-cards">
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">SteelSeries Apex Pro</div>
+                            <div class="card-stat">
+                                <span>Usage: 4.7%</span>
+                                <span>★ 8.8</span>
+                            </div>
+                        </div>
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">Corsair K65 Plus Ultra</div>
+                            <div class="card-stat">
+                                <span>Usage: 3.9%</span>
+                                <span>★ 8.6</span>
+                            </div>
+                        </div>
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">ASUS ROG Strix Scope TKL</div>
+                            <div class="card-stat">
+                                <span>Usage: 3.2%</span>
+                                <span>★ 8.4</span>
+                            </div>
+                        </div>
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">Ducky One 2 SF</div>
+                            <div class="card-stat">
+                                <span>Usage: 2.8%</span>
+                                <span>★ 8.3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- B-Tier -->
+        <div class="tier-section tier-b">
+            <div class="tier-row">
+                <div class="tier-label">B</div>
+                <div class="tier-content">
+                    <div class="tier-desc">Good — Solid performers, viable for esports</div>
+                    <div class="tier-cards">
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">VicTsing Mechanical</div>
+                            <div class="card-stat">
+                                <span>★ 8.1</span>
+                            </div>
+                        </div>
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">Glorious GMMK Pro</div>
+                            <div class="card-stat">
+                                <span>★ 8.2</span>
+                            </div>
+                        </div>
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">HKGK Mechanical</div>
+                            <div class="card-stat">
+                                <span>★ 7.9</span>
+                            </div>
+                        </div>
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">Drop Alt High Profile</div>
+                            <div class="card-stat">
+                                <span>★ 8.0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- C-Tier -->
+        <div class="tier-section tier-c">
+            <div class="tier-row">
+                <div class="tier-label">C</div>
+                <div class="tier-content">
+                    <div class="tier-desc">Budget-Friendly — Great value, moderate performance</div>
+                    <div class="tier-cards">
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">Anne Pro 2</div>
+                            <div class="card-stat">
+                                <span>★ 7.6</span>
+                            </div>
+                        </div>
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">Royal Kludge RK84</div>
+                            <div class="card-stat">
+                                <span>★ 7.4</span>
+                            </div>
+                        </div>
+                        <div class="tier-card">
+                            <div class="card-image">⌨️</div>
+                            <div class="card-name">Idobao ID80</div>
+                            <div class="card-stat">
+                                <span>★ 7.5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

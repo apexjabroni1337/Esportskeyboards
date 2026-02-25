@@ -198,14 +198,94 @@ export default function ComparisonPage({ params }) {
       </article>
 
       <SSRSection>
-        <SSRTitle accent={a.name}>{`vs ${b.name}`}</SSRTitle>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "2rem", marginBottom: "2rem", marginTop: "1rem" }}>
+          <div style={{ textAlign: "center", flex: 1 }}>
+            <div style={{ fontSize: "20px", fontWeight: "700", color: "#1a1614" }}>{a.name}</div>
+            <div style={{ fontSize: "12px", color: "#a09890", marginTop: "0.5rem" }}>{a.brand}</div>
+          </div>
+          <div style={{
+            fontSize: "32px",
+            fontWeight: "700",
+            color: BRAND_COLORS[a.brand] || "#b8956a",
+            textTransform: "uppercase",
+            letterSpacing: "1px"
+          }}>
+            VS
+          </div>
+          <div style={{ textAlign: "center", flex: 1 }}>
+            <div style={{ fontSize: "20px", fontWeight: "700", color: "#1a1614" }}>{b.name}</div>
+            <div style={{ fontSize: "12px", color: "#a09890", marginTop: "0.5rem" }}>{b.brand}</div>
+          </div>
+        </div>
+
         <SSRSub>Head-to-head comparison of two popular esports keyboards. {aWins > bWins ? `${a.name} wins ${aWins}/${specs.length} categories.` : bWins > aWins ? `${b.name} wins ${bWins}/${specs.length} categories.` : "Evenly matched."}</SSRSub>
-        <SSRGrid>
-          <SSRStat label={a.name} value={`${a?.weight}g · $${a?.price}`} color={BRAND_COLORS[a.brand] || "#b8956a"} />
-          <SSRStat label={b.name} value={`${b?.weight}g · $${b?.price}`} color={BRAND_COLORS[b.brand] || "#6b8cad"} />
-          <SSRStat label="Pro Usage" value={`${a?.proUsage}% vs ${b?.proUsage}%`} color="#b8956a" />
-          <SSRStat label="Verdict" value={aWins > bWins ? `${a.name.split(" ")[0]} wins` : bWins > aWins ? `${b.name.split(" ")[0]} wins` : "Tied"} color="#b8956a" />
-        </SSRGrid>
+
+        {/* Spec Comparison with Winners */}
+        <div style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+          {specs.map((spec, idx) => (
+            <div key={idx} style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr 1fr",
+              gap: "1.5rem",
+              padding: "1.25rem",
+              borderBottom: idx < specs.length - 1 ? "1px solid #f0e9e0" : "none",
+              alignItems: "center"
+            }}>
+              <div style={{ fontSize: "12px", fontWeight: "700", color: "#a09890", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                {spec.label}
+              </div>
+              <div style={{
+                padding: "0.75rem",
+                backgroundColor: spec.winner === "a" ? "rgba(184, 149, 106, 0.1)" : "#f5f0e8",
+                borderRadius: "4px",
+                textAlign: "center",
+                fontWeight: spec.winner === "a" ? "700" : "500",
+                color: "#1a1614",
+                fontSize: "13px"
+              }}>
+                {spec.aVal}
+                {spec.winner === "a" && <div style={{ fontSize: "11px", color: BRAND_COLORS[a.brand] || "#b8956a", marginTop: "4px" }}>★</div>}
+              </div>
+              <div style={{
+                padding: "0.75rem",
+                backgroundColor: spec.winner === "b" ? "rgba(184, 149, 106, 0.1)" : "#f5f0e8",
+                borderRadius: "4px",
+                textAlign: "center",
+                fontWeight: spec.winner === "b" ? "700" : "500",
+                color: "#1a1614",
+                fontSize: "13px"
+              }}>
+                {spec.bVal}
+                {spec.winner === "b" && <div style={{ fontSize: "11px", color: BRAND_COLORS[b.brand] || "#6b8cad", marginTop: "4px" }}>★</div>}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Winner Summary */}
+        <div style={{
+          padding: "1.5rem",
+          backgroundColor: aWins > bWins ? "rgba(184, 149, 106, 0.08)" : bWins > aWins ? "rgba(107, 140, 173, 0.08)" : "rgba(160, 152, 144, 0.08)",
+          borderLeft: `4px solid ${aWins > bWins ? BRAND_COLORS[a.brand] || "#b8956a" : bWins > aWins ? BRAND_COLORS[b.brand] || "#6b8cad" : "#a09890"}`,
+          borderRadius: "0 4px 4px 0",
+          marginBottom: "2rem"
+        }}>
+          <div style={{ fontWeight: "700", color: "#1a1614", marginBottom: "0.5rem", fontSize: "13px" }}>
+            {aWins > bWins
+              ? `${a.name} wins with ${aWins}/${specs.length} categories`
+              : bWins > aWins
+              ? `${b.name} wins with ${bWins}/${specs.length} categories`
+              : `Evenly matched with ${aWins} wins each`}
+          </div>
+          <div style={{ fontSize: "12px", color: "#1a1614", lineHeight: "1.5" }}>
+            {aWins > bWins
+              ? `The ${a.name} excels in ${specs.filter(s => s.winner === "a").map(s => s.label.toLowerCase()).join(", ")}.`
+              : bWins > aWins
+              ? `The ${b.name} excels in ${specs.filter(s => s.winner === "b").map(s => s.label.toLowerCase()).join(", ")}.`
+              : "Both keyboards offer distinct advantages based on your priorities."}
+          </div>
+        </div>
+
         <div className="flex flex-wrap gap-2">
           <SSRLink href={`/keyboards/${slug(a.name)}`}>{a.name}</SSRLink>
           <SSRLink href={`/keyboards/${slug(b.name)}`}>{b.name}</SSRLink>

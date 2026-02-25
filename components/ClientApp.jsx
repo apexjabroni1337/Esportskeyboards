@@ -166,6 +166,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
   const [filterConn, setFilterConn] = useState("All");
   const [filterLayout, setFilterLayout] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [galleryTab, setGalleryTab] = useState("All");
   const [showComparison, setShowComparison] = useState(false);
   const [compareList, setCompareList] = useState([keyboards[0], keyboards[1]]);
   const [heroAnim, setHeroAnim] = useState(false);
@@ -369,6 +370,17 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
   };
 
   const sortedKbds = [...keyboards]
+    .filter(m => {
+      // Gallery tab filtering
+      if (galleryTab === "All") return true;
+      if (galleryTab === "60%") return m.layout === "60%";
+      if (galleryTab === "TKL") return m.layout === "TKL";
+      if (galleryTab === "Full") return m.layout === "Full" || m.layout === "Full Size";
+      if (galleryTab === "Wireless") return m.connectivity === "Wireless";
+      if (galleryTab === "Budget") return m.price <= 100;
+      if (galleryTab === "Pro Favorites") return m.proUsage >= 3;
+      return true;
+    })
     .filter(m => filterBrand === "All" || m.brand === filterBrand)
     .filter(m => {
       if (filterWeight === "All") return true;
@@ -2667,7 +2679,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
         {activeTab === "keyboards" && (
           <div>
             <SectionTitle color="#9060c4" sub="Click any keyboard for detailed breakdown">Keyboard Showcase Gallery</SectionTitle>
-            {/* ── UNIFIED FILTER BAR ── */}
+            {/* ── TABBED CATEGORIES GALLERY ── */}
             {(() => {
               const SORT_OPTIONS = [
                 { value: "proUsage", label: "Pro Usage" },
@@ -2679,30 +2691,86 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 { value: "releaseYear", label: "Newest" },
               ];
               const sortLabel = SORT_OPTIONS.find(o => o.value === sortBy)?.label || "Pro Usage";
-              const brandList = [...new Set(keyboards.map(m => m.brand))].sort();
-              const activeFilterCount = [filterBrand, filterWeight, filterPrice, filterConn, filterLayout].filter(f => f !== "All").length;
-              const activeFilters = [];
-              if (filterBrand !== "All") activeFilters.push({ label: filterBrand, clear: () => setFilterBrand("All") });
-              if (filterWeight !== "All") activeFilters.push({ label: filterWeight === "Wooting" ? "<50g" : filterWeight === "Light" ? "50-64g" : filterWeight === "Medium" ? "65-84g" : "85g+", clear: () => setFilterWeight("All") });
-              if (filterPrice !== "All") activeFilters.push({ label: filterPrice === "Budget" ? "Under $60" : filterPrice === "Mid" ? "$60-$119" : "$120+", clear: () => setFilterPrice("All") });
-              if (filterConn !== "All") activeFilters.push({ label: filterConn, clear: () => setFilterConn("All") });
-              if (filterLayout !== "All") activeFilters.push({ label: filterLayout, clear: () => setFilterLayout("All") });
-              const clearAllFilters = () => { setFilterBrand("All"); setFilterWeight("All"); setFilterPrice("All"); setFilterConn("All"); setFilterLayout("All"); };
-              const chipStyle = (active, brandColor) => ({
-                padding: "5px 10px", borderRadius: 7, fontSize: 12, fontWeight: 700, cursor: "pointer",
-                background: active ? (brandColor ? `${brandColor}18` : "#9060c420") : "#ffffff",
-                border: `1px solid ${active ? (brandColor ? `${brandColor}50` : "#9060c450") : "#0000000a"}`,
-                color: active ? (brandColor || "#9060c4") : "#8a8078",
-                transition: "all 0.15s", whiteSpace: "nowrap",
-              });
+
+              // Gallery tab definitions with counts
+              const galleryTabs = [
+                { id: "All", label: "All", count: keyboards.length },
+                { id: "60%", label: "60%", count: keyboards.filter(m => m.layout === "60%").length },
+                { id: "TKL", label: "TKL", count: keyboards.filter(m => m.layout === "TKL").length },
+                { id: "Full", label: "Full", count: keyboards.filter(m => m.layout === "Full" || m.layout === "Full Size").length },
+                { id: "Wireless", label: "Wireless", count: keyboards.filter(m => m.connectivity === "Wireless").length },
+                { id: "Budget", label: "Budget", count: keyboards.filter(m => m.price <= 100).length },
+                { id: "Pro Favorites", label: "Pro Favorites", count: keyboards.filter(m => m.proUsage >= 3).length },
+              ];
 
               return (
-                <div className="mb-5" style={{ background: "#f5f2ee", border: "1px solid #e8e4df", borderRadius: 12, padding: 10, position: "relative" }}>
+                <div className="mb-6" style={{ background: "#f5f2ee", border: "1px solid #e8e4df", borderRadius: 12, padding: 12, position: "relative" }}>
                   {/* Accent top line */}
                   <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, borderRadius: "12px 12px 0 0", background: "linear-gradient(90deg, transparent, #9060c450, transparent)" }} />
 
-                  {/* Row 1: Search + Sort + Filter toggle */}
-                  <div className="flex gap-2.5 items-center" style={{ marginBottom: showFilters ? 10 : 0, transition: "margin 0.3s" }}>
+                  {/* Tab bar - styled as keyboard keys */}
+                  <div className="flex gap-2 items-center flex-wrap mb-4">
+                    {galleryTabs.map(tab => {
+                      const isActive = galleryTab === tab.id;
+                      const tabCount = tab.count;
+                      const accentColor = "#9060d4";
+
+                      return (
+                        <button
+                          key={tab.id}
+                          onClick={() => setGalleryTab(tab.id)}
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: 8,
+                            fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            textTransform: "uppercase",
+                            letterSpacing: 0.5,
+                            cursor: "pointer",
+                            border: "1px solid #d4cfc8",
+                            background: isActive ? accentColor : "#f5f2ee",
+                            color: isActive ? "#ffffff" : "#1a1614",
+                            transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                            boxShadow: isActive ? "0 4px 12px rgba(144, 96, 212, 0.25), inset 0 -2px 0 rgba(0, 0, 0, 0.1)" : "0 2px 4px rgba(0, 0, 0, 0.05)",
+                            transform: isActive ? "translateY(2px)" : "translateY(0px)",
+                            position: "relative",
+                          }}
+                          onMouseEnter={e => {
+                            if (!isActive) {
+                              e.currentTarget.style.background = "#ede8e0";
+                              e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.08)";
+                            }
+                          }}
+                          onMouseLeave={e => {
+                            if (!isActive) {
+                              e.currentTarget.style.background = "#f5f2ee";
+                              e.currentTarget.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.05)";
+                            }
+                          }}
+                        >
+                          {tab.label}
+                          {tabCount > 0 && (
+                            <span style={{
+                              marginLeft: 5,
+                              display: "inline-block",
+                              padding: "1px 6px",
+                              borderRadius: 10,
+                              background: isActive ? "rgba(255, 255, 255, 0.25)" : `${accentColor}20`,
+                              color: isActive ? "#ffffff" : accentColor,
+                              fontSize: 10,
+                              fontWeight: 800,
+                            }}>
+                              {tabCount}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Search + Sort bar */}
+                  <div className="flex gap-2.5 items-center">
                     {/* Search */}
                     <div className="flex-1 relative" style={{ minWidth: 0 }}>
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", opacity: 0.25 }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -2737,81 +2805,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                         </>
                       )}
                     </div>
-
-                    {/* Filter toggle */}
-                    <button className="flex items-center gap-1.5"
-                      onClick={() => setShowFilters(!showFilters)}
-                      style={{ padding: "7px 12px", background: (showFilters || activeFilterCount > 0) ? "#9060c420" : "#ffffff", border: `1px solid ${(showFilters || activeFilterCount > 0) ? "#9060c450" : "#0000000a"}`, borderRadius: 10, color: (showFilters || activeFilterCount > 0) ? "#9060c4" : "#3d3530", fontFamily: "inherit", fontSize: 13, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }}>
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
-                      Filters
-                      {activeFilterCount > 0 && <span style={{ width: 18, height: 18, borderRadius: "50%", background: "#9060c4", color: "#1a1614", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>{activeFilterCount}</span>}
-                    </button>
                   </div>
-
-                  {/* Row 2: Collapsible filter chips */}
-                  <div style={{ maxHeight: showFilters ? 500 : 0, overflow: "hidden", opacity: showFilters ? 1 : 0, transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s" }}>
-                    <div className="grid gap-2.5" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))" }}>
-                      {/* Brand */}
-                      <div style={{ gridColumn: "span 2" }}>
-                        <div style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, color: "#8a8078", marginBottom: 5, paddingLeft: 2 }}>Brand</div>
-                        <div className="flex flex-wrap gap-1">
-                          <span style={chipStyle(filterBrand === "All")} onClick={() => setFilterBrand("All")}>All</span>
-                          {brandList.map(b => <span key={b} style={chipStyle(filterBrand === b, BRAND_COLORS[b])} onClick={() => setFilterBrand(filterBrand === b ? "All" : b)}>{b}</span>)}
-                        </div>
-                      </div>
-                      {/* Weight */}
-                      <div>
-                        <div style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, color: "#8a8078", marginBottom: 5, paddingLeft: 2 }}>Weight</div>
-                        <div className="flex flex-wrap gap-1">
-                          {[["All","All"],["Wooting","<50g"],["Light","50-64g"],["Medium","65-84g"],["Heavy","85g+"]].map(([v,l]) => (
-                            <span key={v} style={chipStyle(filterWeight === v)} onClick={() => setFilterWeight(filterWeight === v && v !== "All" ? "All" : v)}>{l}</span>
-                          ))}
-                        </div>
-                      </div>
-                      {/* Price */}
-                      <div>
-                        <div style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, color: "#8a8078", marginBottom: 5, paddingLeft: 2 }}>Price</div>
-                        <div className="flex flex-wrap gap-1">
-                          {[["All","All"],["Budget","Under $60"],["Mid","$60–$119"],["Premium","$120+"]].map(([v,l]) => (
-                            <span key={v} style={chipStyle(filterPrice === v)} onClick={() => setFilterPrice(filterPrice === v && v !== "All" ? "All" : v)}>{l}</span>
-                          ))}
-                        </div>
-                      </div>
-                      {/* Connection */}
-                      <div>
-                        <div style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, color: "#8a8078", marginBottom: 5, paddingLeft: 2 }}>Connection</div>
-                        <div className="flex flex-wrap gap-1">
-                          {[["All","All"],["Wireless","Wireless"],["Wired","Wired"]].map(([v,l]) => (
-                            <span key={v} style={chipStyle(filterConn === v)} onClick={() => setFilterConn(filterConn === v && v !== "All" ? "All" : v)}>{l}</span>
-                          ))}
-                        </div>
-                      </div>
-                      {/* Shape */}
-                      <div>
-                        <div style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, color: "#8a8078", marginBottom: 5, paddingLeft: 2 }}>Shape</div>
-                        <div className="flex flex-wrap gap-1">
-                          {[["All","All"],["Symmetrical","Symmetrical"],["Ergonomic","Ergonomic"]].map(([v,l]) => (
-                            <span key={v} style={chipStyle(filterLayout === v)} onClick={() => setFilterLayout(filterLayout === v && v !== "All" ? "All" : v)}>{l}</span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Active filter tags (when panel is closed) */}
-                  {!showFilters && activeFilters.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5" style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #e8e4df" }}>
-                      {activeFilters.map((f, i) => (
-                        <span key={i} className="inline-flex items-center gap-1.5" style={{ padding: "4px 10px", borderRadius: 20, fontSize: 12, fontWeight: 700, background: "#9060c420", color: "#9060d4", border: "1px solid #9060c450" }}>
-                          {f.label} <span className="cursor-pointer opacity-50 hover:opacity-100" style={{ fontSize: 11 }} onClick={f.clear}>✕</span>
-                        </span>
-                      ))}
-                      <span className="inline-flex items-center gap-1 cursor-pointer" onClick={clearAllFilters}
-                        style={{ padding: "4px 10px", borderRadius: 20, fontSize: 12, fontWeight: 700, background: "#c4737312", color: "#ff6b6b", border: "1px solid #c4737330" }}>
-                        ✕ Clear all
-                      </span>
-                    </div>
-                  )}
                 </div>
               );
             })()}

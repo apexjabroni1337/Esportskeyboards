@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 5: Editorial Magazine Spread</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: white;
+            color: #1a1614;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: #f5f0e8;
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #a09890;
+        }
+
+        /* Magazine spread layout */
+        .magazine-spread {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            background: white;
+        }
+
+        /* Left page */
+        .left-page {
+            position: relative;
+            overflow: hidden;
+            background: #f5f0e8;
+        }
+
+        .left-page-image {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .left-page-image svg {
+            width: 90%;
+            height: 90%;
+        }
+
+        .left-page-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px;
+        }
+
+        .left-page-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .left-page-quote {
+            font-size: 16px;
+            color: white;
+            font-style: italic;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+            max-width: 400px;
+            line-height: 1.6;
+        }
+
+        .quote-attribution {
+            font-size: 12px;
+            color: rgba(255,255,255,0.8);
+            margin-top: 12px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Right page */
+        .right-page {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            padding: 60px;
+            overflow-y: auto;
+        }
+
+        .page-number {
+            font-family: 'Fira Code', monospace;
+            font-size: 10px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+        }
+
+        .review-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1614;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .review-subtitle {
+            font-size: 16px;
+            color: #a09890;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .review-body {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .review-paragraph {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #1a1614;
+        }
+
+        /* Inline specs */
+        .inline-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+            padding: 24px;
+            background: #f5f0e8;
+            border-radius: 8px;
+            border-left: 4px solid #b8956a;
+        }
+
+        .inline-spec {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .inline-spec-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #a09890;
+        }
+
+        .inline-spec-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1614;
+        }
+
+        /* Sidebar */
+        .review-sidebar {
+            position: absolute;
+            right: 60px;
+            top: 200px;
+            width: 160px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 40px;
+        }
+
+        .sidebar-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #06b6d4;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-note {
+            font-size: 12px;
+            color: #1a1614;
+            line-height: 1.6;
+            border-left: 2px solid #06b6d4;
+            padding-left: 12px;
+        }
+
+        .pro-users-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .pro-user-item {
+            font-size: 11px;
+            padding: 6px 8px;
+            background: white;
+            border: 1px solid #e8e8e8;
+            border-radius: 4px;
+            color: #1a1614;
+        }
+
+        /* Inline radar */
+        .inline-radar {
+            float: left;
+            margin: 0 30px 20px 0;
+            width: 240px;
+        }
+
+        .inline-radar svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .radar-caption {
+            font-size: 10px;
+            color: #a09890;
+            font-family: 'Fira Code', monospace;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .magazine-spread {
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Mockup 5: Editorial Magazine Spread</h1>
+        <p>Two-page magazine layout with full-bleed image and detailed review</p>
+    </div>
+
+    <div class="magazine-spread">
+        <!-- Left Page: Full-bleed image with overlay -->
+        <div class="left-page">
+            <div class="left-page-image">
+                <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="50" width="300" height="100" fill="#d0d0d0" stroke="#1a1614" stroke-width="2" rx="8"/>
+                    <rect x="60" y="60" width="40" height="30" fill="#b0b0b0" stroke="#1a1614" stroke-width="1" rx="2"/>
+                    <rect x="110" y="60" width="180" height="30" fill="#b0b0b0" stroke="#1a1614" stroke-width="1" rx="2"/>
+                    <rect x="300" y="60" width="40" height="30" fill="#b0b0b0" stroke="#1a1614" stroke-width="1" rx="2"/>
+                    <rect x="60" y="95" width="280" height="40" fill="#b0b0b0" stroke="#1a1614" stroke-width="1" rx="2"/>
+                </svg>
+            </div>
+            <div class="left-page-overlay">
+                <div class="left-page-title">Wooting 60HE+</div>
+                <div class="left-page-quote">
+                    "The most responsive keyboard I've ever used. It fundamentally changed how I compete."
+                </div>
+                <div class="quote-attribution">— s1mple, Team Spirit</div>
+            </div>
+        </div>
+
+        <!-- Right Page: Review content -->
+        <div class="right-page">
+            <div class="page-number">Page 1 of 2</div>
+
+            <div class="review-title">The Ultimate Competitive Keyboard</div>
+            <div class="review-subtitle">Wooting's flagship 60% delivers millisecond-perfect responsiveness for esports professionals</div>
+
+            <div class="review-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Quick Take</div>
+                    <div class="sidebar-note">Best-in-class 8000Hz polling rate combined with lightweight design makes this the keyboard for competitive play.</div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Pro Users</div>
+                    <div class="pro-users-list">
+                        <div class="pro-user-item">s1mple (CS2)</div>
+                        <div class="pro-user-item">TenZ (Valorant)</div>
+                        <div class="pro-user-item">donk (CS2)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="review-body">
+                <div class="inline-radar">
+                    <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="120" cy="120" r="30" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.5"/>
+                        <circle cx="120" cy="120" r="60" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.5"/>
+
+                        <line x1="120" y1="120" x2="120" y2="30" stroke="#a09890" stroke-width="1"/>
+                        <line x1="120" y1="120" x2="180" y2="60" stroke="#a09890" stroke-width="1"/>
+                        <line x1="120" y1="120" x2="180" y2="180" stroke="#a09890" stroke-width="1"/>
+                        <line x1="120" y1="120" x2="120" y2="210" stroke="#a09890" stroke-width="1"/>
+                        <line x1="120" y1="120" x2="60" y2="180" stroke="#a09890" stroke-width="1"/>
+                        <line x1="120" y1="120" x2="60" y2="60" stroke="#a09890" stroke-width="1"/>
+
+                        <polygon points="120,60 170,75 185,155 120,195 55,155 70,75" fill="#06b6d4" opacity="0.15" stroke="#06b6d4" stroke-width="2"/>
+
+                        <text x="120" y="25" text-anchor="middle" font-family="Fira Code" font-size="9" fill="#1a1614">Weight</text>
+                        <text x="195" y="60" text-anchor="start" font-family="Fira Code" font-size="9" fill="#1a1614">Lightness</text>
+                        <text x="195" y="185" text-anchor="start" font-family="Fira Code" font-size="9" fill="#1a1614">Switch</text>
+                    </svg>
+                    <div class="radar-caption">Performance Profile</div>
+                </div>
+
+                <p class="review-paragraph">
+                    The Wooting 60HE+ represents the pinnacle of mechanical keyboard engineering for competitive gaming. From the moment you unbox this compact 60% layout keyboard, you're holding a device engineered with esports professionals in mind.
+                </p>
+
+                <p class="review-paragraph">
+                    The standout feature is undoubtedly the 8000Hz polling rate. In competitive titles like CS2 and Valorant, where responsiveness is measured in single-digit milliseconds, this keyboard gives you a tangible edge. During testing, the difference in input lag was immediately noticeable compared to standard 1000Hz keyboards.
+                </p>
+
+                <div class="inline-specs">
+                    <div class="inline-spec">
+                        <div class="inline-spec-label">Weight</div>
+                        <div class="inline-spec-value">360g</div>
+                    </div>
+                    <div class="inline-spec">
+                        <div class="inline-spec-label">Poll Rate</div>
+                        <div class="inline-spec-value">8000 Hz</div>
+                    </div>
+                    <div class="inline-spec">
+                        <div class="inline-spec-label">Layout</div>
+                        <div class="inline-spec-value">60%</div>
+                    </div>
+                    <div class="inline-spec">
+                        <div class="inline-spec-label">Price</div>
+                        <div class="inline-spec-value">$175</div>
+                    </div>
+                </div>
+
+                <p class="review-paragraph">
+                    The Lekker linear switches provide a smooth, uninterrupted keystroke with precise actuation. The lightweight 360g construction means less hand fatigue during extended gaming sessions. Build quality is exceptional throughout, with a solid aluminum frame and premium keycaps.
+                </p>
+
+                <p class="review-paragraph">
+                    With a 15.2% adoption rate among professional esports players, this keyboard has proven itself at the highest levels of competition. Professional teams trust it because it delivers consistent, reliable performance when it matters most.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

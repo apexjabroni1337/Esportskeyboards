@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 2: Product Hero Showcase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #f5f0e8;
+            color: #1a1614;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: #f5f0e8;
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #a09890;
+        }
+
+        /* Hero section */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 600px;
+            padding: 60px 40px;
+            background: #f5f0e8;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 600px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 200px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(26, 22, 20, 0.08);
+            position: relative;
+        }
+
+        .hero-image svg {
+            width: 80%;
+            height: 80%;
+        }
+
+        /* Radar chart overlay */
+        .radar-overlay {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            bottom: -40px;
+            right: -40px;
+            opacity: 0.15;
+        }
+
+        /* Hero text */
+        .hero-text {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            right: 40px;
+        }
+
+        .hero-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            color: #1a1614;
+        }
+
+        .hero-tagline {
+            font-size: 18px;
+            color: #a09890;
+            max-width: 400px;
+        }
+
+        /* Specs section */
+        .specs-section {
+            padding: 80px 40px;
+            background: #f5f0e8;
+        }
+
+        .specs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .specs-col {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .spec-item {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .spec-item:nth-child(1) { animation-delay: 0.1s; }
+        .spec-item:nth-child(2) { animation-delay: 0.2s; }
+        .spec-item:nth-child(3) { animation-delay: 0.3s; }
+        .spec-item:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .spec-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #a09890;
+            margin-bottom: 8px;
+        }
+
+        .spec-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a1614;
+            line-height: 1.1;
+        }
+
+        .spec-description {
+            font-size: 14px;
+            color: #a09890;
+            line-height: 1.6;
+        }
+
+        /* Pro players section */
+        .pro-section {
+            padding: 60px 40px;
+            background: white;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .pro-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pro-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #1a1614;
+        }
+
+        .pro-badges {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .pro-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #f5f0e8;
+            border-radius: 8px;
+            border: 1px solid #e8e8e8;
+        }
+
+        .badge-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .badge-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .badge-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        .badge-game {
+            font-size: 10px;
+            color: #a09890;
+        }
+
+        /* Radar chart section */
+        .radar-section {
+            padding: 60px 40px;
+            background: #f5f0e8;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .radar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .radar-chart {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .radar-chart svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .radar-description h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1a1614;
+        }
+
+        .radar-description p {
+            font-size: 14px;
+            color: #a09890;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Mockup 2: Product Hero Showcase</h1>
+        <p>Apple product page inspired with dramatic whitespace and elegant staggered layout</p>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-image">
+            <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <rect x="50" y="50" width="300" height="100" fill="#e8e8e8" stroke="#1a1614" stroke-width="2" rx="8"/>
+                <rect x="60" y="60" width="40" height="30" fill="#a09890" stroke="#1a1614" stroke-width="1" rx="2"/>
+                <rect x="110" y="60" width="180" height="30" fill="#a09890" stroke="#1a1614" stroke-width="1" rx="2"/>
+                <rect x="300" y="60" width="40" height="30" fill="#a09890" stroke="#1a1614" stroke-width="1" rx="2"/>
+                <rect x="60" y="95" width="280" height="40" fill="#a09890" stroke="#1a1614" stroke-width="1" rx="2"/>
+            </svg>
+            <svg class="radar-overlay" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="50" fill="none" stroke="#06b6d4" stroke-width="1"/>
+                <circle cx="100" cy="100" r="80" fill="none" stroke="#06b6d4" stroke-width="1"/>
+                <line x1="100" y1="20" x2="100" y2="180" stroke="#06b6d4" stroke-width="0.5"/>
+                <line x1="20" y1="100" x2="180" y2="100" stroke="#06b6d4" stroke-width="0.5"/>
+            </svg>
+            <div class="hero-text">
+                <div class="hero-name">Wooting 60HE+</div>
+                <div class="hero-tagline">Precision. Speed. Competition.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Specs Section -->
+    <div class="specs-section">
+        <div class="specs-container">
+            <div class="specs-col">
+                <div class="spec-item">
+                    <div class="spec-label">Weight</div>
+                    <div class="spec-value">360g</div>
+                    <div class="spec-description">Perfectly balanced for competitive play</div>
+                </div>
+
+                <div class="spec-item">
+                    <div class="spec-label">Poll Rate</div>
+                    <div class="spec-value">8000 Hz</div>
+                    <div class="spec-description">Response time measured in microseconds</div>
+                </div>
+            </div>
+
+            <div class="specs-col">
+                <div class="spec-item">
+                    <div class="spec-label">Price</div>
+                    <div class="spec-value">$175</div>
+                    <div class="spec-description">Premium quality at competitive pricing</div>
+                </div>
+
+                <div class="spec-item">
+                    <div class="spec-label">Pro Usage</div>
+                    <div class="spec-value">15.2%</div>
+                    <div class="spec-description">Trusted by professional esports teams</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pro Players Section -->
+    <div class="pro-section">
+        <div class="pro-container">
+            <div class="pro-title">Used by Champions</div>
+            <div class="pro-badges">
+                <div class="pro-badge">
+                    <div class="badge-avatar">s1</div>
+                    <div class="badge-info">
+                        <div class="badge-name">s1mple</div>
+                        <div class="badge-game">CS2 • Team Spirit</div>
+                    </div>
+                </div>
+
+                <div class="pro-badge">
+                    <div class="badge-avatar">TZ</div>
+                    <div class="badge-info">
+                        <div class="badge-name">TenZ</div>
+                        <div class="badge-game">Valorant • Sentinels</div>
+                    </div>
+                </div>
+
+                <div class="pro-badge">
+                    <div class="badge-avatar">Dk</div>
+                    <div class="badge-info">
+                        <div class="badge-name">donk</div>
+                        <div class="badge-game">CS2 • Team Spirit</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Radar Chart Section -->
+    <div class="radar-section">
+        <div class="radar-container">
+            <div class="radar-chart">
+                <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Hexagon grid -->
+                    <circle cx="200" cy="200" r="40" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.5"/>
+                    <circle cx="200" cy="200" r="80" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.5"/>
+                    <circle cx="200" cy="200" r="120" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.3"/>
+
+                    <!-- Axes -->
+                    <line x1="200" y1="200" x2="200" y2="50" stroke="#a09890" stroke-width="1"/>
+                    <line x1="200" y1="200" x2="335" y2="100" stroke="#a09890" stroke-width="1"/>
+                    <line x1="200" y1="200" x2="335" y2="300" stroke="#a09890" stroke-width="1"/>
+                    <line x1="200" y1="200" x2="200" y2="350" stroke="#a09890" stroke-width="1"/>
+                    <line x1="200" y1="200" x2="65" y2="300" stroke="#a09890" stroke-width="1"/>
+                    <line x1="200" y1="200" x2="65" y2="100" stroke="#a09890" stroke-width="1"/>
+
+                    <!-- Data polygon -->
+                    <polygon points="200,100 290,130 310,250 200,320 90,250 110,130" fill="#06b6d4" opacity="0.15" stroke="#06b6d4" stroke-width="2"/>
+
+                    <!-- Labels -->
+                    <text x="200" y="35" text-anchor="middle" font-family="Fira Code" font-size="10" fill="#1a1614">Weight</text>
+                    <text x="350" y="95" text-anchor="start" font-family="Fira Code" font-size="10" fill="#1a1614">Lightness</text>
+                    <text x="350" y="310" text-anchor="start" font-family="Fira Code" font-size="10" fill="#1a1614">Switch</text>
+                    <text x="200" y="370" text-anchor="middle" font-family="Fira Code" font-size="10" fill="#1a1614">Poll Rate</text>
+                    <text x="50" y="310" text-anchor="end" font-family="Fira Code" font-size="10" fill="#1a1614">Pro Usage</text>
+                    <text x="50" y="95" text-anchor="end" font-family="Fira Code" font-size="10" fill="#1a1614">Rating</text>
+                </svg>
+            </div>
+
+            <div class="radar-description">
+                <h3>Performance Profile</h3>
+                <p>The Wooting 60HE+ excels across all performance dimensions. Its lightweight design combined with industry-leading 8000Hz polling rate makes it ideal for competitive gaming where every millisecond counts. High pro adoption rates validate its reliability at the highest levels of competition.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

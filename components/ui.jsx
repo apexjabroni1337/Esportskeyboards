@@ -59,59 +59,85 @@ export const KeyboardCard = ({ keyboard, onClick, isSelected, rank }) => {
   const k = keyboard;
   const brandCol = BRAND_COLORS[k.brand] || "#a09890";
   const [isHovered, setIsHovered] = React.useState(false);
+  const pollDisplay = k.pollingRate >= 1000 ? `${k.pollingRate / 1000}K` : k.pollingRate;
   return (
     <div
       onClick={() => onClick?.(k)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative cursor-pointer rounded-2xl p-4 transition-all duration-300 group flex flex-col w-full"
+      className="relative cursor-pointer rounded-xl overflow-hidden transition-all duration-300 group flex flex-col w-full"
       style={{
-        background: isSelected ? `rgba(255,255,255,0.65)` : "rgba(255,255,255,0.55)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        border: isSelected ? `2px solid ${brandCol}` : isHovered ? `1px solid ${brandCol}40` : `1px solid rgba(0,0,0,0.06)`,
-        transform: isSelected ? "scale(1.02)" : isHovered ? "scale(1.02)" : "scale(1)",
+        background: "#fff",
+        border: isSelected ? `2px solid ${brandCol}` : "none",
+        transform: isHovered ? "translateY(-6px)" : "translateY(0)",
         boxShadow: isSelected
-          ? `0 0 20px ${brandCol}20, 0 8px 32px ${brandCol}10`
+          ? `0 12px 28px ${brandCol}20, 0 4px 12px #00000008`
           : isHovered
-          ? `0 0 20px #06b6d420, 0 8px 32px #00000008`
-          : "0 1px 3px #00000006",
+          ? "0 12px 24px rgba(0,0,0,0.12)"
+          : "0 4px 12px rgba(0,0,0,0.08)",
       }}
     >
-      <div
-        className="absolute top-3 right-3 text-xs font-bold px-2 py-0.5 keycap-badge"
-        style={{ background: `${brandCol}15`, color: brandCol }}
-      >
-        #{rank || keyboards.indexOf(k) + 1}
-      </div>
-      <div className="mb-3 h-16 flex items-center justify-center">
-        {KEYBOARD_IMAGE_URLS[k.name] && (
+      {/* ── Top Panel: Image Area ── */}
+      <div className="relative flex items-center justify-center overflow-hidden" style={{ height: 160, background: "linear-gradient(135deg, #f5f0e8, #ede8df)" }}>
+        {KEYBOARD_IMAGE_URLS[k.name] ? (
           <img loading="lazy" src={KEYBOARD_IMAGE_URLS[k.name]}
-            alt={`${k.name} ${k.brand} esports gaming keyboard`} className="w-full h-full object-contain object-center" style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.08))" }} />
+            alt={`${k.name} ${k.brand} esports gaming keyboard`}
+            className="w-full h-full object-contain object-center p-4"
+            style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.08))" }} />
+        ) : (
+          <span className="text-sm italic" style={{ color: "#a09890" }}>{k.name}</span>
         )}
+        {/* Brand accent bar at bottom of image panel */}
+        <div className="absolute bottom-0 left-0 right-0" style={{ height: 4, background: brandCol }} />
+        {/* Rank badge */}
+        <div className="absolute top-3 right-3 flex items-center justify-center rounded-full font-bold text-sm"
+          style={{ width: 34, height: 34, background: "#fff", color: brandCol, border: `2px solid ${brandCol}`, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
+          #{rank || keyboards.indexOf(k) + 1}
+        </div>
       </div>
-      <div className="mb-0.5 overflow-hidden">
-        <div className="text-sm font-bold leading-tight" style={{ color: "#1a1614", fontFamily: "'Space Grotesk', system-ui, sans-serif", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{k.name}</div>
+      {/* ── Switch Type Divider Badge ── */}
+      <div className="absolute flex justify-center w-full" style={{ top: 144, zIndex: 10 }}>
+        <span className="px-3 py-1 rounded-md text-white font-bold uppercase tracking-wide"
+          style={{ fontSize: 10, background: brandCol, boxShadow: "0 2px 8px rgba(0,0,0,0.15)", letterSpacing: "0.3px" }}>
+          {k.switchType ? (k.switchType.length > 22 ? k.switchType.slice(0, 20) + "…" : k.switchType) : k.layout}
+        </span>
       </div>
-      <div className="text-xs mb-3 font-semibold" style={{ color: brandCol }}>{k.brand}</div>
-      <div className="grid grid-cols-2 gap-1.5 text-xs mt-auto">
-        <div className="flex justify-between"><span style={{ color: "#a09890" }}>Weight</span><span className="font-bold" style={{ color: "#2d2824" }}>{k.weight}g</span></div>
-        <div className="flex justify-between"><span style={{ color: "#a09890" }}>Poll</span><span className="font-bold" style={{ color: "#2d2824" }}>{k.pollingRate >= 1000 ? `${k.pollingRate / 1000}K` : k.pollingRate}Hz</span></div>
-        <div className="flex justify-between"><span style={{ color: "#a09890" }}>Price</span><span className="font-bold" style={{ color: "#2d2824" }}>{"$"}{k.price}</span></div>
-        <div className="flex justify-between"><span style={{ color: "#a09890" }}>Pro %</span><span className="font-bold" style={{ color: brandCol }}>{k.proUsage}%</span></div>
+      {/* ── Bottom Panel: Data Area ── */}
+      <div className="flex flex-col flex-grow px-4 pt-5 pb-4" style={{ background: "#faf8f5", marginTop: 0 }}>
+        {/* Name & Brand */}
+        <div className="mb-3">
+          <div className="text-sm font-bold leading-tight mb-1" style={{ color: "#1a1614", fontFamily: "'Space Grotesk', system-ui, sans-serif", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{k.name}</div>
+          <div className="text-xs font-bold uppercase tracking-wider" style={{ color: brandCol, letterSpacing: "0.4px" }}>{k.brand}</div>
+        </div>
+        {/* Compact Stats Row */}
+        <div className="flex justify-between gap-2 mb-3">
+          {[
+            { label: "Weight", value: `${k.weight}g` },
+            { label: "Rate", value: `${pollDisplay}Hz` },
+            { label: "Price", value: `$${k.price}` },
+            { label: "Pro %", value: `${k.proUsage}%` },
+          ].map((s, i) => (
+            <div key={i} className="flex-1 text-center">
+              <div className="font-bold uppercase tracking-wider mb-0.5" style={{ fontSize: 9, color: "#a09890", letterSpacing: "0.3px" }}>{s.label}</div>
+              <div className="font-bold" style={{ fontSize: 12, color: i === 3 ? brandCol : "#1a1614" }}>{s.value}</div>
+            </div>
+          ))}
+        </div>
+        {/* Rating Display */}
+        <div className="flex justify-between items-center px-3 py-2.5 rounded-md mb-3" style={{ background: "#fff", border: "1px solid #ede8df" }}>
+          <span className="font-bold uppercase tracking-wider" style={{ fontSize: 10, color: "#a09890", letterSpacing: "0.3px" }}>Rating</span>
+          <span className="font-bold" style={{ fontSize: 14, color: brandCol }}>{k.rating}/10</span>
+        </div>
+        {/* Buy Button */}
+        <a href={amazonLink(k.name)} target="_blank" rel="noopener noreferrer"
+          onClick={e => e.stopPropagation()}
+          className="mt-auto flex items-center justify-center gap-1.5 py-2.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all no-underline"
+          style={{ background: "#1a1614", color: "#f5f0e8", textDecoration: "none", letterSpacing: "0.5px" }}
+          onMouseEnter={e => { e.currentTarget.style.background = "#2d2520"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(26,22,20,0.3)"; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "#1a1614"; e.currentTarget.style.boxShadow = "none"; }}>
+          {I.cart(12)} ${k.price} — Buy Now
+        </a>
       </div>
-      <div className="mt-3 h-1 rounded-full overflow-hidden" style={{ background: "#f0ede8" }}>
-        <div className="h-full rounded-full transition-all duration-700" style={{ width: `${k.rating * 10}%`, background: `linear-gradient(to right, #06b6d4, #8b5cf6)` }} />
-      </div>
-      <div className="text-right mt-0.5" style={{ fontSize: 11, color: "#a09890" }}>{k.rating}/10</div>
-      <a href={amazonLink(k.name)} target="_blank" rel="noopener noreferrer"
-        onClick={e => e.stopPropagation()}
-        className="mt-2 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-bold transition-all opacity-70 group-hover:opacity-100 hover:!opacity-100 no-underline"
-        style={{ background: `linear-gradient(135deg, #06b6d415, #8b5cf615)`, color: brandCol, border: `1px solid ${brandCol}20`, textDecoration: "none" }}
-        onMouseEnter={e => { e.currentTarget.style.background = `linear-gradient(135deg, #06b6d4, #8b5cf6)`; e.currentTarget.style.color = "#fff"; }}
-        onMouseLeave={e => { e.currentTarget.style.background = `linear-gradient(135deg, #06b6d415, #8b5cf615)`; e.currentTarget.style.color = brandCol; }}>
-        {I.cart(12)} {"$"}{k.price} — Buy on Amazon
-      </a>
     </div>
   );
 };

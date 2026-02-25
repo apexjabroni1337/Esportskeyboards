@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 4: Collector's Trading Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #f5f0e8 0%, #e8dfc8 100%);
+            color: #1a1614;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1a1614;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #a09890;
+        }
+
+        /* Card display layout */
+        .card-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            justify-items: center;
+        }
+
+        /* Trading Card Front */
+        .card {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 5 / 7;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(26, 22, 20, 0.2), 0 0 60px rgba(181, 149, 106, 0.3);
+            position: relative;
+            transform: perspective(1200px) rotateY(-5deg);
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover {
+            transform: perspective(1200px) rotateY(0deg) rotateZ(2deg);
+        }
+
+        /* Holographic gradient border */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(139, 92, 246, 0.2), rgba(184, 149, 106, 0.2));
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .card-inner {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Card header */
+        .card-header {
+            text-align: center;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #e8e8e8;
+            padding-bottom: 12px;
+        }
+
+        .card-rarity {
+            font-family: 'Fira Code', monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #b8956a;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .card-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1614;
+            line-height: 1.2;
+        }
+
+        /* Card image area */
+        .card-image {
+            flex: 1;
+            background: linear-gradient(135deg, #f5f0e8 0%, #e8dfc8 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 12px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image svg {
+            width: 85%;
+            height: 85%;
+        }
+
+        /* Holographic shine effect */
+        .card-image::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translate(-100%, -100%); }
+            100% { transform: translate(100%, 100%); }
+        }
+
+        /* Card stats */
+        .card-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+            border-top: 2px solid #e8e8e8;
+            padding-top: 12px;
+        }
+
+        .stat-box {
+            background: #f5f0e8;
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 8px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a1614;
+            margin-top: 2px;
+        }
+
+        /* Card back */
+        .card-back {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 5 / 7;
+            background: linear-gradient(135deg, #1a1614 0%, #2a2420 100%);
+            border-radius: 16px;
+            padding: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(26, 22, 20, 0.2);
+            position: relative;
+            transform: perspective(1200px) rotateY(5deg);
+            transition: transform 0.6s ease;
+        }
+
+        .card-back:hover {
+            transform: perspective(1200px) rotateY(0deg) rotateZ(-2deg);
+        }
+
+        .card-back::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                linear-gradient(0deg, transparent 24%, rgba(6, 182, 212, 0.05) 25%, rgba(6, 182, 212, 0.05) 26%, transparent 27%, transparent 74%, rgba(6, 182, 212, 0.05) 75%, rgba(6, 182, 212, 0.05) 76%, transparent 77%, transparent);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        .card-back-inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .back-header {
+            border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+        }
+
+        .back-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #06b6d4;
+            margin-bottom: 4px;
+        }
+
+        .back-desc {
+            font-size: 11px;
+            color: #a09890;
+            line-height: 1.5;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .back-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            border-top: 1px solid rgba(6, 182, 212, 0.3);
+            padding-top: 12px;
+            font-size: 9px;
+        }
+
+        .back-spec {
+            padding: 6px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 4px;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .back-spec-label {
+            font-family: 'Fira Code', monospace;
+            color: #06b6d4;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .back-spec-value {
+            color: #f5f0e8;
+            margin-top: 2px;
+        }
+
+        /* Info section */
+        .info-section {
+            margin-top: 60px;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 24px rgba(26, 22, 20, 0.08);
+        }
+
+        .info-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #1a1614;
+        }
+
+        .featured-in {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .player-entry {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f5f0e8;
+            border-radius: 8px;
+        }
+
+        .entry-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .entry-info {
+            flex: 1;
+        }
+
+        .entry-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        .entry-team {
+            font-size: 11px;
+            color: #a09890;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mockup 4: Collector's Trading Card</h1>
+            <p>Keyboard presented as a collectible TCG card with front, back, and featured endorsements</p>
+        </div>
+
+        <!-- Cards Display -->
+        <div class="card-display">
+            <!-- Front of Card -->
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-header">
+                        <div class="card-rarity">Legendary • Limited</div>
+                        <div class="card-name">Wooting 60HE+</div>
+                    </div>
+
+                    <div class="card-image">
+                        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="50" y="50" width="300" height="100" fill="#d0d0d0" stroke="#1a1614" stroke-width="2" rx="8"/>
+                            <rect x="60" y="60" width="40" height="30" fill="#b0b0b0" stroke="#1a1614" stroke-width="1" rx="2"/>
+                            <rect x="110" y="60" width="180" height="30" fill="#b0b0b0" stroke="#1a1614" stroke-width="1" rx="2"/>
+                            <rect x="300" y="60" width="40" height="30" fill="#b0b0b0" stroke="#1a1614" stroke-width="1" rx="2"/>
+                            <rect x="60" y="95" width="280" height="40" fill="#b0b0b0" stroke="#1a1614" stroke-width="1" rx="2"/>
+                        </svg>
+                    </div>
+
+                    <div class="card-stats">
+                        <div class="stat-box">
+                            <div class="stat-label">Speed</div>
+                            <div class="stat-value">8000</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Weight</div>
+                            <div class="stat-value">360g</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Pro %</div>
+                            <div class="stat-value">15.2%</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Rating</div>
+                            <div class="stat-value">9.4★</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back of Card -->
+            <div class="card-back">
+                <div class="card-back-inner">
+                    <div class="back-header">
+                        <div class="back-title">Wooting 60HE+</div>
+                    </div>
+
+                    <div class="back-desc">
+                        Premium 60% mechanical keyboard engineered for competitive esports. Features industry-leading 8000Hz polling rate and Lekker linear switches. Trusted by professional CS2 and Valorant teams worldwide.
+                    </div>
+
+                    <div class="back-specs">
+                        <div class="back-spec">
+                            <div class="back-spec-label">Layout</div>
+                            <div class="back-spec-value">60%</div>
+                        </div>
+                        <div class="back-spec">
+                            <div class="back-spec-label">Connect</div>
+                            <div class="back-spec-value">Wired</div>
+                        </div>
+                        <div class="back-spec">
+                            <div class="back-spec-label">Switch</div>
+                            <div class="back-spec-value">Lekker</div>
+                        </div>
+                        <div class="back-spec">
+                            <div class="back-spec-label">Price</div>
+                            <div class="back-spec-value">$175</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <div class="info-title">Featured in Decks Of</div>
+            <div class="featured-in">
+                <div class="player-entry">
+                    <div class="entry-avatar">s1</div>
+                    <div class="entry-info">
+                        <div class="entry-name">s1mple</div>
+                        <div class="entry-team">Team Spirit • CS2 Championship</div>
+                    </div>
+                </div>
+
+                <div class="player-entry">
+                    <div class="entry-avatar">TZ</div>
+                    <div class="entry-info">
+                        <div class="entry-name">TenZ</div>
+                        <div class="entry-team">Sentinels • Valorant Champions</div>
+                    </div>
+                </div>
+
+                <div class="player-entry">
+                    <div class="entry-avatar">Dk</div>
+                    <div class="entry-info">
+                        <div class="entry-name">donk</div>
+                        <div class="entry-team">Team Spirit • CS2 Elite</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 6: Comparison Matrix</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f0e8;
+            color: #1a1614;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .game-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #c47000;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+        }
+
+        .intro-text {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 24px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .table-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+            overflow-x: auto;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .tier-filter {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .tier-btn {
+            padding: 8px 16px;
+            border: 1px solid #e0d9d0;
+            background: #f5f0e8;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tier-btn:hover,
+        .tier-btn.active {
+            background: #c47000;
+            color: #fff;
+            border-color: #c47000;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #1a1614, #2a2420);
+            color: #fff;
+            position: sticky;
+            top: 0;
+        }
+
+        th {
+            padding: 14px 10px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 14px 10px;
+            font-size: 12px;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        tbody tr:hover {
+            background: #f9f7f3;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rank-cell {
+            font-weight: 700;
+            color: #c47000;
+            text-align: center;
+            width: 40px;
+        }
+
+        .keyboard-name {
+            font-weight: 700;
+            color: #1a1614;
+            min-width: 160px;
+        }
+
+        .tier-s {
+            background: rgba(255, 68, 68, 0.05);
+        }
+
+        .tier-a {
+            background: rgba(255, 170, 0, 0.05);
+        }
+
+        .tier-b {
+            background: rgba(255, 255, 0, 0.05);
+        }
+
+        .tier-c {
+            background: rgba(170, 170, 170, 0.05);
+        }
+
+        .numeric-cell {
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .feature-cell {
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .check {
+            color: #00c800;
+            font-weight: 700;
+        }
+
+        .cross {
+            color: #a09890;
+        }
+
+        .price-cell {
+            font-weight: 700;
+            color: #c47000;
+            text-align: center;
+        }
+
+        .rating-cell {
+            font-weight: 700;
+            color: #b8956a;
+            text-align: center;
+        }
+
+        .legend {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #e0d9d0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .legend-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .legend-icon.s {
+            background: rgba(255, 68, 68, 0.2);
+            color: #cc0000;
+        }
+
+        .legend-icon.a {
+            background: rgba(255, 170, 0, 0.2);
+            color: #ff8800;
+        }
+
+        .legend-icon.b {
+            background: rgba(255, 255, 0, 0.2);
+            color: #888800;
+        }
+
+        .legend-icon.c {
+            background: rgba(170, 170, 170, 0.2);
+            color: #666;
+        }
+
+        .legend-text {
+            font-size: 12px;
+        }
+
+        .legend-label {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .legend-desc {
+            font-size: 11px;
+            color: #a09890;
+        }
+
+        .sort-hint {
+            font-size: 11px;
+            color: #a09890;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e0d9d0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .table-section {
+                padding: 12px;
+            }
+
+            th, td {
+                padding: 10px 6px;
+                font-size: 10px;
+            }
+
+            .tier-filter {
+                gap: 4px;
+            }
+
+            .tier-btn {
+                padding: 6px 12px;
+                font-size: 10px;
+            }
+
+            .legend {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="game-title">Best Keyboard For</div>
+            <h1>CS2 Comparison Matrix</h1>
+            <p>Data-rich spreadsheet view with sortable features for detailed analysis.</p>
+        </div>
+
+        <div class="intro-text">
+            This comprehensive matrix displays all top 10 keyboards with full specifications. Click column headers to sort (in real keyboard implementation). Rows are color-coded by tier for quick visual scanning. Perfect for detailed feature comparison and price-to-performance analysis.
+        </div>
+
+        <div class="table-section">
+            <div class="section-title">Top 10 Keyboards Comparison Matrix</div>
+
+            <div class="tier-filter">
+                <button class="tier-btn active">All Tiers</button>
+                <button class="tier-btn">S-Tier Only</button>
+                <button class="tier-btn">Under $200</button>
+                <button class="tier-btn">With Wireless</button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">Rank</th>
+                        <th style="width: 15%;">Keyboard Name</th>
+                        <th style="width: 8%;">Weight</th>
+                        <th style="width: 10%;">Switch Type</th>
+                        <th style="width: 8%;">Poll Rate</th>
+                        <th style="width: 8%;">Price</th>
+                        <th style="width: 8%;">Pro Usage</th>
+                        <th style="width: 7%;">Rapid Trigger</th>
+                        <th style="width: 7%;">Hot-Swap</th>
+                        <th style="width: 7%;">Wireless</th>
+                        <th style="width: 8%;">Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- S-Tier -->
+                    <tr class="tier-s">
+                        <td class="rank-cell">1</td>
+                        <td class="keyboard-name">Wooting 60HE+</td>
+                        <td class="numeric-cell">360g</td>
+                        <td>Lekker Hall Effect</td>
+                        <td class="numeric-cell">8000Hz</td>
+                        <td class="price-cell">$175</td>
+                        <td class="numeric-cell">15.2%</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="rating-cell">9.4</td>
+                    </tr>
+                    <tr class="tier-s">
+                        <td class="rank-cell">2</td>
+                        <td class="keyboard-name">Razer Huntsman V3 Pro Mini</td>
+                        <td class="numeric-cell">420g</td>
+                        <td>Razer Analog Optical Gen-3</td>
+                        <td class="numeric-cell">8000Hz</td>
+                        <td class="price-cell">$250</td>
+                        <td class="numeric-cell">8.1%</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="rating-cell">9.1</td>
+                    </tr>
+                    <tr class="tier-s">
+                        <td class="rank-cell">3</td>
+                        <td class="keyboard-name">Logitech G Pro X TKL</td>
+                        <td class="numeric-cell">395g</td>
+                        <td>Logitech GL Tactile</td>
+                        <td class="numeric-cell">8000Hz</td>
+                        <td class="price-cell">$199</td>
+                        <td class="numeric-cell">5.3%</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="rating-cell">8.9</td>
+                    </tr>
+
+                    <!-- A-Tier -->
+                    <tr class="tier-a">
+                        <td class="rank-cell">4</td>
+                        <td class="keyboard-name">SteelSeries Apex Pro</td>
+                        <td class="numeric-cell">405g</td>
+                        <td>SteelSeries OmniPoint</td>
+                        <td class="numeric-cell">8000Hz</td>
+                        <td class="price-cell">$229</td>
+                        <td class="numeric-cell">4.7%</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="rating-cell">8.8</td>
+                    </tr>
+                    <tr class="tier-a">
+                        <td class="rank-cell">5</td>
+                        <td class="keyboard-name">Corsair K65 Plus Ultra</td>
+                        <td class="numeric-cell">435g</td>
+                        <td>Corsair OPX</td>
+                        <td class="numeric-cell">8000Hz</td>
+                        <td class="price-cell">$269</td>
+                        <td class="numeric-cell">3.9%</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="rating-cell">8.6</td>
+                    </tr>
+                    <tr class="tier-a">
+                        <td class="rank-cell">6</td>
+                        <td class="keyboard-name">ASUS ROG Strix Scope TKL</td>
+                        <td class="numeric-cell">410g</td>
+                        <td>Cherry MX Speed Silver</td>
+                        <td class="numeric-cell">8000Hz</td>
+                        <td class="price-cell">$189</td>
+                        <td class="numeric-cell">3.2%</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="rating-cell">8.4</td>
+                    </tr>
+                    <tr class="tier-a">
+                        <td class="rank-cell">7</td>
+                        <td class="keyboard-name">Ducky One 2 SF</td>
+                        <td class="numeric-cell">380g</td>
+                        <td>Cherry MX Switches</td>
+                        <td class="numeric-cell">1000Hz</td>
+                        <td class="price-cell">$179</td>
+                        <td class="numeric-cell">2.8%</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="rating-cell">8.3</td>
+                    </tr>
+
+                    <!-- B-Tier -->
+                    <tr class="tier-b">
+                        <td class="rank-cell">8</td>
+                        <td class="keyboard-name">VicTsing Mechanical Gaming</td>
+                        <td class="numeric-cell">425g</td>
+                        <td>Brown Mechanical</td>
+                        <td class="numeric-cell">1000Hz</td>
+                        <td class="price-cell">$79</td>
+                        <td class="numeric-cell">2.4%</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="rating-cell">8.1</td>
+                    </tr>
+                    <tr class="tier-b">
+                        <td class="rank-cell">9</td>
+                        <td class="keyboard-name">Glorious GMMK Pro</td>
+                        <td class="numeric-cell">412g</td>
+                        <td>Hot-Swap Custom</td>
+                        <td class="numeric-cell">1000Hz</td>
+                        <td class="price-cell">$169</td>
+                        <td class="numeric-cell">2.1%</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="feature-cell check">✓</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="rating-cell">8.2</td>
+                    </tr>
+                    <tr class="tier-b">
+                        <td class="rank-cell">10</td>
+                        <td class="keyboard-name">HKGK Mechanical Keyboard</td>
+                        <td class="numeric-cell">440g</td>
+                        <td>Blue Mechanical</td>
+                        <td class="numeric-cell">1000Hz</td>
+                        <td class="price-cell">$89</td>
+                        <td class="numeric-cell">1.9%</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="feature-cell cross">✗</td>
+                        <td class="rating-cell">7.9</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="sort-hint">
+                Column headers are clickable to sort (in production). Use tier filters above to show specific categories of keyboards.
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-icon s">S</div>
+                <div class="legend-text">
+                    <div class="legend-label">S-Tier</div>
+                    <div class="legend-desc">Top 3: Best for competitive play</div>
+                </div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-icon a">A</div>
+                <div class="legend-text">
+                    <div class="legend-label">A-Tier</div>
+                    <div class="legend-desc">Next 4: Excellent alternatives</div>
+                </div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-icon b">B</div>
+                <div class="legend-text">
+                    <div class="legend-label">B-Tier</div>
+                    <div class="legend-desc">Remaining: Solid performers</div>
+                </div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-icon">✓</div>
+                <div class="legend-text">
+                    <div class="legend-label">Check Mark</div>
+                    <div class="legend-desc">Feature is supported</div>
+                </div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-icon">✗</div>
+                <div class="legend-text">
+                    <div class="legend-label">Cross Mark</div>
+                    <div class="legend-desc">Feature not available</div>
+                </div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-text">
+                    <div class="legend-label">Rapid Trigger</div>
+                    <div class="legend-desc">0.1-4mm adjustable actuation</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

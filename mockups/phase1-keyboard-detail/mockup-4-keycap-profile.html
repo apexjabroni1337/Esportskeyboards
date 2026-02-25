@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 4: Keycap Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f5f0e8;
+            color: #1a1614;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .mockup-header {
+            text-align: center;
+            padding: 20px;
+            background: #1a1614;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .mockup-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .mockup-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .hero-keycap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+            perspective: 1000px;
+        }
+
+        .keycap-shape {
+            position: relative;
+            width: 300px;
+            height: 350px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border-radius: 20px 20px 15px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(6, 182, 212, 0.3), inset -5px -5px 15px rgba(0, 0, 0, 0.1);
+            transform: rotateX(5deg) rotateY(-5deg);
+        }
+
+        .keycap-text {
+            text-align: center;
+            color: white;
+        }
+
+        .keycap-text h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .keycap-text p {
+            font-size: 1rem;
+            opacity: 0.95;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .spec-keycap {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px 12px 8px 8px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .spec-keycap:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2);
+        }
+
+        .spec-keycap-label {
+            font-size: 0.75rem;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .spec-keycap-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #06b6d4;
+            margin-bottom: 5px;
+        }
+
+        .spec-keycap-unit {
+            font-size: 0.8rem;
+            color: #a09890;
+        }
+
+        .description {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 50px;
+            line-height: 1.8;
+        }
+
+        .description h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #1a1614;
+        }
+
+        .description p {
+            color: #1a1614;
+            margin-bottom: 15px;
+        }
+
+        .description p:last-child {
+            margin-bottom: 0;
+        }
+
+        .pro-players-section {
+            margin-bottom: 50px;
+        }
+
+        .pro-players-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: #1a1614;
+            text-align: center;
+        }
+
+        .pro-players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .pro-player-keycap {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px 12px 8px 8px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .pro-player-keycap:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2);
+        }
+
+        .pro-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .pro-player-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1a1614;
+            margin-bottom: 3px;
+        }
+
+        .pro-player-org {
+            font-size: 0.75rem;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .buy-button-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .buy-keycap-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            border: none;
+            padding: 25px 60px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 12px 12px 8px 8px;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2);
+        }
+
+        .buy-keycap-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(6, 182, 212, 0.3);
+        }
+
+        .buy-keycap-btn .price {
+            display: block;
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-top: 5px;
+        }
+
+        .features-list {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .features-list h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #1a1614;
+        }
+
+        .features-list ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .features-list li {
+            padding: 8px 12px;
+            background: rgba(6, 182, 212, 0.1);
+            border-left: 3px solid #06b6d4;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .features-list li::before {
+            content: "✓ ";
+            color: #06b6d4;
+            font-weight: 700;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <h1>Mockup 4: Keycap Profile Page</h1>
+        <p>Visual keycap-shaped design with specs as keycap tiles and pro players in keycap format</p>
+    </div>
+
+    <div class="container">
+        <div class="hero-keycap">
+            <div class="keycap-shape">
+                <div class="keycap-text">
+                    <h1>Wooting</h1>
+                    <p>60HE+</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="specs-grid">
+            <div class="spec-keycap">
+                <div class="spec-keycap-label">Weight</div>
+                <div class="spec-keycap-value">360</div>
+                <div class="spec-keycap-unit">grams</div>
+            </div>
+            <div class="spec-keycap">
+                <div class="spec-keycap-label">Switch</div>
+                <div class="spec-keycap-value">Lekker</div>
+                <div class="spec-keycap-unit">Hall Effect</div>
+            </div>
+            <div class="spec-keycap">
+                <div class="spec-keycap-label">Poll Rate</div>
+                <div class="spec-keycap-value">8000</div>
+                <div class="spec-keycap-unit">Hz</div>
+            </div>
+            <div class="spec-keycap">
+                <div class="spec-keycap-label">Layout</div>
+                <div class="spec-keycap-value">60%</div>
+                <div class="spec-keycap-unit">Compact</div>
+            </div>
+            <div class="spec-keycap">
+                <div class="spec-keycap-label">Connection</div>
+                <div class="spec-keycap-value">USB-C</div>
+                <div class="spec-keycap-unit">Wired</div>
+            </div>
+            <div class="spec-keycap">
+                <div class="spec-keycap-label">Keycaps</div>
+                <div class="spec-keycap-value">PBT</div>
+                <div class="spec-keycap-unit">Doubleshot</div>
+            </div>
+            <div class="spec-keycap">
+                <div class="spec-keycap-label">Rating</div>
+                <div class="spec-keycap-value">9.4</div>
+                <div class="spec-keycap-unit">out of 10</div>
+            </div>
+            <div class="spec-keycap">
+                <div class="spec-keycap-label">Pro Usage</div>
+                <div class="spec-keycap-value">15.2%</div>
+                <div class="spec-keycap-unit">esports</div>
+            </div>
+        </div>
+
+        <div class="features-list">
+            <h3>Professional Features</h3>
+            <ul>
+                <li>Hot-Swappable</li>
+                <li>Rapid Trigger</li>
+                <li>Adjustable Actuation</li>
+                <li>Hall Effect Tech</li>
+                <li>Ultra-Low Latency</li>
+                <li>Tournament Ready</li>
+            </ul>
+        </div>
+
+        <div class="description">
+            <h2>About the Wooting 60HE+</h2>
+            <p>The Wooting 60HE+ is the most trusted keyboard in professional esports. Engineered for competitive advantage, it features Lekker Hall Effect switches with adjustable rapid trigger capability, allowing pro players to fine-tune their input response for their specific game.</p>
+            <p>With 8000Hz polling rate (0.125ms response), the 60HE+ delivers zero-latency input processing. The compact 60% layout maximizes desk space while providing full functionality with hot-swappable switches, giving you complete customization freedom.</p>
+            <p>Used by world champions across CS2, Valorant, and esports, the Wooting 60HE+ has become the de facto standard for professional tournament play. Every pro keystroke is captured with precision.</p>
+        </div>
+
+        <div class="pro-players-section">
+            <h2>Chosen by Esports Legends</h2>
+            <div class="pro-players-grid">
+                <div class="pro-player-keycap">
+                    <div class="pro-avatar">S</div>
+                    <div class="pro-player-name">s1mple</div>
+                    <div class="pro-player-org">Natus Vincere</div>
+                </div>
+                <div class="pro-player-keycap">
+                    <div class="pro-avatar">T</div>
+                    <div class="pro-player-name">TenZ</div>
+                    <div class="pro-player-org">Sentinels</div>
+                </div>
+                <div class="pro-player-keycap">
+                    <div class="pro-avatar">D</div>
+                    <div class="pro-player-name">donk</div>
+                    <div class="pro-player-org">FaZe Clan</div>
+                </div>
+                <div class="pro-player-keycap">
+                    <div class="pro-avatar">Z</div>
+                    <div class="pro-player-name">ZywOo</div>
+                    <div class="pro-player-org">Vitality</div>
+                </div>
+                <div class="pro-player-keycap">
+                    <div class="pro-avatar">N</div>
+                    <div class="pro-player-name">NiKo</div>
+                    <div class="pro-player-org">FaZe Clan</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="buy-button-section">
+            <button class="buy-keycap-btn">
+                <span>GET WOOTING 60HE+</span>
+                <span class="price">$175</span>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

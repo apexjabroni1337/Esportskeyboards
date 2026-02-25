@@ -275,22 +275,79 @@ export default function MouseDetailPage({ params }) {
       {/* Visible server-rendered content */}
       <SSRSection>
         <SSRTitle accent={kb.brand}>{kb.name}</SSRTitle>
+
+        {/* Review Card Score Badge */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "2rem", marginTop: "1rem" }}>
+          <div style={{
+            width: "140px",
+            height: "140px",
+            borderRadius: "50%",
+            backgroundColor: BRAND_COLORS[kb.brand] || "#b8956a",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
+          }}>
+            <div style={{ fontSize: "48px", fontWeight: "700", color: "#f5f0e8", lineHeight: "1" }}>
+              {kb.rating}
+            </div>
+            <div style={{ fontSize: "11px", fontWeight: "700", color: "#f5f0e8", marginTop: "8px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              Editor's
+            </div>
+            <div style={{ fontSize: "11px", fontWeight: "700", color: "#f5f0e8", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              Rating
+            </div>
+          </div>
+        </div>
+
         <SSRSub>
           {desc
             ? desc.text.slice(0, 280) + "..."
             : `The ${kb.name} is a ${kb?.weight}g ${kb.connectivity.toLowerCase()} ${kb.layout.toLowerCase()} gaming keyboard by ${kb.brand}, featuring the ${kb.switchType} switch with ${kb.pollingRate >= 1000 ? `${kb.pollingRate / 1000}K` : kb.pollingRate}Hz polling. Used by ${kb?.proUsage}% of tracked professional esports players.`
           }
         </SSRSub>
-        <SSRGrid>
-          <SSRStat label="Weight" value={`${kb?.weight}g`} color={BRAND_COLORS[kb.brand]} />
-          <SSRStat label="Switch Type" value={kb.switchType} color={BRAND_COLORS[kb.brand]} />
-          <SSRStat label="Polling" value={`${kb.pollingRate >= 1000 ? `${kb.pollingRate / 1000}K` : kb.pollingRate}Hz`} color={BRAND_COLORS[kb.brand]} />
-          <SSRStat label="Pro Usage" value={`${kb?.proUsage}%`} color={BRAND_COLORS[kb.brand]} />
-          <SSRStat label="Price" value={`$${kb?.price}`} color={BRAND_COLORS[kb.brand]} />
-          <SSRStat label="Shape" value={kb.layout} color={BRAND_COLORS[kb.brand]} />
-          <SSRStat label="Rating" value={`${kb.rating}/10`} color={BRAND_COLORS[kb.brand]} />
-          <SSRStat label="Switches" value={kb.switchType} color={BRAND_COLORS[kb.brand]} />
-        </SSRGrid>
+
+        {/* Key Specs Section */}
+        <div style={{ marginBottom: "2rem", marginTop: "2rem" }}>
+          <div style={{ fontSize: "12px", fontWeight: "700", color: "#1a1614", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "1rem" }}>
+            Key Specs
+          </div>
+          <SSRGrid>
+            <SSRStat label="Weight" value={`${kb?.weight}g`} color={BRAND_COLORS[kb.brand]} />
+            <SSRStat label="Switch Type" value={kb.switchType} color={BRAND_COLORS[kb.brand]} />
+            <SSRStat label="Polling Rate" value={`${kb.pollingRate >= 1000 ? `${kb.pollingRate / 1000}K` : kb.pollingRate}Hz`} color={BRAND_COLORS[kb.brand]} />
+            <SSRStat label="Layout" value={kb.layout} color={BRAND_COLORS[kb.brand]} />
+          </SSRGrid>
+        </div>
+
+        {/* Value & Adoption Section */}
+        <div style={{ marginBottom: "2rem" }}>
+          <div style={{ fontSize: "12px", fontWeight: "700", color: "#1a1614", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "1rem" }}>
+            Value & Adoption
+          </div>
+          <SSRGrid>
+            <SSRStat label="Price" value={`$${kb?.price}`} color={BRAND_COLORS[kb.brand]} />
+            <SSRStat label="Pro Usage" value={`${kb?.proUsage}%`} color={BRAND_COLORS[kb.brand]} />
+            <SSRStat label="Rating" value={`${kb.rating}/10`} color={BRAND_COLORS[kb.brand]} />
+            <SSRStat label="Connectivity" value={kb.connectivity} color={BRAND_COLORS[kb.brand]} />
+          </SSRGrid>
+        </div>
+
+        {/* Verdict Section */}
+        <div style={{
+          padding: "1.5rem",
+          backgroundColor: "#f5f0e8",
+          borderLeft: `4px solid ${BRAND_COLORS[kb.brand] || "#b8956a"}`,
+          marginBottom: "2rem",
+          fontStyle: "italic",
+          color: "#1a1614",
+          fontSize: "14px",
+          lineHeight: "1.6"
+        }}>
+          The {kb.name} is a {kb.layout} keyboard from {kb.brand} with {kb.switchType} switches — used by {kb?.proUsage}% of tracked pros.
+        </div>
+
         {usedBy.length > 0 && (
           <>
             <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "#a09890" }}>

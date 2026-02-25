@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 3: Switch Testing Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #1a1614;
+            color: #f5f0e8;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #f5f0e8;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #a09890;
+        }
+
+        /* Lab layout */
+        .lab-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            gap: 30px;
+            background: #2a2420;
+            border: 2px solid #06b6d4;
+            border-radius: 12px;
+            padding: 40px;
+        }
+
+        /* Test bench */
+        .test-bench {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .bench-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #06b6d4;
+            align-self: flex-start;
+        }
+
+        .bench-surface {
+            width: 100%;
+            aspect-ratio: 1;
+            background:
+                linear-gradient(0deg, transparent 24%, rgba(6, 182, 212, 0.1) 25%, rgba(6, 182, 212, 0.1) 26%, transparent 27%, transparent 74%, rgba(6, 182, 212, 0.1) 75%, rgba(6, 182, 212, 0.1) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(6, 182, 212, 0.1) 25%, rgba(6, 182, 212, 0.1) 26%, transparent 27%, transparent 74%, rgba(6, 182, 212, 0.1) 75%, rgba(6, 182, 212, 0.1) 76%, transparent 77%, transparent);
+            background-size: 30px 30px;
+            border: 2px dashed #06b6d4;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .measurement-mark {
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: #06b6d4;
+            opacity: 0.5;
+        }
+
+        .measurement-mark.horizontal {
+            width: 20px;
+            height: 2px;
+        }
+
+        .keyboard-display {
+            width: 80%;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+
+        .keyboard-display svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .measurements {
+            font-family: 'Fira Code', monospace;
+            font-size: 10px;
+            color: #a09890;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        /* Metrics panel */
+        .metrics-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .metrics-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #06b6d4;
+        }
+
+        .metric-readout {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(6, 182, 212, 0.05);
+            border: 1px solid #06b6d4;
+            border-radius: 6px;
+        }
+
+        .metric-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #a09890;
+        }
+
+        .metric-bar {
+            height: 8px;
+            background: rgba(6, 182, 212, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .metric-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #06b6d4, #8b5cf6);
+            border-radius: 4px;
+        }
+
+        .metric-value {
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            color: #f5f0e8;
+            text-align: right;
+        }
+
+        /* Pro users panel */
+        .pro-users {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .pro-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #06b6d4;
+        }
+
+        .pro-endorsement {
+            padding: 16px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid #8b5cf6;
+            border-radius: 6px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .endorsement-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .endorsement-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .endorsement-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: #f5f0e8;
+        }
+
+        .endorsement-game {
+            font-size: 10px;
+            color: #a09890;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Spec sheet */
+        .spec-sheet {
+            margin-top: 40px;
+            border-top: 2px solid #06b6d4;
+            padding-top: 40px;
+        }
+
+        .sheet-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #06b6d4;
+            margin-bottom: 24px;
+        }
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .spec-table th {
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 2px solid #06b6d4;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #06b6d4;
+        }
+
+        .spec-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            color: #f5f0e8;
+        }
+
+        .spec-table tr:hover {
+            background: rgba(6, 182, 212, 0.05);
+        }
+
+        .spec-name {
+            font-family: 'Outfit', sans-serif;
+            color: #f5f0e8;
+        }
+
+        .spec-unit {
+            color: #a09890;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mockup 3: Switch Testing Lab</h1>
+            <p>Lab-style layout with test bench, performance metrics, and endorsements</p>
+        </div>
+
+        <div class="lab-layout">
+            <!-- Test Bench -->
+            <div class="test-bench">
+                <div class="bench-label">Test Bench</div>
+                <div class="bench-surface">
+                    <div class="measurement-mark" style="left: 10%; top: 0;"></div>
+                    <div class="measurement-mark" style="left: 50%; top: 0;"></div>
+                    <div class="measurement-mark" style="right: 10%; top: 0;"></div>
+                    <div class="measurement-mark horizontal" style="left: 0; top: 10%;"></div>
+                    <div class="measurement-mark horizontal" style="left: 0; top: 50%;"></div>
+                    <div class="measurement-mark horizontal" style="left: 0; bottom: 10%;"></div>
+
+                    <div class="keyboard-display">
+                        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="50" y="50" width="300" height="100" fill="#505050" stroke="#f5f0e8" stroke-width="2" rx="8"/>
+                            <rect x="60" y="60" width="40" height="30" fill="#707070" stroke="#f5f0e8" stroke-width="1" rx="2"/>
+                            <rect x="110" y="60" width="180" height="30" fill="#707070" stroke="#f5f0e8" stroke-width="1" rx="2"/>
+                            <rect x="300" y="60" width="40" height="30" fill="#707070" stroke="#f5f0e8" stroke-width="1" rx="2"/>
+                            <rect x="60" y="95" width="280" height="40" fill="#707070" stroke="#f5f0e8" stroke-width="1" rx="2"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="measurements">
+                    <span>360g</span>
+                    <span>8000Hz</span>
+                </div>
+            </div>
+
+            <!-- Metrics Panel -->
+            <div class="metrics-panel">
+                <div class="metrics-title">Performance Metrics</div>
+
+                <div class="metric-readout">
+                    <div class="metric-label">Weight</div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 72%;"></div>
+                    </div>
+                    <div class="metric-value">360.0 g</div>
+                </div>
+
+                <div class="metric-readout">
+                    <div class="metric-label">Poll Rate</div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 100%;"></div>
+                    </div>
+                    <div class="metric-value">8000.00 Hz</div>
+                </div>
+
+                <div class="metric-readout">
+                    <div class="metric-label">Pro Usage</div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 76%;"></div>
+                    </div>
+                    <div class="metric-value">15.2%</div>
+                </div>
+
+                <div class="metric-readout">
+                    <div class="metric-label">Rating</div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 94%;"></div>
+                    </div>
+                    <div class="metric-value">9.4 / 10</div>
+                </div>
+
+                <div class="metric-readout">
+                    <div class="metric-label">Price</div>
+                    <div class="metric-value" style="text-align: center; margin-top: 8px;">$175</div>
+                </div>
+            </div>
+
+            <!-- Pro Users Panel -->
+            <div class="pro-users">
+                <div class="pro-title">Tested by Pros</div>
+
+                <div class="pro-endorsement">
+                    <div class="endorsement-avatar">s1</div>
+                    <div class="endorsement-text">
+                        <div class="endorsement-name">s1mple</div>
+                        <div class="endorsement-game">CS2 • Spirit</div>
+                    </div>
+                </div>
+
+                <div class="pro-endorsement">
+                    <div class="endorsement-avatar">TZ</div>
+                    <div class="endorsement-text">
+                        <div class="endorsement-name">TenZ</div>
+                        <div class="endorsement-game">Valorant • SEN</div>
+                    </div>
+                </div>
+
+                <div class="pro-endorsement">
+                    <div class="endorsement-avatar">Dk</div>
+                    <div class="endorsement-text">
+                        <div class="endorsement-name">donk</div>
+                        <div class="endorsement-game">CS2 • Spirit</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spec Sheet -->
+        <div class="spec-sheet">
+            <div class="sheet-title">Complete Specifications</div>
+            <table class="spec-table">
+                <thead>
+                    <tr>
+                        <th>Specification</th>
+                        <th>Value</th>
+                        <th>Standard</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="spec-name">Keyboard Model</td>
+                        <td>Wooting 60HE+</td>
+                        <td>—</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Layout</td>
+                        <td>60%</td>
+                        <td>Compact</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Connection Type</td>
+                        <td>Wired</td>
+                        <td>USB-C</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Switch Type</td>
+                        <td>Lekker</td>
+                        <td>Linear</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Weight</td>
+                        <td>360<span class="spec-unit">g</span></td>
+                        <td>&lt;400g</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Poll Rate</td>
+                        <td>8000<span class="spec-unit">Hz</span></td>
+                        <td>&gt;1000Hz</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Pro Usage</td>
+                        <td>15.2<span class="spec-unit">%</span></td>
+                        <td>&gt;5%</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">User Rating</td>
+                        <td>9.4<span class="spec-unit">/10</span></td>
+                        <td>&gt;8.5</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-name">Price</td>
+                        <td>$175<span class="spec-unit">USD</span></td>
+                        <td>$100-$300</td>
+                        <td>✓</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

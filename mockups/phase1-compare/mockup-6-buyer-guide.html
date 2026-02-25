@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 6: Buyer's Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f0e8;
+            color: #1a1614;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+        }
+
+        .choose-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .choose-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e0d9d0;
+            transition: all 0.3s;
+        }
+
+        .choose-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border-color: #b8956a;
+        }
+
+        .choose-card.wooting {
+            border-top: 4px solid #06b6d4;
+        }
+
+        .choose-card.razer {
+            border-top: 4px solid #00ff44;
+        }
+
+        .choose-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .choose-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .choose-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .choose-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            font-weight: 700;
+        }
+
+        .choose-icon.wooting {
+            color: #06b6d4;
+        }
+
+        .choose-icon.razer {
+            color: #00ff44;
+        }
+
+        .price-comparison {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+        }
+
+        .price-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .price-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .price-item {
+            background: #f5f0e8;
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 3px solid #b8956a;
+        }
+
+        .price-label {
+            font-size: 11px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .price-value {
+            font-size: 24px;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .price-desc {
+            font-size: 12px;
+            color: #1a1614;
+        }
+
+        .value-analysis {
+            padding: 16px;
+            background: rgba(184, 149, 106, 0.1);
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.6;
+            border-left: 3px solid #b8956a;
+        }
+
+        .features-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+        }
+
+        .features-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .features-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .feature-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0d9d0;
+            align-items: center;
+        }
+
+        .feature-row:last-child {
+            border-bottom: none;
+        }
+
+        .feature-name {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .feature-check {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .check-wooting {
+            color: #06b6d4;
+        }
+
+        .check-razer {
+            color: #00ff44;
+        }
+
+        .check-x {
+            color: #a09890;
+        }
+
+        .recommendation-box {
+            background: linear-gradient(135deg, #b8956a 0%, #a0845a 100%);
+            border-radius: 12px;
+            padding: 32px;
+            color: #fff;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .rec-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .rec-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .rec-text {
+            font-size: 14px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .rec-cta {
+            display: inline-block;
+            background: #fff;
+            color: #b8956a;
+            padding: 12px 32px;
+            border-radius: 6px;
+            font-weight: 700;
+            margin-top: 20px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .rec-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .decision-tree {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e0d9d0;
+        }
+
+        .tree-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .tree-question {
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f5f0e8;
+            border-radius: 8px;
+        }
+
+        .tree-q-text {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .tree-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tree-option {
+            flex: 1;
+            min-width: 150px;
+            padding: 8px 12px;
+            background: #fff;
+            border: 1px solid #e0d9d0;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tree-option:hover {
+            background: #b8956a;
+            color: #fff;
+            border-color: #b8956a;
+        }
+
+        @media (max-width: 768px) {
+            .choose-section {
+                grid-template-columns: 1fr;
+            }
+
+            .price-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mockup 6: Buyer's Guide</h1>
+            <p>Practical decision framework with clear recommendations.</p>
+        </div>
+
+        <div class="choose-section">
+            <div class="choose-card wooting">
+                <div class="choose-title">Choose Wooting 60HE+ If You...</div>
+                <div class="choose-list">
+                    <div class="choose-item">
+                        <div class="choose-icon wooting">✓</div>
+                        <span>Want the best price-to-performance ratio</span>
+                    </div>
+                    <div class="choose-item">
+                        <div class="choose-icon wooting">✓</div>
+                        <span>Prioritize light weight and portability</span>
+                    </div>
+                    <div class="choose-item">
+                        <div class="choose-icon wooting">✓</div>
+                        <span>Need customizable rapid trigger features</span>
+                    </div>
+                    <div class="choose-item">
+                        <div class="choose-icon wooting">✓</div>
+                        <span>Compete in FPS games professionally</span>
+                    </div>
+                    <div class="choose-item">
+                        <div class="choose-icon wooting">✓</div>
+                        <span>Want the most pro player endorsements</span>
+                    </div>
+                    <div class="choose-item">
+                        <div class="choose-icon wooting">✓</div>
+                        <span>Have a budget under $200</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="choose-card razer">
+                <div class="choose-title">Choose Razer Huntsman V3 Pro Mini If You...</div>
+                <div class="choose-list">
+                    <div class="choose-item">
+                        <div class="choose-icon razer">✓</div>
+                        <span>Need wireless freedom of movement</span>
+                    </div>
+                    <div class="choose-item">
+                        <div class="choose-icon razer">✓</div>
+                        <span>Want premium RGB customization</span>
+                    </div>
+                    <div class="choose-item">
+                        <div class="choose-icon razer">✓</div>
+                        <span>Prefer Razer's ecosystem integration</span>
+                    </div>
+                    <div class="choose-item">
+                        <div class="choose-icon razer">✓</div>
+                        <span>Value high-end ergonomic design</span>
+                    </div>
+                    <div class="choose-item">
+                        <div class="choose-icon razer">✓</div>
+                        <span>Like premium build quality & warranty</span>
+                    </div>
+                    <div class="choose-item">
+                        <div class="choose-icon razer">✓</div>
+                        <span>Don't mind spending $250+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="price-comparison">
+            <div class="price-title">Price-to-Performance Analysis</div>
+            <div class="price-grid">
+                <div class="price-item">
+                    <div class="price-label">Wooting 60HE+</div>
+                    <div class="price-value">$175</div>
+                    <div class="price-desc">$58.33 per top spec (3 specs: rapid trigger, poll rate, rating)</div>
+                </div>
+                <div class="price-item">
+                    <div class="price-label">Razer Huntsman V3 Pro Mini</div>
+                    <div class="price-value">$250</div>
+                    <div class="price-desc">$41.67 per top spec (6 specs: including wireless, RGB)</div>
+                </div>
+            </div>
+            <div class="value-analysis">
+                Wooting 60HE+ offers exceptional raw esports performance per dollar spent. If wireless and RGB aren't priorities, Wooting delivers superior value. Razer justifies higher cost through premium features like wireless connectivity and ecosystem integration.
+            </div>
+        </div>
+
+        <div class="features-section">
+            <div class="features-title">Feature Comparison Checklist</div>
+            <div class="features-table">
+                <div class="feature-row">
+                    <div class="feature-name">Rapid Trigger</div>
+                    <div class="feature-check check-wooting">✓</div>
+                    <div class="feature-check check-razer">✓</div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-name">Hot-Swappable Switches</div>
+                    <div class="feature-check check-wooting">✓</div>
+                    <div class="feature-check check-razer">✓</div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-name">8000Hz Poll Rate</div>
+                    <div class="feature-check check-wooting">✓</div>
+                    <div class="feature-check check-razer">✓</div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-name">Wireless Connection</div>
+                    <div class="feature-check check-x">✗</div>
+                    <div class="feature-check check-razer">✓</div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-name">RGB Lighting</div>
+                    <div class="feature-check check-x">✗</div>
+                    <div class="feature-check check-razer">✓</div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-name">Programmable Keys</div>
+                    <div class="feature-check check-wooting">✓</div>
+                    <div class="feature-check check-razer">✓</div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-name">Under $200</div>
+                    <div class="feature-check check-wooting">✓</div>
+                    <div class="feature-check check-x">✗</div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-name">Customizable Actuation</div>
+                    <div class="feature-check check-wooting">✓</div>
+                    <div class="feature-check check-x">✗</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="recommendation-box">
+            <div class="rec-badge">⭐ Our Pick for Competitive Esports</div>
+            <div class="rec-title">Wooting 60HE+</div>
+            <div class="rec-text">
+                The clear winner for esports professionals and serious competitors. Superior price, trusted by 15.2% of pro players, and unmatched customizable actuation for rapid trigger gameplay.
+            </div>
+            <button class="rec-cta">Buy Wooting 60HE+ Now</button>
+        </div>
+
+        <div class="decision-tree">
+            <div class="tree-title">Quick Decision Guide</div>
+            <div class="tree-question">
+                <div class="tree-q-text">1. What's your primary priority?</div>
+                <div class="tree-options">
+                    <div class="tree-option">Low Price</div>
+                    <div class="tree-option">Wireless</div>
+                    <div class="tree-option">Pro Endorsed</div>
+                    <div class="tree-option">Premium Feel</div>
+                </div>
+            </div>
+            <div class="tree-question">
+                <div class="tree-q-text">2. What's your budget?</div>
+                <div class="tree-options">
+                    <div class="tree-option">Under $200</div>
+                    <div class="tree-option">$200-$250</div>
+                    <div class="tree-option">$250+</div>
+                </div>
+            </div>
+            <div class="tree-question">
+                <div class="tree-q-text">3. Do you need wireless?</div>
+                <div class="tree-options">
+                    <div class="tree-option">Yes, essential</div>
+                    <div class="tree-option">Nice to have</div>
+                    <div class="tree-option">Not needed</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

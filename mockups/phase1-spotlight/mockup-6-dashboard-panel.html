@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 6: Performance Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #1a1614 0%, #2a2420 100%);
+            color: #f5f0e8;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #f5f0e8;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #a09890;
+        }
+
+        /* Dashboard grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* Left column - keyboard image */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .keyboard-preview {
+            background: #2a2420;
+            border: 1px solid #3a3430;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .keyboard-image-small {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #3a3430 0%, #4a4440 100%);
+            border: 1px solid #5a5450;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .keyboard-image-small svg {
+            width: 85%;
+            height: 85%;
+        }
+
+        .keyboard-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #f5f0e8;
+            text-align: center;
+        }
+
+        .keyboard-brand {
+            font-size: 11px;
+            color: #a09890;
+            font-family: 'Fira Code', monospace;
+            text-align: center;
+        }
+
+        /* Center column - main metrics */
+        .center-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Competitive index */
+        .competitive-index {
+            background: linear-gradient(135deg, #06b6d4 0%, #06b6d4 100%);
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(6, 182, 212, 0.2);
+        }
+
+        .index-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 12px;
+        }
+
+        .index-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 56px;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+        }
+
+        .index-note {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 12px;
+        }
+
+        /* Radar chart */
+        .radar-container {
+            background: #2a2420;
+            border: 1px solid #3a3430;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .radar-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #06b6d4;
+        }
+
+        .radar-chart {
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .radar-chart svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Stat bars */
+        .stat-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: #2a2420;
+            border: 1px solid #3a3430;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .stat-bar-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stat-bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+
+        .stat-bar-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: #f5f0e8;
+        }
+
+        .stat-bar-value {
+            font-family: 'Fira Code', monospace;
+            color: #a09890;
+        }
+
+        .stat-bar {
+            height: 6px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .stat-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #06b6d4, #8b5cf6);
+            border-radius: 3px;
+        }
+
+        /* Right column */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Comparison widget */
+        .comparison-widget {
+            background: #2a2420;
+            border: 1px solid #3a3430;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .widget-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #06b6d4;
+            margin-bottom: 16px;
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .comparison-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .comparison-stat {
+            padding: 12px;
+            background: rgba(6, 182, 212, 0.05);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 6px;
+        }
+
+        .comparison-label {
+            font-size: 10px;
+            color: #a09890;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .comparison-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #f5f0e8;
+        }
+
+        .comparison-stat.advantage {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: rgba(6, 182, 212, 0.4);
+        }
+
+        /* Pro stats */
+        .pro-stats {
+            background: #2a2420;
+            border: 1px solid #3a3430;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .pro-entry {
+            padding: 12px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 6px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .pro-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .pro-entry-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .pro-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: #f5f0e8;
+        }
+
+        .pro-game {
+            font-size: 9px;
+            color: #a09890;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Section header */
+        .section-header {
+            background: #3a3430;
+            padding: 2px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mockup 6: Performance Dashboard</h1>
+            <p>Data-forward dashboard with metrics, radar, and competitive comparison</p>
+        </div>
+
+        <div class="dashboard">
+            <!-- Left Column -->
+            <div class="left-column">
+                <div class="keyboard-preview">
+                    <div class="keyboard-image-small">
+                        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="50" y="50" width="300" height="100" fill="#606060" stroke="#f5f0e8" stroke-width="2" rx="8"/>
+                            <rect x="60" y="60" width="40" height="30" fill="#808080" stroke="#f5f0e8" stroke-width="1" rx="2"/>
+                            <rect x="110" y="60" width="180" height="30" fill="#808080" stroke="#f5f0e8" stroke-width="1" rx="2"/>
+                            <rect x="300" y="60" width="40" height="30" fill="#808080" stroke="#f5f0e8" stroke-width="1" rx="2"/>
+                            <rect x="60" y="95" width="280" height="40" fill="#808080" stroke="#f5f0e8" stroke-width="1" rx="2"/>
+                        </svg>
+                    </div>
+                    <div class="keyboard-name">Wooting 60HE+</div>
+                    <div class="keyboard-brand">Wooting • 60% • Wired</div>
+                </div>
+            </div>
+
+            <!-- Center Column -->
+            <div class="center-column">
+                <!-- Competitive Index -->
+                <div class="competitive-index">
+                    <div class="index-label">Competitive Index</div>
+                    <div class="index-value">9.4</div>
+                    <div class="index-note">Among top 15% of keyboards</div>
+                </div>
+
+                <!-- Radar Chart -->
+                <div class="radar-container">
+                    <div class="radar-title">Performance Profile</div>
+                    <div class="radar-chart">
+                        <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="150" cy="150" r="40" fill="none" stroke="#06b6d4" stroke-width="0.5" opacity="0.6"/>
+                            <circle cx="150" cy="150" r="80" fill="none" stroke="#06b6d4" stroke-width="0.5" opacity="0.6"/>
+
+                            <line x1="150" y1="150" x2="150" y2="30" stroke="#a09890" stroke-width="0.5"/>
+                            <line x1="150" y1="150" x2="237" y2="60" stroke="#a09890" stroke-width="0.5"/>
+                            <line x1="150" y1="150" x2="237" y2="240" stroke="#a09890" stroke-width="0.5"/>
+                            <line x1="150" y1="150" x2="150" y2="270" stroke="#a09890" stroke-width="0.5"/>
+                            <line x1="150" y1="150" x2="63" y2="240" stroke="#a09890" stroke-width="0.5"/>
+                            <line x1="150" y1="150" x2="63" y2="60" stroke="#a09890" stroke-width="0.5"/>
+
+                            <polygon points="150,70 210,100 230,200 150,250 70,200 90,100" fill="#06b6d4" opacity="0.2" stroke="#06b6d4" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Stat Bars -->
+                <div class="stat-bars">
+                    <div class="stat-bar-item">
+                        <div class="stat-bar-label">
+                            <span class="stat-bar-name">Weight</span>
+                            <span class="stat-bar-value">360g</span>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-bar-fill" style="width: 72%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-bar-item">
+                        <div class="stat-bar-label">
+                            <span class="stat-bar-name">Poll Rate</span>
+                            <span class="stat-bar-value">8000 Hz</span>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-bar-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-bar-item">
+                        <div class="stat-bar-label">
+                            <span class="stat-bar-name">Pro Usage</span>
+                            <span class="stat-bar-value">15.2%</span>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-bar-fill" style="width: 76%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-bar-item">
+                        <div class="stat-bar-label">
+                            <span class="stat-bar-name">Rating</span>
+                            <span class="stat-bar-value">9.4/10</span>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-bar-fill" style="width: 94%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Comparison Widget -->
+                <div class="comparison-widget">
+                    <div class="widget-title">vs Average</div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-stat advantage">
+                            <div class="comparison-label">Weight</div>
+                            <div class="comparison-value">+15%</div>
+                        </div>
+                        <div class="comparison-stat advantage">
+                            <div class="comparison-label">Speed</div>
+                            <div class="comparison-value">+800%</div>
+                        </div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-stat">
+                            <div class="comparison-label">Price</div>
+                            <div class="comparison-value">-22%</div>
+                        </div>
+                        <div class="comparison-stat advantage">
+                            <div class="comparison-label">Rating</div>
+                            <div class="comparison-value">+0.8★</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pro Players Stats -->
+                <div class="pro-stats">
+                    <div class="widget-title">Pro Players</div>
+
+                    <div class="pro-entry">
+                        <div class="pro-avatar">s1</div>
+                        <div class="pro-entry-info">
+                            <div class="pro-name">s1mple</div>
+                            <div class="pro-game">CS2</div>
+                        </div>
+                    </div>
+
+                    <div class="pro-entry">
+                        <div class="pro-avatar">TZ</div>
+                        <div class="pro-entry-info">
+                            <div class="pro-name">TenZ</div>
+                            <div class="pro-game">Valorant</div>
+                        </div>
+                    </div>
+
+                    <div class="pro-entry">
+                        <div class="pro-avatar">Dk</div>
+                        <div class="pro-entry-info">
+                            <div class="pro-name">donk</div>
+                            <div class="pro-game">CS2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

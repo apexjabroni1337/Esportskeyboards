@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 1: Podium Rankings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f0e8;
+            color: #1a1614;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .game-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #c47000;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .intro-text {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #1a1614;
+        }
+
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 20px;
+            margin-bottom: 60px;
+            perspective: 1000px;
+        }
+
+        .podium-slot {
+            text-align: center;
+        }
+
+        .podium-rank-2 {
+            order: 1;
+        }
+
+        .podium-rank-1 {
+            order: 2;
+        }
+
+        .podium-rank-3 {
+            order: 3;
+        }
+
+        .podium-card {
+            background: #fff;
+            border-radius: 12px 12px 0 0;
+            border: 1px solid #e0d9d0;
+            padding: 20px;
+            min-width: 220px;
+            position: relative;
+        }
+
+        .podium-rank-1 .podium-card {
+            min-width: 260px;
+            padding: 24px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+            border: 2px solid #c47000;
+        }
+
+        .podium-image {
+            width: 100%;
+            height: 140px;
+            background: #f5f0e8;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .podium-rank-1 .podium-image {
+            height: 160px;
+            font-size: 56px;
+        }
+
+        .medal {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .podium-name {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .podium-rank-1 .podium-name {
+            font-size: 16px;
+        }
+
+        .podium-brand {
+            font-size: 11px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .podium-specs {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 11px;
+            margin-bottom: 12px;
+        }
+
+        .podium-spec {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .podium-spec-label {
+            color: #a09890;
+            font-weight: 600;
+        }
+
+        .podium-spec-value {
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+            color: #1a1614;
+        }
+
+        .podium-price {
+            padding: 8px 0;
+            border-top: 1px solid #e0d9d0;
+            border-bottom: 1px solid #e0d9d0;
+            margin: 8px 0;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .podium-usage {
+            font-size: 11px;
+            color: #c47000;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .podium-btn {
+            background: #c47000;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .podium-btn:hover {
+            background: #b06000;
+            transform: translateY(-2px);
+        }
+
+        .pedestal {
+            background: linear-gradient(135deg, #c47000, #b06000);
+            color: #fff;
+            font-weight: 700;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0 0 8px 8px;
+            min-width: 220px;
+        }
+
+        .podium-rank-1 .pedestal {
+            height: 120px;
+            min-width: 260px;
+            font-size: 24px;
+        }
+
+        .podium-rank-2 .pedestal {
+            height: 80px;
+        }
+
+        .podium-rank-3 .pedestal {
+            height: 60px;
+        }
+
+        .tips-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e0d9d0;
+            border-left: 4px solid #c47000;
+            margin-bottom: 40px;
+        }
+
+        .tips-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .tips-content {
+            font-size: 13px;
+            line-height: 1.7;
+            color: #1a1614;
+        }
+
+        .tips-highlight {
+            background: rgba(196, 112, 0, 0.1);
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        .top-10-table {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #c47000, #b06000);
+            color: #fff;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 16px;
+            font-size: 13px;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: #f9f7f3;
+        }
+
+        .rank-number {
+            font-weight: 700;
+            color: #c47000;
+            min-width: 30px;
+        }
+
+        .rank-1 {
+            background: rgba(196, 112, 0, 0.15);
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .podium-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .podium-rank-2,
+            .podium-rank-1,
+            .podium-rank-3 {
+                order: unset;
+            }
+
+            .podium-card,
+            .pedestal {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="game-title">Best Keyboard For</div>
+            <h1>CS2 Pro Recommendations</h1>
+            <p>Top 3 keyboards chosen by 847 tracked CS2 pro players worldwide.</p>
+        </div>
+
+        <div class="intro-text">
+            Counter-Strike 2 demands responsive, precise input across rapid counter-strafing movements and critical clutch moments. The keyboards below represent the absolute top choices among professional players based on usage data and expert community consensus.
+        </div>
+
+        <div class="podium-container">
+            <!-- 2nd Place -->
+            <div class="podium-slot podium-rank-2">
+                <div class="podium-card">
+                    <div class="podium-image">⌨️</div>
+                    <div class="podium-name">Razer Huntsman V3 Pro Mini</div>
+                    <div class="podium-brand">Razer</div>
+                    <div class="podium-specs">
+                        <div class="podium-spec">
+                            <span class="podium-spec-label">Weight</span>
+                            <span class="podium-spec-value">420g</span>
+                        </div>
+                        <div class="podium-spec">
+                            <span class="podium-spec-label">Poll Rate</span>
+                            <span class="podium-spec-value">8000Hz</span>
+                        </div>
+                        <div class="podium-spec">
+                            <span class="podium-spec-label">Rating</span>
+                            <span class="podium-spec-value">9.1 / 10</span>
+                        </div>
+                    </div>
+                    <div class="podium-price">$250</div>
+                    <div class="podium-usage">8.1% of pro players</div>
+                    <button class="podium-btn">View Details</button>
+                </div>
+                <div class="pedestal">2</div>
+            </div>
+
+            <!-- 1st Place -->
+            <div class="podium-slot podium-rank-1">
+                <div class="podium-card">
+                    <div class="podium-image">⌨️</div>
+                    <div class="podium-name">Wooting 60HE+</div>
+                    <div class="podium-brand">Wooting</div>
+                    <div class="podium-specs">
+                        <div class="podium-spec">
+                            <span class="podium-spec-label">Weight</span>
+                            <span class="podium-spec-value">360g</span>
+                        </div>
+                        <div class="podium-spec">
+                            <span class="podium-spec-label">Poll Rate</span>
+                            <span class="podium-spec-value">8000Hz</span>
+                        </div>
+                        <div class="podium-spec">
+                            <span class="podium-spec-label">Rating</span>
+                            <span class="podium-spec-value">9.4 / 10</span>
+                        </div>
+                    </div>
+                    <div class="podium-price">$175</div>
+                    <div class="podium-usage">15.2% of pro players</div>
+                    <button class="podium-btn">View Details</button>
+                </div>
+                <div class="pedestal">1</div>
+            </div>
+
+            <!-- 3rd Place -->
+            <div class="podium-slot podium-rank-3">
+                <div class="podium-card">
+                    <div class="podium-image">⌨️</div>
+                    <div class="podium-name">Logitech G Pro X TKL</div>
+                    <div class="podium-brand">Logitech</div>
+                    <div class="podium-specs">
+                        <div class="podium-spec">
+                            <span class="podium-spec-label">Weight</span>
+                            <span class="podium-spec-value">395g</span>
+                        </div>
+                        <div class="podium-spec">
+                            <span class="podium-spec-label">Poll Rate</span>
+                            <span class="podium-spec-value">8000Hz</span>
+                        </div>
+                        <div class="podium-spec">
+                            <span class="podium-spec-label">Rating</span>
+                            <span class="podium-spec-value">8.9 / 10</span>
+                        </div>
+                    </div>
+                    <div class="podium-price">$199</div>
+                    <div class="podium-usage">5.3% of pro players</div>
+                    <button class="podium-btn">View Details</button>
+                </div>
+                <div class="pedestal">3</div>
+            </div>
+        </div>
+
+        <div class="tips-section">
+            <div class="tips-title">CS2 Pro Settings & Tips</div>
+            <div class="tips-content">
+                Counter-Strike 2 professionals prioritize two core keyboard features: rapid trigger capability and ultra-low actuation distance. These enable pixel-perfect counter-strafing and split-second weapon switching crucial in competitive rounds. Most pros operate their rapid trigger between 0.2mm and 2.5mm for maximum responsiveness while maintaining consistency during extended tournaments.
+                <div class="tips-highlight">
+                    "Master your actuation distance first. Most pros test 0.5mm-1.5mm range before settling. Once locked in, muscle memory builds quickly." — Interview with professional CS2 player
+                </div>
+            </div>
+        </div>
+
+        <div class="top-10-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">Rank</th>
+                        <th style="width: 35%;">Keyboard</th>
+                        <th style="width: 20%;">Pro Usage</th>
+                        <th style="width: 20%;">Price</th>
+                        <th style="width: 15%;">Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="rank-1">
+                        <td class="rank-number">1</td>
+                        <td><strong>Wooting 60HE+</strong></td>
+                        <td>15.2%</td>
+                        <td>$175</td>
+                        <td>9.4 / 10</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-number">2</td>
+                        <td>Razer Huntsman V3 Pro Mini</td>
+                        <td>8.1%</td>
+                        <td>$250</td>
+                        <td>9.1 / 10</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-number">3</td>
+                        <td>Logitech G Pro X TKL</td>
+                        <td>5.3%</td>
+                        <td>$199</td>
+                        <td>8.9 / 10</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-number">4</td>
+                        <td>SteelSeries Apex Pro</td>
+                        <td>4.7%</td>
+                        <td>$229</td>
+                        <td>8.8 / 10</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-number">5</td>
+                        <td>Corsair K65 Plus Ultra</td>
+                        <td>3.9%</td>
+                        <td>$269</td>
+                        <td>8.6 / 10</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-number">6</td>
+                        <td>ASUS ROG Strix Scope TKL</td>
+                        <td>3.2%</td>
+                        <td>$189</td>
+                        <td>8.4 / 10</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-number">7</td>
+                        <td>Ducky One 2 SF</td>
+                        <td>2.8%</td>
+                        <td>$179</td>
+                        <td>8.3 / 10</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-number">8</td>
+                        <td>VicTsing Mechanical Gaming</td>
+                        <td>2.4%</td>
+                        <td>$79</td>
+                        <td>8.1 / 10</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-number">9</td>
+                        <td>Glorious GMMK Pro</td>
+                        <td>2.1%</td>
+                        <td>$169</td>
+                        <td>8.2 / 10</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-number">10</td>
+                        <td>HKGK Mechanical Keyboard</td>
+                        <td>1.9%</td>
+                        <td>$89</td>
+                        <td>7.9 / 10</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

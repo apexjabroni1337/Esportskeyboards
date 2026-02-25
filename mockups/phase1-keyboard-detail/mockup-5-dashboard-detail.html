@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 5: Analytics Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f5f0e8;
+            color: #1a1614;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .mockup-header {
+            text-align: center;
+            padding: 20px;
+            background: #1a1614;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .mockup-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .mockup-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .dashboard-title {
+            margin-bottom: 30px;
+        }
+
+        .dashboard-title h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: #1a1614;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-title p {
+            color: #a09890;
+            font-size: 0.95rem;
+        }
+
+        .top-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-content h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #06b6d4;
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 5px;
+        }
+
+        .stat-trend {
+            font-size: 0.85rem;
+            color: #06b6d4;
+            font-weight: 600;
+        }
+
+        .stat-trend.up::before {
+            content: "↑ ";
+        }
+
+        .stat-trend.down::before {
+            content: "↓ ";
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            opacity: 0.2;
+        }
+
+        .radar-chart {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .radar-chart h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #1a1614;
+        }
+
+        .radar-visual {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            background: radial-gradient(circle at 30% 30%, rgba(6, 182, 212, 0.2), transparent),
+                        radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.15), transparent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 2px solid #06b6d4;
+        }
+
+        .radar-center {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .radar-labels {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            font-size: 0.8rem;
+            color: #a09890;
+        }
+
+        .ranking-section {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .ranking-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #1a1614;
+            border-bottom: 2px solid #06b6d4;
+            padding-bottom: 10px;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f0e8;
+        }
+
+        .ranking-item:last-child {
+            border-bottom: none;
+        }
+
+        .ranking-badge {
+            width: 40px;
+            height: 40px;
+            background: #06b6d4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .ranking-info {
+            flex: 1;
+        }
+
+        .ranking-name {
+            font-weight: 600;
+            color: #1a1614;
+            font-size: 0.95rem;
+        }
+
+        .ranking-metric {
+            font-size: 0.85rem;
+            color: #a09890;
+        }
+
+        .timeline {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .timeline h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #1a1614;
+            border-bottom: 2px solid #06b6d4;
+            padding-bottom: 10px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            padding: 15px 0;
+            border-left: 3px solid #06b6d4;
+            padding-left: 20px;
+            margin-left: 0;
+        }
+
+        .timeline-item:last-child {
+            border-left: 3px solid transparent;
+        }
+
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            background: #06b6d4;
+            border-radius: 50%;
+            margin-top: 5px;
+            margin-left: -31px;
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: #06b6d4;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+        }
+
+        .timeline-content {
+            color: #1a1614;
+            font-size: 0.9rem;
+        }
+
+        .checklist {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .checklist h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #1a1614;
+            border-bottom: 2px solid #06b6d4;
+            padding-bottom: 10px;
+        }
+
+        .checklist-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #06b6d4;
+        }
+
+        .checklist-icon {
+            width: 24px;
+            height: 24px;
+            background: #06b6d4;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .checklist-text {
+            font-size: 0.9rem;
+            color: #1a1614;
+            font-weight: 500;
+        }
+
+        .bottom-action {
+            text-align: center;
+        }
+
+        .cta-button {
+            background: #06b6d4;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #0891b2;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .top-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <h1>Mockup 5: Analytics Dashboard</h1>
+        <p>Data-dense dashboard with stats, radar chart, rankings, timeline, and feature checklist</p>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-title">
+            <h1>Wooting 60HE+ Analytics</h1>
+            <p>Performance metrics and competitive position</p>
+        </div>
+
+        <div class="top-row">
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h3>Pro Usage Rate</h3>
+                    <div class="stat-value">15.2%</div>
+                    <div class="stat-trend up">2.4% from last month</div>
+                </div>
+                <div class="stat-icon">📊</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h3>Community Rating</h3>
+                    <div class="stat-value">9.4</div>
+                    <div class="stat-trend up">0.3 points</div>
+                </div>
+                <div class="stat-icon">⭐</div>
+            </div>
+        </div>
+
+        <div class="radar-chart">
+            <h2>Performance Profile</h2>
+            <div class="radar-visual">
+                <div class="radar-center">60HE+</div>
+            </div>
+            <div class="radar-labels">
+                <div>Response Speed</div>
+                <div>Build Quality</div>
+                <div>Features</div>
+                <div>Value</div>
+                <div>Design</div>
+                <div>Innovation</div>
+            </div>
+        </div>
+
+        <div class="ranking-section">
+            <h2>Competitive Position</h2>
+            <div class="ranking-item">
+                <div class="ranking-badge">1</div>
+                <div class="ranking-info">
+                    <div class="ranking-name">Polling Rate Category</div>
+                    <div class="ranking-metric">8000Hz - Fastest in class</div>
+                </div>
+            </div>
+            <div class="ranking-item">
+                <div class="ranking-badge">1</div>
+                <div class="ranking-info">
+                    <div class="ranking-name">Pro Endorsement</div>
+                    <div class="ranking-metric">Most used by professional players</div>
+                </div>
+            </div>
+            <div class="ranking-item">
+                <div class="ranking-badge">2</div>
+                <div class="ranking-info">
+                    <div class="ranking-name">Overall Rating</div>
+                    <div class="ranking-metric">9.4/10 - Second highest rated</div>
+                </div>
+            </div>
+            <div class="ranking-item">
+                <div class="ranking-badge">3</div>
+                <div class="ranking-info">
+                    <div class="ranking-name">Price to Performance</div>
+                    <div class="ranking-metric">$175 - Premium segment</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <h2>Pro Adoption Timeline</h2>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div>
+                    <div class="timeline-date">March 2023</div>
+                    <div class="timeline-content">Official release of Wooting 60HE+</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div>
+                    <div class="timeline-date">June 2023</div>
+                    <div class="timeline-content">s1mple and TenZ begin using in competitions</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div>
+                    <div class="timeline-date">September 2023</div>
+                    <div class="timeline-content">Reaches 10% pro usage rate milestone</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div>
+                    <div class="timeline-date">February 2024</div>
+                    <div class="timeline-content">Becomes #1 keyboard in professional CS2</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div>
+                    <div class="timeline-date">January 2026</div>
+                    <div class="timeline-content">15.2% pro usage rate - All-time high</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="checklist">
+            <h2>Features & Specifications</h2>
+            <div class="checklist-items">
+                <div class="checklist-item">
+                    <div class="checklist-icon">✓</div>
+                    <div class="checklist-text">Hot-Swappable</div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-icon">✓</div>
+                    <div class="checklist-text">Rapid Trigger</div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-icon">✓</div>
+                    <div class="checklist-text">Adjustable Actuation</div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-icon">✓</div>
+                    <div class="checklist-text">Hall Effect Switches</div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-icon">✓</div>
+                    <div class="checklist-text">8000Hz Polling</div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-icon">✓</div>
+                    <div class="checklist-text">PBT Keycaps</div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-icon">✓</div>
+                    <div class="checklist-text">USB-C Connection</div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-icon">✓</div>
+                    <div class="checklist-text">60% Layout</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-action">
+            <button class="cta-button">View Full Specifications</button>
+        </div>
+    </div>
+</body>
+</html>

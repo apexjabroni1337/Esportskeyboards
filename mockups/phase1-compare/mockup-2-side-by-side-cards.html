@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 2: Side-by-Side Cards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f0e8;
+            color: #1a1614;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #a09890;
+            font-size: 14px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e0d9d0;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #f5f0e8 0%, #ede7df 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        .card-header {
+            padding: 24px;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        .card-brand {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #a09890;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .card-rating {
+            font-size: 13px;
+            color: #b8956a;
+            font-weight: 700;
+        }
+
+        .card-specs {
+            padding: 24px;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0ebe3;
+            font-size: 13px;
+        }
+
+        .spec-row:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        .spec-value {
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spec-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 12px;
+        }
+
+        .indicator-better {
+            background: rgba(0, 255, 68, 0.2);
+            color: #00c800;
+        }
+
+        .indicator-worse {
+            background: rgba(200, 50, 50, 0.2);
+            color: #c83232;
+        }
+
+        .card-footer {
+            padding: 24px;
+            border-top: 1px solid #e0d9d0;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #06b6d4;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #0da5c0;
+        }
+
+        .btn-secondary {
+            background: #00ff44;
+            color: #000;
+        }
+
+        .btn-secondary:hover {
+            background: #00e63c;
+        }
+
+        .comparison-summary {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e0d9d0;
+            margin-bottom: 40px;
+        }
+
+        .summary-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .summary-item {
+            padding: 16px;
+            background: #f5f0e8;
+            border-radius: 8px;
+        }
+
+        .summary-item-label {
+            font-size: 12px;
+            color: #a09890;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .summary-item-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1614;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mockup 2: Side-by-Side Cards</h1>
+            <p>Two large product cards with clear spec comparison and visual indicators.</p>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Keyboard A: Wooting -->
+            <div class="card">
+                <div class="card-image">⌨️</div>
+                <div class="card-header">
+                    <div class="card-brand">Wooting</div>
+                    <div class="card-title">Wooting 60HE+</div>
+                    <div class="card-rating">★ 9.4 / 10</div>
+                </div>
+                <div class="card-specs">
+                    <div class="spec-row">
+                        <span class="spec-label">Weight</span>
+                        <span class="spec-value">360g <span class="spec-indicator indicator-better">✓</span></span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Switch Type</span>
+                        <span class="spec-value">Lekker Hall Effect</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Poll Rate</span>
+                        <span class="spec-value">8000Hz</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Rapid Trigger</span>
+                        <span class="spec-value">Yes ✓</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Wireless</span>
+                        <span class="spec-value">No</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Price</span>
+                        <span class="spec-value">$175 <span class="spec-indicator indicator-better">✓</span></span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Pro Usage</span>
+                        <span class="spec-value">15.2% <span class="spec-indicator indicator-better">✓</span></span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">Buy Now</button>
+                    <button class="btn btn-secondary">Learn More</button>
+                </div>
+            </div>
+
+            <!-- Keyboard B: Razer -->
+            <div class="card">
+                <div class="card-image">⌨️</div>
+                <div class="card-header">
+                    <div class="card-brand">Razer</div>
+                    <div class="card-title">Razer Huntsman V3 Pro Mini</div>
+                    <div class="card-rating">★ 9.1 / 10</div>
+                </div>
+                <div class="card-specs">
+                    <div class="spec-row">
+                        <span class="spec-label">Weight</span>
+                        <span class="spec-value">420g <span class="spec-indicator indicator-worse">✗</span></span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Switch Type</span>
+                        <span class="spec-value">Razer Analog Optical Gen-3</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Poll Rate</span>
+                        <span class="spec-value">8000Hz</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Rapid Trigger</span>
+                        <span class="spec-value">Yes ✓</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Wireless</span>
+                        <span class="spec-value">Yes <span class="spec-indicator indicator-better">✓</span></span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Price</span>
+                        <span class="spec-value">$250 <span class="spec-indicator indicator-worse">✗</span></span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Pro Usage</span>
+                        <span class="spec-value">8.1% <span class="spec-indicator indicator-worse">✗</span></span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">Buy Now</button>
+                    <button class="btn btn-secondary">Learn More</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-summary">
+            <div class="summary-title">Quick Comparison Summary</div>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-item-label">Best Overall</div>
+                    <div class="summary-item-value">Wooting 60HE+</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-item-label">Best Features</div>
+                    <div class="summary-item-value">Razer (Wireless)</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-item-label">Best Value</div>
+                    <div class="summary-item-value">Wooting 60HE+</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-item-label">Wins in Category</div>
+                    <div class="summary-item-value">5 out of 7</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-item-label">Key Differentiator</div>
+                    <div class="summary-item-value">Price & Pro Adoption</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-item-label">Recommendation</div>
+                    <div class="summary-item-value">Wooting for Esports</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

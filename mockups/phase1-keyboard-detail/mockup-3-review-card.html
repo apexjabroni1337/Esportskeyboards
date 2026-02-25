@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 3: Review Score Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f5f0e8;
+            color: #1a1614;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .mockup-header {
+            text-align: center;
+            padding: 20px;
+            background: #1a1614;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .mockup-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .mockup-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .review-header {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .score-badge {
+            flex-shrink: 0;
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .score-number {
+            font-size: 4rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .review-title h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #1a1614;
+        }
+
+        .review-title p {
+            font-size: 1rem;
+            color: #a09890;
+            margin-bottom: 20px;
+        }
+
+        .review-verdict {
+            background: rgba(6, 182, 212, 0.1);
+            padding: 15px;
+            border-left: 4px solid #06b6d4;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: #1a1614;
+        }
+
+        .review-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .review-section {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .review-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #1a1614;
+            border-bottom: 2px solid #06b6d4;
+            padding-bottom: 10px;
+        }
+
+        .pros-list,
+        .cons-list {
+            list-style: none;
+        }
+
+        .pros-list li,
+        .cons-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .pros-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #06b6d4;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .cons-list li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #8b5cf6;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .spec-bars {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .spec-bars h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #1a1614;
+            border-bottom: 2px solid #06b6d4;
+            padding-bottom: 10px;
+        }
+
+        .spec-bar {
+            margin-bottom: 20px;
+        }
+
+        .spec-bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .spec-bar-label-name {
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        .spec-bar-label-value {
+            color: #06b6d4;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .spec-bar-fill {
+            width: 100%;
+            height: 8px;
+            background: #f5f0e8;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .spec-bar-fill-inner {
+            height: 100%;
+            background: linear-gradient(90deg, #06b6d4 0%, #0891b2 100%);
+            border-radius: 4px;
+        }
+
+        .who-for {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .who-for h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #1a1614;
+            border-bottom: 2px solid #06b6d4;
+            padding-bottom: 10px;
+        }
+
+        .who-for-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .who-for-item {
+            background: rgba(6, 182, 212, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #06b6d4;
+            text-align: center;
+        }
+
+        .who-for-item p {
+            font-weight: 600;
+            color: #1a1614;
+            font-size: 0.9rem;
+        }
+
+        .testimonials {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .testimonials h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #1a1614;
+            border-bottom: 2px solid #06b6d4;
+            padding-bottom: 10px;
+        }
+
+        .testimonial-item {
+            background: rgba(245, 240, 232, 0.5);
+            padding: 15px;
+            border-left: 4px solid #b8956a;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #1a1614;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #06b6d4;
+            font-size: 0.85rem;
+        }
+
+        .buy-widget {
+            background: white;
+            border: 2px solid #b8956a;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .buy-widget h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #1a1614;
+        }
+
+        .buy-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #06b6d4;
+            margin: 15px 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .buy-btn {
+            background: #06b6d4;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .buy-btn:hover {
+            background: #0891b2;
+            transform: translateY(-2px);
+        }
+
+        .buy-seller {
+            font-size: 0.85rem;
+            color: #a09890;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <h1>Mockup 3: Review Score Card</h1>
+        <p>Professional review format with score badge, pros/cons, spec comparison bars, and testimonials</p>
+    </div>
+
+    <div class="container">
+        <div class="review-header">
+            <div class="score-badge">
+                <div class="score-number">9.4</div>
+                <div class="score-label">out of 10</div>
+            </div>
+            <div class="review-title">
+                <h1>Wooting 60HE+</h1>
+                <p>Professional Esports Keyboard</p>
+                <div class="review-verdict">
+                    The most trusted keyboard in competitive esports. Exceptional build quality, advanced features, and unmatched pro adoption make it the gold standard for tournament-ready gaming.
+                </div>
+            </div>
+        </div>
+
+        <div class="review-content">
+            <div class="review-section">
+                <h2>Pros</h2>
+                <ul class="pros-list">
+                    <li>8000Hz polling rate</li>
+                    <li>Adjustable Rapid Trigger</li>
+                    <li>Hall Effect switches</li>
+                    <li>Hot-swappable design</li>
+                    <li>PBT keycaps included</li>
+                    <li>15.2% pro usage rate</li>
+                    <li>Compact 60% layout</li>
+                    <li>USB-C connection</li>
+                </ul>
+            </div>
+            <div class="review-section">
+                <h2>Cons</h2>
+                <ul class="cons-list">
+                    <li>Premium price point</li>
+                    <li>Wired only (no wireless)</li>
+                    <li>Limited color options</li>
+                    <li>Steep learning curve</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="spec-bars">
+            <h2>Competitive Position</h2>
+            <div class="spec-bar">
+                <div class="spec-bar-label">
+                    <span class="spec-bar-label-name">Response Speed</span>
+                    <span class="spec-bar-label-value">95%</span>
+                </div>
+                <div class="spec-bar-fill">
+                    <div class="spec-bar-fill-inner" style="width: 95%;"></div>
+                </div>
+            </div>
+            <div class="spec-bar">
+                <div class="spec-bar-label">
+                    <span class="spec-bar-label-name">Build Quality</span>
+                    <span class="spec-bar-label-value">92%</span>
+                </div>
+                <div class="spec-bar-fill">
+                    <div class="spec-bar-fill-inner" style="width: 92%;"></div>
+                </div>
+            </div>
+            <div class="spec-bar">
+                <div class="spec-bar-label">
+                    <span class="spec-bar-label-name">Pro Endorsement</span>
+                    <span class="spec-bar-label-value">91%</span>
+                </div>
+                <div class="spec-bar-fill">
+                    <div class="spec-bar-fill-inner" style="width: 91%;"></div>
+                </div>
+            </div>
+            <div class="spec-bar">
+                <div class="spec-bar-label">
+                    <span class="spec-bar-label-name">Value for Money</span>
+                    <span class="spec-bar-label-value">78%</span>
+                </div>
+                <div class="spec-bar-fill">
+                    <div class="spec-bar-fill-inner" style="width: 78%;"></div>
+                </div>
+            </div>
+            <div class="spec-bar">
+                <div class="spec-bar-label">
+                    <span class="spec-bar-label-name">Customization</span>
+                    <span class="spec-bar-label-value">88%</span>
+                </div>
+                <div class="spec-bar-fill">
+                    <div class="spec-bar-fill-inner" style="width: 88%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="who-for">
+            <h2>Who's It For?</h2>
+            <div class="who-for-items">
+                <div class="who-for-item">
+                    <p>Pro Players</p>
+                </div>
+                <div class="who-for-item">
+                    <p>Esports Teams</p>
+                </div>
+                <div class="who-for-item">
+                    <p>Tournament Players</p>
+                </div>
+                <div class="who-for-item">
+                    <p>High-End Gamers</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonials">
+            <h2>Pro Player Testimonials</h2>
+            <div class="testimonial-item">
+                <div class="testimonial-text">"The Wooting 60HE+ is the only keyboard I trust for competitive play."</div>
+                <div class="testimonial-author">— s1mple, Natus Vincere</div>
+            </div>
+            <div class="testimonial-item">
+                <div class="testimonial-text">"Adjustable actuation changed how I approach the game. Best decision ever."</div>
+                <div class="testimonial-author">— TenZ, Sentinels</div>
+            </div>
+            <div class="testimonial-item">
+                <div class="testimonial-text">"The response time is unmatched. This is what tournament keyboards should be."</div>
+                <div class="testimonial-author">— ZywOo, Vitality</div>
+            </div>
+        </div>
+
+        <div class="buy-widget">
+            <h3>Purchase</h3>
+            <div class="buy-price">$175</div>
+            <button class="buy-btn">Buy from Amazon</button>
+            <div class="buy-seller">Also available at: Best Buy, Newegg, Direct from Wooting</div>
+        </div>
+    </div>
+</body>
+</html>
