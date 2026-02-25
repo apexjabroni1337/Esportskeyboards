@@ -4,7 +4,7 @@ import { keyboards, allPlayers, proPlayers, BRAND_COLORS, KEYBOARD_IMAGE_URLS, K
 
 const slug = (n) => n.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
 
-const BRANDS = [...new Set(keyboards.map((m) => m.brand))];
+const BRANDS = [...new Set(keyboards.map((m) => m.brand))].filter(Boolean);
 
 const BRAND_DESCRIPTIONS = {
   Razer: "Razer is one of the world's largest gaming peripherals companies and a dominant force in esports keyboards. Founded in 2005, Razer has built its reputation on aggressive innovation and cutting-edge technology. The Viper V3 Pro currently leads the professional scene with its symmetrical low-profile shape and optical analog switches. Razer keyboards are known for their HyperPolling wireless technology, lightweight construction, and the distinctive green-and-black branding that is instantly recognizable in any gaming setup. The Huntsman series has become the company's flagship rapid trigger offering. Razer's extensive investment in professional esports sponsorships has made their keyboards the most commonly seen brand on tournament stages worldwide.",

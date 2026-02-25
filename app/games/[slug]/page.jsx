@@ -8,7 +8,7 @@ const GREEN = "#b8956a";
 const findKeyboard = (name) => name ? keyboards.find((m) => name.includes(m.name) || m.name.includes(name)) : undefined;
 const mSlug = (name) => { const m = findKeyboard(name); return m ? slug(m.name) : null; };
 
-const ALL_GAMES = [...new Set(allPlayers.map((p) => p.game))].sort((a, b) =>
+const ALL_GAMES = [...new Set(allPlayers.map((p) => p.game))].filter(Boolean).sort((a, b) =>
   allPlayers.filter((p) => p.game === b).length - allPlayers.filter((p) => p.game === a).length
 );
 

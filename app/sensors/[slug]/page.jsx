@@ -67,7 +67,7 @@ function getSensorData(sensorName) {
 }
 
 function getAllSensors() {
-  return [...new Set(keyboards.map(m => m.switchType))].sort();
+  return [...new Set(keyboards.map(m => m.switchType))].filter(Boolean).sort();
 }
 
 export function generateStaticParams() {
