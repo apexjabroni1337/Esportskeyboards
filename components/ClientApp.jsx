@@ -158,6 +158,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
       }
     } catch {}
   }, []);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sortBy, setSortBy] = useState("proUsage");
   const [filterBrand, setFilterBrand] = useState("All");
   const [filterWeight, setFilterWeight] = useState("All");
@@ -502,10 +503,12 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #06b6d440, #8b5cf640); border-radius: 3px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        .ek-sidebar { width: 64px; transition: width 0.3s cubic-bezier(0.4,0,0.2,1); }
-        .ek-sidebar:hover, .ek-sidebar.expanded { width: 220px; }
-        .ek-sidebar .tab-label { opacity: 0; transition: opacity 0.2s ease; white-space: nowrap; }
-        .ek-sidebar:hover .tab-label, .ek-sidebar.expanded .tab-label { opacity: 1; }
+        .ek-sidebar { width: 220px; transition: width 0.3s cubic-bezier(0.4,0,0.2,1); }
+        .ek-sidebar.collapsed { width: 64px; }
+        .ek-sidebar.collapsed:hover { width: 220px; }
+        .ek-sidebar .tab-label { opacity: 1; transition: opacity 0.2s ease; white-space: nowrap; }
+        .ek-sidebar.collapsed .tab-label { opacity: 0; }
+        .ek-sidebar.collapsed:hover .tab-label { opacity: 1; }
       `}</style>
 
       {/* Skip to content for accessibility */}
@@ -790,7 +793,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
       </header>
 
       {/* ─── DESKTOP SIDEBAR ─── */}
-      <nav aria-label="Main navigation" className="ek-sidebar hidden md:flex flex-col fixed left-0 top-16 bottom-0 z-40 overflow-y-auto overflow-x-hidden"
+      <nav aria-label="Main navigation" className={`ek-sidebar hidden md:flex flex-col fixed left-0 top-16 bottom-0 z-40 overflow-y-auto overflow-x-hidden${sidebarCollapsed ? " collapsed" : ""}`}
         style={{ background: "rgba(255,255,255,0.7)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderRight: "1px solid rgba(0,0,0,0.06)" }}>
         <div className="flex flex-col gap-1 py-4 px-2 flex-1">
           {tabs.map(t => {
@@ -813,6 +816,16 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             );
           })}
         </div>
+        <button onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+          className="flex items-center justify-center px-2 py-3 transition-all hover:bg-black/5"
+          style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }}
+          title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a09890" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+            style={{ transform: sidebarCollapsed ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s ease" }}>
+            <polyline points="11 17 6 12 11 7" /><polyline points="18 17 13 12 18 7" />
+          </svg>
+          <span className="tab-label text-xs ml-2" style={{ color: "#a09890" }}>{sidebarCollapsed ? "Expand" : "Collapse"}</span>
+        </button>
       </nav>
 
       {/* ─── MOBILE BOTTOM TAB BAR ─── */}
@@ -887,7 +900,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
       )}
 
       {/* ─── Content wrapper with sidebar offset ─── */}
-      <div className="md:ml-16 pb-20 md:pb-0 transition-all duration-300">
+      <div className={`pb-20 md:pb-0 transition-all duration-300 ${sidebarCollapsed ? "md:ml-16" : "md:ml-[220px]"}`}>
 
       {/* ═══════════════════════════════════════════════════════
            HERO SECTION — Split Layout with Keycap Decorations
