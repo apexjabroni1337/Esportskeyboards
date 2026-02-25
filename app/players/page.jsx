@@ -4,13 +4,13 @@ import { allPlayers, proPlayers, keyboards, BRAND_COLORS } from "@/data";
 
 export const metadata = {
   title: "Pro Players — Esports Keyboard Settings & Gear",
-  description: "Browse 2100+ professional esports players and their keyboard settings. Find DPI, sensitivity, eDPI, polling rate, and gear for CS2, Valorant, LoL, Fortnite, and more.",
+  description: "Browse 2100+ professional esports players and their keyboard settings. Find polling rate, switch type, actuation, and gear for CS2, Valorant, LoL, Fortnite, and more.",
   alternates: { canonical: "https://esportskeyboards.com/players" },
   openGraph: {
     title: "Pro Players — Esports Keyboard Settings & Gear",
     description: "Browse 2100+ professional esports players and their keyboard settings across 13 major competitive titles.",
     url: "https://esportskeyboards.com/players",
-    images: [{ url: "https://esportskeyboards.com/og?title=Pro+Players&subtitle=2100%2B+Players+%C2%B7+Keyboard+Settings+%C2%B7+DPI+%C2%B7+Sensitivity", width: 1200, height: 630 }],
+    images: [{ url: "https://esportskeyboards.com/og?title=Pro+Players&subtitle=2100%2B+Players+%C2%B7+Keyboard+Settings+%C2%B7+Switches+%C2%B7+Gear", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
@@ -68,19 +68,19 @@ export default function PlayersPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "FAQPage",
         mainEntity: [
-          { "@type": "Question", name: "What DPI do most pro players use?", acceptedAnswer: { "@type": "Answer", text: `The average DPI among ${allPlayers.length}+ pro players is ${avgDpi}. The most common DPI setting is 800, followed by 400 and 1600. However, the effective sensitivity (eDPI = DPI × in-game sens) is what matters most for aiming, and this varies significantly by game.` }},
+          { "@type": "Question", name: "What keyboards do most pro players use?", acceptedAnswer: { "@type": "Answer", text: `Among ${allPlayers.length}+ tracked pro players, the most popular keyboard is the ${mostUsedKeyboard[0]} used by ${mostUsedKeyboard[1]} players. Hall Effect and rapid trigger keyboards dominate the competitive scene.` }},
           { "@type": "Question", name: "What keyboard do CS2 pros use?", acceptedAnswer: { "@type": "Answer", text: `The most popular keyboard among CS2 professionals is the ${mostUsedKeyboard[0]}, used by ${mostUsedKeyboard[1]} tracked players. Keyboards with rapid trigger and Hall Effect switches dominate the CS2 pro scene.` }},
-          { "@type": "Question", name: "What eDPI should I use?", acceptedAnswer: { "@type": "Answer", text: `The average eDPI across all pro players is ${avgEdpi}. For CS2/Valorant, most pros use 200-1000 eDPI. For Fortnite, 2000-6000 is typical. For LoL/Dota 2, 3000-15000 is common. Start near the average for your game and adjust based on comfort.` }},
+          { "@type": "Question", name: "What features matter most in a gaming keyboard?", acceptedAnswer: { "@type": "Answer", text: `Pro players prioritize rapid trigger technology, low actuation points (0.1-0.2mm), high polling rates (1000-8000Hz), and Hall Effect magnetic switches. Lightweight keyboards with hot-swappable switches are also increasingly popular in competitive gaming.` }},
         ],
       }) }} />
       <article
         className="absolute overflow-hidden"
         style={{ width: 1, height: 1, padding: 0, margin: -1, clip: "rect(0,0,0,0)", whiteSpace: "nowrap", border: 0 }}
       >
-        <h1>Professional Esports Players — Keyboard Settings, DPI, Sensitivity and Gear</h1>
+        <h1>Professional Esports Players — Keyboard Settings and Gear</h1>
         <p>
           Browse the keyboard settings and gear of {allPlayers.length.toLocaleString()}+ professional esports players
-          across {games.length} major competitive titles. Find DPI, in-game sensitivity, eDPI, polling rate,
+          across {games.length} major competitive titles. Find polling rate, switch type, actuation point,
           and the exact keyboard model used by your favorite pros.
         </p>
 

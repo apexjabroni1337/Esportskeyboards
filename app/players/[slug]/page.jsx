@@ -96,13 +96,8 @@ export default function PlayerProfilePage({ params }) {
   const keyboardSlugVal = keyboardData ? slug(keyboardData.name) : null;
   const mouseDesc = keyboardData ? KEYBOARD_DESCRIPTIONS[keyboardData.name] : null;
 
-  // Sensitivity analysis
+  // Game players for context
   const allGamePlayers = allPlayers.filter((p) => p.game === player.game);
-  const avgEdpi = Math.round(allGamePlayers.reduce((a, p) => a + p.edpi, 0) / allGamePlayers.length);
-  const avgDpi = Math.round(allGamePlayers.reduce((a, p) => a + p.dpi, 0) / allGamePlayers.length);
-  const edpiPercentile = Math.round(allGamePlayers.filter((p) => p.edpi <= player.edpi).length / allGamePlayers.length * 100);
-  const sensCategory = player.edpi < avgEdpi * 0.7 ? "low" : player.edpi > avgEdpi * 1.3 ? "high" : "medium";
-  const cm360 = keyboardData ? Math.round(360 / (player.edpi * 0.022) * 10) / 10 : null;
 
   return (
     <>

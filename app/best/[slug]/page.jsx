@@ -199,7 +199,7 @@ export default function BestForPage({ params }) {
         <SSRGrid>
           <SSRStat label="#1 Pick" value={topKeyboardsForPage[0]?.name || "—"} color={BRAND_COLORS[topKeyboardsForPage[0]?.brand] || "#b8956a"} />
           <SSRStat label="#2 Pick" value={topKeyboardsForPage[1]?.name || "—"} color={BRAND_COLORS[topKeyboardsForPage[1]?.brand] || "#6b8cad"} />
-          {isGame && <SSRStat label="Avg DPI" value={avgDpi.toString()} color="#b8956a" />}
+          {isGame && <SSRStat label="Pro Players" value={players.length.toString()} color="#b8956a" />}
           <SSRStat label="Players Tracked" value={players.length.toString()} color="#a78bfa" />
         </SSRGrid>
         <div className="flex flex-wrap gap-2">
