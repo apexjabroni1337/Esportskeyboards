@@ -983,19 +983,27 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
         {/* ── OVERVIEW TAB ── */}
         {activeTab === "overview" && (
           <div>
-            <SectionTitle color="#b8956a" sub={`Based on data from ${allPlayers.length} professional esports players across ${new Set(allPlayers.map(p=>p.game)).size} major titles`}>Keyboard Usage by Professional Players</SectionTitle>
-            <div className="rounded-2xl p-2 sm:p-6" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
-              <ResponsiveContainer width="100%" height={280}>
-                <BarChart data={proUsageChart} margin={{ top: 10, right: 30, left: 0, bottom: 60 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#00000008" />
-                  <XAxis dataKey="name" tick={{ fill: "#a09890", fontSize: 13 }} angle={-35} textAnchor="end" interval={0} />
-                  <YAxis tick={{ fill: "#a09890", fontSize: 13 }} unit="%" />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Bar dataKey="usage" radius={[6, 6, 0, 0]} name="Pro Usage" label={{ position: "top", fill: "#8a8078", fontSize: 13, formatter: (v) => `${v}%` }}>
-                    {proUsageChart.map((entry, i) => <Cell key={i} fill={entry.fill} fillOpacity={0.8} />)}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+            <SectionTitle color="#06b6d4" sub={`Based on data from ${allPlayers.length} professional esports players across ${new Set(allPlayers.map(p=>p.game)).size} major titles`}>Keyboard Usage by Professional Players</SectionTitle>
+            {/* ── Horizontal Race Bars ── */}
+            <div className="glass-card rounded-2xl p-4 sm:p-6" style={{ background: "rgba(255,255,255,0.55)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(0,0,0,0.06)" }}>
+              {(() => {
+                const maxUsage = Math.max(...proUsageChart.map(d => d.usage));
+                return (
+                  <div className="flex flex-col gap-2.5">
+                    {proUsageChart.map((d, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <span className="w-6 text-right flex-shrink-0" style={{ fontSize: 13, fontWeight: 800, color: "#a09890", fontFamily: "'Fira Code', monospace" }}>{i + 1}</span>
+                        <div className="flex-1 relative rounded-xl overflow-hidden" style={{ height: 38, background: "rgba(255,255,255,0.5)", border: "1px solid rgba(0,0,0,0.04)" }}>
+                          <div className="h-full rounded-xl flex items-center pl-3 transition-all duration-1000" style={{ width: `${Math.max((d.usage / maxUsage) * 100, 12)}%`, background: `linear-gradient(90deg, ${d.fill}20, ${d.fill}60)` }}>
+                            <span className="text-sm font-bold whitespace-nowrap" style={{ color: "#1a1614", fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>{d.name}</span>
+                          </div>
+                          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-extrabold" style={{ color: d.fill, fontFamily: "'Fira Code', monospace" }}>{d.usage}%</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
             </div>
 
             {/* ── QUICK INSIGHTS ── */}

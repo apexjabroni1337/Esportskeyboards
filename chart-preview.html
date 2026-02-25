@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chart Design Options — EsportsKeyboards</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Fira+Code:wght@400;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f5f0e8; font-family: 'Outfit', system-ui, sans-serif; color: #1a1614; padding: 40px 20px; }
+  h1 { font-family: 'Space Grotesk', sans-serif; font-size: 28px; text-align: center; margin-bottom: 8px; }
+  .subtitle { text-align: center; color: #a09890; font-size: 14px; margin-bottom: 40px; }
+  .option { max-width: 800px; margin: 0 auto 48px; }
+  .option-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .option-num { background: linear-gradient(135deg, #06b6d4, #8b5cf6); color: #fff; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; font-family: 'Space Grotesk'; }
+  .option-title { font-family: 'Space Grotesk'; font-size: 18px; font-weight: 700; }
+  .option-desc { font-size: 13px; color: #6b635b; }
+  .chart-container { border-radius: 20px; overflow: hidden; }
+
+  /* Glass card base */
+  .glass { background: rgba(255,255,255,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(0,0,0,0.06); border-radius: 20px; padding: 32px; }
+
+  /* Option 1: Race Bars */
+  .race-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .race-rank { width: 24px; font-size: 13px; font-weight: 800; color: #a09890; text-align: right; font-family: 'Fira Code'; }
+  .race-track { flex: 1; position: relative; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.04); overflow: hidden; }
+  .race-fill { height: 100%; border-radius: 10px; display: flex; align-items: center; padding-left: 12px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+  .race-name { font-size: 13px; font-weight: 700; color: #1a1614; font-family: 'Space Grotesk'; white-space: nowrap; }
+  .race-val { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; font-weight: 800; font-family: 'Fira Code'; }
+
+  /* Option 2: Donut */
+  .donut-wrap { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; justify-content: center; }
+  .donut-ring { width: 220px; height: 220px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .donut-center { width: 140px; height: 140px; border-radius: 50%; background: #f5f0e8; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .donut-legend { display: flex; flex-direction: column; gap: 8px; }
+  .donut-legend-item { display: flex; align-items: center; gap: 10px; }
+  .donut-swatch { width: 28px; height: 22px; border-radius: 4px; clip-path: polygon(3px 0, 100% 0, 100% calc(100% - 3px), calc(100% - 3px) 100%, 0 100%, 0 3px); }
+
+  /* Option 3: Podium */
+  .podium-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .podium-card { background: rgba(255,255,255,0.55); backdrop-filter: blur(12px); border-radius: 16px; padding: 24px; text-align: center; transition: transform 0.3s; }
+  .podium-card:hover { transform: translateY(-4px); }
+  .rest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .rest-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px; background: rgba(255,255,255,0.4); border: 1px solid rgba(0,0,0,0.04); }
+
+  /* Option 4: Treemap */
+  .treemap { display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: 80px; gap: 8px; }
+  .treemap-cell { border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; transition: all 0.3s; }
+  .treemap-cell:hover { transform: scale(1.03); }
+
+  /* Option 5: Rings */
+  .rings-top { display: flex; justify-content: center; gap: 32px; margin-bottom: 24px; flex-wrap: wrap; }
+  .rings-rest { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+  .ring-label { text-align: center; }
+
+  .section-title { font-family: 'Space Grotesk'; font-size: 18px; font-weight: 700; margin-bottom: 20px; color: #1a1614; }
+
+  @media (max-width: 640px) {
+    .podium-grid { grid-template-columns: 1fr; }
+    .rest-grid { grid-template-columns: 1fr; }
+    .donut-wrap { flex-direction: column; }
+    .treemap { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<h1>Chart Redesign Options</h1>
+<p class="subtitle">5 different ways to visualize "Keyboard Usage by Professional Players"</p>
+
+<!-- Data -->
+<script>
+const data = [
+  { name: "Wooting 60HE+", short: "60HE+", usage: 20.1, fill: "#e84393", brand: "Wooting" },
+  { name: "Huntsman V3 Pro TKL", short: "Huntsman TKL", usage: 19.8, fill: "#00c853", brand: "Razer" },
+  { name: "Wooting 80HE", short: "80HE", usage: 17.8, fill: "#8b5cf6", brand: "Wooting" },
+  { name: "G Pro X TKL", short: "G Pro X TKL", usage: 7.2, fill: "#00b4d8", brand: "Logitech" },
+  { name: "Huntsman V3 Pro Mini", short: "Huntsman Mini", usage: 6.1, fill: "#10b981", brand: "Razer" },
+  { name: "Apex Pro TKL (2024)", short: "Apex Pro TKL", usage: 6.0, fill: "#ff6600", brand: "SteelSeries" },
+  { name: "Huntsman V3 Pro", short: "Huntsman V3", usage: 2.9, fill: "#22c55e", brand: "Razer" },
+  { name: "Apex Pro Mini", short: "Apex Mini", usage: 2.1, fill: "#f97316", brand: "SteelSeries" },
+  { name: "G715", short: "G715", usage: 1.9, fill: "#0ea5e9", brand: "Logitech" },
+  { name: "Falchion Ace HFX", short: "Falchion HFX", usage: 1.6, fill: "#ef4444", brand: "ASUS" },
+];
+const max = Math.max(...data.map(d => d.usage));
+</script>
+
+<!-- OPTION 1: Horizontal Race Bars -->
+<div class="option">
+  <div class="option-header">
+    <div class="option-num">1</div>
+    <div>
+      <div class="option-title">Horizontal Race Bars</div>
+      <div class="option-desc">Clean leaderboard-style horizontal bars with glassmorphism — names embedded in bars, ranked top-to-bottom</div>
+    </div>
+  </div>
+  <div class="glass" id="chart1"></div>
+</div>
+
+<!-- OPTION 2: Donut Chart -->
+<div class="option">
+  <div class="option-header">
+    <div class="option-num">2</div>
+    <div>
+      <div class="option-title">Donut Chart + Keycap Legend</div>
+      <div class="option-desc">Big donut showing proportional market share with the #1 keyboard highlighted in the center. Keycap-shaped swatches in the legend</div>
+    </div>
+  </div>
+  <div class="glass" id="chart2"></div>
+</div>
+
+<!-- OPTION 3: Podium Cards -->
+<div class="option">
+  <div class="option-header">
+    <div class="option-num">3</div>
+    <div>
+      <div class="option-title">Podium + Compact Grid</div>
+      <div class="option-desc">Top 3 keyboards get hero-sized glassmorphism podium cards with glow effects. Remaining keyboards in a clean 2-column compact list below</div>
+    </div>
+  </div>
+  <div id="chart3" style="padding: 32px;"></div>
+</div>
+
+<!-- OPTION 4: Treemap Mosaic -->
+<div class="option">
+  <div class="option-header">
+    <div class="option-num">4</div>
+    <div>
+      <div class="option-title">Proportional Treemap Mosaic</div>
+      <div class="option-desc">Each keyboard gets a proportionally-sized colored rectangle — top 3 are large blocks, smaller ones fill the remaining space like a mosaic</div>
+    </div>
+  </div>
+  <div class="glass" id="chart4"></div>
+</div>
+
+<!-- OPTION 5: Circular Progress Rings -->
+<div class="option">
+  <div class="option-header">
+    <div class="option-num">5</div>
+    <div>
+      <div class="option-title">Circular Progress Rings</div>
+      <div class="option-desc">Modern dashboard-style circular rings. Top 3 are large glowing rings, the rest are smaller. Each ring fills proportionally to usage percentage</div>
+    </div>
+  </div>
+  <div class="glass" id="chart5"></div>
+</div>
+
+<script>
+// ── OPTION 1: Race Bars ──
+(function() {
+  const el = document.getElementById('chart1');
+  let html = '<div class="section-title">Keyboard Usage by Professional Players</div>';
+  data.forEach((d, i) => {
+    const w = (d.usage / max * 100);
+    html += `<div class="race-bar">
+      <span class="race-rank">${i+1}</span>
+      <div class="race-track">
+        <div class="race-fill" style="width:${w}%;background:linear-gradient(90deg,${d.fill}25,${d.fill}70)">
+          <span class="race-name">${d.short}</span>
+        </div>
+        <span class="race-val" style="color:${d.fill}">${d.usage}%</span>
+      </div>
+    </div>`;
+  });
+  el.innerHTML = html;
+})();
+
+// ── OPTION 2: Donut ──
+(function() {
+  const el = document.getElementById('chart2');
+  // Build conic gradient
+  let gradParts = [];
+  let cumulative = 0;
+  const total = data.reduce((s,d) => s + d.usage, 0);
+  const other = 100 - total;
+  data.forEach(d => {
+    const start = (cumulative / (total + other)) * 100;
+    cumulative += d.usage;
+    const end = (cumulative / (total + other)) * 100;
+    gradParts.push(`${d.fill} ${start.toFixed(1)}% ${end.toFixed(1)}%`);
+  });
+  gradParts.push(`#d4cfc8 ${((cumulative/(total+other))*100).toFixed(1)}% 100%`);
+
+  let html = `<div class="section-title">Keyboard Market Share</div>
+  <div class="donut-wrap">
+    <div class="donut-ring" style="background:conic-gradient(${gradParts.join(',')})">
+      <div class="donut-center">
+        <span style="font-size:28px;font-weight:800;color:${data[0].fill};font-family:'Space Grotesk'">${data[0].usage}%</span>
+        <span style="font-size:11px;color:#a09890;font-weight:600">${data[0].name}</span>
+      </div>
+    </div>
+    <div class="donut-legend">`;
+  data.forEach(d => {
+    html += `<div class="donut-legend-item">
+      <div class="donut-swatch" style="background:${d.fill}"></div>
+      <span style="font-size:13px;color:#1a1614;font-weight:600;font-family:'Space Grotesk';min-width:160px">${d.name}</span>
+      <span style="font-size:13px;font-weight:800;color:${d.fill};font-family:'Fira Code'">${d.usage}%</span>
+    </div>`;
+  });
+  html += `<div class="donut-legend-item">
+    <div class="donut-swatch" style="background:#d4cfc8"></div>
+    <span style="font-size:13px;color:#1a1614;font-weight:600;font-family:'Space Grotesk';min-width:160px">Other</span>
+    <span style="font-size:13px;font-weight:800;color:#d4cfc8;font-family:'Fira Code'">${other.toFixed(1)}%</span>
+  </div>`;
+  html += `</div></div>`;
+  el.innerHTML = html;
+})();
+
+// ── OPTION 3: Podium ──
+(function() {
+  const el = document.getElementById('chart3');
+  const medals = ['🥇','🥈','🥉'];
+  let html = '<div class="section-title">Most Used Pro Keyboards</div><div class="podium-grid">';
+  data.slice(0,3).forEach((d,i) => {
+    html += `<div class="podium-card" style="border:1px solid ${d.fill}20;box-shadow:0 0 24px ${d.fill}15">
+      <div style="font-size:32px;margin-bottom:8px">${medals[i]}</div>
+      <div style="font-size:28px;font-weight:800;color:${d.fill};font-family:'Space Grotesk'">${d.usage}%</div>
+      <div style="font-size:14px;font-weight:700;color:#1a1614;margin-top:4px;font-family:'Space Grotesk'">${d.name}</div>
+      <div style="font-size:11px;color:#a09890;margin-top:2px">${d.brand}</div>
+      <div style="height:4px;border-radius:2px;background:#f0ede8;margin-top:12px;overflow:hidden">
+        <div style="height:100%;width:${d.usage*4}%;background:linear-gradient(90deg,#06b6d4,#8b5cf6);border-radius:2px"></div>
+      </div>
+    </div>`;
+  });
+  html += '</div><div class="rest-grid">';
+  data.slice(3).forEach((d,i) => {
+    html += `<div class="rest-item">
+      <span style="font-size:12px;font-weight:800;color:#a09890;width:20px">#${i+4}</span>
+      <span style="font-size:13px;font-weight:600;color:#1a1614;flex:1;font-family:'Space Grotesk'">${d.name}</span>
+      <span style="font-size:13px;font-weight:800;color:${d.fill};font-family:'Fira Code'">${d.usage}%</span>
+    </div>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
+})();
+
+// ── OPTION 4: Treemap ──
+(function() {
+  const el = document.getElementById('chart4');
+  let html = '<div class="section-title">Pro Keyboard Landscape</div><div class="treemap">';
+  data.forEach((d,i) => {
+    const span = i < 3 ? 2 : 1;
+    const rowSpan = i < 3 ? 2 : 1;
+    html += `<div class="treemap-cell" style="grid-column:span ${span};grid-row:span ${rowSpan};background:${d.fill}12;border:1px solid ${d.fill}25"
+      onmouseover="this.style.boxShadow='0 0 20px ${d.fill}25'" onmouseout="this.style.boxShadow='none'">
+      <div style="font-size:${i<3?24:16}px;font-weight:800;color:${d.fill};font-family:'Space Grotesk'">${d.usage}%</div>
+      <div style="font-size:${i<3?13:11}px;font-weight:600;color:#1a1614;margin-top:2px">${d.name}</div>
+    </div>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
+})();
+
+// ── OPTION 5: Rings ──
+(function() {
+  const el = document.getElementById('chart5');
+  function ring(size, stroke, pct, color, label, value) {
+    const r = (size - stroke) / 2;
+    const circ = 2 * Math.PI * r;
+    const offset = circ - (pct / 100) * circ;
+    return `<div class="ring-label">
+      <svg width="${size}" height="${size}" style="transform:rotate(-90deg)">
+        <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#f0ede8" stroke-width="${stroke}" />
+        <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}"
+          stroke-dasharray="${circ}" stroke-dashoffset="${offset}" stroke-linecap="round"
+          style="transition:stroke-dashoffset 1.5s ease;filter:drop-shadow(0 0 6px ${color}40)" />
+        <text x="${size/2}" y="${size/2}" text-anchor="middle" dy="0.35em" fill="${color}"
+          style="font-size:${size>100?20:14}px;font-weight:800;font-family:'Space Grotesk';transform:rotate(90deg);transform-origin:center">
+          ${value}%
+        </text>
+      </svg>
+      <div style="font-size:${size>100?12:10}px;font-weight:600;color:#1a1614;margin-top:4px;font-family:'Space Grotesk'">${label}</div>
+    </div>`;
+  }
+  let html = '<div class="section-title">Keyboard Usage Rings</div><div class="rings-top">';
+  data.slice(0,3).forEach(d => {
+    html += ring(140, 10, (d.usage/max)*100, d.fill, d.short, d.usage);
+  });
+  html += '</div><div class="rings-rest">';
+  data.slice(3).forEach(d => {
+    html += ring(90, 6, (d.usage/max)*100, d.fill, d.short, d.usage);
+  });
+  html += '</div>';
+  el.innerHTML = html;
+})();
+</script>
+
+</body>
+</html>
