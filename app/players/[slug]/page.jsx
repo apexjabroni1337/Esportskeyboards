@@ -289,7 +289,7 @@ export default function PlayerProfilePage({ params }) {
         {/* Same keyboard players */}
         {(() => {
           const sameMousePlayers = proPlayers.filter((p) => {
-            if (p.name === player.name) return false;
+            if (p.name === player.name || !p.keyboard || !player.keyboard) return false;
             const pm = p.keyboard.toLowerCase(), cm = player.keyboard.toLowerCase();
             return pm === cm || pm.includes(cm) || cm.includes(pm);
           }).slice(0, 20);

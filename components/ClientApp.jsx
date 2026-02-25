@@ -1014,8 +1014,8 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               const allEdpis = allPlayers.filter(p => p.edpi > 0 && p.edpi < 50000).map(p => p.edpi);
               const avgEdpi = allEdpis.length ? Math.round(allEdpis.reduce((a,b) => a+b, 0) / allEdpis.length) : 0;
               const lightest = [...keyboards].sort((a,b) => a.weight - b.weight)[0];
-              const uniqueBrands = new Set(allPlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || p.keyboard.includes(mm.name)); return m?.brand; }).filter(Boolean));
-              const playerWeights = allPlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || p.keyboard.includes(mm.name)); return m?.weight; }).filter(Boolean);
+              const uniqueBrands = new Set(allPlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name))); return m?.brand; }).filter(Boolean));
+              const playerWeights = allPlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name))); return m?.weight; }).filter(Boolean);
               const avgProWeight = playerWeights.length ? Math.round(playerWeights.reduce((a,b) => a+b, 0) / playerWeights.length) : 0;
               return (
               <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-3 my-4 sm:my-6 text-center">
@@ -1927,7 +1927,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
           // Brand stats
           const brandCounts = {};
           gamePlayers.forEach(p => {
-            const m = keyboards.find(mm => mm.name === p.keyboard || p.keyboard.includes(mm.name));
+            const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name)));
             if (m) brandCounts[m.brand] = (brandCounts[m.brand] || 0) + 1;
           });
           const brandRanking = Object.entries(brandCounts).sort((a, b) => b[1] - a[1]);
@@ -1950,19 +1950,19 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
           const maxEdpi = edpis.length ? Math.max(...edpis) : null;
 
           // Weight stats
-          const weights = gamePlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || p.keyboard.includes(mm.name)); return m?.weight; }).filter(Boolean);
+          const weights = gamePlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name))); return m?.weight; }).filter(Boolean);
           const avgWeight = weights.length ? Math.round(weights.reduce((a, b) => a + b, 0) / weights.length) : 0;
           const lightPct = weights.length ? Math.round(weights.filter(w => w < 60).length / weights.length * 100) : 0;
           const midPct = weights.length ? Math.round(weights.filter(w => w >= 60 && w < 75).length / weights.length * 100) : 0;
           const heavyPct = weights.length ? Math.round(weights.filter(w => w >= 75).length / weights.length * 100) : 0;
 
           // Shape preference
-          const shapes = gamePlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || p.keyboard.includes(mm.name)); return m?.layout; }).filter(Boolean);
+          const shapes = gamePlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name))); return m?.layout; }).filter(Boolean);
           const symPct = shapes.length ? Math.round(shapes.filter(s => s === "Symmetrical").length / shapes.length * 100) : 50;
           const ergoPct = 100 - symPct;
 
           // Wireless stats
-          const connTypes = gamePlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || p.keyboard.includes(mm.name)); return m?.connectivity; }).filter(Boolean);
+          const connTypes = gamePlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name))); return m?.connectivity; }).filter(Boolean);
           const wirelessPct = connTypes.length ? Math.round(connTypes.filter(c => c === "Wireless").length / connTypes.length * 100) : 0;
 
           // Polling rate distribution
@@ -2434,7 +2434,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             {/* Shop by Gear Category */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-8">
               {(() => {
-                const gameKeyboardData = gamePlayers.map(p => keyboards.find(mm => mm.name === p.keyboard || p.keyboard.includes(mm.name))).filter(Boolean);
+                const gameKeyboardData = gamePlayers.map(p => keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name)))).filter(Boolean);
                 const lightestUsed = [...new Set(gameKeyboardData)].filter(m => m.weight < 60).sort((a, b) => a.weight - b.weight)[0];
                 const topWireless = [...new Set(gameKeyboardData)].filter(m => m.connectivity === "Wireless").sort((a, b) => b.proUsage - a.proUsage)[0];
                 const bestValue = [...new Set(gameKeyboardData)].filter(m => m.proUsage >= 1).sort((a, b) => a.price - b.price)[0];
@@ -2463,7 +2463,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 <SectionTitle color={col} sub="Star players and their complete keyboard configurations">Featured Pro Players</SectionTitle>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
                   {featuredPlayers.slice(0, 12).map((p, i) => {
-                    const m = keyboards.find(mm => mm.name === p.keyboard || p.keyboard.includes(mm.name));
+                    const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name)));
                     return (
                       <div key={i} className="rounded-xl p-4 cursor-pointer transition-all hover:scale-[1.02]"
                         style={{ background: `${col}06`, border: `1px solid ${col}10` }}
@@ -3259,15 +3259,15 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             .filter(p => gameFilter === "All" || p.game === gameFilter)
             .filter(p => roleFilter === "All" || p.role === roleFilter)
             .filter(p => countryFilter === "All" || p.country === countryFilter)
-            .filter(p => !keyboardFilter || p.keyboard.toLowerCase().includes(keyboardFilter.toLowerCase()))
-            .filter(p => !teamFilter || p.team.toLowerCase().includes(teamFilter.toLowerCase()))
+            .filter(p => !keyboardFilter || (p.keyboard || "").toLowerCase().includes(keyboardFilter.toLowerCase()))
+            .filter(p => !teamFilter || (p.team || "").toLowerCase().includes(teamFilter.toLowerCase()))
             .filter(p => !profileOnly || p.hasProfile)
             .filter(p => {
               if (dpiRange[0] === 0 && dpiRange[1] >= 10000) return true;
               const d = p.dpi || 0;
               return d >= dpiRange[0] && d <= dpiRange[1];
             })
-            .filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.team.toLowerCase().includes(searchQuery.toLowerCase()) || p.keyboard.toLowerCase().includes(searchQuery.toLowerCase()));
+            .filter(p => (p.name || "").toLowerCase().includes(searchQuery.toLowerCase()) || (p.team || "").toLowerCase().includes(searchQuery.toLowerCase()) || (p.keyboard || "").toLowerCase().includes(searchQuery.toLowerCase()));
           const sortedPlayers = [...filteredPlayers].sort((a, b) => {
             if (!playerSort.key) return 0;
             const k = playerSort.key;
@@ -3447,7 +3447,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   {sortedPlayers.slice(playerPage * PLAYERS_PER_PAGE, (playerPage + 1) * PLAYERS_PER_PAGE).map((p, i) => {
                     const gc = gameColors[p.game] || "#8a8078";
                     const profilePlayer = p.hasProfile ? proPlayers.find(pp => pp.name === p.name && pp.game === (p.game)) || proPlayers.find(pp => pp.name === p.name) : null;
-                    const keyboardMatch = keyboards.find(mm => mm.name === p.keyboard || p.keyboard.includes(mm.name));
+                    const keyboardMatch = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name)));
                     const brandCol = keyboardMatch ? (BRAND_COLORS[keyboardMatch.brand] || "#8a8078") : "#a09890";
                     const actualIndex = playerPage * PLAYERS_PER_PAGE + i;
                     return (
@@ -3869,7 +3869,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 {(() => {
                   const shapeCounts = {};
                   allPlayers.forEach(p => {
-                    const m = keyboards.find(mm => mm.name === p.keyboard || p.keyboard.includes(mm.name));
+                    const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name)));
                     if (m) shapeCounts[m.layout] = (shapeCounts[m.layout] || 0) + 1;
                   });
                   const total = Object.values(shapeCounts).reduce((a, b) => a + b, 0);
@@ -4009,7 +4009,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                     return null;
                   };
                   const brandPlayers = allPlayers.filter(p => {
-                    const m = keyboards.find(mm => mm.name === p.keyboard || p.keyboard.includes(mm.name));
+                    const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name)));
                     const detected = m ? m.brand : guessBrand(p.keyboard);
                     return detected === brand;
                   });
@@ -4959,7 +4959,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 if (m.pollingRate >= 4000) { score += 5; reasons.push(`${m.pollingRate >= 8000 ? "8K" : "4K"}Hz polling rate`); }
                 if (m.weight <= 60) score += 5;
                 // Check what pros actually use in those games
-                const proCount = allPlayers.filter(p => a.games.includes(p.game) && (p.keyboard === m.name || p.keyboard.includes(m.name) || m.name.includes(p.keyboard))).length;
+                const proCount = allPlayers.filter(p => a.games.includes(p.game) && p.keyboard && (p.keyboard === m.name || p.keyboard.includes(m.name) || m.name.includes(p.keyboard))).length;
                 if (proCount >= 10) { score += 15; reasons.push(`Used by ${proCount}+ pros in your game(s)`); }
                 else if (proCount >= 5) { score += 10; reasons.push(`Used by ${proCount} pros in your game(s)`); }
                 else if (proCount >= 2) { score += 5; }

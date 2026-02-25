@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import EsportsKeyboards from "@/components/ClientApp";
 import { SSRSection, SSRTitle, SSRSub, SSRGrid, SSRStat, SSRLink, SSRDivider } from "@/components/ssr";
 import { keyboards, allPlayers, TEAM_DESCRIPTIONS, TEAM_LOGOS, BRAND_COLORS, amazonLink, countryName } from "@/data";
