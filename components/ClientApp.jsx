@@ -1014,6 +1014,8 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               const uniqueBrands = new Set(allPlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name))); return m?.brand; }).filter(Boolean));
               const playerWeights = allPlayers.map(p => { const m = keyboards.find(mm => mm.name === p.keyboard || (p.keyboard && p.keyboard.includes(mm.name))); return m?.weight; }).filter(Boolean);
               const avgProWeight = playerWeights.length ? Math.round(playerWeights.reduce((a,b) => a+b, 0) / playerWeights.length) : 0;
+              const rtCount = keyboards.filter(m => m.rapidTrigger).length;
+              const rtPct = Math.round((rtCount / keyboards.length) * 100);
               return (
               <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-3 my-4 sm:my-6 text-center">
                 {[
@@ -1021,6 +1023,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   { label: "Brands in Pro Use", value: uniqueBrands.size, sub: "competing for pros", color: "#6b8cad", icon: "signal", numeric: true, numVal: uniqueBrands.size, numSuffix: "" },
                   { label: "Lightest Keyboard", value: `${lightest.weight}g`, sub: lightest.name.replace(/(Wooting |DrunkDeer )/, ""), color: "#c4508a", icon: "wind", numeric: true, numVal: lightest.weight, numSuffix: "g" },
                   { label: "Avg Keyboard Weight", value: `${avgProWeight}g`, sub: "across all pros", color: "#b8956a", icon: "gear", numeric: true, numVal: avgProWeight, numSuffix: "g" },
+                  { label: "Rapid Trigger", value: `${rtPct}%`, sub: `${rtCount} of ${keyboards.length} keyboards`, color: "#9060c4", icon: "bolt", numeric: true, numVal: rtPct, numSuffix: "%" },
                 ].map((card, i) => (
                   <div key={i} className="rounded-xl p-2 sm:p-4 text-center transition-all hover:scale-[1.02]" style={{ background: `${card.color}06`, border: `1px solid ${card.color}12` }}>
                     <div className="mb-1 flex items-center justify-center">{icon(card.icon, 22)}</div>
