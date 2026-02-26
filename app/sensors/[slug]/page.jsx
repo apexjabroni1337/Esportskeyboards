@@ -211,7 +211,7 @@ export default function SensorPage({ params }) {
           <SSRLink href="/keyboards" color="#00d4ff">All Keyboards</SSRLink>
           <SSRLink href="/brands" color="#00d4ff">Brands</SSRLink>
         </div>
-      </SSRSection> />
+      </SSRSection>
 
       {/* Server-rendered SEO content */}
       <article
