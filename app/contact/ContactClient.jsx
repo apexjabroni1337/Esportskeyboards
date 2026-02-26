@@ -66,7 +66,7 @@ export default function ContactClient() {
       <nav className="flex items-center justify-between px-4 sm:px-6 py-3" style={{ background: "#f5f2ee", borderBottom: "1px solid #e8e4df" }}>
         <Link href="/" className="flex items-center gap-2 no-underline">
           {I.keyboard(20)}
-          <span style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 12, letterSpacing: 4, color: "#b8956a" }}>ESPORTSKB</span>
+          <span style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 12, letterSpacing: 4, color: "#b8956a" }}>ESPORTSKEYBOARDS.COM</span>
         </Link>
         <Link href="/" className="text-xs opacity-30 hover:opacity-60 transition-all no-underline" style={{ color: "#1a1614" }}>← Back to home</Link>
       </nav>

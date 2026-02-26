@@ -780,7 +780,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
           <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => { setActiveTab("overview"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
             <span className="inline-flex transition-transform duration-300 group-hover:scale-110" style={{ filter: "brightness(0) invert(1)" }}>{I.keyboard(26)}</span>
             <div className="flex flex-col">
-              <span style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 15, fontWeight: 700, letterSpacing: 3, color: "#fff", lineHeight: 1 }}>ESPORTSKB</span>
+              <span style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 15, fontWeight: 700, letterSpacing: 3, color: "#fff", lineHeight: 1 }}>ESPORTSKEYBOARDS.COM</span>
               <span style={{ fontSize: 9, letterSpacing: 2.5, color: "rgba(255,255,255,0.7)", fontWeight: 600, textTransform: "uppercase" }}>Pro Keyboard Data</span>
             </div>
           </div>
@@ -6000,7 +6000,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <span className="inline-block">{I.keyboard(24)}</span>
-                <span style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 15, letterSpacing: 4, color: "#b8956a" }}>ESPORTSKB</span>
+                <span style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 15, letterSpacing: 4, color: "#b8956a" }}>ESPORTSKEYBOARDS.COM</span>
               </div>
               <p className="text-sm opacity-30 leading-relaxed">{`The definitive resource for professional esports keyboards. Data from ${allPlayers.length}+ pro players across ${new Set(allPlayers.map(p=>p.game)).size} major competitive titles.`}</p>
               <p className="text-xs opacity-20 mt-2">Data last updated: February 2026</p>
