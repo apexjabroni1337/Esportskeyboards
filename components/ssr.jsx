@@ -63,10 +63,7 @@ export function SSRLink({ href, children, color }) {
         color: "#ffffff",
         boxShadow: `0 2px 0 ${shadowColor}, 0 3px 6px rgba(0,0,0,0.1)`,
         cursor: "pointer"
-      }}
-      onMouseDown={(e) => e.currentTarget.style.boxShadow = `0 0px 0 ${shadowColor}, 0 1px 3px rgba(0,0,0,0.1)`}
-      onMouseUp={(e) => e.currentTarget.style.boxShadow = `0 2px 0 ${shadowColor}, 0 3px 6px rgba(0,0,0,0.1)`}
-      onMouseLeave={(e) => e.currentTarget.style.boxShadow = `0 2px 0 ${shadowColor}, 0 3px 6px rgba(0,0,0,0.1)`}>
+      }}>
       {children}
     </a>
   );
