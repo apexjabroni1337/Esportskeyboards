@@ -249,9 +249,9 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
     } catch {}
     setTabFade(false);
     setTimeout(() => {
-      setSelectedKeyboard(kb);
+      setSelectedKeyboard(kbd);
       setActiveTabRaw("keyboardDetail");
-      router.push(`/keyboards/${keyboardSlug(kb)}`, { scroll: false });
+      router.push(`/keyboards/${keyboardSlug(kbd)}`, { scroll: false });
       requestAnimationFrame(() => { requestAnimationFrame(() => { setTabFade(true); }); });
     }, 180);
   };
