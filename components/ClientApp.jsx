@@ -10,16 +10,25 @@ import { GlowText, StatBox, SectionTitle, KeyboardCard, CustomTooltip, Flag } fr
 const TOP250 = new Set(["s1mple","ZywOo","NiKo","donk","m0NESY","TenZ","Scump","shroud","ImperialHal","Puppey","Faker","aspas","device","coldzera","Bugha","Shotzzy","Chovy","ropz","Proper","Beaulo","yay","Simp","electronic","Crimsix","N0tail","Twistzz","Demon1","Showmaker","EliGE","FalleN","Caps","MrSavage","rain","Profit","ScreaM","Karma","Shaiiko","olofmeister","Keria","f0rest","GeT_RiGhT","Yatoro","aceu","Clix","cNed","sh1ro","Clayster","Dendi","Zeus","TGLTN","broky","Alfajer","Jjonak","Cellium","b1t","Genburten","TaySon","gla1ve","Gumayusi","Paluh","karrigan","Derke","aBeZy","Mongraal","dupreeh","Collapse","Spoit","SP9RK1E","Oner","arT","crashies","Peterbot","KuroKy","huNter","Ras","Viper","Dashy","Fleta","Boaster","EpikWhale","jstn","Xyp9x","Magisk","Pengu","ana","Leave","f0rsakeN","Ax1Le","Jeemzz","Albralelie","Brollan","Deft","Formal","shox","Jinggg","Topson","Shrimzy","Hardecki","Kaydop","Canadian","Jimpphat","Less","Jankos","Ceb","HusKerrs","aqua","CTZN","blameF","stax","Rekkles","Carpe","Pred","Kickstart","stavn","Nisha","Queasy","Dropped","Super","njr","MaKo","NAF","Ruler","fer","nAts","Kenny","iNSaNiA","Squishy","Khanada","hwinn","YEKINDAR","SpiriTz","Nesk","Stewie2K","Zekken","CoreJJ","iceiceice","nyhrox","Vadeal","HisWattson","kscerato","SlasheR","something","Gustav","Kevster","Frozen","Arcitys","dafran","GarrettG","BrokenBlade","flameZ","Sacy","Envoy","Chapix","supr","tabseN","cr1t-","Mande","Elyoya","Fexx","Perfecto","Shao","Fairy Peak","Noahreyli","Doki","Hydra","nitr0","abed","Knight","Reps","Chronicle","Pio","woxic","Attach","Bucke","Alem4o","XANTARES","leaf","miCKe","Bin","xQc","Selly","Insight","iLLeY","jawgemo","Andilex","Brehze","cameram4n","Hans Sama","Kinstaar","Skyz","mxey","KRIMZ","saadhak","emongg","Stompy","Cyber","autimatic","Crylix","Ninja","Malibuca","cadiaN","sinatraa","Suygetsu","Upset","Larssen","TimTheTatman","ibiza","Muz","Yuzus","Jame","Lou","bogur","ZmjjKK","hampus","luke12","Tfue","soulz1","BuZz","HooXi","Hiko","9impulse","Japko","jabbi","Asuna","Aleksib","aLOW","BriD","Viol2t","Subroza","benjyfishy","Necros","Seagull","lyr1c","Boombl4","pollofn","Solotov","lionkk","mezii","Spinx","t3xture","kyxsan","n0thing","mL7","Kenzo","WARDELL","Veno","Primmie","Bestoloch","ShahZaM","YukaF","rapha","vengeurR","toxjq","k1llsen","cYpheR","RAISY","Cooller","clawz","DaHanG","Av3k","serious","Xron","maxter"]);
 const GAME_COLORS = { CS2: "#c47000", Valorant: "#c43848", "League of Legends": "#c89b3c", LoL: "#c89b3c", Fortnite: "#3a60b0", "Dota 2": "#b83c30", "R6 Siege": "#3a6ca0", "Rocket League": "#1478c4", "Call of Duty": "#3a8a3a", "Overwatch 2": "#c48018", Apex: "#a82020", "Marvel Rivals": "#b81820", PUBG: "#c48a00", Deadlock: "#6d40c4", "Quake Champions": "#a83c00" };
 
-const shuffle = (arr) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const shuffle = (arr) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = ((i * 2654435761) >>> 0) % (i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
 /* ─── Animated Counter: counts up from 0 when scrolled into view ─── */
 function AnimatedCounter({ value, duration = 1800, color, suffix = "", prefix = "", className = "", style = {} }) {
   const [display, setDisplay] = useState("0");
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const ref = useRef(null);
 
+  useEffect(() => { setMounted(true); }, []);
+
   useEffect(() => {
-    if (hasAnimated || !ref.current) return;
+    if (!mounted || hasAnimated || !ref.current) return;
+    // Check if already in view immediately
+    const rect = ref.current.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setHasAnimated(true);
+      return;
+    }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
@@ -27,11 +36,11 @@ function AnimatedCounter({ value, duration = 1800, color, suffix = "", prefix = 
           observer.disconnect();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [hasAnimated]);
+  }, [mounted, hasAnimated]);
 
   useEffect(() => {
     if (!hasAnimated) return;
@@ -52,9 +61,15 @@ function AnimatedCounter({ value, duration = 1800, color, suffix = "", prefix = 
     return () => clearInterval(timer);
   }, [hasAnimated, value, duration]);
 
+  // During SSR/before mount, render the final value to avoid hydration mismatch
+  const raw = String(value).replace(/[^0-9.]/g, "");
+  const target = parseFloat(raw) || 0;
+  const isFloat = raw.includes(".");
+  const staticDisplay = isFloat ? target.toFixed(1) : target.toLocaleString();
+
   return (
     <span ref={ref} className={className} style={{ color, ...style }}>
-      {prefix}{hasAnimated ? display : "0"}{suffix}
+      {prefix}{!mounted ? staticDisplay : (hasAnimated ? display : "0")}{suffix}
     </span>
   );
 }
@@ -3826,6 +3841,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             const playerCount = allPlayers.filter(p => p.keyboard && switchKeyboardNames.some(mn => p.keyboard === mn || p.keyboard.includes(mn.split(" ").slice(-2).join(" ")))).length;
             return {
             ...s,
+            totalUsage: Math.round(s.totalUsage * 10) / 10,
             keyboardCount: s.keyboards.length,
             playerCount,
             avgActuation: Math.round(s.keyboards.reduce((a, m) => a + m.actuationPoint, 0) / s.keyboards.length),
