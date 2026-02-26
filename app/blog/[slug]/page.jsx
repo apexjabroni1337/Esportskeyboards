@@ -151,11 +151,14 @@ export default function BlogArticlePage({ params }) {
         </Link>
 
         <article className="mt-8">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: `${article.color}20`, color: article.color }}>{article.tag}</span>
-            <span className="text-xs opacity-30" style={{ color: "#1a1614" }}>{article.date}</span>
+          <div className="rounded-2xl p-8 sm:p-10 mb-8 relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${article.color}15, ${article.color}05)`, border: `1px solid ${article.color}20` }}>
+            <div className="absolute top-0 left-0 right-0 h-1" style={{ background: `linear-gradient(90deg, ${article.color}, transparent)` }} />
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-xs font-bold px-3 py-1 rounded-lg" style={{ background: `${article.color}20`, color: article.color, border: `1px solid ${article.color}40` }}>{article.tag}</span>
+              <span className="text-xs opacity-30" style={{ color: "#1a1614" }}>{article.date}</span>
+            </div>
+            <h1 className="text-2xl sm:text-4xl font-black leading-tight" style={{ color: article.color }}>{article.title}</h1>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-black mb-8 leading-tight" style={{ color: "#1a1614" }}>{article.title}</h1>
 
           <div className="space-y-5">
             {blocks.map((block, i) => {
@@ -169,7 +172,7 @@ export default function BlogArticlePage({ params }) {
               if (block.type === "keyboards") return (
                 <div key={i} className="grid gap-3 my-6">
                   {block.data.map((m, j) => (
-                    <a key={j} href={m.keyboard ? `/keyboards/${slug(m.keyboard.name)}` : "#"} className="flex items-center gap-4 p-4 rounded-xl no-underline transition-all hover:scale-[1.01]" style={{ background: "#ffffff", border: "1px solid #e8e4df", textDecoration: "none" }}>
+                    <a key={j} href={m.keyboard ? `/keyboards/${slug(m.keyboard.name)}` : "#"} className="flex items-center gap-4 p-4 rounded-lg border-l-4 no-underline transition-all hover:scale-[1.01]" style={{ background: "#ffffff", border: "1px solid #e8e4df", borderLeftColor: m.keyboard ? BRAND_COLORS[m.keyboard.brand] || article.color : article.color, borderLeftWidth: "4px", textDecoration: "none" }}>
                       <span className="text-lg font-black opacity-20 w-6 text-center" style={{ color: "#1a1614" }}>#{j + 1}</span>
                       {m.keyboard && KEYBOARD_IMAGE_URLS[m.keyboard.name] && <img src={KEYBOARD_IMAGE_URLS[m.keyboard.name]} alt={m.name} className="h-10 w-16 object-contain" />}
                       <div className="flex-1">
@@ -193,8 +196,8 @@ export default function BlogArticlePage({ params }) {
             {SLUGS.filter((s) => s !== params.slug).slice(0, 3).map((s) => {
               const a = ARTICLES[s];
               return (
-                <Link key={s} href={`/blog/${s}`} className="flex items-center gap-3 p-3 rounded-lg no-underline transition-all hover:scale-[1.01]" style={{ background: "#00000008", border: "1px solid #e8e4df", textDecoration: "none" }}>
-                  <span className="text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0" style={{ background: `${a.color}20`, color: a.color }}>{a.tag}</span>
+                <Link key={s} href={`/blog/${s}`} className="flex items-center gap-3 p-3 rounded-lg border-l-4 no-underline transition-all hover:scale-[1.01]" style={{ background: "#ffffff", border: "1px solid #e8e4df", borderLeftColor: a.color, borderLeftWidth: "4px", textDecoration: "none" }}>
+                  <span className="text-xs font-bold px-3 py-1 rounded-lg flex-shrink-0" style={{ background: `${a.color}20`, color: a.color, border: `1px solid ${a.color}40` }}>{a.tag}</span>
                   <span className="text-sm font-bold truncate" style={{ color: "#1a1614" }}>{a.title}</span>
                 </Link>
               );

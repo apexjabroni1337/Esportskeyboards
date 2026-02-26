@@ -154,7 +154,64 @@ export default function SensorPage({ params }) {
           { "@type": "ListItem", position: 2, name: "Sensors", item: "https://esportskeyboards.com/sensors" },
           { "@type": "ListItem", position: 3, name: sensorName, item: `https://esportskeyboards.com/sensors/${params.slug}` },
         ],
-      }) }} />
+      }) }}
+      />
+      <SSRSection>
+        <div style={{
+          padding: "16px",
+          background: "#00d4ff14",
+          borderLeft: "4px solid #00d4ff",
+          borderRadius: "4px",
+          marginBottom: "24px"
+        }}>
+          <h2 style={{ color: "#1a1614", marginTop: 0, marginBottom: "8px", fontSize: "16px", fontWeight: "bold" }}>
+            {sensorName}
+          </h2>
+          {desc && <p style={{ color: "#6b635b", margin: "0", fontSize: "14px" }}>{desc}</p>}
+        </div>
+        <SSRGrid>
+          <SSRStat label="Keyboards" value={switchKbds.length} color="#00d4ff" />
+          <SSRStat label="Pro Usage" value={`${totalProUsage}%`} color="#00d4ff" />
+          <SSRStat label="Avg Weight" value={`${avgWeight}g`} color="#00d4ff" />
+          <SSRStat label="Max Hz" value={maxPolling >= 1000 ? `${maxPolling / 1000}K` : maxPolling} color="#00d4ff" />
+        </SSRGrid>
+        <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+          <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#a09890" }}>
+            Keyboards Using This Switch
+          </p>
+          <div style={{
+            border: "1px solid #e8e4df",
+            borderRadius: "8px",
+            overflow: "hidden",
+            fontSize: "14px"
+          }}>
+            {switchKbds.sort((a, b) => b?.proUsage - a?.proUsage).slice(0, 5).map((m, i) => (
+              <div key={m.id} style={{
+                padding: "12px 16px",
+                background: i % 2 === 0 ? "#ffffff" : "#f5f2ee",
+                borderBottom: i < 4 ? "1px solid #e8e4df" : "none",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px"
+              }}>
+                <span style={{
+                  fontWeight: "bold",
+                  color: "#00d4ff",
+                  flex: 1
+                }}>
+                  {m.name}
+                </span>
+                <span style={{ color: "#6b635b" }}>{m.proUsage}% pro</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <SSRLink href="/sensors" color="#00d4ff">← All Switches</SSRLink>
+          <SSRLink href="/keyboards" color="#00d4ff">All Keyboards</SSRLink>
+          <SSRLink href="/brands" color="#00d4ff">Brands</SSRLink>
+        </div>
+      </SSRSection> />
 
       {/* Server-rendered SEO content */}
       <article

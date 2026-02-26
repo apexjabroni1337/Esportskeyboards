@@ -254,6 +254,13 @@ export default function GameDetailPage({ params }) {
 
       {/* Visible SSR content */}
       <SSRSection>
+        <div style={{
+          height: 3,
+          width: "100%",
+          background: game,
+          borderRadius: "1px",
+          marginBottom: "16px"
+        }} />
         <SSRTitle accent={game}>Keyboard Settings</SSRTitle>
         <SSRSub>
           {desc || `Complete keyboard usage data for ${players.length} professional ${game} players. Top keyboard: ${topKeyboards[0]?.[0]}.`}
@@ -262,6 +269,46 @@ export default function GameDetailPage({ params }) {
           <SSRStat label="Players" value={players.length} color={GREEN} />
           <SSRStat label="Top Keyboard" value={topKeyboards[0]?.[0]?.replace(/(Wooting |Razer |Logitech |SteelSeries |Corsair |Cherry |Ducky |DrunkDeer |Endgame Gear |ASUS |Keychron |Glorious )/, "") || "—"} color={GREEN} />
         </SSRGrid>
+        <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+          <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#a09890" }}>
+            Keyboard Usage Rankings
+          </p>
+          <div style={{
+            border: "1px solid #e8e4df",
+            borderRadius: "8px",
+            overflow: "hidden",
+            fontSize: "14px"
+          }}>
+            {topKeyboards.slice(0, 5).map(([kbdName, count], i) => {
+              const ms = mSlug(kbdName);
+              const md = findKeyboard(kbdName);
+              return (
+                <div key={kbdName} style={{
+                  padding: "12px 16px",
+                  background: i % 2 === 0 ? "#ffffff" : "#f5f2ee",
+                  borderBottom: i < 4 ? "1px solid #e8e4df" : "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px"
+                }}>
+                  <span style={{
+                    fontWeight: "bold",
+                    color: GREEN,
+                    minWidth: "24px"
+                  }}>#{i + 1}</span>
+                  <span style={{
+                    fontWeight: "bold",
+                    color: GREEN,
+                    flex: 1
+                  }}>
+                    {ms ? <a href={`/keyboards/${ms}`} style={{ color: GREEN, textDecoration: "none" }}>{kbdName}</a> : kbdName}
+                  </span>
+                  <span style={{ color: "#6b635b" }}>{count} {count === 1 ? "player" : "players"}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
         {gamePros.length > 0 && (
           <>
             <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "#a09890" }}>
@@ -269,7 +316,11 @@ export default function GameDetailPage({ params }) {
             </p>
             <div className="flex flex-wrap gap-2 mb-4">
               {gamePros.slice(0, 8).map((p) => (
-                <SSRLink key={p.name} href={`/players/${slug(p.name)}`}>{p.name} · {p.team}</SSRLink>
+                <SSRLink key={p.name} href={`/players/${slug(p.name)}`} style={{
+                  borderRadius: "20px",
+                  padding: "6px 14px",
+                  fontSize: "12px"
+                }}>{p.name}</SSRLink>
               ))}
             </div>
           </>

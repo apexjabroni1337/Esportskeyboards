@@ -62,14 +62,16 @@ export default function BlogPage() {
         <Link href="/" className="text-sm opacity-40 hover:opacity-60 transition-all no-underline" style={{ color: "#1a1614", textDecoration: "none" }}>
           ← Back to EsportsKeyboards
         </Link>
-        <h1 className="text-3xl sm:text-5xl font-black mt-6 mb-2" style={{ color: "#b8956a", fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Blog</h1>
-        <p className="text-base opacity-40 mb-10">Esports keyboard guides, pro gear analysis, and data-driven insights.</p>
+        <div className="mt-6 mb-10">
+          <div className="text-3xl sm:text-5xl font-black" style={{ color: "#1a1614", fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>The Keyboard <span style={{ background: "linear-gradient(135deg, #06b6d4, #a855f7)", backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Blog</span></div>
+          <p className="text-base opacity-40 mt-2">Esports keyboard guides, pro gear analysis, and data-driven insights.</p>
+        </div>
 
         <div className="space-y-6">
           {ARTICLES.map((a) => (
-            <Link key={a.slug} href={`/blog/${a.slug}`} className="block rounded-xl p-6 transition-all hover:scale-[1.01] no-underline" style={{ background: `${a.color}06`, border: `1px solid ${a.color}12`, textDecoration: "none" }}>
+            <Link key={a.slug} href={`/blog/${a.slug}`} className="block rounded-2xl p-6 transition-all hover:scale-[1.01] border-l-4 no-underline" style={{ background: "#ffffff", borderColor: a.color, border: `1px solid #e8e4df`, borderLeftWidth: "4px", textDecoration: "none" }}>
               <div className="flex items-center gap-3 mb-2">
-                <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: `${a.color}20`, color: a.color }}>{a.tag}</span>
+                <span className="text-xs font-bold px-3 py-1 rounded-lg" style={{ background: `${a.color}20`, color: a.color, border: `1px solid ${a.color}40` }}>{a.tag}</span>
                 <span className="text-xs opacity-30" style={{ color: "#1a1614" }}>{a.date}</span>
               </div>
               <h2 className="text-lg sm:text-xl font-black mb-2" style={{ color: "#1a1614" }}>{a.title}</h2>

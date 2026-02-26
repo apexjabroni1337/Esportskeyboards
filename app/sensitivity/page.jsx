@@ -162,7 +162,7 @@ export default function SensitivityPage() {
       </article>
 
       <SSRSection>
-        <SSRTitle accent="Sensitivity">Converter</SSRTitle>
+        <SSRTitle accent="#06b6d4">Sensitivity</SSRTitle>
         <SSRSub>Convert your sensitivity between {games.length} competitive titles. Compare with {allPlayers.length.toLocaleString()}+ professional players.</SSRSub>
         <SSRGrid>
           <SSRStat label="Games" value={games.length} color="#b8956a" />

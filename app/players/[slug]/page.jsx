@@ -420,8 +420,8 @@ export default function PlayerProfilePage({ params }) {
           }
         </SSRSub>
         <SSRGrid>
-          <SSRStat label="Keyboard" value={player.keyboard.replace(/(Wooting |Razer |Logitech |SteelSeries |Corsair |Cherry |Ducky |DrunkDeer |Endgame Gear |ASUS |Keychron |Glorious )/, "")} />
-          <SSRStat label="Polling Rate" value={`${player.hz} Hz`} />
+          <SSRStat label="Keyboard" value={player.keyboard.replace(/(Wooting |Razer |Logitech |SteelSeries |Corsair |Cherry |Ducky |DrunkDeer |Endgame Gear |ASUS |Keychron |Glorious )/, "")} color="#00d4ff" />
+          <SSRStat label="Polling Rate" value={`${player.hz} Hz`} color="#00d4ff" />
           <SSRStat label="Team" value={player.team} />
           <SSRStat label="Role" value={player.role} />
         </SSRGrid>

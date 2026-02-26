@@ -162,6 +162,48 @@ export default function BrandsPage() {
             <SSRStat key={b.brand} label={b.brand} value={`${b.totalProUsage}% pro`} color={BRAND_COLORS[b.brand]} />
           ))}
         </SSRGrid>
+        <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+          <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#a09890" }}>
+            Brand Rankings by Pro Usage
+          </p>
+          <div style={{
+            border: "1px solid #e8e4df",
+            borderRadius: "8px",
+            overflow: "hidden",
+            fontSize: "14px"
+          }}>
+            {brandData.slice(0, 6).map((b, i) => (
+              <div key={b.brand} style={{
+                padding: "12px 16px",
+                background: i % 2 === 0 ? "#ffffff" : "#f5f2ee",
+                borderBottom: i < 5 ? "1px solid #e8e4df" : "none",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px"
+              }}>
+                <div style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  background: BRAND_COLORS[b.brand] || "#b8956a"
+                }} />
+                <span style={{
+                  fontWeight: "bold",
+                  color: BRAND_COLORS[b.brand] || "#1a1614",
+                  flex: 1
+                }}>
+                  {b.brand}
+                </span>
+                <span style={{
+                  fontWeight: "bold",
+                  color: BRAND_COLORS[b.brand] || "#b8956a"
+                }}>
+                  {b.totalProUsage}%
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="flex flex-wrap gap-2">
           {brandData.map((b) => (
             <SSRLink key={b.brand} href={`/brands/${slug(b.brand)}`}>{b.brand}</SSRLink>

@@ -370,17 +370,6 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
   };
 
   const sortedKbds = [...keyboards]
-    .filter(m => {
-      // Gallery tab filtering
-      if (galleryTab === "All") return true;
-      if (galleryTab === "60%") return m.layout === "60%";
-      if (galleryTab === "TKL") return m.layout === "TKL";
-      if (galleryTab === "Full") return m.layout === "Full" || m.layout === "Full Size";
-      if (galleryTab === "Wireless") return m.connectivity === "Wireless";
-      if (galleryTab === "Budget") return m.price <= 100;
-      if (galleryTab === "Pro Favorites") return m.proUsage >= 3;
-      return true;
-    })
     .filter(m => filterBrand === "All" || m.brand === filterBrand)
     .filter(m => {
       if (filterWeight === "All") return true;
@@ -410,6 +399,18 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
       if (sortBy === "releaseYear") return (b.releaseYear || 0) - (a.releaseYear || 0);
       return 0;
     });
+
+  // Gallery-only filtered list (only used in the All Keyboards tab)
+  const galleryKbds = sortedKbds.filter(m => {
+    if (galleryTab === "All") return true;
+    if (galleryTab === "60%") return m.layout === "60%";
+    if (galleryTab === "TKL") return m.layout === "TKL";
+    if (galleryTab === "Full") return m.layout === "Full" || m.layout === "Full Size";
+    if (galleryTab === "Wireless") return m.connectivity === "Wireless";
+    if (galleryTab === "Budget") return m.price <= 100;
+    if (galleryTab === "Pro Favorites") return m.proUsage >= 3;
+    return true;
+  });
 
   const radarData = selectedKeyboard ? [
     { stat: "Lightness", value: Math.max(0, 100 - selectedKeyboard.weight), fullMark: 100 },
@@ -941,10 +942,10 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 {["ESC","1","2","3","4","Q","W","E","R","T","A","S","D","F","G","Z","X","C","V","B"].map((key, i) => (
                   <div key={key} className="w-12 h-12 rounded-lg flex items-center justify-center text-xs font-bold transition-all duration-500"
                     style={{
-                      background: i % 7 === 0 ? "linear-gradient(135deg, #06b6d420, #06b6d408)" : i % 5 === 0 ? "linear-gradient(135deg, #8b5cf620, #8b5cf608)" : "rgba(255,255,255,0.6)",
-                      border: "1px solid rgba(0,0,0,0.06)",
-                      boxShadow: i % 7 === 0 ? "0 0 12px #06b6d415, 0 2px 4px #00000008" : i % 5 === 0 ? "0 0 12px #8b5cf615, 0 2px 4px #00000008" : "0 2px 4px #00000006",
-                      color: i % 7 === 0 ? "#06b6d4" : i % 5 === 0 ? "#8b5cf6" : "#a09890",
+                      background: i % 7 === 0 ? "linear-gradient(135deg, #06b6d440, #06b6d425)" : i % 5 === 0 ? "linear-gradient(135deg, #8b5cf640, #8b5cf625)" : "rgba(255,255,255,0.75)",
+                      border: "1.5px solid rgba(0,0,0,0.08)",
+                      boxShadow: i % 7 === 0 ? "0 0 16px #06b6d428, 0 2px 8px #00000012" : i % 5 === 0 ? "0 0 16px #8b5cf628, 0 2px 8px #00000012" : "0 2px 6px #00000008",
+                      color: i % 7 === 0 ? "#0891b2" : i % 5 === 0 ? "#7c3aed" : "#8a8078",
                       fontFamily: "'Fira Code', 'JetBrains Mono', monospace",
                       animationDelay: `${i * 50}ms`,
                     }}>
@@ -956,38 +957,52 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
 
             {/* Right: Headline + stats */}
             <div style={{ transition: "all 1s ease", opacity: heroAnim ? 1 : 0, transform: heroAnim ? "translateY(0)" : "translateY(20px)" }}>
-              {/* Eyebrow */}
+              {/* Eyebrow - keycap style */}
               <div className="mb-4 sm:mb-6">
-                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
-                  style={{ background: "linear-gradient(135deg, #06b6d410, #8b5cf610)", color: "#06b6d4", border: "1px solid #06b6d418" }}>
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold tracking-widest uppercase"
+                  style={{
+                    background: "linear-gradient(135deg, #06b6d410, #8b5cf610)",
+                    color: "#06b6d4",
+                    border: "1px solid #06b6d418",
+                    borderBottom: "2px solid #06b6d430",
+                    boxShadow: "0 2px 0 rgba(6, 182, 212, 0.2)"
+                  }}>
                   The Definitive Resource
                 </span>
               </div>
-              {/* Main heading */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl mb-5 sm:mb-7" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontWeight: 700, lineHeight: 1.08, letterSpacing: -1, color: "#1a1614" }}>
+              {/* Main heading - enhanced */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl mb-4 sm:mb-6" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontWeight: 800, lineHeight: 1.05, letterSpacing: -1.5, color: "#1a1614" }}>
                 Pro Esports<br />
                 <span style={{ background: "linear-gradient(135deg, #06b6d4, #8b5cf6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Keyboards</span>
               </h1>
-              {/* Subtitle */}
+              {/* Dynamic tagline subtitle */}
+              <p className="max-w-2xl text-base sm:text-lg leading-relaxed font-medium mb-3" style={{ color: "#06b6d4" }}>
+                The definitive database of {keyboards.length} keyboards used by {allPlayers.length.toLocaleString()} professional esports players
+              </p>
+              {/* Secondary description */}
               <p className="max-w-xl text-sm sm:text-base leading-relaxed" style={{ color: "#6b635b" }}>
-                Comprehensive keyboard data for {allPlayers.length.toLocaleString()}+ professional players across {new Set(allPlayers.map(p=>p.game)).size} major esports titles. Rankings, specifications, comparisons, and pro settings.
+                Rankings, specifications, comparisons, and pro settings across {new Set(allPlayers.map(p=>p.game)).size} major esports titles.
               </p>
             </div>
           </div>
 
-          {/* Stats strip - glassmorphism */}
+          {/* Stats strip - keyboard-themed with top borders */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 mt-10 sm:mt-14" style={{ transition: "all 0.8s ease 0.3s", opacity: heroAnim ? 1 : 0 }}>
             {[
               { val: allPlayers.length, label: "Pro Players", suffix: "", prefix: "", color: "#06b6d4" },
               { val: keyboards.length, label: "Keyboards", suffix: "", prefix: "", color: "#8b5cf6" },
-              { val: new Set(allPlayers.map(p=>p.game)).size, label: "Games", suffix: "", prefix: "", color: "#06b6d4" },
-              { val: Math.max(...keyboards.map(m => m.proUsage)), label: "Top Share", suffix: "%", prefix: "", color: "#8b5cf6" },
+              { val: new Set(allPlayers.map(p=>p.game)).size, label: "Games", suffix: "", prefix: "", color: "#f59e0b" },
+              { val: Math.max(...keyboards.map(m => m.proUsage)), label: "Top Share", suffix: "%", prefix: "", color: "#ec4899" },
             ].map((s, i) => (
-              <div key={i} className="glass-card text-center p-4" style={{ boxShadow: `0 0 12px ${s.color}08` }}>
-                <div className="text-xl sm:text-3xl font-bold" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: "#1a1614" }}>
+              <div key={i} className="glass-card text-center p-4 transition-all duration-300 hover:-translate-y-0.5" style={{
+                boxShadow: `0 0 12px ${s.color}08, inset 0 2px 0 ${s.color}20`,
+                borderTop: `3px solid ${s.color}`,
+                borderRadius: "0.75rem"
+              }}>
+                <div className="text-2xl sm:text-4xl font-black" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: "#1a1614" }}>
                   <AnimatedCounter value={s.val} suffix={s.suffix} prefix={s.prefix} color={s.color} duration={1600 + i * 200} />
                 </div>
-                <div className="text-xs sm:text-sm mt-1 font-medium" style={{ color: "#a09890", letterSpacing: 0.5 }}>{s.label}</div>
+                <div className="text-xs sm:text-sm mt-2 font-semibold" style={{ color: "#a09890", letterSpacing: 0.5 }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -1050,8 +1065,27 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   { label: "Avg Keyboard Weight", value: `${avgProWeight}g`, sub: "across all pros", color: "#b8956a", icon: "gear", numeric: true, numVal: avgProWeight, numSuffix: "g" },
                   { label: "Rapid Trigger", value: `${rtPct}%`, sub: `${rtCount} of ${keyboards.length} keyboards`, color: "#9060c4", icon: "bolt", numeric: true, numVal: rtPct, numSuffix: "%" },
                 ].map((card, i) => (
-                  <div key={i} className="rounded-xl p-2 sm:p-4 text-center transition-all hover:scale-[1.02]" style={{ background: `${card.color}06`, border: `1px solid ${card.color}12` }}>
-                    <div className="mb-1 flex items-center justify-center">{icon(card.icon, 22)}</div>
+                  <div key={i} className="rounded-[10px] p-2 sm:p-4 text-center transition-all duration-200 hover:-translate-y-0.5" style={{
+                    background: `linear-gradient(180deg, #ffffff 0%, ${card.color}04 100%)`,
+                    border: `1px solid ${card.color}15`,
+                    boxShadow: `0 3px 0 ${card.color}35, 0 4px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5)`,
+                    cursor: "pointer"
+                  }}
+                  onMouseDown={(e) => e.currentTarget.style.boxShadow = `0 1px 0 ${card.color}35, inset 0 2px 4px rgba(0,0,0,0.08)`}
+                  onMouseUp={(e) => e.currentTarget.style.boxShadow = `0 3px 0 ${card.color}35, 0 4px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5)`}
+                  onMouseLeave={(e) => e.currentTarget.style.boxShadow = `0 3px 0 ${card.color}35, 0 4px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5)`}>
+                    <div className="mb-1.5 flex items-center justify-center" style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                      background: `${card.color}14`,
+                      margin: "0 auto 0.5rem",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}>
+                      {icon(card.icon, 20)}
+                    </div>
                     <div className="text-sm sm:text-lg font-black leading-tight" style={{ color: card.color }}>
                       {card.numeric
                         ? <AnimatedCounter value={card.numVal} suffix={card.numSuffix || ""} color={card.color} duration={1400 + i * 200} />
@@ -1109,8 +1143,8 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                     <div className="flex flex-col items-center justify-center md:col-span-2 lg:col-span-1">
                       <ResponsiveContainer width="100%" height={200}>
                         <RadarChart data={radarData}>
-                          <PolarGrid stroke="#00000010" />
-                          <PolarAngleAxis dataKey="stat" tick={{ fill: "#8a8078", fontSize: 13 }} />
+                          <PolarGrid stroke="#e8e4df" />
+                          <PolarAngleAxis dataKey="stat" tick={{ fill: "#6b635b", fontSize: 13 }} />
                           <PolarRadiusAxis tick={false} axisLine={false} domain={[0, 100]} />
                           <Radar name={selectedKeyboard.name} dataKey="value" stroke={brandCol} fill={brandCol} fillOpacity={0.2} strokeWidth={2.5} dot={{ r: 3, fill: brandCol, strokeWidth: 0 }} />
                         </RadarChart>
@@ -1495,8 +1529,8 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 <div className="flex flex-col items-center justify-center md:col-span-2 lg:col-span-1">
                   <ResponsiveContainer width="100%" height={220}>
                     <RadarChart data={radarData}>
-                      <PolarGrid stroke="#00000010" />
-                      <PolarAngleAxis dataKey="stat" tick={{ fill: "#8a8078", fontSize: 13 }} />
+                      <PolarGrid stroke="#e8e4df" />
+                      <PolarAngleAxis dataKey="stat" tick={{ fill: "#6b635b", fontSize: 13 }} />
                       <PolarRadiusAxis tick={false} axisLine={false} domain={[0, 100]} />
                       <Radar name={selectedKeyboard.name} dataKey="value" stroke={brandCol} fill={brandCol} fillOpacity={0.2} strokeWidth={2.5} dot={{ r: 3, fill: brandCol, strokeWidth: 0 }} />
                     </RadarChart>
@@ -2043,9 +2077,9 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               <div className="rounded-2xl p-4 sm:p-6" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
                 <ResponsiveContainer width="100%" height={320}>
                   <BarChart data={keyboardChartData} margin={{ top: 10, right: 20, left: 0, bottom: 70 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#00000008" />
-                    <XAxis dataKey="name" tick={{ fill: "#a09890", fontSize: 11 }} angle={-40} textAnchor="end" interval={0} />
-                    <YAxis tick={{ fill: "#a09890", fontSize: 11 }} unit="%" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e8e4df" vertical={false} />
+                    <XAxis dataKey="name" tick={{ fill: "#a09890", fontSize: 11 }} angle={-40} textAnchor="end" interval={0} tickLine={false} axisLine={{ stroke: '#e8e4df' }} />
+                    <YAxis tick={{ fill: "#a09890", fontSize: 11 }} unit="%" tickLine={false} axisLine={{ stroke: '#e8e4df' }} />
                     <Tooltip content={<CustomTooltip />} />
                     <Bar dataKey="usage" radius={[6, 6, 0, 0]} name="Usage %" label={{ position: "top", fill: "#8a8078", fontSize: 11, formatter: (v) => `${v}%` }}>
                       {keyboardChartData.map((entry, i) => <Cell key={i} fill={i === 0 ? col : `${col}${i < 3 ? "80" : "40"}`} />)}
@@ -2810,13 +2844,13 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               );
             })()}
             {/* Results count */}
-            <div className="text-sm opacity-40 mb-3">{sortedKbds.length} {sortedKbds.length === 1 ? "keyboard" : "keyboards"} found</div>
+            <div className="text-sm opacity-40 mb-3">{galleryKbds.length} {galleryKbds.length === 1 ? "keyboard" : "keyboards"} found</div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-              {sortedKbds.map(m => (
+              {galleryKbds.map(m => (
                 <KeyboardCard key={m.id} keyboard={m} onClick={(kb) => { navigateToKeyboard(kb); }} isSelected={selectedKeyboard?.id === m.id} />
               ))}
             </div>
-            {sortedKbds.length === 0 && (
+            {galleryKbds.length === 0 && (
               <div className="text-center py-16 opacity-40">
                 <div className="text-2xl mb-2">No keyboards match your filters</div>
                 <div className="text-sm">Try adjusting your filters or search query</div>
@@ -2851,9 +2885,26 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 <a href={`/contact?subject=correction&player=${encodeURIComponent(p.name)}`} className="px-2.5 py-1 rounded-lg text-xs font-bold transition-all hover:scale-105 no-underline ml-auto" style={{ background: "#0000000a", border: "1px solid #d4cfc8", color: "#8a8078", textDecoration: "none" }}>⚠️ Suggest Correction</a>
               </div>
               {/* Header */}
-              <div className="rounded-2xl p-4 sm:p-8 mb-4 sm:mb-6" style={{ background: `linear-gradient(135deg, ${gc}10, #ffffff)`, border: `1px solid ${gc}25` }}>
+              <div className="rounded-2xl p-4 sm:p-8 mb-4 sm:mb-6 relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${gc}10, #ffffff)`, border: `1px solid ${gc}25` }}>
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: gc }} />
                 <div className="flex flex-col gap-3 sm:gap-6 items-start">
-                  <div className="flex items-center justify-center"><Flag country={p.country} size={56} /></div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center"><Flag country={p.country} size={32} /></div>
+                    {p.keyboard && (
+                      <div className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all" style={{
+                        background: `${brandCol}18`,
+                        color: brandCol,
+                        border: `1px solid ${brandCol}40`,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        boxShadow: "0 2px 4px rgba(0,0,0,0.04)"
+                      }}>
+                        <span>{I.keyboard(12)}</span>
+                        {p.keyboard.replace(/(Wooting |Razer |Logitech |SteelSeries |Corsair |Cherry |Ducky |DrunkDeer |Endgame Gear |ASUS |Keychron |Glorious )/, "")}
+                      </div>
+                    )}
+                  </div>
                   <div className="flex-1 w-full">
                     <div className="text-sm uppercase tracking-widest opacity-30 mb-1">{p.role} · {p.team}</div>
                     <h2 className="text-2xl sm:text-4xl font-black mb-1" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: gc }}>{p.name}</h2>
@@ -2899,8 +2950,8 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   <div className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#a09890" }}><span className="inline-flex mr-1.5 align-middle">{I.trophy(14)}</span>Top Achievements</div>
                   <div className="space-y-2">
                     {p.achievements.map((a, i) => (
-                      <div key={i} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: i < 3 ? `${gc}08` : "#00000008", border: i < 3 ? `1px solid ${gc}15` : "1px solid #e8e4df" }}>
-                        <span className="text-sm mt-0.5">{i === 0 ? I.medal("#fbbf24", 18) : i === 1 ? I.medal("#94a3b8", 18) : i === 2 ? I.medal("#cd7f32", 18) : "▸"}</span>
+                      <div key={i} className="flex items-start gap-3 p-4 rounded-xl border-l-4" style={{ background: i < 3 ? `${gc}08` : "#f5f2ee", borderLeftColor: "#b8956a", border: `1px solid ${i < 3 ? `${gc}15` : "#e8e4df"}`, borderLeftWidth: "4px" }}>
+                        <span className="text-sm mt-0.5 flex-shrink-0">{i === 0 ? I.medal("#fbbf24", 18) : i === 1 ? I.medal("#94a3b8", 18) : i === 2 ? I.medal("#cd7f32", 18) : "▸"}</span>
                         <span className="text-sm" style={{ color: i < 3 ? gc : "#3d3530" }}>{a}</span>
                       </div>
                     ))}
@@ -2949,36 +3000,35 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   {/* Keyboard History Timeline */}
                   <div className="rounded-2xl p-6" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
                     <div className="text-sm uppercase tracking-widest opacity-30 mb-4"><span className="inline-flex mr-1.5 align-middle">{I.refresh(14)}</span>Keyboard History</div>
-                    <div className="space-y-0">
+                    <div className="space-y-2">
                       {p.keyboardHistory.map((mh, i) => {
                         const histKeyboard = keyboards.find(m => m.name === mh.keyboard);
-                        const hCol = histKeyboard ? BRAND_COLORS[histKeyboard.brand] : "#555";
+                        const hCol = histKeyboard ? BRAND_COLORS[histKeyboard.brand] : "#8a8078";
+                        const isActive = i === 0;
                         return (
-                          <div key={i} className="flex items-center gap-4 relative">
-                            <div className="flex flex-col items-center">
-                              <div className="w-3 h-3 rounded-full z-10" style={{ background: i === 0 ? hCol : "#333", border: i === 0 ? `2px solid ${hCol}` : "2px solid #555", boxShadow: i === 0 ? `0 0 12px ${hCol}40` : "none" }} />
-                              {i < p.keyboardHistory.length - 1 && <div className="w-0.5 h-10" style={{ background: "#00000010" }} />}
+                          <div key={i} className="p-3 rounded-lg border-l-4 transition-all" style={{
+                            background: isActive ? `${hCol}12` : "#f5f2ee",
+                            borderLeftColor: hCol,
+                            border: `1px solid ${isActive ? `${hCol}25` : "#e8e4df"}`,
+                            borderLeftWidth: "4px",
+                            boxShadow: isActive ? `0 4px 12px ${hCol}20` : "0 2px 4px rgba(0,0,0,0.04)"
+                          }}>
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="flex-1 min-w-0">
+                                <div className="text-sm font-bold" style={{ color: hCol }}>{mh.keyboard}</div>
+                                <div className="text-xs opacity-40 mt-0.5">{mh.period}</div>
+                              </div>
+                              {isActive && (
+                                <a href={amazonLink(mh.keyboard)} target="_blank" rel="noopener noreferrer"
+                                  className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg font-bold transition-all flex-shrink-0 no-underline"
+                                  style={{ background: hCol, color: "#ffffff", textDecoration: "none" }}
+                                  onMouseEnter={e => { e.currentTarget.style.opacity = "0.9"; }}
+                                  onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}>
+                                  <svg width={10} height={10} viewBox="0 0 24 24" fill="none"><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/><circle cx="9" cy="21" r="1.5" fill="currentColor"/><circle cx="20" cy="21" r="1.5" fill="currentColor"/></svg>
+                                  {histKeyboard ? `$${histKeyboard.price}` : "Buy"}
+                                </a>
+                              )}
                             </div>
-                            <div className="flex-1 py-2">
-                              <div className="text-sm font-bold" style={{ color: i === 0 ? hCol : "#8a8078" }}>{mh.keyboard}</div>
-                              <div className="text-sm opacity-30">{mh.period}</div>
-                            </div>
-                            {i === 0 ? (
-                              <a href={amazonLink(mh.keyboard)} target="_blank" rel="noopener noreferrer"
-                                className="flex items-center gap-1.5 text-sm px-3 py-1 rounded-full font-bold transition-all"
-                                style={{ background: `${hCol}20`, color: hCol, border: `1px solid ${hCol}30` }}
-                                onMouseEnter={e => { e.currentTarget.style.background = hCol; e.currentTarget.style.color = "#1a1614"; }}
-                                onMouseLeave={e => { e.currentTarget.style.background = `${hCol}20`; e.currentTarget.style.color = hCol; }}>
-                                <svg width={10} height={10} viewBox="0 0 24 24" fill="none"><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/><circle cx="9" cy="21" r="1.5" fill="currentColor"/><circle cx="20" cy="21" r="1.5" fill="currentColor"/></svg>
-                                Buy{histKeyboard ? ` — $${histKeyboard.price}` : ""}
-                              </a>
-                            ) : histKeyboard ? (
-                              <a href={amazonLink(mh.keyboard)} target="_blank" rel="noopener noreferrer"
-                                className="flex items-center gap-1 text-xs px-2 py-0.5 rounded font-bold transition-all hover:scale-105 no-underline"
-                                style={{ background: "#b8956a12", color: "#b8956a80", textDecoration: "none", fontSize: 10 }}>
-                                {I.cart(8)} ${histKeyboard.price}
-                              </a>
-                            ) : null}
                           </div>
                         );
                       })}
@@ -3455,9 +3505,9 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                         <stop offset="95%" stopColor="#b8956a" stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#00000008" />
-                    <XAxis dataKey="year" tick={{ fill: "#a09890", fontSize: 13 }} />
-                    <YAxis tick={{ fill: "#a09890", fontSize: 13 }} unit="g" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e8e4df" vertical={false} />
+                    <XAxis dataKey="year" tick={{ fill: "#a09890", fontSize: 13 }} tickLine={false} axisLine={{ stroke: '#e8e4df' }} />
+                    <YAxis tick={{ fill: "#a09890", fontSize: 13 }} unit="g" tickLine={false} axisLine={{ stroke: '#e8e4df' }} />
                     <Tooltip content={<CustomTooltip />} />
                     <Area type="monotone" dataKey="avgWeight" stroke="#f472b6" fill="url(#wg1)" strokeWidth={2} name="Avg Weight" />
                     <Area type="monotone" dataKey="lightest" stroke="#b8956a" fill="url(#wg2)" strokeWidth={2} name="Lightest" strokeDasharray="5 5" />
@@ -3469,9 +3519,9 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 <div className="text-xs font-bold uppercase tracking-wider mb-4" style={{ color: "#a09890" }}>Polling Rate Evolution (Hz)</div>
                 <ResponsiveContainer width="100%" height={280}>
                   <LineChart data={pollingTrend}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#00000008" />
-                    <XAxis dataKey="year" tick={{ fill: "#a09890", fontSize: 13 }} />
-                    <YAxis tick={{ fill: "#a09890", fontSize: 13 }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e8e4df" vertical={false} />
+                    <XAxis dataKey="year" tick={{ fill: "#a09890", fontSize: 13 }} tickLine={false} axisLine={{ stroke: '#e8e4df' }} />
+                    <YAxis tick={{ fill: "#a09890", fontSize: 13 }} tickLine={false} axisLine={{ stroke: '#e8e4df' }} />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend wrapperStyle={{ fontSize: 13, opacity: 0.5 }} />
                     <Line type="monotone" dataKey="max" stroke="#b8956a" strokeWidth={2} dot={{ r: 3, fill: "#b8956a" }} name="Max Available" />
@@ -3526,9 +3576,9 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                         <stop offset="95%" stopColor="#c44040" stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#00000008" />
-                    <XAxis dataKey="year" tick={{ fill: "#a09890", fontSize: 13 }} />
-                    <YAxis tick={{ fill: "#a09890", fontSize: 13 }} unit="%" domain={[0, 100]} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e8e4df" vertical={false} />
+                    <XAxis dataKey="year" tick={{ fill: "#a09890", fontSize: 13 }} tickLine={false} axisLine={{ stroke: '#e8e4df' }} />
+                    <YAxis tick={{ fill: "#a09890", fontSize: 13 }} unit="%" domain={[0, 100]} tickLine={false} axisLine={{ stroke: '#e8e4df' }} />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend wrapperStyle={{ fontSize: 13, opacity: 0.5 }} />
                     <Area type="monotone" dataKey="wireless" stroke="#b8956a" fill="url(#wlg1)" strokeWidth={2} name="Wireless %" />
@@ -3541,9 +3591,9 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 <div className="text-xs font-bold uppercase tracking-wider mb-4" style={{ color: "#a09890" }}>Keyboard Price Evolution (USD)</div>
                 <ResponsiveContainer width="100%" height={280}>
                   <LineChart data={priceTrend}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#00000008" />
-                    <XAxis dataKey="year" tick={{ fill: "#a09890", fontSize: 13 }} />
-                    <YAxis tick={{ fill: "#a09890", fontSize: 13 }} unit="$" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e8e4df" vertical={false} />
+                    <XAxis dataKey="year" tick={{ fill: "#a09890", fontSize: 13 }} tickLine={false} axisLine={{ stroke: '#e8e4df' }} />
+                    <YAxis tick={{ fill: "#a09890", fontSize: 13 }} unit="$" tickLine={false} axisLine={{ stroke: '#e8e4df' }} />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend wrapperStyle={{ fontSize: 13, opacity: 0.5 }} />
                     <Line type="monotone" dataKey="flagship" stroke="#d4af37" strokeWidth={2} dot={{ r: 3, fill: "#b8956a" }} name="Flagship" />
@@ -3696,7 +3746,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   const sensorCounts = {};
                   keyboards.forEach(m => { sensorCounts[m.switchType] = (sensorCounts[m.switchType] || 0) + 1; });
                   const top5 = Object.entries(sensorCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
-                  const colors = ["#06b6d4", "#8b5cf6", "#10b981", "#f59e0b", "#ec4899"];
+                  const colors = ["#06b6d4", "#8b5cf6", "#b8956a", "#10b981", "#ec4899"];
                   return (
                     <div className="space-y-3">
                       {top5.map(([sensor, count], i) => (
@@ -3843,7 +3893,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
             {/* Sensor overview cards */}
             <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4 sm:mb-6">
               {sensorProfiles.sort((a, b) => b.totalUsage - a.totalUsage).slice(0, 4).map((s, i) => {
-                const colors = ["#10b981", "#6b8cad", "#b8956a", "#ef4444"];
+                const colors = ["#06b6d4", "#8b5cf6", "#b8956a", "#10b981"];
                 const sensorImageMap = {
                   // Switch images not yet available — placeholder
                 };
@@ -3923,7 +3973,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
               const topSensorPct = totalMatched > 0 ? Math.round(top10[0][1] / totalMatched * 100) : 0;
               const top3Pct = totalMatched > 0 ? Math.round(top10.slice(0, 3).reduce((a, s) => a + s[1], 0) / totalMatched * 100) : 0;
 
-              const barColors = ["#10b981", "#6b8cad", "#b8956a", "#ef4444", "#a78bfa", "#f472b6", "#06b6d4", "#84cc16", "#d4af37", "#8b5cf6"];
+              const barColors = ["#06b6d4", "#8b5cf6", "#b8956a", "#10b981", "#ec4899", "#a78bfa", "#f472b6", "#84cc16", "#d4af37", "#fbbf24"];
               const gameBarColors = { CS2: "#c47000", Valorant: "#c43848", LoL: "#c89b3c", Fortnite: "#3a60b0", "Dota 2": "#b83c30", "R6 Siege": "#3a6ca0", Apex: "#a82020", PUBG: "#c48a00", "Overwatch 2": "#c48018", "Call of Duty": "#3a8a3a", "Marvel Rivals": "#b81820", Deadlock: "#6d40c4", "Quake Champions": "#a83c00" };
 
               return (
@@ -4404,8 +4454,8 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       { stat: "Rating", a: compareList[0].rating * 10, b: compareList[1].rating * 10 },
                       { stat: "Value", a: Math.max(0, 100 - (compareList[0].price / 2)), b: Math.max(0, 100 - (compareList[1].price / 2)) },
                     ]}>
-                      <PolarGrid stroke="#00000010" />
-                      <PolarAngleAxis dataKey="stat" tick={{ fill: "#a09890", fontSize: 13 }} />
+                      <PolarGrid stroke="#e8e4df" />
+                      <PolarAngleAxis dataKey="stat" tick={{ fill: "#6b635b", fontSize: 13 }} />
                       <PolarRadiusAxis tick={false} axisLine={false} domain={[0, 100]} />
                       <Radar name={compareList[0].name} dataKey="a" stroke={BRAND_COLORS[compareList[0].brand]} fill={BRAND_COLORS[compareList[0].brand]} fillOpacity={0.15} strokeWidth={2} />
                       <Radar name={compareList[1].name} dataKey="b" stroke={BRAND_COLORS[compareList[1].brand]} fill={BRAND_COLORS[compareList[1].brand]} fillOpacity={0.15} strokeWidth={2} />
@@ -4603,11 +4653,12 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
 
           const OptionButton = ({ selected, onClick, children, color, large }) => (
             <button onClick={onClick}
-              className={`rounded-xl text-left transition-all duration-200 ${large ? "p-4 sm:p-5" : "p-3 sm:p-4"}`}
+              className={`rounded-xl text-left transition-all duration-100 ${large ? "p-4 sm:p-5" : "p-3 sm:p-4"}`}
               style={{
                 background: selected ? `${color || accent}15` : "#ffffff",
                 border: selected ? `2px solid ${color || accent}` : "1px solid #d4cfc8",
-                boxShadow: selected ? `0 0 20px ${color || accent}15` : "none",
+                boxShadow: selected ? `0 2px 0 ${color || accent}60, 0 0 20px ${color || accent}15` : `0 2px 0 #d4cfc8`,
+                transform: selected ? "translateY(1px)" : "translateY(0)",
               }}>
               {children}
             </button>
@@ -4626,8 +4677,8 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       <span className="text-sm opacity-30">Step {quizStep} of {totalSteps - 1}</span>
                       <span className="text-sm opacity-30">{stepLabels[quizStep]}</span>
                     </div>
-                    <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "#00000008" }}>
-                      <div className="h-full rounded-full transition-all duration-500" style={{ width: `${(quizStep / (totalSteps - 1)) * 100}%`, background: `linear-gradient(to right, ${accent}, #a855f7)` }} />
+                    <div className="h-1 rounded-full overflow-hidden" style={{ background: "#00000008" }}>
+                      <div className="h-full rounded-full transition-all duration-500" style={{ width: `${(quizStep / (totalSteps - 1)) * 100}%`, background: `linear-gradient(to right, #06b6d4, #a855f7)` }} />
                     </div>
                   </div>
                 )}
@@ -4635,7 +4686,8 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 {/* Step 0: Intro */}
                 {quizStep === 0 && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="rounded-2xl p-8 sm:p-10 text-center flex flex-col" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
+                    <div className="rounded-2xl p-8 sm:p-10 text-center flex flex-col relative overflow-hidden" style={{ background: "#ffffff", border: "1px solid #e8e4df" }}>
+                      <div className="absolute top-0 left-0 right-0 h-2" style={{ background: accent }} />
                       <FlaskConical size={48} style={{ color: accent, margin: "0 auto 20px" }} />
                       <div className="text-xl sm:text-2xl font-black mb-4" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: accent }}>Find Your Perfect Keyboard</div>
                       <p className="text-sm opacity-85 max-w-lg mx-auto leading-relaxed mb-2">
@@ -4650,6 +4702,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                       </button>
                     </div>
                     <div className="rounded-2xl p-8 sm:p-10 text-center relative overflow-hidden flex flex-col" style={{ background: "#ffffff", border: "1px solid #8b5cf615" }}>
+                      <div className="absolute top-0 left-0 right-0 h-2" style={{ background: "#7048c4" }} />
                       <div className="flex justify-center mb-5">{I.gear(48)}</div>
                       <div className="text-xl sm:text-2xl font-black mb-4" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: "#7048c4" }}>Compare Keyboards</div>
                       <p className="text-sm opacity-85 max-w-lg mx-auto leading-relaxed mb-2">
@@ -4663,7 +4716,8 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                         Compare Keyboards →
                       </button>
                     </div>
-                    <div className="rounded-2xl p-8 sm:p-10 text-center flex flex-col" style={{ background: "#ffffff", border: "1px solid #06b6d415" }}>
+                    <div className="rounded-2xl p-8 sm:p-10 text-center flex flex-col relative overflow-hidden" style={{ background: "#ffffff", border: "1px solid #06b6d415" }}>
+                      <div className="absolute top-0 left-0 right-0 h-2" style={{ background: "#06b6d4" }} />
                       <Layers size={48} style={{ color: "#0890a8", margin: "0 auto 20px" }} />
                       <div className="text-xl sm:text-2xl font-black mb-2" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", color: "#0890a8" }}>Shape Overlay</div>
                       <div className="mb-4 flex flex-wrap gap-1.5 justify-center">
@@ -5008,9 +5062,13 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                                 <div className="text-base sm:text-lg font-black" style={{ color: brandCol }}>{m.name}</div>
                                 <div className="text-sm opacity-85">{m.brand} · {m.weight}g · {m.layout} · {m.connectivity} · ${m.price}</div>
                               </div>
-                              <div className="flex-shrink-0 text-right">
-                                <div className="text-lg font-black" style={{ color: matchPct >= 90 ? "#b8956a" : matchPct >= 75 ? "#b8956a" : "#8a8078" }}>{matchPct}%</div>
-                                <div className="text-sm opacity-25">match</div>
+                              <div className="flex-shrink-0 text-center">
+                                <div className="w-14 h-14 rounded-lg flex items-center justify-center font-black text-lg transition-all" style={{
+                                  background: matchPct >= 80 ? "#06b6d420" : matchPct >= 60 ? "#a855f720" : "#b8956a20",
+                                  border: `2px solid ${matchPct >= 80 ? "#06b6d4" : matchPct >= 60 ? "#a855f7" : "#b8956a"}`,
+                                  color: matchPct >= 80 ? "#06b6d4" : matchPct >= 60 ? "#a855f7" : "#b8956a"
+                                }}>{matchPct}%</div>
+                                <div className="text-xs opacity-25 mt-1">match</div>
                               </div>
                             </div>
 
@@ -5093,7 +5151,7 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
 
                 const colA = BRAND_COLORS[mA.brand] || "#b8956a";
                 const colB_raw = BRAND_COLORS[mB.brand] || "#8b5cf6";
-                const altColors = ["#8b5cf6", "#b8956a", "#06b6d4", "#f472b6", "#b8956a"];
+                const altColors = ["#06b6d4", "#8b5cf6", "#b8956a", "#10b981", "#ec4899"];
                 const colB = (mA.brand === mB.brand || colA === colB_raw) 
                   ? altColors.find(c => c !== colA) || "#8b5cf6"
                   : colB_raw;
@@ -5345,12 +5403,14 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                   <div className="flex flex-wrap gap-1.5">
                     {SENS_GAMES.map(g => (
                       <button key={g.id} onClick={() => { setSensFromGame(g.id); setSensFromSens(g.defaultSens); }}
-                        className="px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer whitespace-nowrap"
+                        className="px-3 py-1.5 rounded-lg text-sm font-bold transition-all duration-100 cursor-pointer whitespace-nowrap"
                         style={{
-                          background: sensFromGame === g.id ? accentC : "#0000000a",
-                          color: sensFromGame === g.id ?  "#1a1614" : "#2d2824",
-                          border: sensFromGame === g.id ? "none" : "1px solid #e8e4df",
+                          background: sensFromGame === g.id ? accentC : "#ffffff",
+                          color: sensFromGame === g.id ?  "#ffffff" : "#1a1614",
+                          border: `1px solid ${sensFromGame === g.id ? accentC : "#d4cfc8"}`,
                           fontSize: 12,
+                          boxShadow: sensFromGame === g.id ? `0 2px 0 ${accentC}80` : "0 2px 0 #d4cfc8",
+                          transform: sensFromGame === g.id ? "translateY(1px)" : "translateY(0)",
                         }}>
                         {g.img ? <img loading="lazy" src={g.img} alt={`${g.name} game icon`} className="inline-block mr-1 rounded-sm" style={{ width: 14, height: 14, objectFit: "contain", verticalAlign: "middle", marginTop: -1 }} /> : null}{g.name}
                       </button>
@@ -5630,22 +5690,22 @@ export default function EsportsKeyboards({ initialTab = "overview", initialKeybo
                 return (
                   <div key={team.name}
                     onClick={() => { window.location.href = `/teams/${team.name.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`; }}
-                    className="rounded-xl p-4 cursor-pointer transition-all duration-200 group hover:scale-[1.02] flex flex-col"
-                    style={{ background: "linear-gradient(135deg, #ffffff, #faf8f5)", border: `1px solid ${gc}15` }}
-                    onMouseEnter={e => { e.currentTarget.style.border = `1px solid ${gc}50`; e.currentTarget.style.boxShadow = `0 0 20px ${gc}15`; }}
-                    onMouseLeave={e => { e.currentTarget.style.border = `1px solid ${gc}15`; e.currentTarget.style.boxShadow = "none"; }}>
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-3 mx-auto overflow-hidden" style={{ background: `${gc}15`, border: `1px solid ${gc}25` }}>
-                      {TEAM_LOGOS[team.name] ? <img loading="lazy" src={TEAM_LOGOS[team.name]} alt={team.name} className="w-10 h-10 object-contain" onError={e => { e.target.style.display = "none"; e.target.parentElement.querySelector('.team-fallback').style.display = "block"; }} /> : null}
-                      <Shield size={24} className="team-fallback" style={{ color: gc, display: TEAM_LOGOS[team.name] ? "none" : "block" }} />
+                    className="rounded-xl p-4 cursor-pointer transition-all duration-200 group hover:scale-[1.02] flex flex-col relative overflow-hidden"
+                    style={{ background: "linear-gradient(135deg, #ffffff, #faf8f5)", border: `1px solid ${gc}15`, borderTopWidth: "4px", borderTopColor: gc }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = `${gc}50`; e.currentTarget.style.boxShadow = `0 0 20px ${gc}15`; }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = `${gc}15`; e.currentTarget.style.boxShadow = "none"; }}>
+                    <div className="w-16 h-16 rounded-full flex items-center justify-center mb-3 mx-auto overflow-hidden flex-shrink-0" style={{ background: `linear-gradient(135deg, ${gc}20, ${gc}10)`, border: `2px solid ${gc}25` }}>
+                      {TEAM_LOGOS[team.name] ? <img loading="lazy" src={TEAM_LOGOS[team.name]} alt={team.name} className="w-12 h-12 object-contain" onError={e => { e.target.style.display = "none"; e.target.parentElement.querySelector('.team-fallback').style.display = "block"; }} /> : null}
+                      <Shield size={28} className="team-fallback" style={{ color: gc, display: TEAM_LOGOS[team.name] ? "none" : "block" }} />
                     </div>
-                    <div className="text-sm font-bold text-center mb-1 leading-tight" style={{ color: gc, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{team.name}</div>
-                    <div className="text-center mb-2">
-                      <span className="text-lg font-black">{team.playerCount}</span>
-                      <span className="text-xs opacity-40 ml-1">{team.playerCount === 1 ? "player" : "players"}</span>
+                    <div className="text-sm font-bold text-center mb-2 leading-tight" style={{ color: gc, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{team.name}</div>
+                    <div className="text-center mb-3">
+                      <span className="text-2xl font-black" style={{ color: gc }}>{team.playerCount}</span>
+                      <span className="text-xs opacity-40 ml-1 block">{team.playerCount === 1 ? "player" : "players"}</span>
                     </div>
                     <div className="flex flex-wrap gap-1 justify-center mb-2">
                       {team.games.slice(0, 3).map(g => (
-                        <span key={g} className="px-1.5 py-0.5 rounded text-center" style={{ background: `${gameColors[g] || "#8a8078"}15`, color: gameColors[g] || "#8a8078", fontSize: 10, border: `1px solid ${gameColors[g] || "#8a8078"}25` }}>{g}</span>
+                        <span key={g} className="px-2 py-0.5 rounded-md text-center text-xs font-bold" style={{ background: `${gameColors[g] || "#8a8078"}18`, color: gameColors[g] || "#8a8078", fontSize: 10, border: `1px solid ${gameColors[g] || "#8a8078"}30`, boxShadow: "0 1px 2px rgba(0,0,0,0.04)" }}>{g}</span>
                       ))}
                       {team.games.length > 3 && <span className="px-1.5 py-0.5 rounded text-center opacity-40" style={{ fontSize: 10 }}>+{team.games.length - 3}</span>}
                     </div>

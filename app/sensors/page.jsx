@@ -131,14 +131,51 @@ export default function SensorsPage() {
         <SSRSub>Comprehensive breakdown of {switchData.length} optical switchs powering professional esports keyboards. Compare specs, pro usage, and see which sensors dominate.</SSRSub>
         <SSRGrid>
           {switchData.slice(0, 4).map((s) => (
-            <SSRStat key={s.switchName} label={s.switchName} value={`${s.totalProUsage}% pro`} />
+            <SSRStat key={s.switchName} label={s.switchName} value={`${s.totalProUsage}% pro`} color="#00d4ff" />
           ))}
         </SSRGrid>
+        <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+          <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#a09890" }}>
+            Switch Rankings by Pro Usage
+          </p>
+          <div style={{
+            border: "1px solid #e8e4df",
+            borderRadius: "8px",
+            overflow: "hidden",
+            fontSize: "14px"
+          }}>
+            {switchData.slice(0, 6).map((s, i) => (
+              <div key={s.switchName} style={{
+                padding: "12px 16px",
+                background: i % 2 === 0 ? "#ffffff" : "#f5f2ee",
+                borderLeft: "4px solid #00d4ff",
+                borderBottom: i < 5 ? "1px solid #e8e4df" : "none",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px"
+              }}>
+                <span style={{
+                  fontWeight: "bold",
+                  color: "#00d4ff",
+                  flex: 1
+                }}>
+                  {s.switchName}
+                </span>
+                <span style={{
+                  fontWeight: "bold",
+                  color: "#00d4ff"
+                }}>
+                  {s.totalProUsage}%
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="flex flex-wrap gap-2">
-          <SSRLink href="/keyboards">All Keyboards</SSRLink>
-          <SSRLink href="/compare">Compare</SSRLink>
-          <SSRLink href="/brands">Brands</SSRLink>
-          <SSRLink href="/players">Pro Settings</SSRLink>
+          <SSRLink href="/keyboards" color="#00d4ff">All Keyboards</SSRLink>
+          <SSRLink href="/compare" color="#00d4ff">Compare</SSRLink>
+          <SSRLink href="/brands" color="#00d4ff">Brands</SSRLink>
+          <SSRLink href="/players" color="#00d4ff">Pro Settings</SSRLink>
         </div>
       </SSRSection>
 

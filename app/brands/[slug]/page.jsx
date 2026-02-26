@@ -202,7 +202,20 @@ export default function BrandDetailPage({ params }) {
 
       {/* Visible SSR summary for initial load */}
       <SSRSection>
-        <SSRTitle accent="Keyboards">{brand}</SSRTitle>
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "12px",
+          marginBottom: "12px"
+        }}>
+          <div style={{
+            width: 16,
+            height: 16,
+            borderRadius: "2px",
+            background: BRAND_COLORS[brand] || "#b8956a"
+          }} />
+          <SSRTitle accent="Keyboards">{brand}</SSRTitle>
+        </div>
         <SSRSub>
           {brandKeyboards.length} esports keyboards · {totalProUsage}% combined pro usage · {weightRange} · {priceRange} · {avgRating}/10 avg rating
         </SSRSub>
@@ -212,6 +225,45 @@ export default function BrandDetailPage({ params }) {
           <SSRStat label="Avg Weight" value={`${avgWeight}g`} />
           <SSRStat label="Most Popular" value={mostPopular.name} />
         </SSRGrid>
+        <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+          <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#a09890" }}>
+            Keyboard Lineup
+          </p>
+          <div style={{
+            border: "1px solid #e8e4df",
+            borderRadius: "8px",
+            overflow: "hidden",
+            fontSize: "14px"
+          }}>
+            <div style={{
+              padding: "12px 16px",
+              background: BRAND_COLORS[brand] ? `${BRAND_COLORS[brand]}14` : "#f5f2ee",
+              borderBottom: "1px solid #e8e4df",
+              fontWeight: "bold",
+              color: BRAND_COLORS[brand] || "#1a1614"
+            }}>
+              Top Keyboards
+            </div>
+            {[...brandKeyboards].sort((a, b) => b?.proUsage - a?.proUsage).slice(0, 4).map((m, i) => (
+              <div key={m.id} style={{
+                padding: "12px 16px",
+                background: i % 2 === 0 ? "#ffffff" : "#f5f2ee",
+                borderBottom: i < 3 ? "1px solid #e8e4df" : "none",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px"
+              }}>
+                <span style={{
+                  fontWeight: "bold",
+                  color: BRAND_COLORS[brand] || "#b8956a"
+                }}>
+                  {m.name}
+                </span>
+                <span style={{ color: "#6b635b", marginLeft: "auto" }}>{m.proUsage}% pro</span>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="flex flex-wrap gap-2">
           <SSRLink href="/brands">← All Brands</SSRLink>
           <SSRLink href="/keyboards">All Keyboards</SSRLink>

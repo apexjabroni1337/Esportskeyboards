@@ -4,6 +4,7 @@ import { SSRSection, SSRTitle, SSRSub, SSRGrid, SSRStat, SSRLink, SSRDivider } f
 import { keyboards, allPlayers, TEAM_DESCRIPTIONS, TEAM_LOGOS, BRAND_COLORS, amazonLink, countryName } from "@/data";
 
 const slug = (n) => n.toLowerCase().replace(/\+/g, "-plus").replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
+const GAME_COLORS = { CS2: "#c47000", Valorant: "#c43848", "League of Legends": "#c89b3c", LoL: "#c89b3c", Fortnite: "#3a60b0", "Dota 2": "#b83c30", "R6 Siege": "#3a6ca0", "Rocket League": "#1478c4", "Call of Duty": "#3a8a3a", "Overwatch 2": "#c48018", Apex: "#a82020", "Marvel Rivals": "#b81820", PUBG: "#c48a00", Deadlock: "#6d40c4", "Quake Champions": "#a83c00" };
 
 function getTeamData(teamName) {
   const teamPlayers = allPlayers.filter(p => p.team === teamName);
@@ -176,24 +177,27 @@ export default function TeamPage({ params }) {
         )}
 
         <h2>{teamName} Player Roster and Settings</h2>
-        {gameEntries.map(([game, players]) => (
+        {gameEntries.map(([game, players]) => {
+          const gameColor = GAME_COLORS[game] || "#8a8078";
+          return (
           <div key={game}>
-            <h3>{teamName} {game} Roster</h3>
-            <table>
+            <h3 style={{ color: gameColor, borderLeftColor: gameColor, borderLeftWidth: "3px", paddingLeft: "12px" }}>{teamName} {game} Roster</h3>
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <caption>{teamName} {game} player settings and keyboards</caption>
-              <thead><tr><th>Player</th><th>Role</th><th>Keyboard</th></tr></thead>
+              <thead><tr style={{ borderBottomWidth: "2px", borderBottomColor: gameColor }}><th style={{ textAlign: "left", paddingBottom: "8px", color: gameColor, fontWeight: "700" }}>Player</th><th style={{ textAlign: "left", paddingBottom: "8px", color: gameColor, fontWeight: "700" }}>Role</th><th style={{ textAlign: "left", paddingBottom: "8px", color: gameColor, fontWeight: "700" }}>Keyboard</th></tr></thead>
               <tbody>
-                {players.map(p => (
-                  <tr key={p.name + p.game}>
-                    <td><a href={`/players/${slug(p.name)}`}>{p.name}</a></td>
-                    <td>{p.role}</td>
-                    <td><a href={`/keyboards/${slug(p.keyboard)}`}>{p.keyboard}</a></td>
+                {players.map((p, idx) => (
+                  <tr key={p.name + p.game} style={{ background: idx % 2 === 0 ? "transparent" : "#f5f2ee", borderBottomWidth: "1px", borderBottomColor: "#e8e4df" }}>
+                    <td style={{ paddingTop: "12px", paddingBottom: "12px" }}><a href={`/players/${slug(p.name)}`}>{p.name}</a></td>
+                    <td style={{ paddingTop: "12px", paddingBottom: "12px" }}>{p.role}</td>
+                    <td style={{ paddingTop: "12px", paddingBottom: "12px" }}><a href={`/keyboards/${slug(p.keyboard)}`}>{p.keyboard}</a></td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        ))}
+        );
+        })}
 
         {/* Internal links */}
         <h2>Related Pages</h2>

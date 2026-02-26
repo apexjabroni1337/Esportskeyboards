@@ -159,6 +159,40 @@ export default function GamesPage() {
           <SSRStat label="Games" value={games.length} color="#b8956a" />
           <SSRStat label="Total Players" value={totalPlayers.toLocaleString()} color="#b8956a" />
         </SSRGrid>
+        <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+          <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#a09890" }}>
+            Game Rankings by Player Count
+          </p>
+          <div style={{
+            border: "1px solid #e8e4df",
+            borderRadius: "8px",
+            overflow: "hidden",
+            fontSize: "14px"
+          }}>
+            {games.slice(0, 8).map((g, i) => {
+              const gameCount = allPlayers.filter((p) => p.game === g).length;
+              return (
+                <div key={g} style={{
+                  padding: "12px 16px",
+                  background: i % 2 === 0 ? "#ffffff" : "#f5f2ee",
+                  borderLeft: "4px solid " + (["#c02870", "#2a8a40", "#2874a6", "#c47000", "#b8960a", "#c43800", "#c4508a", "#b01040"][i % 8]),
+                  borderBottom: i < 7 ? "1px solid #e8e4df" : "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px"
+                }}>
+                  <span style={{
+                    fontWeight: "bold",
+                    color: ["#c02870", "#2a8a40", "#2874a6", "#c47000", "#b8960a", "#c43800", "#c4508a", "#b01040"][i % 8]
+                  }}>
+                    {g}
+                  </span>
+                  <span style={{ color: "#6b635b", marginLeft: "auto" }}>{gameCount} {gameCount === 1 ? "player" : "players"}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
         <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "#a09890" }}>Select a game</p>
         <div className="flex flex-wrap gap-2 mb-4">
           {games.map((g) => (

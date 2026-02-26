@@ -129,13 +129,13 @@ export default function ShapesPage() {
       </article>
 
       <SSRSection>
-        <SSRTitle accent="Shape">Overlay Tool</SSRTitle>
+        <SSRTitle accent="#a855f7">Shape</SSRTitle>
         <SSRSub>Compare the dimensions of {keyboardNames.length} esports keyboards at true scale. Overlay any two keyboards to compare length, width, height, and footprint.</SSRSub>
         <SSRGrid>
-          <SSRStat label="Keyboards" value={keyboardNames.length} color="#b8956a" />
-          <SSRStat label="Avg Length" value={`${avgLength}mm`} color="#b8956a" />
-          <SSRStat label="Avg Width" value={`${avgWidth}mm`} color="#b8956a" />
-          <SSRStat label="Avg Height" value={`${avgHeight}mm`} color="#b8956a" />
+          <SSRStat label="Keyboards" value={keyboardNames.length} color="#a855f7" />
+          <SSRStat label="Avg Length" value={`${avgLength}mm`} color="#a855f7" />
+          <SSRStat label="Avg Width" value={`${avgWidth}mm`} color="#a855f7" />
+          <SSRStat label="Avg Height" value={`${avgHeight}mm`} color="#a855f7" />
         </SSRGrid>
         <div className="flex flex-wrap gap-2">
           <SSRLink href="/keyboards">All Keyboards</SSRLink>

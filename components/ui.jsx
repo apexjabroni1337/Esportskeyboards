@@ -146,12 +146,13 @@ export const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
     <div
-      className="glass-card rounded-xl p-3 text-sm"
+      className="glass-card rounded-xl p-4 text-sm"
       style={{
         background: "rgba(255,255,255,0.85)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         border: "1px solid #06b6d420",
+        borderLeft: "3px solid #06b6d4",
         boxShadow: "0 0 16px #06b6d410, 0 8px 32px #00000008",
       }}
     >
